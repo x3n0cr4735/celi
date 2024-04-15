@@ -1,0 +1,2 @@
+from .pdf_extractor import extract_from_pdf
+from .word_extractor import extract_from_word_docx

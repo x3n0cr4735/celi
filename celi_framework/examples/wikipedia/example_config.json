@@ -1,0 +1,5 @@
+{
+    "example_url": "https://en.wikipedia.org/wiki/Led_Zeppelin",
+    "target_url": "https://en.wikipedia.org/wiki/Jonas_Brothers",
+    "ignore_updates": true
+}

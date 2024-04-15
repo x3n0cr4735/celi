@@ -1,0 +1,65 @@
+# Investigate https://github.com/marketplace/actions/changelog-ci
+name: Publish
+on:
+  push:
+    tags:
+      - 'v*'
+jobs:
+  build:
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      changelog: ${{ steps.changelog.outputs.changelog }}
+    permissions: write-all
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/poetry_setup
+      # Build library.
+      - name: Get version
+        id: version
+        run: echo "version=$(git describe --tags --abbrev=0 | cut -c 2-)" >> $GITHUB_OUTPUT
+      - name: Set version from Git tag
+        run: poetry version ${{ steps.version.outputs.version }}
+      - name: Build Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v4.2.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Poetry Build
+        run: poetry build
+      - uses: actions/upload-artifact@v4
+        with:
+          path: ./dist
+
+  github-release:
+    needs: ['build']
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+      - name: Create Release
+        uses: softprops/action-gh-release@v2.0.4
+        with:
+          body: ${{needs.build.outputs.changelog}}
+          files: artifact/
+
+  publish-pypi:
+    needs: ['build']
+    runs-on: ubuntu-latest
+    environment: 'release'
+    permissions:
+      id-token: write
+    steps:
+      - uses: actions/download-artifact@v4
+      # Try uploading to Test PyPI first, in case something fails.
+      - name: Publish to Test PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          packages-dir: artifact/
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: artifact/

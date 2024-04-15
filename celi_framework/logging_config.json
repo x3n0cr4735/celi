@@ -1,0 +1,63 @@
+{
+    "version": 1,
+    "formatters": {
+        "simple": {
+            "format": "%(asctime)s %(name)s %(levelname)s - %(message)s"
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "celi_framework.logging_setup.ColorizingStreamHandler",
+            "formatter": "simple",
+            "level": "DEBUG",
+            "stream": "ext://sys.stderr"
+        }
+    },
+    "loggers": {
+        "charset_normalizer": {
+            "level": "INFO"
+        },
+        "chromadb": {
+            "level": "INFO"
+        },
+        "filelock": {
+            "level": "INFO"
+        },
+        "fsspec": {
+            "level": "INFO"
+        },
+        "httpcore": {
+            "level": "INFO"
+        },
+        "httpx": {
+            "level": "INFO"
+        },
+        "llama_index.core": {
+            "level": "INFO"
+        },
+        "llama_index.vector_stores.chroma": {
+            "level": "INFO"
+        },
+        "matplotlib": {
+            "level": "INFO"
+        },
+        "openai": {
+            "level": "INFO"
+        },
+        "opensearch": {
+            "level": "INFO"
+        },
+        "requests_cache": {
+            "level": "INFO"
+        },
+        "urllib3": {
+            "level": "INFO"
+        }
+    },
+    "root": {
+        "handlers": [
+            "console"
+        ],
+        "level": "DEBUG"
+    }
+}

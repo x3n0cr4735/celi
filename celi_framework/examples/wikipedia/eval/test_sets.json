@@ -1,0 +1,17 @@
+{
+    "bands": [
+        "https://en.wikipedia.org/wiki/Led_Zeppelin",
+        "https://en.wikipedia.org/wiki/Jonas_Brothers",
+        "https://en.wikipedia.org/wiki/Daft_Punk"
+    ],
+    "countries": [
+        "https://en.wikipedia.org/wiki/Ghana",
+        "https://en.wikipedia.org/wiki/Jamaica",
+        "https://en.wikipedia.org/wiki/Belize"
+    ],
+    "drugs": [
+        "https://en.wikipedia.org/wiki/Sirolimus",
+        "https://en.wikipedia.org/wiki/Prednisone",
+        "https://en.wikipedia.org/wiki/Semaglutide"
+    ]
+}

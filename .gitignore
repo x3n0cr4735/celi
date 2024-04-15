@@ -1,0 +1,14 @@
+.venv/
+.env/
+*__pycache__*
+.DS_Store
+.env
+.idea
+.pytest_cache
+.DS_Store
+.vscode
+.local_notebooks
+dist/
+target/
+docs/_build
+celi/

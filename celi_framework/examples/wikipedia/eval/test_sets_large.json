@@ -1,0 +1,23 @@
+{
+    "bands": [
+        "https://en.wikipedia.org/wiki/Led_Zeppelin",
+        "https://en.wikipedia.org/wiki/Jonas_Brothers",
+        "https://en.wikipedia.org/wiki/Queen_(band)",
+        "https://en.wikipedia.org/wiki/The_Killers",
+        "https://en.wikipedia.org/wiki/Daft_Punk"
+    ],
+    "drugs": [
+        "https://en.wikipedia.org/wiki/Sirolimus",
+        "https://en.wikipedia.org/wiki/Hydroxychloroquine",
+        "https://en.wikipedia.org/wiki/Semaglutide",
+        "https://en.wikipedia.org/wiki/Ciprofloxacin",
+        "https://en.wikipedia.org/wiki/Prednisone"
+    ],
+    "countries": [
+        "https://en.wikipedia.org/wiki/Kenya",
+        "https://en.wikipedia.org/wiki/Jamaica",
+        "https://en.wikipedia.org/wiki/Australia",
+        "https://en.wikipedia.org/wiki/Belize",
+        "https://en.wikipedia.org/wiki/Ghana",
+    ]
+}

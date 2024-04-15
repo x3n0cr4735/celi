@@ -1,0 +1,55 @@
+[tool.poetry]
+name = "celi-framework"
+version = "0.0.9"
+description = "Controller-Embedded Language Interactions - facilitates the entire lifecycle of document processing, from pre-processing and embedding to post-monitoring and quality assessment."
+authors = ["Jan-Samuel Wagner <jwab@genmab.com>","Dave DeCaprio <daved@alum.mit.edu>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/x3n0cr4735/celi"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+bert-score = ">=0.3.13"
+evaluate = ">=0.4.1"
+py-llm-core = ">=2.8.2"
+pymongo = ">=4.6.2"
+python-dotenv = ">=1.0.0"
+requests-cache = ">=1.2.0"
+llama-index = ">=0.10.23"
+llama-index-vector-stores-chroma = "^0.1.6"
+scikit-learn = "^1.4.2"
+pymupdf = "^1.24.1"
+python-docx = "^1.1.0"
+
+[tool.poetry.group.test.dependencies]
+pytest = ">=7.4.4"
+pytest-asyncio = ">=0.23.3"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = ">=6.29.3"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.2.6"
+myst-parser = "^2.0.0"
+furo = "^2023.9.10"
+sphinxext-opengraph = "^0.9.1"
+sphinx-copybutton = "^0.5.2"
+sphinx-autobuild = "^2021.3.14"
+protobuf = ">=4.21.6" # Added to address build issues with readthedocs.
+cffi = ">=1.10.0" # Added to address build issues with readthedocs. pyo3_runtime.PanicException: Python API call failed
+sphinx-autodoc-typehints = "^2.0.0"
+
+[tool.pytest.ini_options]
+log_level="DEBUG"
+log_cli=true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
