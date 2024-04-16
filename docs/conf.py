@@ -14,9 +14,12 @@ release = "0.0.0"
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
+source_suffix = [".rst", ".md"]
+
 extensions = [
     "myst_parser",
     "sphinx.ext.autodoc",
+    "sphinx.ext.autosummary",
     "sphinx_autodoc_typehints",
     "sphinx.ext.intersphinx",
     "sphinxext.opengraph",
@@ -53,4 +56,9 @@ extlinks = {
 import os
 import sys
 
+import logging
+
+logging.basicConfig(level=logging.INFO)
+
 sys.path.insert(0, os.path.abspath(".."))
+print(f"sys.path: {sys.path}")

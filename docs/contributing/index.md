@@ -20,7 +20,7 @@ Change to the docs directory and run `make html`
 
 Any warnings in the doc build will cause the real doc build to fail.
 
-For more work on docs, run `sphinx-autobuild docs docs/_build/html --port 8001`.  This starts a live updating server for the docs.
+For more work on docs, run `make serve-docs`.  This starts a live updating server for the docs.
 
 Docstrings can be generated using the useful [gpt4docstrings](https://github.com/MichaelisTrofficus/gpt4docstrings) library.
 
