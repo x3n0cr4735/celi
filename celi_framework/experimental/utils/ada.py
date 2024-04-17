@@ -37,10 +37,9 @@ import openai
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
+from celi_framework.utils.llms import get_openai_client
 from celi_framework.utils.token_counters import token_counter_og
 from celi_framework.utils.log import app_logger
-
-client = openai.OpenAI(api_key=os.environ.get("OPENAI_API_KEY", None))
 
 EMBEDDING_MODEL = "text-embedding-ada-002"
 EMBEDDING_TOKEN_LIMIT = 8100
@@ -92,7 +91,8 @@ def get_openai_embedding_sync_timeouts(
         try:
             if len(text) > 0 and text != "[Empty Section]":
                 response = (
-                    client.embeddings.create(input=[text], model=model)
+                    get_openai_client()
+                    .embeddings.create(input=[text], model=model)
                     .data[0]
                     .embedding
                 )
