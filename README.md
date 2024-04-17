@@ -13,10 +13,6 @@
 
 - **Development Flexibility:** CELI is architecturally designed to support developers in creating bespoke applications that conform to specific industry standards, including compliance, methodological rigor, and auditing requirements. This fosters innovation in the field of automated knowledge work by providing a scalable framework that integrates seamlessly into enterprise ecosystems.
 
-## Documentation
-
-Please see the [Documentation!](https://celi.readthedocs.io/en/latest/)
-
 ## Goals
 
 The CELI (Controller-Embedded Language Interactions) framework aims to empower users across various industries and domains with tools to automate routine and complex tasks efficiently. Our objectives are encapsulated in the following goals:
@@ -220,10 +216,6 @@ If you are interested in modifying or contributiling to CELI, you can install an
 ## Contributing
 
 We would like folks to create their own projects with the framework to address their own use cases. Please feel free to do so! Ask for help, we're here!
-
-## Documentation
-
-Please see the [Documentation!](https://celi.readthedocs.io/en/latest/)
 
 ## License
 
