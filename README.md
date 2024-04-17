@@ -13,6 +13,10 @@
 
 - **Development Flexibility:** CELI is architecturally designed to support developers in creating bespoke applications that conform to specific industry standards, including compliance, methodological rigor, and auditing requirements. This fosters innovation in the field of automated knowledge work by providing a scalable framework that integrates seamlessly into enterprise ecosystems.
 
+[Join our Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
+
+Read our [Full Documentation](https://celi.readthedocs.io/en/latest/) for detailed information not included here.
+
 ## Goals
 
 The CELI (Controller-Embedded Language Interactions) framework aims to empower users across various industries and domains with tools to automate routine and complex tasks efficiently. Our objectives are encapsulated in the following goals:
@@ -78,6 +82,8 @@ By fundamentally reimagining the interaction between controllers and LLMs, CELI 
 
 ## Getting started
 
+[Join our Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
+
 To get an idea of what CELI can do, we have prepackaged an example use case.  In this case, we will have CELI write a wiki page on a topic given an example page and a set of references.
 
 ### Install CELI
@@ -86,7 +92,7 @@ First, install celi using PIP with the following command:
 
 `pip install celi-framework`
 
-You can also clone the repo and install CELI from source.  See [Running CELI from Source] below.
+You can also clone the repo and install CELI from source.  See [Running CELI from Source](#running-celi-from-source) below to get the latest code (recommended).
 
 ### Set up a mongo DB server to store documents
 
@@ -213,9 +219,13 @@ If you are interested in modifying or contributiling to CELI, you can install an
 3. Go the the root of the project and run `poetry install`.  This will create a virtual environment and set up all the dependencies for you.
 4. From there you can use `poetry shell` to get a command line, or use a poetry plugin for your IDE to pick up dependencies.
 
+## Discord Server
+
+[Join our Discord server](https://discord.gg/C5SQNdzV) to discuss the project with users, contributors, and project authors.
+
 ## Contributing
 
-We would like folks to create their own projects with the framework to address their own use cases. Please feel free to do so! Ask for help, we're here!
+We would like folks to create their own projects with the framework to address their own use cases. Please feel free to do so! Join our Discord Server and ask about contributing if you are not sure how or what to do.
 
 ## License
 
