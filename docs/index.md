@@ -9,19 +9,14 @@ hide-toc: true
 
 ## 📖 Exploring the Documentation
 
-Explore the rest of the documentation to learn more about VoiceStream.
-* [Quickstart](index) - Build a fully functional voicebot in 15 minutes.
-* [Concepts](index) - A methodical intro to the concepts underlying VoiceStream.
-* [Cookbook](index) - How to take advantage of the various capability of VoiceStream.
+Explore the rest of the documentation to learn more about CELI.
+* [New Use Cases](new_use_cases) - Learn how to apply CELI to your own use case.
 * [API Reference](reference/index) - If you are into reading API docs directly.
-
-getting_started/index
-concepts/index
-cookbook/index
 
 ```{toctree}
 :hidden:
 
+new_use_cases
 reference/index
 ```
 
