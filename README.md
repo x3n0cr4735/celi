@@ -15,7 +15,7 @@
 
 [Join our Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
 
-Read our [full documentation here](https://celi.readthedocs.io/en/latest/) for detailed information not included here.
+Read our [Full Documentation](https://celi.readthedocs.io/en/latest/) for detailed information not included here.
 
 ## Goals
 
