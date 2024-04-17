@@ -15,6 +15,8 @@
 
 [Join our Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
 
+Read our [full documentation here](https://celi.readthedocs.io/en/latest/) for detailed information not included here.
+
 ## Goals
 
 The CELI (Controller-Embedded Language Interactions) framework aims to empower users across various industries and domains with tools to automate routine and complex tasks efficiently. Our objectives are encapsulated in the following goals:
@@ -217,9 +219,13 @@ If you are interested in modifying or contributiling to CELI, you can install an
 3. Go the the root of the project and run `poetry install`.  This will create a virtual environment and set up all the dependencies for you.
 4. From there you can use `poetry shell` to get a command line, or use a poetry plugin for your IDE to pick up dependencies.
 
+## Discord Server
+
+[Join our Discord server](https://discord.gg/C5SQNdzV) to discuss the project with users, contributors, and project authors.
+
 ## Contributing
 
-We would like folks to create their own projects with the framework to address their own use cases. Please feel free to do so! [Join our Discord server](https://discord.gg/C5SQNdzV) if you have questions about contributing.
+We would like folks to create their own projects with the framework to address their own use cases. Please feel free to do so! Join and ask about contributing on our Discord Server if you are not sure how or what to do.
 
 ## License
 
