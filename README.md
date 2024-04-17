@@ -225,7 +225,7 @@ If you are interested in modifying or contributiling to CELI, you can install an
 
 ## Contributing
 
-We would like folks to create their own projects with the framework to address their own use cases. Please feel free to do so! Join and ask about contributing on our Discord Server if you are not sure how or what to do.
+We would like folks to create their own projects with the framework to address their own use cases. Please feel free to do so! Join our Discord Server and ask about contributing if you are not sure how or what to do.
 
 ## License
 
