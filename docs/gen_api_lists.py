@@ -14,6 +14,7 @@ def write_class(f, module: str, name: str):
     f.write(f".. autoclass:: {module}.{name}\n")
     f.write(f"   :members:\n")
     f.write(f"   :undoc-members:\n")
+    f.write(f"   :no-index:\n")
     f.write(f"   :show-inheritance:\n")
 
 
@@ -22,14 +23,20 @@ def write_submodule(module_path: str, module_name: str):
     file = module_path.replace("celi_framework", "_gen").replace(".", "/")
     os.makedirs(file, exist_ok=True)
     with open(f"{file}/{module_name}.rst", "w") as f:
-        underline = "=" * len(module_name)
-        f.write(f"{module_name}\n{underline}\n\n")
+        if module_path == "celi_framework":
+            full_module_name = module_name
+        else:
+            full_module_name = (
+                module_path.replace("celi_framework.", "") + "." + module_name
+            )
+        underline = "=" * len(full_module_name)
+        f.write(f"{full_module_name}\n{underline}\n\n")
         m = importlib.import_module(full_name)
         if m.__doc__:
             f.write(f"\n{m.__doc__}\n\n")
         submodules = []
         for name, obj in inspect.getmembers(m):
-            # print(f"Obj is {obj}")
+            # print(f"{full_module_name}: Obj is {str(obj)[:100]}")
             if inspect.isfunction(obj) and obj.__module__.startswith("celi_framework"):
                 f.write(f".. autofunction:: {module_path}.{module_name}.{name}\n")
             elif inspect.isclass(obj) and obj.__module__.startswith(
@@ -45,7 +52,7 @@ def write_submodule(module_path: str, module_name: str):
 
                 write_submodule(f"{module_path}.{module_name}", name)
             # else:
-            #     print(f"Unknown type: {module_path} {module_name} {name}")
+            #    print(f"Unknown type: {module_path} {module_name} {name}")
         if len(submodules) > 0:
             for name in submodules:
                 f.write(f"`{name} <../{file}/{module_name}/{name}>`_\n")

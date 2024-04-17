@@ -16,7 +16,6 @@ build:
       - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH poetry install --all-extras
       # Attempt to remedy repeated errors: ModuleNotFoundError: No module named 'typing_extensions'
       #- pip install typing_extensions
-      - pip list
       - poetry version $(git describe --tags --abbrev=0)
       - cd docs;VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH poetry run python gen_api_lists.py
 

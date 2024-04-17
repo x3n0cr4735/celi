@@ -165,28 +165,28 @@ class MonitoringAgent:
                 time.sleep(0.1)
 
     def analyze_prompt_completions(self, document_id):
-        """
-        Analyzes the quality of prompt completions based on the document ID. This method fetches the document
-        associated with the given ID from MongoDB, evaluates its content using secondary analysis, and updates
-        the system based on the findings.
-
-        The analysis may involve checking the completion against quality criteria, extracting insights using
-        AI models, and determining if any adjustments to the process or content are necessary. The method may
-        also flag documents for review, trigger alerts for significant issues, or recommend specific actions
-        to improve task performance and completion quality.
-
-        Args:
-            document_id (str): The unique identifier of the document to be analyzed, typically representing
-                               a prompt completion or related output from the `ProcessRunner`.
-
-        The outcomes of this analysis contribute to continuous improvement efforts, informing decisions on
-        prompt adjustments, process refinements, and strategic planning for future tasks. It underscores the
-        `MonitoringAgent`'s role in ensuring high-quality outputs through proactive and data-driven oversight.
-        """
-
         doc = self.codex.get_document_by_id(
             document_id=document_id, collection_name="process_executions"
         )
+        # """
+        # Analyzes the quality of prompt completions based on the document ID. This method fetches the document
+        # associated with the given ID from MongoDB, evaluates its content using secondary analysis, and updates
+        # the system based on the findings.
+
+        # The analysis may involve checking the completion against quality criteria, extracting insights using
+        # AI models, and determining if any adjustments to the process or content are necessary. The method may
+        # also flag documents for review, trigger alerts for significant issues, or recommend specific actions
+        # to improve task performance and completion quality.
+
+        # Args:
+        #     document_id (str): The unique identifier of the document to be analyzed, typically representing
+        #                        a prompt completion or related output from the `ProcessRunner`.
+
+        # The outcomes of this analysis contribute to continuous improvement efforts, informing decisions on
+        # prompt adjustments, process refinements, and strategic planning for future tasks. It underscores the
+        # `MonitoringAgent`'s role in ensuring high-quality outputs through proactive and data-driven oversight.
+        # """
+
         if not doc:
             app_logger.error(
                 f"Document with ID {document_id} not found.", extra={"color": "red"}
