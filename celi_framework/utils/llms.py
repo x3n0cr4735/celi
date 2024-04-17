@@ -22,6 +22,7 @@ Features and Functionalities:
   or managing numerous concurrent interactions with the LLM.
 """
 
+import functools
 import os
 import time
 from typing import Optional, Dict, List, Any, Tuple
@@ -29,7 +30,6 @@ from pydantic import BaseModel
 import openai
 from openai.types.chat import ChatCompletion
 from requests import HTTPError
-from dotenv import load_dotenv
 
 from celi_framework.utils.codex import MongoDBUtilitySingleton
 from celi_framework.utils.token_counters import (
@@ -38,13 +38,12 @@ from celi_framework.utils.token_counters import (
 )
 from celi_framework.utils.log import app_logger
 from celi_framework.utils.exceptions import ContextLengthExceededException
-import tracemalloc
 
-tracemalloc.start()
-load_dotenv()
 
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
-client = openai.OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+@functools.lru_cache(1)
+def get_openai_client():
+    return openai.OpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
 
 class ToolDescription(BaseModel):
@@ -252,8 +251,8 @@ def cached_chat_completion(
             return ChatCompletion.model_validate(ret["completion"])
         else:
             app_logger.debug("Caching LLM response")
-            result = client.chat.completions.create(**kwargs)
+            result = get_openai_client().chat.completions.create(**kwargs)
             codex.cache_llm_response(response={"completion": result.dict()}, **kwargs)
             return result
     else:
-        return client.chat.completions.create(**kwargs)
+        return get_openai_client().chat.completions.create(**kwargs)
