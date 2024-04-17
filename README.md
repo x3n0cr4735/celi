@@ -15,7 +15,7 @@
 
 ## Documentation
 
-Please see the [Documentation!]('https://celi.readthedocs.io/en/latest/')
+Please see the [Documentation!](https://celi.readthedocs.io/en/latest/)
 
 ## Goals
 
@@ -223,7 +223,7 @@ We would like folks to create their own projects with the framework to address t
 
 ## Documentation
 
-Please see the [Documentation!]('https://celi.readthedocs.io/en/latest/')
+Please see the [Documentation!](https://celi.readthedocs.io/en/latest/)
 
 ## License
 
