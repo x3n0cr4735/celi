@@ -6,16 +6,16 @@ messages, conducting error analysis, performing secondary analysis, generating d
 content through specialized LLM assistants.
 
 Features:
-- Data class definitions for structured representation of messages, errors, function returns, analysis reports,
-  and output summaries, enabling type-safe operations and clarity in data handling.
-- Utility functions for parsing textual inputs into structured data classes using OpenAI's and LLaMA CPP's parsers,
-  facilitating the extraction of meaningful information from free-text responses.
-- Integration with MongoDB for data persistence, demonstrating how LLM outputs can be stored, retrieved, and processed
-  for applications requiring database interactions.
-- Implementation of question-answering workflows and content verification methods that employ LLMs to validate,
-  analyze, and enhance textual content based on specific criteria such as relevance, accuracy, and clarity.
-- Techniques for reducing hallucinations and improving the reliability of LLM responses through the Chain of Verification
-  (CoV) and summarization strategies aimed at condensing extensive content into more manageable forms.
+    - Data class definitions for structured representation of messages, errors, function returns, analysis reports,
+        and output summaries, enabling type-safe operations and clarity in data handling.
+    - Utility functions for parsing textual inputs into structured data classes using OpenAI's and LLaMA CPP's parsers,
+        facilitating the extraction of meaningful information from free-text responses.
+    - Integration with MongoDB for data persistence, demonstrating how LLM outputs can be stored, retrieved, and processed
+        for applications requiring database interactions.
+    - Implementation of question-answering workflows and content verification methods that employ LLMs to validate,
+        analyze, and enhance textual content based on specific criteria such as relevance, accuracy, and clarity.
+    - Techniques for reducing hallucinations and improving the reliability of LLM responses through the Chain of Verification
+        (CoV) and summarization strategies aimed at condensing extensive content into more manageable forms.
 
 Usage:
 This module is designed to be utilized in applications that require sophisticated text processing capabilities,
@@ -25,19 +25,20 @@ into practical workflows, offering a blend of parsing, summarization, and conten
 that can be adapted to various domains and use cases.
 
 Dependencies:
-- llm_core: A library providing core functionalities for interacting with LLMs.
-- dotenv: For loading environment variables that may include API keys or database connection strings.
-- requests: Used for making HTTP requests to external services, particularly when interacting with LLM APIs.
-- dataclasses: For defining structured data types that facilitate the organization and manipulation of complex data.
+    - llm_core: A library providing core functionalities for interacting with LLMs.
+    - dotenv: For loading environment variables that may include API keys or database connection strings.
+    - requests: Used for making HTTP requests to external services, particularly when interacting with LLM APIs.
+    - dataclasses: For defining structured data types that facilitate the organization and manipulation of complex data.
 
 Note:
-- The module includes placeholders and TODO comments indicating areas where customization and further development
-  are required to adapt the utilities to specific application needs or to integrate with different LLMs and databases.
+    - The module includes placeholders and TODO comments indicating areas where customization and further development
+        are required to adapt the utilities to specific application needs or to integrate with different LLMs and databases.
 
 Examples:
-- Parsing structured data from LLM responses for document analysis tasks.
-- Conducting secondary analysis on textual content to assess its quality and relevance.
-- Generating dense summaries of extensive articles or reports to extract key insights.
+    - Parsing structured data from LLM responses for document analysis tasks.
+    - Conducting secondary analysis on textual content to assess its quality and relevance.
+    - Generating dense summaries of extensive articles or reports to extract key insights.
+
 """
 
 import codecs
@@ -105,9 +106,8 @@ class FinalOutput:
 
 def patch_llm_core(llm: LLMBase):
     """llm_core ignores history when  calculating the context size for parsing.
-    This function monkey-patches and LLMBase object.
-     It can be removed once this PR is merged and celi is upgraded to a new version of llm-core.
-    PR: https://github.com/advanced-stack/py-llm-core/pull/12
+
+    This function monkey-patches and LLMBase object.  It can be removed once this PR is merged and celi is upgraded to a new version of llm-core.  PR: https://github.com/advanced-stack/py-llm-core/pull/12
     """
 
     def patched_sanitize_prompt(

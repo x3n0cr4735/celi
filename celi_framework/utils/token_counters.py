@@ -4,19 +4,19 @@ This is particularly useful for applications interfacing with language models li
 and monitoring token usage is crucial for optimizing API calls and managing computational resources efficiently.
 
 Key Components:
-- `token_counter_og`: A function that returns the exact number of tokens in a text string for a specified API,
-  using the `tiktoken` library for encoding. It's designed for cases where accuracy is paramount.
-- `token_counter_est`: Provides a quick estimation of token count based on word count, using a heuristic approach.
-  This function is useful for scenarios where performance is a consideration, and an exact token count is less critical.
-- `TokenCounter`: A singleton class that tracks the number of tokens in requests and responses. It supports
-  multiple instances (e.g., 'master', 'monitor') for different monitoring purposes within the same application,
-  ensuring that only one instance of each type is created.
-- `get_master_counter_instance` and `get_monitor_counter_instance`: Factory functions that return singleton instances
-  of the `TokenCounter` class for specific purposes ('master' and 'monitor', respectively), ensuring application-wide
-  consistency in token counting.
-- `token_counter_decorator_ask_split` and `token_counter_decorator_quick_ask`: Decorators designed to wrap API call
-  functions, counting tokens in both the request and response phases. These are particularly useful for integrating
-  token counting into existing API interactions, providing a seamless way to monitor and manage token usage.
+    - `token_counter_og`: A function that returns the exact number of tokens in a text string for a specified API,
+        using the `tiktoken` library for encoding. It's designed for cases where accuracy is paramount.
+    - `token_counter_est`: Provides a quick estimation of token count based on word count, using a heuristic approach.
+        This function is useful for scenarios where performance is a consideration, and an exact token count is less critical.
+    - `TokenCounter`: A singleton class that tracks the number of tokens in requests and responses. It supports
+        multiple instances (e.g., 'master', 'monitor') for different monitoring purposes within the same application,
+        ensuring that only one instance of each type is created.
+    - `get_master_counter_instance` and `get_monitor_counter_instance`: Factory functions that return singleton instances
+        of the `TokenCounter` class for specific purposes ('master' and 'monitor', respectively), ensuring application-wide
+        consistency in token counting.
+    - `token_counter_decorator_ask_split` and `token_counter_decorator_quick_ask`: Decorators designed to wrap API call
+        functions, counting tokens in both the request and response phases. These are particularly useful for integrating
+        token counting into existing API interactions, providing a seamless way to monitor and manage token usage.
 
 Usage:
 This module is intended to be used in applications that require detailed monitoring and management of token usage,
@@ -25,25 +25,23 @@ along with a mechanism to track token usage throughout the application lifecycle
 its singleton instances. The decorators offer a convenient way to add token counting to API calls without significant
 modification to existing code.
 
-Example:
-```python
-from utils.token_counters import get_master_counter_instance, token_counter_decorator_quick_ask
+Example::
 
-# Retrieve the master token counter instance
-master_counter = get_master_counter_instance()
+    from utils.token_counters import get_master_counter_instance, token_counter_decorator_quick_ask
 
-# Example API call function
-@api_call_function
-def fetch_data(api_endpoint, data):
-    # Simulated API call logic
-    return "Simulated response"
+    # Retrieve the master token counter instance
+    master_counter = get_master_counter_instance()
 
-# Wrap the API call function with token counting
-fetch_data_decorated = token_counter_decorator_quick_ask(fetch_data)
+    # Example API call function
+    @api_call_function
+    def fetch_data(api_endpoint, data):
+        return "Simulated response"
 
-# Use the decorated function as normal
-response = fetch_data_decorated(api_endpoint="http://example.com/api", data={"query": "example"}, token_counter=master_counter)
-'''
+    # Wrap the API call function with token counting
+    fetch_data_decorated = token_counter_decorator_quick_ask(fetch_data)
+
+    # Use the decorated function as normal
+    response = fetch_data_decorated(api_endpoint="http://example.com/api", data={"query": "example"}, token_counter=master_counter)
 
 This module is a comprehensive solution for managing token usage, crucial for optimizing interactions with language models and other token-based APIs.
 """

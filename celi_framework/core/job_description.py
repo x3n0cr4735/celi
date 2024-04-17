@@ -14,7 +14,8 @@ class Task(BaseModel):
     details: Dict[str, str | List[str] | Dict[str, Any]]
 
     def with_references_resolved(self, task_numbering: Dict[str, str]) -> Task:
-        """Update references in each field, and generate a new Task with references replace."""
+        """Update references in each field and generates a new Task with references replaced."""
+
         updated_fields = {
             field: self._update_references(getattr(self, field), task_numbering)
             for field in self.model_fields
@@ -73,6 +74,7 @@ class ToolImplementations(ABC):
 
         Args:
             sections_dict_str (str): A JSON string mapping document names to their respective section numbers.  The json string will have the documents and sections in a dictionary.  The sections values should correspond to an entry in the table of contents for the specified document.
+
         '''
     """
 

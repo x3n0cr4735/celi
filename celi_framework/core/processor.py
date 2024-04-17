@@ -468,10 +468,10 @@ class ProcessRunner:
         ensuring accurate versioning and retrieval.
 
         The method produces three types of IDs:
-        1. A unique document ID that represents the specific interaction instance.
-        2. A prompt ID that identifies the set of prompts leading up to the current interaction.
-        3. A task-specific ID that links the document to a specific task within the process,
-           facilitating task-level tracking and analysis.
+            1. A unique document ID that represents the specific interaction instance.
+            2. A prompt ID that identifies the set of prompts leading up to the current interaction.
+            3. A task-specific ID that links the document to a specific task within the process,
+                facilitating task-level tracking and analysis.
 
         Args:
             timestamp (str): A string representation of the current timestamp, used for generating time-based unique IDs.
@@ -630,12 +630,12 @@ class ProcessRunner:
         completion of all tasks or an external command to halt operations.
 
         Within each iteration of the loop, the method performs the following operations:
-        - Generates task instructions based on the current state and configuration.
-        - Retrieves a response from the language model using the current task instructions and context.
-        - Processes the language model's response, including handling any specified function calls, updating
-          the draft content, and managing the ongoing conversation context.
-        - Checks for token usage limits to ensure compliance with predefined constraints.
-        - Updates internal state and prepares for the next iteration or termination of the process.
+            - Generates task instructions based on the current state and configuration.
+            - Retrieves a response from the language model using the current task instructions and context.
+            - Processes the language model's response, including handling any specified function calls, updating
+                the draft content, and managing the ongoing conversation context.
+            - Checks for token usage limits to ensure compliance with predefined constraints.
+            - Updates internal state and prepares for the next iteration or termination of the process.
 
         The method ensures that each task is processed in accordance with the system's operational logic,
         leveraging the language model's capabilities for content generation and refinement. It maintains
