@@ -44,7 +44,7 @@ tracemalloc.start()
 load_dotenv()
 
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
-client = openai.OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+client = openai.OpenAI(api_key=os.environ["OPENAI_API_KEY"] or None)
 
 
 class ToolDescription(BaseModel):

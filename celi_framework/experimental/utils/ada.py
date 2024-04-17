@@ -40,7 +40,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 from celi_framework.utils.token_counters import token_counter_og
 from celi_framework.utils.log import app_logger
 
-client = openai.OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+client = openai.OpenAI(api_key=os.environ["OPENAI_API_KEY"] or None)
 
 EMBEDDING_MODEL = "text-embedding-ada-002"
 EMBEDDING_TOKEN_LIMIT = 8100
