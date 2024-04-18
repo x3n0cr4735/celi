@@ -15,7 +15,7 @@
 
 [Join our Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
 
-Read our [Full Documentation](https://celi.readthedocs.io/en/latest/) for detailed information not included here.
+Note: CELI is currently in alpha. If there are any issues installing, running, or utilizing CELI in your projects please let us know on Discord or create an issue or pull request. We will get back to you promptly.
 
 ## Goals
 
@@ -90,7 +90,9 @@ To get an idea of what CELI can do, we have prepackaged an example use case.  In
 
 First, install celi using PIP with the following command:
 
-`pip install celi-framework`
+```bash
+pip install celi-framework
+```
 
 You can also clone the repo and install CELI from source.  See [Running CELI from Source](#running-celi-from-source) below to get the latest code (recommended).
 
@@ -98,7 +100,9 @@ You can also clone the repo and install CELI from source.  See [Running CELI fro
 
 CELI uses Mongo to cache LLM responses, store documentsm inspect runs.  If you already have a Mongo server running, you can point Celi to it and it will create a new database called 'celi'.  If not, you can quickly spin up a local mongo server using this docker command:
 
-`docker run --name mongodb -p 27017:27017 -d mongo`
+```bash
+docker run --name mongodb -p 27017:27017 -d mongo
+```
 
 ### Configure your environment
 
@@ -106,6 +110,7 @@ The main script for CELI loads some configuration from environment variables.  T
 
 Create a .env file with an example configuration, copying the file below and substituting in your OpenAI API key.  If you have the repo cloned, you can copy the .env.example file.
 
+```plaintext
     OPENAI_API_KEY=<REPLACE WITH YOUR OPENAI API KEY>
     OUTPUT_DIR=target/celi_output
     DB_URL=mongodb://localhost:27017/
@@ -115,12 +120,15 @@ Create a .env file with an example configuration, copying the file below and sub
     TOOL_CONFIG_JSON=celi-framework/examples/wikipedia/example_config.json
     PARSER_MODEL_CLASS=llm_core.parsers.OpenAIParser
     PARSER_MODEL_NAME=gpt-3.5-turbo-16k
+```
 
 ### Run the example use case
 
-Once you have the steps above done, you can test your setup by running
+Once you have the steps above done, you can test your setup by running:
 
-`python -m celi_framework.main`
+```bash
+python -m celi_framework.main
+```
 
 This example use case uses the wikipedia page for Led Zeppelin as the example document, and then creates a new wiki page for the Jonas Brothers based on the references cited from their wikipedia page.  The result will be put in the `target/drafts` directory.
 
@@ -136,7 +144,9 @@ We have put in an example use case for celi_framework.  In this use case, we per
 
 We provide an example script with evaluation that generates several pages from each of 3 categories, and uses BertScore to compare the generated wiki page to the original to judge quality.  To run this eval, run
 
-`python -m celi_framework.examples.wikipedia.eval.run_eval`
+```python 
+python -m celi_framework.examples.wikipedia.eval.run_eval
+```
 
 We will use the Wikipedia use case to describe the overall process of configuring CELI for a new use case.
 
@@ -185,18 +195,25 @@ When running from the command line, you need to include your JobDescription and 
 
 For the example use case, the `WikipediaToolImplementations` is a dataclass that takes 3 arguments (2 are required):
 
-    @dataclass
-    class WikipediaToolImplementations(ToolImplementations):
-        example_url: str
-        target_url: str
-        ignore_updates: bool = False
+
+```python
+@dataclass
+class WikipediaToolImplementations(ToolImplementations):
+    example_url: str
+    target_url: str
+    ignore_updates: bool = False
+```
 
 The example JSON config file we use is:
-    {
-        "example_url": "https://en.wikipedia.org/wiki/Led_Zeppelin",
-        "target_url": "https://en.wikipedia.org/wiki/Jonas_Brothers",
-        "ignore_updates": true
-    }
+
+```json
+{
+    "example_url": "https://en.wikipedia.org/wiki/Led_Zeppelin",
+    "target_url": "https://en.wikipedia.org/wiki/Jonas_Brothers",
+    "ignore_updates": true
+}
+```
+
 
 When CELI is started from the command line, to reads the JSON config file and calls `WikipediaToolImplmentations` with the 3 arguments.
 
@@ -204,20 +221,105 @@ When CELI is started from the command line, to reads the JSON config file and ca
 
 CELI can also be run from code in addition to the command-line.  Any example of running from code can be seen in the celi-framework/examples/wikipedia/eval/run_eval.py script.  This script iterates through several test sets containing source and target wikipedia URLs.  For each, it runs CELI to generate a document, and then uses [BertScore](https://arxiv.org/abs/1904.09675) to compare the generated document to the actual target wikipedia page.  It prints out a matrix of overall results when it completes.
 
-To run from code, you call `run_celi` passing in `CELIConfig` object.
+To run from code, you call `run_celi` passing in `CELIConfig` object:
+
+```python
     from celi_framework.core.runner import CELIConfig, run_celi
     run_celi(CELIConfig(...))
+```
 
 The `CELIConfig` object contains the instance of `JobDescripion` and `ToolImplementations` needed to run CELI as well as some other configuration parameters required.
 
 ## Running CELI from Source
 
-If you are interested in modifying or contributiling to CELI, you can install and run it from source.  CELI uses [Poetry](https://python-poetry.org/) to manage dependencies and publishing.
+If you are interested in modifying or contributiling to CELI, you can install and run it from source.  CELI uses [Poetry](https://python-poetry.org/) to manage dependencies and publishing. That being said, there are two recommended methods:
 
-1. If you don't have poetry installed already, install it using the [official installer](https://python-poetry.org/docs/#installing-with-the-official-installer).
-2. Clone this repo.
-3. Go the the root of the project and run `poetry install`.  This will create a virtual environment and set up all the dependencies for you.
-4. From there you can use `poetry shell` to get a command line, or use a poetry plugin for your IDE to pick up dependencies.
+### Anaconda
+
+1. Install Anaconda
+
+Download and install Anaconda from the [official Anaconda distribution page](https://www.anaconda.com/products/distribution). Follow the installation instructions suitable for your operating system.
+
+2. Create an Anaconda Environment
+
+Open your terminal or Anaconda Prompt and create a new Conda environment using Python 3.11:
+
+```bash
+conda create -n celi_env python=3.11
+conda activate celi_env
+```
+
+This sets up a clean environment specifically for running CELI, avoiding conflicts with other projects or system-wide Python packages.
+
+3. Clone the Repository
+
+Clone the CELI repository from GitHub to your local machine:
+
+```bash
+git clone https://github.com/x3n0cr4735/celi.git
+```
+
+4. Change to the Directory with the Repository
+
+Navigate to the directory where the repository has been cloned:
+
+```bash
+cd celi
+```
+
+5. Install the Project Using pip
+
+While inside the project directory and with your Conda environment activated, install the project and its dependencies in editable mode:
+
+```bash
+pip install -e .
+```
+
+This command will install all necessary dependencies as specified in the project's `setup.py` or `pyproject.toml` and will allow you to modify the project and have the changes reflected immediately. 
+
+
+### Poetry
+
+1. **Install Poetry**
+
+   Download and install Poetry using the [official installer](https://python-poetry.org/docs/#installing-with-the-official-installer). Follow the instructions on the page to download and install Poetry for your operating system.
+
+2. **Clone the Repository**
+
+   Clone the CELI repository from GitHub to your local machine:
+
+   ```bash
+   git clone https://github.com/x3n0cr4735/celi.git
+   ```
+
+3. **Change to the Directory with the Repository**
+
+   Navigate to the directory where the repository has been cloned:
+
+   ```bash
+   cd celi
+   ```
+
+4. **Install the Project Using Poetry**
+
+   While inside the project directory, install the project and its dependencies using Poetry:
+
+   ```bash
+   poetry install
+   ```
+
+   This command will create a virtual environment and set up all the dependencies for you, allowing you to work on the project in an isolated environment.
+
+5. **Activate the Poetry Environment**
+
+   You can activate the virtual environment created by Poetry to start working on the project:
+
+   ```bash
+   poetry shell
+   ```
+
+   From here, you can use the command line to run scripts or commands, or configure your IDE to use the virtual environment for development.
+
 
 ## Discord Server
 
