@@ -26,6 +26,8 @@ import inspect
 import logging
 import logging.config
 import os
+from importlib import resources
+from pathlib import Path
 from typing import Type
 
 from dotenv import load_dotenv
@@ -37,6 +39,29 @@ from celi_framework.utils.utils import get_obj_by_name, read_json_from_file, str
 
 logger = logging.getLogger(__name__)
 
+def get_default_config_path():
+    # Using importlib.resources to safely access the package resource
+    try:
+        config_path = resources.files('celi_framework.examples.wikipedia').joinpath('example_config.json')
+        # Temporary use during development:
+        # config_path = "/Users/jwag/PycharmProjects/celi/celi_framework/examples/wikipedia/example_config.json"
+        return str(config_path)
+    except Exception as e:
+        print(f"Failed to load default config: {e}")
+        return None
+
+def resolve_config_path(provided_path):
+    # Convert relative path to absolute if necessary and check existence
+    path_obj = Path(provided_path)
+    if not path_obj.is_absolute():
+        # Assuming this script is run from the root of the project
+        base_dir = Path(__file__).resolve().parent.parent
+        path_obj = base_dir / provided_path
+    if path_obj.exists():
+        return str(path_obj)
+    else:
+        print(f"Provided configuration file does not exist: {path_obj}")
+        return None
 
 def get_config():
     load_dotenv()
@@ -84,8 +109,8 @@ def get_config():
     parser.add_argument(
         "--tool-config-json",
         type=str,
-        default=os.getenv("TOOL_CONFIG_JSON"),
-        help="Path to a JSON file which will be used to instantiate the tool implementation.",
+        default=os.getenv("TOOL_CONFIG_JSON"),  # Default to environment variable if present
+        help="Path to a JSON file which will be used to instantiate the tool implementation."
     )
     parser.add_argument(
         "--parser-model-class",
@@ -106,13 +131,34 @@ def get_config():
 
     args = parser.parse_args()
 
+    # Always initialize tool_config at the beginning of the function
+    tool_config = {}  # Default to an empty dictionary or a suitable default
+
+    # Resolve the configuration path
+    config_path = resolve_config_path(args.tool_config_json) if args.tool_config_json else get_default_config_path()
+
+    # Attempt to read the configuration file
+    if config_path and os.path.exists(config_path):
+        try:
+            config_data = read_json_from_file(config_path)
+            tool_config.update(config_data)  # Safely update tool_config with loaded data
+        except Exception as e:
+            print(f"Failed to read the configuration file: {e}")
+    else:
+        print(f"Configuration file not found or path is invalid: {config_path}")
+
+    # Check if tool_config is populated properly
+    if not tool_config:
+        print("Error: Tool configuration data is missing or could not be loaded.")
+        return None
+
     directories = Directories.create(args.output_dir)
     mongo_config = instantiate_with_argparse_args(args, MongoDBConfig)
 
     job_description = get_obj_by_name(args.job_description)
-    tool_config = read_json_from_file(args.tool_config_json)
 
     tool_implementations = job_description.tool_implementations_class(**tool_config)
+
 
     llm_cache = not args.no_cache
     use_monitor = not args.no_monitor
@@ -146,6 +192,20 @@ def instantiate_with_argparse_args(args: argparse.Namespace, cls: Type):
 
 
 if __name__ == "__main__":
+    tool_config_path = get_default_config_path()
+    print(f"Attempting to use config at: {tool_config_path}")
+    config = get_config()
+    if config:
+        run_celi(config)
+    else:
+        logger.error("Failed to load configuration. Exiting.")
+
     logger.debug("Starting CELI")
     config = get_config()
     run_celi(config)
+
+    # if config:
+    #     logger.info("Configuration loaded successfully. Starting CELI...")
+    #     run_celi(config)
+    # else:
+    #     logger.error("Failed to load configuration. Exiting.")

@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "celi-framework"
-version = "0.0.9"
+version = "0.0.11"
 description = "Controller-Embedded Language Interactions - facilitates the entire lifecycle of document processing, from pre-processing and embedding to post-monitoring and quality assessment."
-authors = ["Jan-Samuel Wagner <jwab@genmab.com>","Dave DeCaprio <daved@alum.mit.edu>"]
+authors = ["Jan-Samuel Wagner <jwag@genmab.com>","Dave DeCaprio <daved@alum.mit.edu>"]
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/x3n0cr4735/celi"
@@ -13,6 +13,9 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Typing :: Typed",
 ]
+
+# config files here
+include = ["celi_framework/examples/wikipedia/example_config.json"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
@@ -45,6 +48,8 @@ sphinx-autobuild = "^2021.3.14"
 protobuf = ">=4.21.6" # Added to address build issues with readthedocs.
 cffi = ">=1.10.0" # Added to address build issues with readthedocs. pyo3_runtime.PanicException: Python API call failed
 sphinx-autodoc-typehints = "^2.0.0"
+
+
 
 [tool.pytest.ini_options]
 log_level="DEBUG"

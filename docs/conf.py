@@ -9,7 +9,7 @@
 project = "celi-framework"
 copyright = "2024, Jan-Samuel Wagner"
 author = "Jan-Samuel Wagner"
-release = "0.0.0"
+release = "0.0.11"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
