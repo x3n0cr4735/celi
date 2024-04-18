@@ -52,16 +52,21 @@ def get_default_config_path():
 
 def resolve_config_path(provided_path):
     # Convert relative path to absolute if necessary and check existence
-    path_obj = Path(provided_path)
-    if not path_obj.is_absolute():
-        # Assuming this script is run from the root of the project
-        base_dir = Path(__file__).resolve().parent.parent
-        path_obj = base_dir / provided_path
-    if path_obj.exists():
-        return str(path_obj)
-    else:
-        print(f"Provided configuration file does not exist: {path_obj}")
+    try:
+        path_obj = Path(provided_path)
+        if not path_obj.is_absolute():
+            # Assuming this script is run from the root of the project
+            base_dir = Path(__file__).resolve().parent.parent
+            path_obj = base_dir / provided_path
+        if path_obj.exists():
+            return str(path_obj)
+        else:
+            logger.info(f"Provided configuration file does not exist: {path_obj}")
+            return None
+    except:
+        logger.info("Error during resolving config path.")
         return None
+
 
 def get_config():
     load_dotenv()
@@ -134,22 +139,52 @@ def get_config():
     # Always initialize tool_config at the beginning of the function
     tool_config = {}  # Default to an empty dictionary or a suitable default
 
-    # Resolve the configuration path
-    config_path = resolve_config_path(args.tool_config_json) if args.tool_config_json else get_default_config_path()
+    # # Resolve the configuration path
+    # config_path = resolve_config_path(args.tool_config_json) if args.tool_config_json else get_default_config_path() <----
 
-    # Attempt to read the configuration file
-    if config_path and os.path.exists(config_path):
-        try:
-            config_data = read_json_from_file(config_path)
-            tool_config.update(config_data)  # Safely update tool_config with loaded data
-        except Exception as e:
-            print(f"Failed to read the configuration file: {e}")
-    else:
-        print(f"Configuration file not found or path is invalid: {config_path}")
+    # if args.tool_config_json:
+    #     config_path = resolve_config_path(args.tool_config_json)
+    # else:
+    #     # TODO - If TOOL_CONFIG_JSON=celi_framework/examples/wikipedia/example_config.json or if no .env file
+    #     # TODO- then we can do the following. but if TOOL_CONFIG_JSON= some other non-existant path then throw an error saying that you need to specific TOOL_CONFIG_JSON path in .env
+    #     config_path = get_default_config_path()
+    #
+    # # Attempt to read the configuration file
+    # if config_path and os.path.exists(config_path):
+    #     try:
+    #         config_data = read_json_from_file(config_path)
+    #         tool_config.update(config_data)  # Safely update tool_config with loaded data
+    #     except Exception as e:
+    #         print(f"Failed to read the configuration file: {e}")
+    # else:
+    #     print(f"Configuration file not found or path is invalid: {config_path}")
+    #
+    # # Check if tool_config is populated properly
+    # if not tool_config:
+    #     print("Error: Tool configuration data is missing or could not be loaded.")
+    #     return None
 
-    # Check if tool_config is populated properly
-    if not tool_config:
-        print("Error: Tool configuration data is missing or could not be loaded.")
+    # Resolve and load the configuration
+    config_path = resolve_config_path(args.tool_config_json)
+    if not config_path:
+        print("Valid configuration file path not found.")
+        return None
+
+    try:
+        tool_config = read_json_from_file(config_path)
+        if not all(key in tool_config for key in ['example_url', 'target_url']):
+            print("Configuration data is missing required keys.")
+            return None
+    except Exception as e:
+        print(f"Failed to read or validate the configuration file: {e}")
+        return None
+
+    # Further processing to create instances
+    job_description = get_obj_by_name(args.job_description)
+    try:
+        tool_implementations = job_description.tool_implementations_class(**tool_config)
+    except TypeError as e:
+        print(f"Error when initializing tool implementations: {e}")
         return None
 
     directories = Directories.create(args.output_dir)
@@ -198,7 +233,7 @@ if __name__ == "__main__":
     if config:
         run_celi(config)
     else:
-        logger.error("Failed to load configuration. Exiting.")
+        logger.error("Failed to load configuration - Check .env file and/or arguments supplied manually. Exiting...")
 
     logger.debug("Starting CELI")
     config = get_config()
