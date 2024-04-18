@@ -4,25 +4,27 @@ the development of Python applications. This module includes functionalities for
 file manipulation, dynamic content generation, and more, offering a robust toolkit for developers.
 
 Features:
-- Colorized Logging: Utilizes ANSI escape codes to colorize log messages for enhanced readability. Includes a custom
-  logging handler (`ColorizingStreamHandler`) that integrates with MongoDB for advanced logging purposes.
-- JSON File Manipulation: Provides functions (`load_json`, `save_json`) for loading and saving JSON data, streamlining
-  data handling and storage.
-- Text Processing: Offers utilities for reading text files (`read_txt`), manipulating JSON objects (`remove_newlines_from_json`,
-  `is_json_cleaned_of_newline`), and more, facilitating the processing and analysis of textual data.
-- Dynamic Content Generation: Contains methods for generating hash IDs (`generate_hash_id`), creating and manipulating
-  data structures (`shuffle_json_ordering`, `transform_dict_to_flat_schema`), and comparing JSON files (`compare_json_files`,
-  `detailed_compare_json_files`), aiding in the creation and management of dynamic content.
-- File and Directory Operations: Includes functions for working with files and directories (`find_latest_file`,
-  `make_list_of_dirs`), enabling efficient file system navigation and organization.
-- Miscellaneous Utilities: Offers a variety of additional tools, such as a decorator for measuring function execution
-  time (`time_it`), and methods for modifying text and data structures to meet specific criteria (`remove_text_chunk`,
-  `dequeue_all_matching`).
+    - Colorized Logging: Utilizes ANSI escape codes to colorize log messages for enhanced readability. Includes a custom
+        logging handler `ColorizingStreamHandler` that integrates with MongoDB for advanced logging purposes.
+    - JSON File Manipulation: Provides functions `load_json`, `save_json` for loading and saving JSON data, streamlining
+        data handling and storage.
+    - Text Processing: Offers utilities for reading text files (`read_txt`), manipulating JSON objects (`remove_newlines_from_json`,
+        `is_json_cleaned_of_newline`), and more, facilitating the processing and analysis of textual data.
+    - Dynamic Content Generation: Contains methods for generating hash IDs (`generate_hash_id`), creating and manipulating
+        data structures (`shuffle_json_ordering`, `transform_dict_to_flat_schema`), and comparing JSON files (`compare_json_files`,
+        `detailed_compare_json_files`), aiding in the creation and management of dynamic content.
+    - File and Directory Operations: Includes functions for working with files and directories (`find_latest_file`,
+        `make_list_of_dirs`), enabling efficient file system navigation and organization.
+    - Miscellaneous Utilities: Offers a variety of additional tools, such as a decorator for measuring function execution
+        time (`time_it`), and methods for modifying text and data structures to meet specific criteria (`remove_text_chunk`,
+        `dequeue_all_matching`).
+
 
 Usage:
 This module is designed to be imported and used in Python applications that require advanced logging capabilities,
 efficient data handling, and manipulation, as well as dynamic content generation. Its modular design allows for
 easy integration into existing projects, enhancing functionality without significant refactoring.
+
 """
 
 import importlib

@@ -7,19 +7,20 @@ that require robust and efficient interaction with LLMs for generating text, par
 or conducting analysis based on model responses.
 
 Features and Functionalities:
-- `ask_split` and `quick_ask`: Core functions for sending prompts to OpenAI's API, with built-in
-  token counting, retries on failure, and verbose logging. `ask_split` is designed for more complex
-  interactions involving system messages and user prompts, while `quick_ask` offers a streamlined
-  approach for simple prompt-response cycles.
-- Token Counter Decorators: Decorators that wrap around the core functions to enforce token limits,
-  ensuring that each query adheres to predefined constraints to manage costs and API usage efficiently.
-- Custom Error Handling: Implements error handling mechanisms to gracefully recover from common
-  issues such as network timeouts, API rate limits, and context length exceedance. The
-  `ContextLengthExceededException` specifically addresses scenarios where the prompt exceeds
-  the maximum allowed context length, enabling the application to respond appropriately.
-- Memory Tracking: Utilizes the `tracemalloc` library to monitor memory allocation and identify
-  potential inefficiencies, which is critical for applications processing large volumes of text
-  or managing numerous concurrent interactions with the LLM.
+    - `ask_split` and `quick_ask`: Core functions for sending prompts to OpenAI's API, with built-in
+        token counting, retries on failure, and verbose logging. `ask_split` is designed for more complex
+        interactions involving system messages and user prompts, while `quick_ask` offers a streamlined
+        approach for simple prompt-response cycles.
+    - Token Counter Decorators: Decorators that wrap around the core functions to enforce token limits,
+        ensuring that each query adheres to predefined constraints to manage costs and API usage efficiently.
+    - Custom Error Handling: Implements error handling mechanisms to gracefully recover from common
+        issues such as network timeouts, API rate limits, and context length exceedance. The
+        `ContextLengthExceededException` specifically addresses scenarios where the prompt exceeds
+        the maximum allowed context length, enabling the application to respond appropriately.
+    - Memory Tracking: Utilizes the `tracemalloc` library to monitor memory allocation and identify
+        potential inefficiencies, which is critical for applications processing large volumes of text
+        or managing numerous concurrent interactions with the LLM.
+
 """
 
 import functools

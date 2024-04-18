@@ -1,6 +1,8 @@
 [tool.poetry]
 name = "celi-framework"
+
 version = "0.0.11"
+
 description = "Controller-Embedded Language Interactions - facilitates the entire lifecycle of document processing, from pre-processing and embedding to post-monitoring and quality assessment."
 authors = ["Jan-Samuel Wagner <jwag@genmab.com>","Dave DeCaprio <daved@alum.mit.edu>"]
 license = "MIT"
