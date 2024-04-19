@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.0.13 (Apr 18, 2024)
+* Fixing example use case
+
+## 0.0.12 (Apr 18, 2024)
+* Fixing example use case
+
+## 0.0.11 (Apr 18, 2024)
+* Reorganized doc
+
 ## 0.0.10 (Apr 18, 2024)
 * Made repo public
 
