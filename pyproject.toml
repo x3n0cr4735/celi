@@ -13,6 +13,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "Typing :: Typed",
 ]
+include = ["celi_framework/examples/wikipedia/example_config.json"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
