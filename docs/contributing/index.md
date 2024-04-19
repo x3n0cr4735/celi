@@ -4,7 +4,7 @@ Thank you for your interest in CELI! ✨
 
 CELI welcomes contributions of all forms. This section of CELI's documentation serves as a resource to help you to contribute to the project.
 
-## Poetry
+## Using Poetry
 
 Dependencies are managed using [Poetry].  After cloning the repo, run poetry from the root directory:
 
