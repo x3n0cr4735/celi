@@ -22,7 +22,7 @@
 
 Join our [Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
 
-Read through [our documentation] for detailed explanations of our codebase.
+Read through [our documentation](https://celi.readthedocs.io/en/latest/) for detailed explanations of our codebase.
 
 Note: CELI is currently in alpha. If there are any issues installing, running, or utilizing CELI in your projects please let us know on Discord or create an issue or pull request. We will get back to you promptly.
 
