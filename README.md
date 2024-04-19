@@ -126,7 +126,7 @@ Create a .env file with an example configuration, copying the file below and sub
     EXTERNAL_DB=True
     NO_MONITOR=True
     JOB_DESCRIPTION=celi_framework.examples.wikipedia.job_description.job_description
-    TOOL_CONFIG_JSON=celi-framework/examples/wikipedia/example_config.json
+    TOOL_CONFIG_JSON=celi_framework/examples/wikipedia/example_config.json
     PARSER_MODEL_CLASS=llm_core.parsers.OpenAIParser
     PARSER_MODEL_NAME=gpt-3.5-turbo-16k
 ```
