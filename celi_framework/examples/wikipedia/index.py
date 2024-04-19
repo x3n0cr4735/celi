@@ -81,13 +81,18 @@ def get_wikipedia_index(
         )
         storage_context = index_cache.get_storage_context()
         index_cache.remove_storage()
-        index = index_wikipedia_url_with_references(
-            url,
-            storage_context=storage_context,
-            include_content=include_content,
-            include_references=include_references,
-        )
-        index_cache.persist()
+        try:
+            index = index_wikipedia_url_with_references(
+                url,
+                storage_context=storage_context,
+                include_content=include_content,
+                include_references=include_references,
+            )
+            index_cache.persist()
+        except Exception as e:
+            index_cache.remove_storage()
+            raise e
+
     return index
 
 
