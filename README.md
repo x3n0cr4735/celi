@@ -103,7 +103,7 @@ First, install celi using PIP with the following command:
 pip install celi-framework
 ```
 
-You can also clone the [GitHub repo](https://github.com/x3n0cr4735/celi) and install CELI from source.  See [Running CELI from Source](https://celi.readthedocs.io/en/stable/contributing/running_celi.html) for info on how to do that.
+You can also clone the [GitHub repo](https://github.com/x3n0cr4735/celi) and install CELI from source.  See [Running CELI from Source](https://celi.readthedocs.io/en/stable/running_celi.html) for info on how to do that.
 
 ### Set up a mongo DB server to store documents
 
@@ -149,9 +149,9 @@ Note that running this takes around 30 minutes (give or take).
 
 Explore the rest of the documentation to learn more about CELI.
 * [Getting Started]() - Learn more about the various ways to run CELI.
-* [Running CELI](https://celi.readthedocs.io/en/stable/contributing/running_celi.html) - Learn more about the various ways to run CELI.
-* [New Use Cases](https://celi.readthedocs.io/en/stable/contributing/new_use_cases.html) - Learn how to apply CELI to your own use case.
-* [API Reference](https://celi.readthedocs.io/en/stable/contributing/reference/index.html) - If you are into reading API docs directly.
+* [Running CELI](https://celi.readthedocs.io/en/stable/running_celi.html) - Learn more about the various ways to run CELI.
+* [New Use Cases](https://celi.readthedocs.io/en/stable/new_use_cases.html) - Learn how to apply CELI to your own use case.
+* [API Reference](https://celi.readthedocs.io/en/stable/reference/index.html) - If you are into reading API docs directly.
 
 ## Discord Server
 
