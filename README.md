@@ -20,7 +20,9 @@
 
 - **Development Flexibility:** CELI is architecturally designed to support developers in creating bespoke applications that conform to specific industry standards, including compliance, methodological rigor, and auditing requirements. This fosters innovation in the field of automated knowledge work by providing a scalable framework that integrates seamlessly into enterprise ecosystems.
 
-[Join our Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
+Join our [Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
+
+Read through [our documentation] for detailed explanations of our codebase.
 
 Note: CELI is currently in alpha. If there are any issues installing, running, or utilizing CELI in your projects please let us know on Discord or create an issue or pull request. We will get back to you promptly.
 
