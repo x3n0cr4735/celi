@@ -119,7 +119,6 @@ The main script for CELI loads some configuration from environment variables.  T
 
 Create a .env file with an example configuration, copying the file below and substituting in your OpenAI API key.  If you have the repo cloned, you can copy the .env.example file.
 
-```plaintext
     OPENAI_API_KEY=<REPLACE WITH YOUR OPENAI API KEY>
     OUTPUT_DIR=target/celi_output
     DB_URL=mongodb://localhost:27017/
@@ -129,7 +128,6 @@ Create a .env file with an example configuration, copying the file below and sub
     TOOL_CONFIG_JSON=celi_framework/examples/wikipedia/example_config.json
     PARSER_MODEL_CLASS=llm_core.parsers.OpenAIParser
     PARSER_MODEL_NAME=gpt-3.5-turbo-16k
-```
 
 ### Run the example use case
 
