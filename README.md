@@ -103,7 +103,7 @@ First, install celi using PIP with the following command:
 pip install celi-framework
 ```
 
-You can also clone the repo and install CELI from source.  See [Running CELI from Source](#running-celi-from-source) below to get the latest code (recommended).
+You can also clone the [GitHub repo](https://github.com/x3n0cr4735/celi) and install CELI from source.  See [Running CELI from Source](https://celi.readthedocs.io/en/stable/contributing/running_celi.html) for info on how to do that.
 
 ### Set up a mongo DB server to store documents
 
