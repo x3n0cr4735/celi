@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.0.14 (Apr 18, 2024)
+* Minor doc tweaks
+
 ## 0.0.13 (Apr 18, 2024)
 * Fixing example use case
 
