@@ -118,10 +118,11 @@ def get_config():
     else:
         # Find the root of the installed package
         root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        if os.path.exists(os.path.join(root_dir, args.tool_config_json)):
-            tool_config_json = args.tool_config_json
-        else:
-            raise FileNotFoundError(f"Could not find {args.tool_config_json}")
+        tool_config_json = os.path.join(root_dir, args.tool_config_json)
+        if not os.path.exists(tool_config_json):
+            raise FileNotFoundError(
+                f"Could not find {args.tool_config_json} or {tool_config_json}"
+            )
 
     tool_config = read_json_from_file(tool_config_json)
 
