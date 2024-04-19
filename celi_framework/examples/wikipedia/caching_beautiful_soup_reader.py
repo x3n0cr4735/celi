@@ -9,11 +9,11 @@ Beautiful Soup Web scraper."""
 import logging
 from typing import Any, Callable, Dict, List, Optional, Tuple
 from urllib.parse import urljoin
+from requests import Session
 
 from llama_index.core.bridge.pydantic import PrivateAttr
 from llama_index.core.readers.base import BasePydanticReader
 from llama_index.core.schema import Document
-from pytest import Session
 
 logger = logging.getLogger(__name__)
 
