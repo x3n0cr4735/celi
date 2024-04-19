@@ -89,6 +89,8 @@ By fundamentally reimagining the interaction between controllers and LLMs, CELI 
 
 ## Getting started
 
+<!-- start getting-started -->
+
 [Join our Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
 
 To get an idea of what CELI can do, we have prepackaged an example use case.  In this case, we will have CELI write a wiki page on a topic given an example page and a set of references.
@@ -141,192 +143,15 @@ This example use case uses the wikipedia page for Led Zeppelin as the example do
 
 Note that running this takes around 30 minutes (give or take).
 
-## Defining a use case for CELI
-
-CELI is an agent framework designed to carry out a series of tasks on a set of documents or document sections.  When CELI executes, it can use tools to accomplish those tasks.  When you configure a new use case for CELI, you define what the tasks are, what the documents or document sections to be worked on are, and provide a set of tools.  Once you specify these things, CELI works to automatically complete these tasks.
-
-### The Wikipedia example use case
-
-We have put in an example use case for celi_framework.  In this use case, we perform one-shot document generation.  We use a single wikipedia page as an example.  We then select a second wikipedia page from a different topic in the same category (bands, drugs, coutnries, etc), to use as the target.  We take only the references, not the content, from the target page and use that along with our example page to generate a new version of the target page.  This use case allows for a natural evaluation as we have the actual version of the target page to compare against for evaluation.
-
-We provide an example script with evaluation that generates several pages from each of 3 categories, and uses BertScore to compare the generated wiki page to the original to judge quality.  To run this eval, run
-
-```python 
-python -m celi_framework.examples.wikipedia.eval.run_eval
-```
-
-We will use the Wikipedia use case to describe the overall process of configuring CELI for a new use case.
-
-### The CELI Job Description
-
-The overall use case is defined in the CELI Job Description object.  When you run CELI, you pass general configuration parameters and a Job Description to the main CELI processor.  The `JobDescription` defines the tasks to be accomplished and the tools to be run.  See (job_description.py)[celi-framework/core/job_description.py] for full details
-
-The job description contains several prompt strings which describe the overall job to be run at a high level along with any general guidance for the agent.  It also contains a `task_list` and a `tool_implementations_class`.
-
-The `task_list` is a list of `Task` objects.  When completing a job, the agent will tackle each task in this list in order.  Each task has a name and a set of details.  The details is a dictionary that will be passed directly to the LLM to describing how to accomplish the task.  
-
-The `tool_implementations_class` is a reference to a class that derives from `ToolImplementations` and contains the tools that the LLM can use to accomplish the task.  This class is described in the next section.
-
-### CELI Tool Implementations
-
-Each public function in the class becomes a tool that the LLM can use.  
-
-There is one required function, `def get_schema(self) -> Dict[str, str]`.  This function returns a dictionary describing the document sections.  The processor will work through the sections, completing the defined tasks for each section.  Each dictionary can have any string values, but it is intended to be a section number followed by a section name.
-
-In addition to the `get_schema` function, the ToolImplementations class can have whatever other functions it needs to enable celi_framework.  Each function should be documented with type hints and a doc string.  The top section of the docstring will be included as the description of the overall function.  If the function takes arguments, there should be a section called "Args:" that contains a list of the arguments to the function and descriptions of each.  An example docstring is given below:
-
-        """
-        Extracts text from specified sections of documents.
-        It handles different document types and logs any errors or warnings encountered.
-        Returns concatenated text from the specified sections of the documents.
-        If there is no content for the section, <empty section> will be returned.
-
-        If the response contains "Error:", then there was a problem with the function call.
-
-        Args:
-            sections_dict_str (str): A JSON string mapping document names to their respective section numbers.  The json string will have the documents and sections in a dictionary.  The sections values should correspond to an entry in the table of contents for the specified document.
-        """
-
-
-## Running CELI
-
-CELI can be run from the command line, with configuration arguments, or directly from code.
-
-### Running from the command line
-
-When running CELI from the command line, all arguments can be passed on the command line, provided in environment variables, or provided in a .env file in the current directory, which will get read in as environment variables.  The precedence is that command line arguments override environment variables, which override valies provided in a .env file.
-
-When running from the command line, you need to include your JobDescription and ToolImplementations classes in the python path.  Two configuration variables control how the job is specified.
-   * JOB_DESCRIPTION - This is the name of the class that contains the JobDescription.  This class must have a no-arg constructor.  For the example use case, we use "celi_framework.examples.wikipedia.job_description.job_description"
-   * TOOL_CONFIG_JSON - This is the path to a JSON file.  This JSON file will be used to construct the `ToolImplementations` class.  The JSON file will be read in and converted to a dictionary.  This dictionary will then be passed as keyword arguments to the `ToolImplementations` class.
-
-For the example use case, the `WikipediaToolImplementations` is a dataclass that takes 3 arguments (2 are required):
-
-
-```python
-@dataclass
-class WikipediaToolImplementations(ToolImplementations):
-    example_url: str
-    target_url: str
-    ignore_updates: bool = False
-```
-
-The example JSON config file we use is:
-
-```json
-{
-    "example_url": "https://en.wikipedia.org/wiki/Led_Zeppelin",
-    "target_url": "https://en.wikipedia.org/wiki/Jonas_Brothers",
-    "ignore_updates": true
-}
-```
-
-
-When CELI is started from the command line, to reads the JSON config file and calls `WikipediaToolImplmentations` with the 3 arguments.
-
-### Running from code
-
-CELI can also be run from code in addition to the command-line.  Any example of running from code can be seen in the celi-framework/examples/wikipedia/eval/run_eval.py script.  This script iterates through several test sets containing source and target wikipedia URLs.  For each, it runs CELI to generate a document, and then uses [BertScore](https://arxiv.org/abs/1904.09675) to compare the generated document to the actual target wikipedia page.  It prints out a matrix of overall results when it completes.
-
-To run from code, you call `run_celi` passing in `CELIConfig` object:
-
-```python
-    from celi_framework.core.runner import CELIConfig, run_celi
-    run_celi(CELIConfig(...))
-```
-
-The `CELIConfig` object contains the instance of `JobDescripion` and `ToolImplementations` needed to run CELI as well as some other configuration parameters required.
-
-## Running CELI from Source
-
-If you are interested in modifying or contributiling to CELI, you can install and run it from source.  CELI uses [Poetry](https://python-poetry.org/) to manage dependencies and publishing. That being said, there are two recommended methods:
-
-### Anaconda
-
-1. Install Anaconda
-
-Download and install Anaconda from the [official Anaconda distribution page](https://www.anaconda.com/products/distribution). Follow the installation instructions suitable for your operating system.
-
-2. Create an Anaconda Environment
-
-Open your terminal or Anaconda Prompt and create a new Conda environment using Python 3.11:
-
-```bash
-conda create -n celi_env python=3.11
-conda activate celi_env
-```
-
-This sets up a clean environment specifically for running CELI, avoiding conflicts with other projects or system-wide Python packages.
-
-3. Clone the Repository
-
-Clone the CELI repository from GitHub to your local machine:
-
-```bash
-git clone https://github.com/x3n0cr4735/celi.git
-```
-
-4. Change to the Directory with the Repository
-
-Navigate to the directory where the repository has been cloned:
-
-```bash
-cd celi
-```
-
-5. Install the Project Using pip
-
-While inside the project directory and with your Conda environment activated, install the project and its dependencies in editable mode:
-
-```bash
-pip install -e .
-```
-
-This command will install all necessary dependencies as specified in the project's `setup.py` or `pyproject.toml` and will allow you to modify the project and have the changes reflected immediately. 
-
-
-### Poetry
-
-1. **Install Poetry**
-
-   Download and install Poetry using the [official installer](https://python-poetry.org/docs/#installing-with-the-official-installer). Follow the instructions on the page to download and install Poetry for your operating system.
-
-2. **Clone the Repository**
-
-   Clone the CELI repository from GitHub to your local machine:
-
-   ```bash
-   git clone https://github.com/x3n0cr4735/celi.git
-   ```
-
-3. **Change to the Directory with the Repository**
-
-   Navigate to the directory where the repository has been cloned:
-
-   ```bash
-   cd celi
-   ```
-
-4. **Install the Project Using Poetry**
-
-   While inside the project directory, install the project and its dependencies using Poetry:
-
-   ```bash
-   poetry install
-   ```
-
-   This command will create a virtual environment and set up all the dependencies for you, allowing you to work on the project in an isolated environment.
-
-5. **Activate the Poetry Environment**
-
-   You can activate the virtual environment created by Poetry to start working on the project:
-
-   ```bash
-   poetry shell
-   ```
-
-   From here, you can use the command line to run scripts or commands, or configure your IDE to use the virtual environment for development.
-
+<!-- end getting-started -->
+
+## Documentation
+
+Explore the rest of the documentation to learn more about CELI.
+* [Getting Started]() - Learn more about the various ways to run CELI.
+* [Running CELI](https://celi.readthedocs.io/en/stable/contributing/running_celi.html) - Learn more about the various ways to run CELI.
+* [New Use Cases](https://celi.readthedocs.io/en/stable/contributing/new_use_cases.html) - Learn how to apply CELI to your own use case.
+* [API Reference](https://celi.readthedocs.io/en/stable/contributing/reference/index.html) - If you are into reading API docs directly.
 
 ## Discord Server
 
@@ -334,7 +159,7 @@ This command will install all necessary dependencies as specified in the project
 
 ## Contributing
 
-We would like folks to create their own projects with the framework to address their own use cases. Please feel free to do so! Join our Discord Server and ask about contributing if you are not sure how or what to do.
+If you would like to contribute to the development of CELI, we welcome contributions of all forms.  For more information on contributing, see the [contributor guidelines](https://celi.readthedocs.io/en/stable/contributing/index.html).
 
 ## License
 
