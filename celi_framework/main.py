@@ -113,18 +113,20 @@ def get_config():
 
     # If the tool_config_json file doesn't exist, try to find it relative to the root of the installed package.
     # This allows examples packaged with celi to work correctly.
-    if os.path.exists(args.tool_config_json):
-        tool_config_json = args.tool_config_json
+    if args.tool_config_json:
+        if os.path.exists(args.tool_config_json):
+            tool_config_json = args.tool_config_json
+        else:
+            # Find the root of the installed package
+            root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            tool_config_json = os.path.join(root_dir, args.tool_config_json)
+            if not os.path.exists(tool_config_json):
+                raise FileNotFoundError(
+                    f"Could not find {args.tool_config_json} or {tool_config_json}"
+                )
+        tool_config = read_json_from_file(tool_config_json)
     else:
-        # Find the root of the installed package
-        root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        tool_config_json = os.path.join(root_dir, args.tool_config_json)
-        if not os.path.exists(tool_config_json):
-            raise FileNotFoundError(
-                f"Could not find {args.tool_config_json} or {tool_config_json}"
-            )
-
-    tool_config = read_json_from_file(tool_config_json)
+        args.tool_config_json = {}
 
     tool_implementations = job_description.tool_implementations_class(**tool_config)
 
