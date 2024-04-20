@@ -126,7 +126,7 @@ def get_config():
                 )
         tool_config = read_json_from_file(tool_config_json)
     else:
-        args.tool_config_json = {}
+        tool_config = {}
 
     tool_implementations = job_description.tool_implementations_class(**tool_config)
 
