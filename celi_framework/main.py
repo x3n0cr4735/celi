@@ -40,7 +40,7 @@ logger = logging.getLogger(__name__)
 
 def get_config():
     load_dotenv()
-    logger.info(f"Tool config env. var is {os.getenv("TOOL_CONFIG_JSON", "<not set>")}")
+    logger.info(f"Tool config env. var is {os.getenv('TOOL_CONFIG_JSON', '<not set>')}")
 
     parser = argparse.ArgumentParser(description="Run the document generator.")
 
