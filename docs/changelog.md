@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.0.17 (Apr 20, 2024)
+* Fixes for tool config
+
+## 0.0.16 (Apr 19, 2024)
+* Fixes for tool config
+
 ## 0.0.15 (Apr 18, 2024)
 * Minor doc tweaks
 
