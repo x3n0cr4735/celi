@@ -141,7 +141,7 @@ python -m celi_framework.main
 
 This example use case uses the wikipedia page for Led Zeppelin as the example document, and then creates a new wiki page for the Jonas Brothers based on the references cited from their wikipedia page.  The result will be put in the `target/drafts` directory.
 
-Note that running this takes around 30 minutes (give or take).
+Note that running this takes around 30 minutes (roughly).
 
 <!-- end getting-started -->
 
