@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.0.19 (Apr 20, 2024)
+* Fixing .env load for OS X
+
 ## 0.0.18 (Apr 20, 2024)
 * Fixing .env load
 
