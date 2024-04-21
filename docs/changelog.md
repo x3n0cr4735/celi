@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.0.18 (Apr 20, 2024)
+* Fixing .env load
+
 ## 0.0.17 (Apr 20, 2024)
 * Fixing tool config
 
