@@ -40,6 +40,7 @@ logger = logging.getLogger(__name__)
 
 def get_config():
     load_dotenv()
+    logger.info(f"Tool config env. var is {os.getenv('TOOL_CONFIG_JSON', '<not set>')}")
 
     parser = argparse.ArgumentParser(description="Run the document generator.")
 
@@ -126,7 +127,7 @@ def get_config():
                 )
         tool_config = read_json_from_file(tool_config_json)
     else:
-        args.tool_config_json = {}
+        tool_config = {}
 
     tool_implementations = job_description.tool_implementations_class(**tool_config)
 
