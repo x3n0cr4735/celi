@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.1.0 (Apr 21, 2024)   
+* First "release" release
+
 ## 0.0.19 (Apr 20, 2024)
 * Fixing .env load for OS X
 
