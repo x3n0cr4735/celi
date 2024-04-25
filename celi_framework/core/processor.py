@@ -204,8 +204,17 @@ class ProcessRunner:
         )
 
         if self.pop_context_flag:
-            self.update_draft_doc(self.ongoing_chat)
-            self.handle_pop_context()
+            try:
+                self.update_draft_doc(self.ongoing_chat)
+            except Exception as e:
+                app_logger.exception(
+                    f"Error updating draft doc, retrying", extra={"color": "red"}
+                )
+                self.pop_context_flag = False
+
+            if self.pop_context_flag:
+                self.handle_pop_context()
+
 
     def format_chat_messages(self, msgs: List[ChatMessageable]):
         return "\n\n".join(self.format_message_content(m) for m in msgs)
