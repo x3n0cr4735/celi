@@ -32,6 +32,7 @@ import os.path
 from docx import Document
 import pandas as pd
 import copy
+import glob
 
 from .extractor_helpers import previous_next_helper, save_to_json
 
@@ -193,4 +194,3 @@ def extract_from_word_docx(doc_filepath, output_folder):
     schema_fp, filled_fp = save_to_json(output_filename, output_folder, schema, filled)
 
     return schema_fp, filled_fp
-

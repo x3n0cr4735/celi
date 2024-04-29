@@ -31,6 +31,7 @@ from pydantic import BaseModel
 import openai
 from openai.types.chat import ChatCompletion
 from requests import HTTPError
+from dotenv import load_dotenv
 
 from celi_framework.utils.codex import MongoDBUtilitySingleton
 from celi_framework.utils.token_counters import (
@@ -40,6 +41,10 @@ from celi_framework.utils.token_counters import (
 from celi_framework.utils.log import app_logger
 from celi_framework.utils.exceptions import ContextLengthExceededException
 
+load_dotenv()
+
+QUICK_ASK_MODEL_NAME=os.getenv("QUICK_ASK_MODEL_NAME")
+QUICK_ASK_MODEL_TEMP=float(os.getenv("QUICK_ASK_MODEL_TEMP"))
 
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
 @functools.lru_cache(1)
@@ -126,7 +131,8 @@ def ask_split(
 def quick_ask(
     prompt,
     token_counter,
-    model_name="gpt-4-0125-preview",
+    model_name=QUICK_ASK_MODEL_NAME,
+    temperature=QUICK_ASK_MODEL_TEMP,
     max_tokens=None,
     seed=777,
     verbose=False,
@@ -182,7 +188,7 @@ def quick_ask(
                 codex=codex,
                 messages=assemble_chat_messages(prompt),
                 model=model_name,
-                temperature=0.0,
+                temperature=temperature,
                 max_tokens=max_tokens,
                 seed=seed,
                 response_format=response_format,
