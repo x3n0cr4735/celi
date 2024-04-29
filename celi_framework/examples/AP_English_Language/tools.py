@@ -107,65 +107,65 @@ class APEnglishLanguageToolImplementations(ToolImplementations):
             dict: The structured dictionary that was saved.
         """
 
-        # def save_draft_to_docx(draft_dict, question_number):
-        #     """
-        #     Saves the draft from a dictionary into a .docx file in the specified directory
-        #
-        #     Args:
-        #         draft_dict (dict): The dictionary containing the draft text.
-        #         output_dir_path (str): The directory path where the new .docx file should be saved.
-        #         output_filename (str): The name of the file to be saved.
-        #     """
-        #     # Extract the draft text
-        #     draft_text = draft_dict.get('draft', '')
-        #
-        #     filename = f"{question_number}_Final.docx"
-        #     output_dir_path = f"{ROOT_DIR}/celi_framework/examples/AP_English_Language/output/draft_word"
-        #
-        #     output_docx_path = os.path.join(output_dir_path, filename)
-        #
-        #     # Create a new .docx document and save it
-        #     doc = Document()
-        #     doc.add_paragraph(draft_text)
-        #     doc.save(output_docx_path)
-        #
-        #     return output_docx_path
-        #
-        # timestamp = datetime.now().strftime("%m%d%y-%H%M%S")
-        # logger.info(f"DRAFT DICT TEXT LOOKS LIKE THIS\n{draft_dict}", extra={'color':'cyan'})
-        #
-        # # Assuming draft_dict is a string that needs to be loaded into a dictionary
-        # draft_dict = json.loads(draft_dict)
-        # structured_dict = {'draft': draft_dict.get('draft', '')}
-        #
-        # # Define the full path for the saved file
-        # file_path = os.path.join(ROOT_DIR, 'celi_framework/examples/AP_English_Language/output/draft_dict',
-        #                          f'{question_number}-response-{timestamp}.json')
-        # os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Ensure directory exists
-        #
-        # # Save the JSON file
-        # with open(file_path, "w") as json_file:
-        #     json.dump(structured_dict, json_file)
-        #
-        # try:
-        #     # Assuming save_draft_to_docx returns the full path to the saved .docx file
-        #     docx_filepath = save_draft_to_docx(structured_dict, question_number)
-        #     if docx_filepath:
-        #         redis_key = f'draft_ready:{question_number}'
-        #         # redis_client.set(redis_key, docx_filepath)
-        #         # logger.info(f"Signaled Redis that draft for question {question_number} is ready.", extra={'color':'cyan'})
-        #     else:
-        #         logger.error(f"Failed to save the .docx for question {question_number}.")
-        # except Exception as e:
-        #     logger.error(f"Error saving draft or signaling Redis: {e}")
-        #
-        # # Update Redis with the status that we're waiting for user feedback
-        # # redis_client.set(self.progress_key, "Saving the draft")
-        #
-        # # FastAPI: When the draft is ready
-        # # redis_client.set(f'draft_ready:{question}', 'true')
-        #
-        # return structured_dict
+        def save_draft_to_docx(draft_dict, question_number):
+            """
+            Saves the draft from a dictionary into a .docx file in the specified directory
+
+            Args:
+                draft_dict (dict): The dictionary containing the draft text.
+                output_dir_path (str): The directory path where the new .docx file should be saved.
+                output_filename (str): The name of the file to be saved.
+            """
+            # Extract the draft text
+            draft_text = draft_dict.get('draft', '')
+
+            filename = f"{question_number}_Final.docx"
+            output_dir_path = f"{ROOT_DIR}/celi_framework/examples/AP_English_Language/output/draft_word"
+
+            output_docx_path = os.path.join(output_dir_path, filename)
+
+            # Create a new .docx document and save it
+            doc = Document()
+            doc.add_paragraph(draft_text)
+            doc.save(output_docx_path)
+
+            return output_docx_path
+
+        timestamp = datetime.now().strftime("%m%d%y-%H%M%S")
+        logger.info(f"DRAFT DICT TEXT LOOKS LIKE THIS\n{draft_dict}", extra={'color':'cyan'})
+
+        # Assuming draft_dict is a string that needs to be loaded into a dictionary
+        draft_dict = json.loads(draft_dict)
+        structured_dict = {'draft': draft_dict.get('draft', '')}
+
+        # Define the full path for the saved file
+        file_path = os.path.join(ROOT_DIR, 'celi_framework/examples/AP_English_Language/output/draft_dict',
+                                 f'{question_number}-response-{timestamp}.json')
+        os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Ensure directory exists
+
+        # Save the JSON file
+        with open(file_path, "w") as json_file:
+            json.dump(structured_dict, json_file)
+
+        try:
+            # Assuming save_draft_to_docx returns the full path to the saved .docx file
+            docx_filepath = save_draft_to_docx(structured_dict, question_number)
+            if docx_filepath:
+                redis_key = f'draft_ready:{question_number}'
+                # redis_client.set(redis_key, docx_filepath)
+                # logger.info(f"Signaled Redis that draft for question {question_number} is ready.", extra={'color':'cyan'})
+            else:
+                logger.error(f"Failed to save the .docx for question {question_number}.")
+        except Exception as e:
+            logger.error(f"Error saving draft or signaling Redis: {e}")
+
+        # Update Redis with the status that we're waiting for user feedback
+        # redis_client.set(self.progress_key, "Saving the draft")
+
+        # FastAPI: When the draft is ready
+        # redis_client.set(f'draft_ready:{question}', 'true')
+
+        return structured_dict
 
 
 
