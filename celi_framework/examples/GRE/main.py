@@ -16,8 +16,10 @@ import logging.config
 from celi_framework.core.runner import CELIConfig, Directories, MongoDBConfig, run_celi
 from celi_framework.main import instantiate_with_argparse_args
 from celi_framework.utils.utils import get_obj_by_name, str2bool
+from tools import GREToolImplementations
 from job_description import job_description
-from celi_framework.examples.GRE.tools import GREToolImplementations
+
+
 logger = logging.getLogger(__name__)
 
 def get_config():
@@ -93,7 +95,7 @@ def runner():
     config = get_config()
     logger.info("Running narratives app <-----")
     config = copy.deepcopy(config)
-    config.tool_implementations = APEnglishLanguageToolImplementations()
+    config.tool_implementations = GREToolImplementations()
 
     # Pass shutdown_flag to run_celi
     run_celi(config)

@@ -7,7 +7,8 @@ reporting requirements.
 """
 
 from celi_framework.core.job_description import JobDescription, Task
-from celi_framework.examples.GRE.tools import GREToolImplementations
+
+from tools import GREToolImplementations
 from celi_framework.core.mt_factory import MasterTemplateFactory
 from celi_framework.utils.utils import load_json
 
