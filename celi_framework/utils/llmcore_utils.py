@@ -203,7 +203,12 @@ def parse(dataclass_parser: ParserFactory, target_cls: Type[T], msg: str) -> T:
     """
     try:
         with dataclass_parser(target_cls) as parser:
-            ret = parser.parse(msg)  # type: ignore
+            try:
+                ret = parser.parse(msg)  # type: ignore
+            except Exception:
+                app_logger.info(f"Parsing failed, retrying")
+                msg = "Make sure your response is valid JSON.\n"+ msg
+                ret = parser.parse(msg)  # type: ignore
             app_logger.info(f"Parsed {ret}")
             setattr(ret, "parser_model", parser.model_name)
             return ret
