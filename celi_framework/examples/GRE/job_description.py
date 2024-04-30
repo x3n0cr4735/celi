@@ -151,6 +151,14 @@ Task(
         }
     }
 ),
+Task(
+        task_name="Finish Essay",
+        details={
+            "description": "Pop context to finish this question.",
+            "tool_call": "Use the pop_context function.",
+            "example_call": "{{'current_question_number': ['next_question_number']}}",
+        },
+    ),
 ]
 
 general_comments = """
