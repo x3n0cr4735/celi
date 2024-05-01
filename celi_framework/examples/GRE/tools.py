@@ -66,19 +66,19 @@ class GREToolImplementations(ToolImplementations):
 
         return pair
 
-    def retrieve_example_response(self, question_number: str) -> str:
-        """
-        Retrieves a prompt, answer pair for a question that tests similar skills as the question being answered in the free response section of the test.
-
-        Args:
-            question_number (str): The unique identifier for the question (q1, q2, or q3).
-
-        Returns:
-            str: Prompt, question example pair.
-        """
-        response = load_text_file(f"{ROOT_DIR}/celi_framework/examples/GRE/data/working_data/examples/set_1_example_{question_number}_response.txt")
-
-        return response
+    # def retrieve_example_response(self, question_number: str) -> str:
+    #     """
+    #     Retrieves a prompt, answer pair for a question that tests similar skills as the question being answered in the free response section of the test.
+    #
+    #     Args:
+    #         question_number (str): The unique identifier for the question (q1, q2, or q3).
+    #
+    #     Returns:
+    #         str: Prompt, question example pair.
+    #     """
+    #     response = load_text_file(f"{ROOT_DIR}/celi_framework/examples/GRE/data/working_data/examples/set_1_example_{question_number}_response.txt")
+    #
+    #     return response
 
     def retrieve_instructions(self, question_number: str) -> str:
         """
@@ -95,19 +95,23 @@ class GREToolImplementations(ToolImplementations):
 
         return instructions
 
-    def save_draft(self, draft_dict: str, question_number: str) -> dict:
+    def save_draft(self, draft_dict: str) -> dict:
+
         """
         Saves the provided draft as a JSON file and returns a structured dictionary.
         Additionally, signals via Redis that a draft is ready for download.
 
         Args:
-            draft_dict (str): A string representation of a dictionary containing the draft text under the 'draft' key.
+            draft_dict (str): A string representation of a dictionary containing the draft text under the 'draft_dict' key.
 
         Returns:
             dict: The structured dictionary that was saved.
         """
 
-        def save_draft_to_docx(draft_dict, question_number):
+        question_number = 'q1'
+
+        def save_draft_to_docx(draft_dict, question_number, timestamp) :
+
             """
             Saves the draft from a dictionary into a .docx file in the specified directory
 
@@ -117,16 +121,22 @@ class GREToolImplementations(ToolImplementations):
                 output_filename (str): The name of the file to be saved.
             """
             # Extract the draft text
-            draft_text = draft_dict.get('draft', '')
+            # draft_text = draft_dict.get('draft', '')
 
-            filename = f"{question_number}_Final.docx"
-            output_dir_path = f"{ROOT_DIR}/celi_framework/examples/GRE/output/draft_word"
+            output_docx_path = os.path.join(ROOT_DIR, 'celi_framework/examples/GRE/output/word',
+                                     f'{question_number}-response-{timestamp}.docx')
 
-            output_docx_path = os.path.join(output_dir_path, filename)
-
-            # Create a new .docx document and save it
             doc = Document()
-            doc.add_paragraph(draft_text)
+            # Create a new .docx document and save it
+            # Iterate through each key-value pair in the dictionary
+            for key, value in draft_dict.items():
+                # Add a heading or bold paragraph for the section title
+                doc.add_heading(key, level=1)  # You can adjust the level according to your needs
+
+                # Add the paragraph text from the dictionary
+                doc.add_paragraph(value)
+
+            # Save the document to the specified path
             doc.save(output_docx_path)
 
             return output_docx_path
@@ -134,26 +144,37 @@ class GREToolImplementations(ToolImplementations):
         timestamp = datetime.now().strftime("%m%d%y-%H%M%S")
         logger.info(f"DRAFT DICT TEXT LOOKS LIKE THIS\n{draft_dict}", extra={'color':'cyan'})
 
-        # Assuming draft_dict is a string that needs to be loaded into a dictionary
-        draft_dict = json.loads(draft_dict)
-        structured_dict = {'draft': draft_dict.get('draft', '')}
+        json_path = os.path.join(ROOT_DIR, 'celi_framework/examples/GRE/output/draft_dict',
+                                 f'{question_number}-response-{timestamp}.json')
+
+        # # Assuming draft_dict is a string that needs to be loaded into a dictionary
+        # structured_dict = json.loads(draft_dict)
+        # structured_dict = structured_dict.get('draft_dict', '')
+        # structured_dict = json.loads(structured_dict)
+
+        try:
+            # Assuming draft_dict is a JSON string
+            structured_dict = json.loads(draft_dict)
+
+        except json.JSONDecodeError as e:
+            print(f"Failed to decode JSON: {e}")
+            # Handle the error or fix the data as needed
+            return None
 
         # Define the full path for the saved file
-        file_path = os.path.join(ROOT_DIR, 'celi_framework/examples/GRE/output/draft_dict',
-                                 f'{question_number}-response-{timestamp}.json')
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Ensure directory exists
+        os.makedirs(os.path.dirname(json_path), exist_ok=True)  # Ensure directory exists
 
         # Save the JSON file
-        with open(file_path, "w") as json_file:
+        with open(json_path, "w") as json_file:
             json.dump(structured_dict, json_file)
 
         try:
             # Assuming save_draft_to_docx returns the full path to the saved .docx file
-            docx_filepath = save_draft_to_docx(structured_dict, question_number)
+            docx_filepath = save_draft_to_docx(structured_dict, question_number, timestamp)
             if docx_filepath:
                 redis_key = f'draft_ready:{question_number}'
                 # redis_client.set(redis_key, docx_filepath)
-                # logger.info(f"Signaled Redis that draft for question {question_number} is ready.", extra={'color':'cyan'})
+                logger.info(f"Signaled Redis that draft for question {question_number} is ready.", extra={'color':'cyan'})
             else:
                 logger.error(f"Failed to save the .docx for question {question_number}.")
         except Exception as e:

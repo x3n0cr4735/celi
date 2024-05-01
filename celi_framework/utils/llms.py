@@ -43,6 +43,8 @@ from celi_framework.utils.exceptions import ContextLengthExceededException
 
 load_dotenv()
 
+ASK_SPLIT_MODEL_NAME = os.getenv("API_CALL_MODEL_NAME")
+
 QUICK_ASK_MODEL_NAME=os.getenv("QUICK_ASK_MODEL_NAME")
 QUICK_ASK_MODEL_TEMP=float(os.getenv("QUICK_ASK_MODEL_TEMP"))
 
@@ -62,7 +64,7 @@ class ToolDescription(BaseModel):
 def ask_split(
     user_prompt: str | List[Tuple[str, str]],
     system_message,
-    model_name="gpt-4-0125-preview",
+    model_name=ASK_SPLIT_MODEL_NAME,
     max_tokens=4096,
     seed=777,
     verbose=False,  # model_name="gpt-4-1106-preview"
