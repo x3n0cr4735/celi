@@ -28,6 +28,7 @@ llama-index-vector-stores-chroma = "^0.1.6"
 scikit-learn = "^1.4.2"
 pymupdf = "^1.24.1"
 python-docx = "^1.1.0"
+jupyter = "^1.0.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = ">=7.4.4"
@@ -49,7 +50,7 @@ sphinx-autodoc-typehints = "^2.0.0"
 
 [tool.pytest.ini_options]
 log_level="DEBUG"
-log_cli=true
+#log_cli=true
 
 [build-system]
 requires = ["poetry-core"]

@@ -99,6 +99,7 @@ def get_config():
         default=os.getenv("PARSER_MODEL_NAME", "mixtral-8x7b-v0.1.Q5_K_M.gguf"),
     )
     bool_opt("--no-cache", "NO_CACHE", "Set to True to turn off LLM caching")
+    bool_opt("--no-db", "NO_DB", "Set to True to turn off database persistence")
     bool_opt(
         "--no-monitor",
         "NO_MONITOR",
@@ -108,7 +109,8 @@ def get_config():
     args = parser.parse_args()
 
     directories = Directories.create(args.output_dir)
-    mongo_config = instantiate_with_argparse_args(args, MongoDBConfig)
+
+    mongo_config = None if args.no_db else instantiate_with_argparse_args(args, MongoDBConfig)
 
     job_description = get_obj_by_name(args.job_description)
 

@@ -35,6 +35,13 @@ from celi_framework.utils.utils import generate_hash_id
 logger = logging.getLogger(__name__)
 
 
+class NoDBCodex:
+    _id: str = 'NullCodex'
+
+    def save_document_with_versioning(self, document, collection_name):
+        return None
+
+
 class MongoDBUtilitySingleton:
     _instance = None
     _lock = threading.Lock()
