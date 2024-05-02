@@ -130,6 +130,10 @@ Create a .env file with an example configuration, copying the file below and sub
     TOOL_CONFIG_JSON=celi_framework/examples/wikipedia/example_config.json
     PARSER_MODEL_CLASS=llm_core.parsers.OpenAIParser
     PARSER_MODEL_NAME=gpt-3.5-turbo-16k
+    PROCESSOR_LLM_MODEL_NAME=gpt-4-1106-preview
+    QUICK_ASK_LLM_MODEL_NAME=gpt-4-0125-preview
+    PROCESSOR_LLM_MODEL_TEMP=.0
+    QUICK_ASK_LLM_MODEL_TEMP=.0
 
 ### Run the example use case
 

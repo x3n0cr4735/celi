@@ -31,6 +31,7 @@ from pydantic import BaseModel
 import openai
 from openai.types.chat import ChatCompletion
 from requests import HTTPError
+from dotenv import load_dotenv
 
 from celi_framework.utils.codex import MongoDBUtilitySingleton
 from celi_framework.utils.token_counters import (
@@ -40,6 +41,22 @@ from celi_framework.utils.token_counters import (
 from celi_framework.utils.log import app_logger
 from celi_framework.utils.exceptions import ContextLengthExceededException
 
+
+load_dotenv()
+
+# Retrieve environment variables with default values, and handle type conversion safely
+def get_float_env(var_name, default):
+    try:
+        return float(os.getenv(var_name, default))
+    except ValueError:
+        # Log the error or handle it as needed
+        return default
+
+# Setting default values for model names and temperatures
+ASK_SPLIT_MODEL_NAME = os.getenv("PROCESSOR_LLM_MODEL_NAME", "gpt-4-1106-preview")
+ASK_SPLIT_MODEL_TEMP = get_float_env("PROCESSOR_LLM_MODEL_TEMP", 0.0)
+QUICK_ASK_MODEL_NAME = os.getenv("QUICK_ASK_LLM_MODEL_NAME", "gpt-4-0125-preview")
+QUICK_ASK_MODEL_TEMP = get_float_env("QUICK_ASK_LLM_MODEL_TEMP", 0.0)
 
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
 @functools.lru_cache(1)
@@ -53,17 +70,15 @@ class ToolDescription(BaseModel):
     parameters: Dict[str, Any]
 
 
-@token_counter_decorator_ask_split  # TODO - Not necessary to run outside of project
+@token_counter_decorator_ask_split
 def ask_split(
     user_prompt: str | List[Tuple[str, str]],
     system_message,
-    model_name="gpt-4-0125-preview",
     max_tokens=4096,
     seed=777,
-    verbose=False,  # model_name="gpt-4-1106-preview"
+    verbose=False,
     max_retries=7,
     wait_between_retries=2,
-    temperature=0.0,
     timeout: Optional[int] = 120,
     codex: Optional[MongoDBUtilitySingleton] = None,
     tool_descriptions: List[ToolDescription] = [],
@@ -73,9 +88,10 @@ def ask_split(
 
     user_prompt can be either a string or a list of messages.
     """
+
     err_cnt = 0
     last_error = None
-    app_logger.info(f"Calling LLM {model_name.upper()}", extra={"color": "yellow"})
+    app_logger.info(f"Calling LLM {ASK_SPLIT_MODEL_NAME.upper()}", extra={"color": "yellow"})
     while err_cnt < max_retries:
         try:
             if err_cnt > 1:
@@ -91,15 +107,15 @@ def ask_split(
                     for _ in tool_descriptions
                 ],
                 tool_choice="auto",
-                model=model_name,
-                temperature=temperature,
+                model=ASK_SPLIT_MODEL_NAME,
+                temperature=ASK_SPLIT_MODEL_TEMP,
                 max_tokens=max_tokens,
                 seed=seed,
                 timeout=timeout,
             )
             if verbose:
                 app_logger.info(
-                    f"LLM {model_name.upper()} responded", extra={"color": "yellow"}
+                    f"LLM {ASK_SPLIT_MODEL_NAME.upper()} responded", extra={"color": "yellow"}
                 )
             return chat_completion.choices[0]
 
@@ -126,7 +142,6 @@ def ask_split(
 def quick_ask(
     prompt,
     token_counter,
-    model_name="gpt-4-0125-preview",
     max_tokens=None,
     seed=777,
     verbose=False,
@@ -153,6 +168,7 @@ def quick_ask(
     Returns:
         str: The content of the response message or error message after all retries.
     """
+
     if token_counter is None:
         app_logger.error(
             f"global_token_counter inside quick_ask definition is {token_counter}",
@@ -170,7 +186,7 @@ def quick_ask(
                 app_logger.error(f"Attempt {err_cnt + 1}:", extra={"color": "red"})
             if verbose:
                 app_logger.info(
-                    f"Calling: {model_name.upper()}", extra={"color": "yellow"}
+                    f"Calling: {QUICK_ASK_MODEL_NAME.upper()}", extra={"color": "yellow"}
                 )
 
             if json_output:
@@ -181,8 +197,8 @@ def quick_ask(
             chat_completion = cached_chat_completion(
                 codex=codex,
                 messages=assemble_chat_messages(prompt),
-                model=model_name,
-                temperature=0.0,
+                model=QUICK_ASK_MODEL_NAME,
+                temperature=QUICK_ASK_MODEL_TEMP,
                 max_tokens=max_tokens,
                 seed=seed,
                 response_format=response_format,
@@ -193,7 +209,7 @@ def quick_ask(
 
             if verbose:
                 app_logger.info(
-                    f"{model_name.upper()} responded", extra={"color": "yellow"}
+                    f"{QUICK_ASK_MODEL_NAME.upper()} responded", extra={"color": "yellow"}
                 )
 
             return response
