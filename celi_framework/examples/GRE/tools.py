@@ -41,7 +41,7 @@ class GREToolImplementations(ToolImplementations):
         Retrieves the prompt for a given question in the free response section of the test.
 
         Args:
-            question_number (str): The unique identifier for the question (q1).
+            question_number (str): The unique identifier for the question (q1, q2, or q3).
 
         Returns:
             str: The prompt for the question.
@@ -60,8 +60,9 @@ class GREToolImplementations(ToolImplementations):
         Returns:
             str: Prompt, question example pair.
         """
-        prompt = load_text_file(f"{ROOT_DIR}/celi_framework/examples/GRE/data/working_data/examples/set_1_example_{question_number}_question.txt")
-        response = load_text_file(f"{ROOT_DIR}/celi_framework/examples/GRE/data/working_data/examples/set_1_example_{question_number}_response.txt")
+
+        prompt = load_text_file(f"{ROOT_DIR}/celi_framework/examples/GRE/data/working_data/examples/set_1_example_q1_question.txt")
+        response = load_text_file(f"{ROOT_DIR}/celi_framework/examples/GRE/data/working_data/examples/set_1_example_q1_response.txt")
         pair = f"{prompt}\n\n{response}"
 
         return pair
@@ -85,13 +86,13 @@ class GREToolImplementations(ToolImplementations):
         Retrieves a prompt, answer pair for a question that tests similar skills as the question being answered in the free response section of the test.
 
         Args:
-            question_number (str): The unique identifier for the question (q1).
+            question_number (str): The unique identifier for the questions (q1,q2,or q3).
 
         Returns:
             str: Prompt, question example pair.
         """
         instructions = load_text_file(
-            f"{ROOT_DIR}/celi_framework/examples/GRE/data/working_data/instructions/set_1_target_{question_number}_instructions.txt")
+            f"{ROOT_DIR}/celi_framework/examples/GRE/data/working_data/instructions/set_1_target_q1_instructions.txt")
 
         return instructions
 

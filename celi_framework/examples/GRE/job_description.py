@@ -56,7 +56,9 @@ task_library = [
             "additional_notes": [
                 "The strategy should be documented clearly and concisely to serve as a guideline during the response drafting stage.",
                 "Consider peer review or feedback mechanisms if possible, to validate and refine the strategy before proceeding to draft."
-            ]
+            ],
+            "tool_call": "Initiate drafting in the document editor with outline format enabled.",
+            "example_call": "{{'question_number': ['q1']}}",
         }
     ),
     Task(
@@ -211,9 +213,9 @@ Task(
         },
     ),
 Task(
-        task_name="Finish Essay",
+        task_name="Finish Essay and move on to next question",
         details={
-            "description": "Pop context to finish this question.",
+            "description": "Pop context to finish this question and move on to next question if there are any questions left.",
             "instructions": "A section is considered complete once there are no more revisions required. If there are revisions recommended then go back to Task Synthesize Sections into a Draft - IN THIS CASE, DO NOT CALL pop_context.",
             "tool_call": "Use the pop_context function.",
             "example_call": "{{'current_question_number': ['next_question_number']}}",
@@ -225,13 +227,18 @@ Task(
 general_comments = """
 ============
 General comments:
+Start with the first test question. Only do the next uncompleted task (only one task at a time).
+Explicitly print out the current question number.
+Explicitly print out whether the last task completed successfully or not.
 Explicitly print out the task you are completing currently.
+Explicitly print out what task you will complete next.
 Explicitly provide a detailed and appropriate response for every task.
 The most important thing for you to understand: The primary goal of the tasks is to answer the test question that you have been presented.
 A section is considered complete once there are no more revisions required. If there are revisions recommended then go back to Task Synthesize Sections into a Draft.
 
 If a function call returns an error then try again with parameters, or make a different function call.
 If task has not completed successfully, try again with an altered response.
+If you notice a task (or series of tasks) being repeated erroneously, devise a plan to move on to the next uncompleted task.
 If you encounter empty messages repeatedly in the chat history, reorient yourself by revisiting the last task completed. Check that the sequence of past tasks progresses in logical order. If not, assess and adjust accordingly.
 
 Do not ever return a tool or function call with the name 'multi_tool_use.parallel'
@@ -239,7 +246,11 @@ Do not ever return a tool or function call with the name 'multi_tool_use.paralle
 """
 
 initial_user_message = """
-Please see system message for instructions. Answer the question while being cognizant of the criteria for a score of 6.
+Please see system message for instructions. 
+Take note of which test question is currently being worked on and which tasks have been completed. Complete the next uncompleted task.
+If you do not see any tasks completed for the current test question, begin with Task #1.
+
+Answer the question while being cognizant of the criteria for a score of 6.
 
 A section is considered complete once there are no more revisions required. If there are revisions recommended then go back to Task 'Synthesize Sections into a Draft'.
 """
@@ -247,14 +258,15 @@ A section is considered complete once there are no more revisions required. If t
 pre_algo_instruct = """
 I am going to give you step by step instructions on how to draft a free response to a test question.
 Below you will find a json object that contains the index of test questions that need to be responded to.
-The keys of the json are the questions numbers (q1) of the free response section of a test. The values are the respective topics.
+The keys of the json are the questions numbers (q1, q2, q3) of the free response section of a test. The values are the respective topics.
 """
 
 post_algo_instruct = """
 We will look at a completed example free response test section that is similar to the test to be worked on.
 Its full content can be queried with a function (example_question_text_getter) and used as an example (in json format).
-The keys of the json are the question numbers (q1) of the free response test section and the values contain the questions and answers.
+The keys of the json are the question numbers (q1, q2, q3) of the free response test section and the values contain the questions and answers.
 Question n of the examples lines up with question n in the test section being worked on.
+What I want you to do is to go question by question in the test section, and do the following, in sequential order:
 """
 
 job_description = JobDescription(
