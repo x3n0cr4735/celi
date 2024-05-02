@@ -43,10 +43,11 @@ from celi_framework.utils.exceptions import ContextLengthExceededException
 
 load_dotenv()
 
-ASK_SPLIT_MODEL_NAME = os.getenv("API_CALL_MODEL_NAME")
+ASK_SPLIT_MODEL_NAME = os.getenv("PROCESSOR_LLM_MODEL_NAME")
+ASK_SPLIT_MODEL_TEMP=float(os.getenv("PROCESSOR_LLM_MODEL_TEMP"))
 
-QUICK_ASK_MODEL_NAME=os.getenv("QUICK_ASK_MODEL_NAME")
-QUICK_ASK_MODEL_TEMP=float(os.getenv("QUICK_ASK_MODEL_TEMP"))
+QUICK_ASK_MODEL_NAME=os.getenv("QUICK_ASK_LLM_MODEL_NAME")
+QUICK_ASK_MODEL_TEMP=float(os.getenv("QUICK_ASK_LLM_MODEL_TEMP"))
 
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
 @functools.lru_cache(1)

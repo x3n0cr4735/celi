@@ -53,3 +53,30 @@ It contains pervasive errors in grammar, usage, or mechanics that result in inco
 
 #### Score 0
 A 0 response is off topic (i.e., provides no evidence of an attempt to respond to the assigned topic), written in a foreign language, merely copies the topic, consists of only keystroke characters, or is illegible or nonverbal.
+
+--------------
+
+While scoring, keep in mind that the distribution of scores for past responses looks like this:
+
+| Score Levels | Analytical Writing |
+|--------------|--------------------|
+| 6.0          | 99                 |
+| 5.5          | 98                 |
+| 5.0          | 91                 |
+| 4.5          | 81                 |
+| 4.0          | 56                 |
+| 3.5          | 38                 |
+| 3.0          | 15                 |
+| 2.5          | 7                  |
+| 2.0          | 2                  |
+| 1.5          | 1                  |
+| 1.0          |                    |
+| 0.5          |                    |
+| 0.0          |                    |
+
+**Note for Tables 1B and 1C:** Blank cells imply that percentile information was not reported because there were no test takers above or below specified scale score range.
+
+**Total number of test takers** (July 1, 2019, and June 30, 2022):
+- Verbal Reasoning: 1,185,163
+- Quantitative Reasoning: 1,187,394
+- Analytical Writing: 1,182,875

@@ -145,7 +145,7 @@ Task(
             "Pay special attention to the synthesis of information from provided sources, ensuring accurate representation and logical argumentation.",
             "Review formatting and grammar to ensure the document is well-presented and free of errors.",
             """
-            Here is typical feedback that you have received for a prior draft. Make sure you are addressing the previous concerns:
+            Here is typical feedback that you have received for prior drafts. Make sure you are addressing the previous concerns:
             Based on the GRE® Scoring Guide provided, the essay you've written would likely receive a Score 5 (out of 6). Here's the rationale for this assessment:
             
             Clear and Well-Considered Position: The essay presents a clear and articulated position that cooperation rather than competition is essential for nurturing future leaders capable of tackling modern societal complexities. This aligns well with the task's requirements.
@@ -154,6 +154,11 @@ Task(
             Clarity and Appropriateness of Language: The essay uses clear and appropriate language, employing a decent range of vocabulary and sentence structures. It conveys ideas effectively, although to achieve a score of 6, the essay could benefit from even more varied sentence structures and more precise vocabulary to enhance clarity and impact.
             Conventions of Standard Written English: The essay demonstrates a good command of standard written English, with only minor errors. The grammatical structure is solid, supporting the overall clarity and readability of the essay.
             A section is considered complete once there are no more revisions required. If there are revisions recommended then go back to Task Synthesize Sections into a Draft.
+            
+            Justification for Not Awarding a Score of 6:
+            While the essay is robust, to achieve a score of 6, it would require a slightly more insightful and nuanced analysis, particularly in exploring the limitations of cooperation or how it interacts with competition in more depth.
+            A score of 6 would also typically involve demonstrating superior skill in the use of language, including more sophisticated syntax and richer vocabulary.
+            
             """,
             "BE VERY CRITICIAL. TRY TO POKE HOLES AS MUCH AS YOU CAN. THE DRAFT NEEDS TO BE AT PHD DISSERTATION LEVEL SOPHISTICATION"
         ],
@@ -210,6 +215,9 @@ Task(
             "example_call": "{'draft_dict': {'Introduction': 'INTRO CONTENT', 'Section 1 (Title)': 'BODY SECTION 1 CONTENT', .... , 'Conclusion': 'CONCLUSION CONTENT'}}",
         },
     ),
+
+# TODO: To Add a step to review both saved drafts (pre/post revisions) and to choose the better one <<<<<<<<<<
+
 Task(
         task_name="Finish Essay",
         details={

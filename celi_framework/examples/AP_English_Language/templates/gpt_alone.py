@@ -152,7 +152,7 @@ def make_gpt_alone_prompt_7_steps(current_prompt, example_prompt_response):
     return system_message, user_message
 
 
-def make_gpt_alone_prompt_simplified(current_prompt, example_response):
+def make_gpt_alone_prompt_simplified(current_prompt, example_prompt_response):
     system_message = """
     You are a professional test taker AI agent. I am going to guide you through the process of drafting a free response to a test question. First, we'll analyze a completed example response to understand the expected structure and argument style.
     """
@@ -166,7 +166,7 @@ def make_gpt_alone_prompt_simplified(current_prompt, example_response):
     - **Goal:** Develop a response strategy that effectively addresses the current question.
 
     **Example Response:**
-    {example_response}
+    {example_prompt_response}
 
     **Develop and Draft Your Response**
     - **Outline Drafting:** Create a brief outline based on the insights from the example.
