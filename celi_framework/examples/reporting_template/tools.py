@@ -16,7 +16,7 @@ from typing import Dict
 from attr import dataclass
 from celi_framework.core.job_description import (
     ToolImplementations,
-    generate_tool_descriptions,
+    generate_tool_descriptions, BaseDocToolImplementations,
 )
 from celi_framework.core.templates import (
     make_draft_setting_output_prompt,
@@ -38,7 +38,7 @@ class Document:
     content: Dict[str, str]
 
 
-class ReportingToolImplementations(ToolImplementations):
+class ReportingToolImplementations(BaseDocToolImplementations):
     doc_dir: str
 
     def __init__(self, doc_dir: str):

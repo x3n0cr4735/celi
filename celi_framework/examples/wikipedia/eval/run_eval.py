@@ -1,4 +1,3 @@
-import argparse
 import copy
 import json
 import logging
@@ -20,7 +19,7 @@ from celi_framework.examples.wikipedia.loader import (
 from celi_framework.examples.wikipedia.tools import WikipediaToolImplementations
 from celi_framework.logging_setup import setup_logging
 from celi_framework.main import instantiate_with_argparse_args, setup_standard_args
-from celi_framework.utils.utils import get_obj_by_name, read_json_from_file, str2bool
+from celi_framework.utils.utils import get_obj_by_name, read_json_from_file
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +71,8 @@ def run_test(config: CELIConfig, example: str, target: str):
         config.tool_implementations = WikipediaToolImplementations(
             example, target, ignore_updates=True
         )
-        draft_doc_path = run_celi(config)
+        run_celi(config)
+        draft_doc_path = config.tool_implementations.draft_doc
         draft_doc_sections = read_json_from_file(draft_doc_path)
         draft_doc = "\n".join(f"{k}\n{v}" for k, v in draft_doc_sections.items())
         result = evaluate(draft_doc, target)
@@ -106,12 +106,12 @@ def evaluate(generated_doc: str, target_url: str):
     )
     ground_truth_doc = format_content(target_dict)
 
-    results = bertscore.compute(
+    eval_results = bertscore.compute(
         predictions=[generated_doc],
         references=[ground_truth_doc],
         model_type="distilbert-base-uncased",
     )
-    return results
+    return eval_results
 
 
 @lru_cache()
@@ -122,13 +122,13 @@ def load_eval_model():
 if __name__ == "__main__":
     setup_logging()
 
-    config = get_config()
+    celi_config = get_config()
 
     test_sets = read_json_from_file(Path(__file__).parent / "test_sets.json")
-    result = [
+    results = [
         _
         for test_set_name, test_set in test_sets.items()
-        for _ in run_test_set(config, test_set_name, test_set)
+        for _ in run_test_set(celi_config, test_set_name, test_set)
     ]
-    ret = pd.DataFrame.from_records(result)
+    ret = pd.DataFrame.from_records(results)
     print(ret)
