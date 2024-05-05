@@ -43,9 +43,7 @@ from celi_framework.core.job_description import (
 from celi_framework.core.mt_factory import MasterTemplateFactory
 from celi_framework.utils.codex import MongoDBUtilitySingleton
 from celi_framework.utils.llmcore_utils import (
-    FinalOutput,
     ParserFactory,
-    parse,
 )
 from celi_framework.utils.llms import ToolDescription, ask_split
 from celi_framework.utils.log import app_logger
@@ -54,14 +52,8 @@ from celi_framework.utils.token_counters import (
 )
 from celi_framework.utils.utils import (
     create_new_timestamp,
-    read_json_from_file,
-    write_string_to_file,
 )
 
-REQUEST_TOKEN_PRICE = 0.00001
-RESPONSE_TOKEN_PRICE = 0.00003
-MAX_SPEND = 400.0
-ONGOING_CHAT_TOKEN_LIMIT = 100000
 
 ChatMessageable = Tuple[str, str] | Dict[str, str]
 
@@ -77,7 +69,6 @@ class ProcessRunner:
         codex (MongoDBUtilitySingleton): Persistent storage - holds the LLM cache and CELI output
         parser_factory (ParserFactory): Which LLM to use for parsing output
         tool_implementations (ToolImplementations): Tools that CELI can call
-        drafts_dir (str): Where to write the output
         llm_cache (bool): Whether to cache LLM requests
         skip_section_list (List[str]): Optional list of sections to skip in the processing
 
@@ -90,7 +81,6 @@ class ProcessRunner:
         codex: MongoDBUtilitySingleton,
         parser_factory: ParserFactory,
         tool_implementations: ToolImplementations,
-        drafts_dir: str,
         llm_cache: bool,
         skip_section_list=None,
     ):
@@ -123,10 +113,6 @@ class ProcessRunner:
         self.parser_factory = parser_factory
         self.tool_implementations = tool_implementations
         self.keep_running = True
-        os.makedirs(drafts_dir, exist_ok=True)
-        self.draft_doc = (
-            f"{drafts_dir}/{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json"
-        )
         self.completed_section = None
         self.sections_to_be_completed = list(
             self.master_template.schema.keys()
@@ -174,16 +160,7 @@ class ProcessRunner:
         )
 
         if self.pop_context_flag:
-            try:
-                self.update_draft_doc(self.ongoing_chat)
-            except Exception as e:
-                app_logger.exception(
-                    f"Error updating draft doc, retrying", extra={"color": "red"}
-                )
-                self.pop_context_flag = False
-
-            if self.pop_context_flag:
-                self.handle_pop_context()
+            self.handle_pop_context()
 
 
     def format_chat_messages(self, msgs: List[ChatMessageable]):
@@ -193,31 +170,6 @@ class ProcessRunner:
         if isinstance(m, dict):
             return f"{m['role'].capitalize()}:\n{m['content']}"
         return f"{m[0].capitalize()}:\n{m[1]}"
-
-    def update_draft_doc(self, msgs):
-        output = parse(
-            self.parser_factory,
-            target_cls=FinalOutput,
-            msg=self.format_chat_messages(msgs[-8:]),
-        )
-        app_logger.info(
-            f"Completed section {output.doc_section}.  Draft output is:\n{output.draft}",
-            extra={"color": "orange"},
-        )
-
-        app_logger.info(f"Adding section {output.doc_section} to {self.draft_doc}")
-        try:
-            current = read_json_from_file(self.draft_doc)
-        except FileNotFoundError:
-            current = {}
-        section_key = (
-            output.doc_section
-            if output.doc_section not in current
-            else (output.doc_section + " (2)")
-        )
-        current[section_key] = output.draft
-        write_string_to_file(json.dumps(current), self.draft_doc)
-
 
     def process_skip_section_list(self, skip_section_list):
         """
