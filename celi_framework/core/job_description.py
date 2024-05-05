@@ -1,4 +1,9 @@
 from __future__ import annotations
+
+import datetime
+import json
+import logging
+import os
 from abc import ABC, abstractmethod
 import inspect
 from typing import Any, Callable, Dict, List, Optional, Type
@@ -6,7 +11,9 @@ from typing import Any, Callable, Dict, List, Optional, Type
 from celi_framework.utils.llms import ToolDescription
 
 from pydantic import BaseModel, field_serializer
-from celi_framework.utils.utils import encode_class_type
+from celi_framework.utils.utils import encode_class_type, read_json_from_file, write_string_to_file
+
+logger = logging.getLogger(__name__)
 
 
 class Task(BaseModel):
@@ -60,9 +67,16 @@ class Task(BaseModel):
 class ToolImplementations(ABC):
     """Each public function in the class becomes a tool that the LLM can use.
 
-    There is one required function, `def get_schema(self) -> Dict[str, str]`.  This function returns a dictionary describing the document sections.  The processor will work through the sections, completing the defined tasks for each section.  Each dictionary can have any string values, but it is intended to be a section number followed by a section name.
+    There is one required function, `def get_schema(self) -> Dict[str, str]`.  This function returns a dictionary
+    describing the document sections.  The processor will work through the sections, completing the defined tasks for
+    each section.  Each dictionary can have any string values, but it is intended to be a section number followed by
+    a section name.
 
-    In addition to the `get_schema` function, the ToolImplementations class can have whatever other functions it needs to enable celi_framework.  Each function should be documented with type hints and a doc string.  The top section of the docstring will be included as the description of the overall function.  If the function takes arguments, there should be a section called "Args:" that contains a list of the arguments to the function and descriptions of each.  An example docstring is given below:
+    In addition to the `get_schema` function, the ToolImplementations class can have whatever other functions it needs
+    to enable celi_framework.  Each function should be documented with type hints and a doc string.  The top section of
+    the docstring will be included as the description of the overall function.  If the function takes arguments, there
+    should be a section called "Args:" that contains a list of the arguments to the function and descriptions of each.
+    An example docstring is given below:
 
         '''
         Extracts text from specified sections of documents.
@@ -80,8 +94,44 @@ class ToolImplementations(ABC):
 
     @abstractmethod
     def get_schema(self) -> Dict[str, str]:
-        "This function returns a dictionary describing the document sections.  The processor will work through the sections, completing the defined tasks for each section.  Each dictionary can have any string values, but it is intended to be a section number followed by a section name."
+        """This function returns a dictionary describing the document sections.  The processor will work through the
+        sections, completing the defined tasks for each section.  Each dictionary can have any string values,
+        but it is intended to be a section number followed by a section name."""
         pass
+
+
+class BaseDocToolImplementations(ToolImplementations, ABC):
+    """ A base class for ToolImplementations that draft documents.  Adds a standard `update_draft_doc` tool.
+    """
+
+    def __init__(self, drafts_dir: str = "target/celi_output/drafts"):
+        os.makedirs(drafts_dir, exist_ok=True)
+        self.draft_doc = (
+            f"{drafts_dir}/{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json"
+        )
+        logger.info(f"Writing output to {self.draft_doc}")
+
+    def save_draft_section(self, doc_section: str, draft: str):
+        """Saves a draft of the current section.
+
+        This must be called with the final output before calling pop_context and moving on to the next section.
+
+        Args:
+            doc_section: The section name to save
+            draft: The draft text
+        """
+        logger.info(
+            f"Completed section {doc_section}.  Draft output is:\n{draft}",
+            extra={"color": "orange"},
+        )
+
+        logger.info(f"Adding section {doc_section} to {self.draft_doc}")
+        try:
+            current = read_json_from_file(self.draft_doc)
+        except FileNotFoundError:
+            current = {}
+        current[doc_section] = draft
+        write_string_to_file(json.dumps(current, indent=2), self.draft_doc)
 
 
 class JobDescription(BaseModel):
@@ -140,13 +190,15 @@ def generate_tool_description(method: Callable) -> ToolDescription:
     # Extracting parameters and their annotations, skipping 'self'
     sig = inspect.signature(method)
     parameters = {}
+    #logger.debug(f"Inspecting {method}: {sig}")
     for param_name, param in sig.parameters.items():
         if param_name == "self":  # Skip 'self' parameter
             continue
+        #logger.debug(f"Param {param}")
 
         if param.annotation == param.empty:
             param_type_dict = {"type": "string"}
-        elif param.annotation.__name__ == "str":
+        elif param.annotation == "str" or param.annotation.__name__ == "str":
             param_type_dict = {"type": "string"}
         elif param.annotation.__name__ == "List":
             param_type_dict = {"type": "array", "items": {"type": "string"}}

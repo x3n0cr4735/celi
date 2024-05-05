@@ -1,24 +1,16 @@
-from dataclasses import asdict, dataclass
 import json
 import logging
-from platform import node
 import re
+from dataclasses import asdict, dataclass
 from typing import Any, Dict, List, Optional
-from llama_index.core import VectorStoreIndex
+
 from llama_index.core.base.response.schema import Response
 from llama_index.core.schema import MetadataMode, QueryBundle, NodeWithScore, TextNode
 from llama_index.vector_stores.chroma.base import ChromaVectorStore
-from numpy import isin
 
-from celi_framework.core.job_description import ToolImplementations
-from celi_framework.core.templates import (
-    make_draft_setting_output_prompt,
-    make_table_setting_output_prompt,
-)
+from celi_framework.core.job_description import BaseDocToolImplementations
 from celi_framework.examples.wikipedia.index import get_wikipedia_index
 from celi_framework.utils.codex import MongoDBUtilitySingleton
-from celi_framework.utils.llms import quick_ask
-from celi_framework.utils.token_counters import get_master_counter_instance
 from celi_framework.utils.utils import format_toc, get_section_context_as_text
 
 logger = logging.getLogger(__name__)
@@ -37,11 +29,19 @@ class RecreatedNode:
 
 
 @dataclass
-class WikipediaToolImplementations(ToolImplementations):
+class WikipediaToolImplementations(BaseDocToolImplementations):
+    """If ignore_updates is set, then a cached version of that URL will be used, even if it is out of date.
+    Otherwise, a cache will only be used if it hasn't expired and the content hasn't changed."""
     example_url: str
     target_url: str
     ignore_updates: bool = False
-    """If ignore_updates is set, then a cached version of that URL will be used, even if it is out of date.  Otherwise, a cache will only be used if it hasn't expired and the content hasn't changed."""
+
+    def __init__(self, example_url: str, target_url: str, ignore_updates: bool, drafts_dir: str = "target/celi_output/drafts"):
+        super().__init__(drafts_dir=drafts_dir)
+        self.example_url = example_url
+        self.target_url = target_url
+        self.ignore_updates = ignore_updates
+        self.__post_init__()
 
     def __post_init__(self):
         self.example_page = self._page_title(self.example_url)

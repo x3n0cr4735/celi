@@ -1,5 +1,5 @@
 """
-This Python script establishes a multi-threaded environment for document processing and monitoring within a given system. It is designed to efficiently manage and monitor the processing of documents by utilizing a combination of custom classes, threading, and resource management techniques. The script integrates several components, including:
+This Python script establishes a multithreaded environment for document processing and monitoring within a given system. It is designed to efficiently manage and monitor the processing of documents by utilizing a combination of custom classes, threading, and resource management techniques. The script integrates several components, including:
 
 - `ProcessRunner`: A class responsible for managing the processing pipeline of documents. It uses MongoDB for storage and retrieval of documents and employs a queue for managing updates.
 - `MonitoringAgent`: A class tasked with monitoring the progress and status of document processing, ensuring that system performance is maintained and any issues are promptly addressed.
@@ -14,16 +14,8 @@ Key features include:
 The script is structured to initiate and manage parallel threads dedicated to document processing and system monitoring, demonstrating an effective pattern for building scalable and responsive Python applications. By separating concerns into distinct threads and utilizing a shared queue for communication, it achieves a high degree of concurrency and efficiency in processing tasks.
 """
 
-if __name__ == "__main__":
-    # This has to be run before any loggers are created.
-    from celi_framework.logging_setup import setup_logging
-
-    setup_logging()
-
 import argparse
-from dataclasses import asdict
 import inspect
-import logging
 import logging.config
 import os
 from typing import Type
@@ -31,8 +23,7 @@ from typing import Type
 from dotenv import load_dotenv
 
 from celi_framework.core.runner import CELIConfig, Directories, MongoDBConfig, run_celi
-from celi_framework.utils.codex import MongoDBUtilitySingleton
-from celi_framework.utils.llmcore_utils import new_parser_factory
+from celi_framework.logging_setup import setup_logging
 from celi_framework.utils.utils import get_obj_by_name, read_json_from_file, str2bool
 
 logger = logging.getLogger(__name__)
@@ -40,70 +31,8 @@ logger = logging.getLogger(__name__)
 
 def get_config():
     load_dotenv("./.env")
-    logger.info(f"Tool config env. var is {os.getenv('TOOL_CONFIG_JSON', '<not set>')}")
 
-    parser = argparse.ArgumentParser(description="Run the document generator.")
-
-    def bool_opt(opt: str, env_var: str, help: str):
-        parser.add_argument(
-            opt,
-            action="store_true",
-            default=str2bool(os.getenv(env_var, "False")),
-            help=help,
-        )
-
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        default=os.getenv("OUTPUT_DIR"),
-        help="Output directory path",
-    )
-
-    parser.add_argument(
-        "--db-url",
-        type=str,
-        default=os.getenv("DB_URL", "mongodb://localhost:27017/"),
-        help="Mongo DB URL",
-    )
-    parser.add_argument(
-        "--db-name", type=str, default="celi", help="Mongo database name"
-    )
-    bool_opt(
-        "--external-db",
-        "EXTERNAL_DB",
-        "Set to True if using an existing mongo server.",
-    )
-    parser.add_argument(
-        "--job-description",
-        type=str,
-        default=os.getenv(
-            "JOB_DESCRIPTION",
-            "celi_framework.examples.wikipedia.job_description.job_description",
-        ),
-        help="Fully qualified name of a JobDescription instance with information on the task to perform",
-    )
-    parser.add_argument(
-        "--tool-config-json",
-        type=str,
-        default=os.getenv("TOOL_CONFIG_JSON"),
-        help="Path to a JSON file which will be used to instantiate the tool implementation.",
-    )
-    parser.add_argument(
-        "--parser-model-class",
-        type=str,
-        default=os.getenv("PARSER_MODEL_CLASS", "llm_core.parsers.LLaMACPPParser"),
-    )
-    parser.add_argument(
-        "--parser-model-name",
-        type=str,
-        default=os.getenv("PARSER_MODEL_NAME", "mixtral-8x7b-v0.1.Q5_K_M.gguf"),
-    )
-    bool_opt("--no-cache", "NO_CACHE", "Set to True to turn off LLM caching")
-    bool_opt(
-        "--no-monitor",
-        "NO_MONITOR",
-        "Set to True to turn off the monitoring thread",
-    )
+    parser = setup_standard_args()
 
     args = parser.parse_args()
 
@@ -149,6 +78,71 @@ def get_config():
     )
 
 
+def setup_standard_args():
+    parser = argparse.ArgumentParser(description="Run the document generator.")
+
+    def bool_opt(opt: str, env_var: str, help: str):
+        parser.add_argument(
+            opt,
+            action="store_true",
+            default=str2bool(os.getenv(env_var, "False")),
+            help=help,
+        )
+
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=os.getenv("OUTPUT_DIR"),
+        help="Output directory path",
+    )
+    parser.add_argument(
+        "--db-url",
+        type=str,
+        default=os.getenv("DB_URL", "mongodb://localhost:27017/"),
+        help="Mongo DB URL",
+    )
+    parser.add_argument(
+        "--db-name", type=str, default="celi", help="Mongo database name"
+    )
+    bool_opt(
+        "--external-db",
+        "EXTERNAL_DB",
+        "Set to True if using an existing mongo server.",
+    )
+    parser.add_argument(
+        "--job-description",
+        type=str,
+        default=os.getenv(
+            "JOB_DESCRIPTION",
+            "celi_framework.examples.wikipedia.job_description.job_description",
+        ),
+        help="Fully qualified name of a JobDescription instance with information on the task to perform",
+    )
+    parser.add_argument(
+        "--tool-config-json",
+        type=str,
+        default=os.getenv("TOOL_CONFIG_JSON"),
+        help="Path to a JSON file which will be used to instantiate the tool implementation.",
+    )
+    parser.add_argument(
+        "--parser-model-class",
+        type=str,
+        default=os.getenv("PARSER_MODEL_CLASS", "llm_core.parsers.LLaMACPPParser"),
+    )
+    parser.add_argument(
+        "--parser-model-name",
+        type=str,
+        default=os.getenv("PARSER_MODEL_NAME", "mixtral-8x7b-v0.1.Q5_K_M.gguf"),
+    )
+    bool_opt("--no-cache", "NO_CACHE", "Set to True to turn off LLM caching")
+    bool_opt(
+        "--no-monitor",
+        "NO_MONITOR",
+        "Set to True to turn off the monitoring thread",
+    )
+    return parser
+
+
 def instantiate_with_argparse_args(args: argparse.Namespace, cls: Type):
     """Instantiates the given class, passing any args that match class members as keyword args."""
     init_signature = inspect.signature(cls.__init__)
@@ -163,6 +157,9 @@ def instantiate_with_argparse_args(args: argparse.Namespace, cls: Type):
 
 
 if __name__ == "__main__":
+    setup_logging()
     logger.debug("Starting CELI")
     config = get_config()
     run_celi(config)
+
+
