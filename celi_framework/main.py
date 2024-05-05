@@ -1,5 +1,5 @@
 """
-This Python script establishes a multi-threaded environment for document processing and monitoring within a given system. It is designed to efficiently manage and monitor the processing of documents by utilizing a combination of custom classes, threading, and resource management techniques. The script integrates several components, including:
+This Python script establishes a multithreaded environment for document processing and monitoring within a given system. It is designed to efficiently manage and monitor the processing of documents by utilizing a combination of custom classes, threading, and resource management techniques. The script integrates several components, including:
 
 - `ProcessRunner`: A class responsible for managing the processing pipeline of documents. It uses MongoDB for storage and retrieval of documents and employs a queue for managing updates.
 - `MonitoringAgent`: A class tasked with monitoring the progress and status of document processing, ensuring that system performance is maintained and any issues are promptly addressed.
@@ -14,16 +14,8 @@ Key features include:
 The script is structured to initiate and manage parallel threads dedicated to document processing and system monitoring, demonstrating an effective pattern for building scalable and responsive Python applications. By separating concerns into distinct threads and utilizing a shared queue for communication, it achieves a high degree of concurrency and efficiency in processing tasks.
 """
 
-if __name__ == "__main__":
-    # This has to be run before any loggers are created.
-    from celi_framework.logging_setup import setup_logging
-
-    setup_logging()
-
 import argparse
-from dataclasses import asdict
 import inspect
-import logging
 import logging.config
 import os
 from typing import Type
@@ -31,8 +23,7 @@ from typing import Type
 from dotenv import load_dotenv
 
 from celi_framework.core.runner import CELIConfig, Directories, MongoDBConfig, run_celi
-from celi_framework.utils.codex import MongoDBUtilitySingleton
-from celi_framework.utils.llmcore_utils import new_parser_factory
+from celi_framework.logging_setup import setup_logging
 from celi_framework.utils.utils import get_obj_by_name, read_json_from_file, str2bool
 
 logger = logging.getLogger(__name__)
@@ -163,6 +154,9 @@ def instantiate_with_argparse_args(args: argparse.Namespace, cls: Type):
 
 
 if __name__ == "__main__":
+    setup_logging()
     logger.debug("Starting CELI")
     config = get_config()
     run_celi(config)
+
+

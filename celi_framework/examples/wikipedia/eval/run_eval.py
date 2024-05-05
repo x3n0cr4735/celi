@@ -1,14 +1,8 @@
-from celi_framework.logging_setup import setup_logging
-
-setup_logging()
-
-import json
 import argparse
 import copy
+import json
 import logging
-import logging.config
 import os
-
 from functools import lru_cache
 from pathlib import Path
 from typing import List
@@ -24,6 +18,7 @@ from celi_framework.examples.wikipedia.loader import (
     load_content_from_wikipedia_url,
 )
 from celi_framework.examples.wikipedia.tools import WikipediaToolImplementations
+from celi_framework.logging_setup import setup_logging
 from celi_framework.main import instantiate_with_argparse_args
 from celi_framework.utils.utils import get_obj_by_name, read_json_from_file, str2bool
 
@@ -167,6 +162,8 @@ def load_eval_model():
 
 
 if __name__ == "__main__":
+    setup_logging()
+
     config = get_config()
 
     test_sets = read_json_from_file(Path(__file__).parent / "test_sets.json")
