@@ -19,7 +19,7 @@ from celi_framework.examples.wikipedia.loader import (
 )
 from celi_framework.examples.wikipedia.tools import WikipediaToolImplementations
 from celi_framework.logging_setup import setup_logging
-from celi_framework.main import instantiate_with_argparse_args
+from celi_framework.main import instantiate_with_argparse_args, setup_standard_args
 from celi_framework.utils.utils import get_obj_by_name, read_json_from_file, str2bool
 
 logger = logging.getLogger(__name__)
@@ -28,49 +28,7 @@ logger = logging.getLogger(__name__)
 def get_config():
     load_dotenv()
 
-    parser = argparse.ArgumentParser(description="Run the document generator.")
-
-    def bool_opt(opt: str, env_var: str, help: str):
-        parser.add_argument(
-            opt,
-            action="store_true",
-            default=str2bool(os.getenv(env_var, "False")),
-            help=help,
-        )
-
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        default=os.getenv("OUTPUT_DIR"),
-        help="Output directory path",
-    )
-    parser.add_argument(
-        "--db-url",
-        type=str,
-        default=os.getenv("DB_URL", "mongodb://localhost:27017/"),
-        help="Mongo DB URL",
-    )
-    parser.add_argument(
-        "--db-name", type=str, default="celi", help="Mongo database name"
-    )
-    bool_opt(
-        "--external-db", "EXTERNAL_DB", "Set to True if using an existing mongo server."
-    )
-    parser.add_argument(
-        "--parser-model-class",
-        type=str,
-        default=os.getenv("PARSER_MODEL_CLASS", "llm_core.parsers.LLaMACPPParser"),
-    )
-    parser.add_argument(
-        "--parser-model-name",
-        type=str,
-        default=os.getenv("PARSER_MODEL_NAME", "mixtral-8x7b-v0.1.Q5_K_M.gguf"),
-    )
-    bool_opt("--no-cache", "NO_CACHE", "Set to True to turn off LLM caching")
-    bool_opt(
-        "--no-monitor", "NO_MONITOR", "Set to True to turn off the monitoring thread"
-    )
-
+    parser = setup_standard_args()
     args = parser.parse_args()
 
     directories = Directories.create(args.output_dir)

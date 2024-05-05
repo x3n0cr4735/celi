@@ -70,7 +70,6 @@ def run_celi(celi_config: CELIConfig):
         parser_factory=parser_factory,
         tool_implementations=celi_config.tool_implementations,
         drafts_dir=celi_config.directories.drafts_dir,
-        update_queue=update_queue,
         llm_cache=celi_config.llm_cache,
     )
 
