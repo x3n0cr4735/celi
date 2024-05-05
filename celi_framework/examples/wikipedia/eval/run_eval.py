@@ -1,14 +1,7 @@
-from celi_framework.logging_setup import setup_logging
-
-setup_logging()
-
-import json
-import argparse
 import copy
+import json
 import logging
-import logging.config
 import os
-
 from functools import lru_cache
 from pathlib import Path
 from typing import List
@@ -24,8 +17,9 @@ from celi_framework.examples.wikipedia.loader import (
     load_content_from_wikipedia_url,
 )
 from celi_framework.examples.wikipedia.tools import WikipediaToolImplementations
-from celi_framework.main import instantiate_with_argparse_args
-from celi_framework.utils.utils import get_obj_by_name, read_json_from_file, str2bool
+from celi_framework.logging_setup import setup_logging
+from celi_framework.main import instantiate_with_argparse_args, setup_standard_args
+from celi_framework.utils.utils import get_obj_by_name, read_json_from_file
 
 logger = logging.getLogger(__name__)
 
@@ -33,49 +27,7 @@ logger = logging.getLogger(__name__)
 def get_config():
     load_dotenv()
 
-    parser = argparse.ArgumentParser(description="Run the document generator.")
-
-    def bool_opt(opt: str, env_var: str, help: str):
-        parser.add_argument(
-            opt,
-            action="store_true",
-            default=str2bool(os.getenv(env_var, "False")),
-            help=help,
-        )
-
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        default=os.getenv("OUTPUT_DIR"),
-        help="Output directory path",
-    )
-    parser.add_argument(
-        "--db-url",
-        type=str,
-        default=os.getenv("DB_URL", "mongodb://localhost:27017/"),
-        help="Mongo DB URL",
-    )
-    parser.add_argument(
-        "--db-name", type=str, default="celi", help="Mongo database name"
-    )
-    bool_opt(
-        "--external-db", "EXTERNAL_DB", "Set to True if using an existing mongo server."
-    )
-    parser.add_argument(
-        "--parser-model-class",
-        type=str,
-        default=os.getenv("PARSER_MODEL_CLASS", "llm_core.parsers.LLaMACPPParser"),
-    )
-    parser.add_argument(
-        "--parser-model-name",
-        type=str,
-        default=os.getenv("PARSER_MODEL_NAME", "mixtral-8x7b-v0.1.Q5_K_M.gguf"),
-    )
-    bool_opt("--no-cache", "NO_CACHE", "Set to True to turn off LLM caching")
-    bool_opt(
-        "--no-monitor", "NO_MONITOR", "Set to True to turn off the monitoring thread"
-    )
-
+    parser = setup_standard_args()
     args = parser.parse_args()
 
     directories = Directories.create(args.output_dir)
@@ -119,7 +71,8 @@ def run_test(config: CELIConfig, example: str, target: str):
         config.tool_implementations = WikipediaToolImplementations(
             example, target, ignore_updates=True
         )
-        draft_doc_path = run_celi(config)
+        run_celi(config)
+        draft_doc_path = config.tool_implementations.draft_doc
         draft_doc_sections = read_json_from_file(draft_doc_path)
         draft_doc = "\n".join(f"{k}\n{v}" for k, v in draft_doc_sections.items())
         result = evaluate(draft_doc, target)
@@ -153,12 +106,12 @@ def evaluate(generated_doc: str, target_url: str):
     )
     ground_truth_doc = format_content(target_dict)
 
-    results = bertscore.compute(
+    eval_results = bertscore.compute(
         predictions=[generated_doc],
         references=[ground_truth_doc],
         model_type="distilbert-base-uncased",
     )
-    return results
+    return eval_results
 
 
 @lru_cache()
@@ -167,13 +120,15 @@ def load_eval_model():
 
 
 if __name__ == "__main__":
-    config = get_config()
+    setup_logging()
+
+    celi_config = get_config()
 
     test_sets = read_json_from_file(Path(__file__).parent / "test_sets.json")
-    result = [
+    results = [
         _
         for test_set_name, test_set in test_sets.items()
-        for _ in run_test_set(config, test_set_name, test_set)
+        for _ in run_test_set(celi_config, test_set_name, test_set)
     ]
-    ret = pd.DataFrame.from_records(result)
+    ret = pd.DataFrame.from_records(results)
     print(ret)

@@ -1,5 +1,5 @@
 """
-This Python script establishes a multi-threaded environment for document processing and monitoring within a given system. It is designed to efficiently manage and monitor the processing of documents by utilizing a combination of custom classes, threading, and resource management techniques. The script integrates several components, including:
+This Python script establishes a multithreaded environment for document processing and monitoring within a given system. It is designed to efficiently manage and monitor the processing of documents by utilizing a combination of custom classes, threading, and resource management techniques. The script integrates several components, including:
 
 - `ProcessRunner`: A class responsible for managing the processing pipeline of documents. It uses MongoDB for storage and retrieval of documents and employs a queue for managing updates.
 - `MonitoringAgent`: A class tasked with monitoring the progress and status of document processing, ensuring that system performance is maintained and any issues are promptly addressed.
@@ -14,16 +14,8 @@ Key features include:
 The script is structured to initiate and manage parallel threads dedicated to document processing and system monitoring, demonstrating an effective pattern for building scalable and responsive Python applications. By separating concerns into distinct threads and utilizing a shared queue for communication, it achieves a high degree of concurrency and efficiency in processing tasks.
 """
 
-if __name__ == "__main__":
-    # This has to be run before any loggers are created.
-    from celi_framework.logging_setup import setup_logging
-
-    setup_logging()
-
 import argparse
-from dataclasses import asdict
 import inspect
-import logging
 import logging.config
 import os
 from typing import Type
@@ -31,8 +23,7 @@ from typing import Type
 from dotenv import load_dotenv
 
 from celi_framework.core.runner import CELIConfig, Directories, MongoDBConfig, run_celi
-from celi_framework.utils.codex import MongoDBUtilitySingleton
-from celi_framework.utils.llmcore_utils import new_parser_factory
+from celi_framework.logging_setup import setup_logging
 from celi_framework.utils.utils import get_obj_by_name, read_json_from_file, str2bool
 
 logger = logging.getLogger(__name__)
@@ -40,8 +31,54 @@ logger = logging.getLogger(__name__)
 
 def get_config():
     load_dotenv("./.env")
-    logger.info(f"Tool config env. var is {os.getenv('TOOL_CONFIG_JSON', '<not set>')}")
 
+    parser = setup_standard_args()
+
+    args = parser.parse_args()
+
+    directories = Directories.create(args.output_dir)
+    mongo_config = None if args.no_db else instantiate_with_argparse_args(args, MongoDBConfig)
+
+    job_description = get_obj_by_name(args.job_description)
+
+    # If the tool_config_json file doesn't exist, try to find it relative to the root of the installed package.
+    # This allows examples packaged with celi to work correctly.
+    if args.tool_config_json:
+        if os.path.exists(args.tool_config_json):
+            tool_config_json = args.tool_config_json
+        else:
+            # Find the root of the installed package
+            root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            tool_config_json = os.path.join(root_dir, args.tool_config_json)
+            if not os.path.exists(tool_config_json):
+                raise FileNotFoundError(
+                    f"Could not find {args.tool_config_json} or {tool_config_json}"
+                )
+        tool_config = read_json_from_file(tool_config_json)
+    else:
+        tool_config = {}
+
+    tool_implementations = job_description.tool_implementations_class(**tool_config)
+
+    llm_cache = not args.no_cache
+    use_monitor = not args.no_monitor
+
+    # Instantiate the class, passing parser_model as a parameter
+    parser_cls = get_obj_by_name(args.parser_model_class)
+
+    return CELIConfig(  # noqa: F821
+        mongo_config=mongo_config,
+        directories=directories,
+        job_description=job_description,
+        tool_implementations=tool_implementations,
+        parser_cls=parser_cls,
+        parser_model_name=args.parser_model_name,
+        llm_cache=llm_cache,
+        use_monitor=use_monitor,
+    )
+
+
+def setup_standard_args():
     parser = argparse.ArgumentParser(description="Run the document generator.")
 
     def bool_opt(opt: str, env_var: str, help: str):
@@ -58,7 +95,6 @@ def get_config():
         default=os.getenv("OUTPUT_DIR"),
         help="Output directory path",
     )
-
     parser.add_argument(
         "--db-url",
         type=str,
@@ -105,50 +141,7 @@ def get_config():
         "NO_MONITOR",
         "Set to True to turn off the monitoring thread",
     )
-
-    args = parser.parse_args()
-
-    directories = Directories.create(args.output_dir)
-
-    mongo_config = None if args.no_db else instantiate_with_argparse_args(args, MongoDBConfig)
-
-    job_description = get_obj_by_name(args.job_description)
-
-    # If the tool_config_json file doesn't exist, try to find it relative to the root of the installed package.
-    # This allows examples packaged with celi to work correctly.
-    if args.tool_config_json:
-        if os.path.exists(args.tool_config_json):
-            tool_config_json = args.tool_config_json
-        else:
-            # Find the root of the installed package
-            root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            tool_config_json = os.path.join(root_dir, args.tool_config_json)
-            if not os.path.exists(tool_config_json):
-                raise FileNotFoundError(
-                    f"Could not find {args.tool_config_json} or {tool_config_json}"
-                )
-        tool_config = read_json_from_file(tool_config_json)
-    else:
-        tool_config = {}
-
-    tool_implementations = job_description.tool_implementations_class(**tool_config)
-
-    llm_cache = not args.no_cache
-    use_monitor = not args.no_monitor
-
-    # Instantiate the class, passing parser_model as a parameter
-    parser_cls = get_obj_by_name(args.parser_model_class)
-
-    return CELIConfig(  # noqa: F821
-        mongo_config=mongo_config,
-        directories=directories,
-        job_description=job_description,
-        tool_implementations=tool_implementations,
-        parser_cls=parser_cls,
-        parser_model_name=args.parser_model_name,
-        llm_cache=llm_cache,
-        use_monitor=use_monitor,
-    )
+    return parser
 
 
 def instantiate_with_argparse_args(args: argparse.Namespace, cls: Type):
@@ -165,6 +158,9 @@ def instantiate_with_argparse_args(args: argparse.Namespace, cls: Type):
 
 
 if __name__ == "__main__":
+    setup_logging()
     logger.debug("Starting CELI")
     config = get_config()
     run_celi(config)
+
+

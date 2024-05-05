@@ -49,6 +49,8 @@ task_library = [
             "description": """Determine if any additional information is required to draft the section and call the ask_question_about_target function to gather that information.
             Feel free to ask as many questions as you need and keep working on this task until you have the information you need.  This is especially important if
             the initial references turn out not to be useful.
+            If you ask questions, make sure they are specific and include the names of what you are asking about.  For 
+            example, ask "What are major events in Henry Thoreau's life" instead of "What are major events in the author's life?"
             If you don't have any questions, just move on to the next section.""",
             "example_call": '{"prompt": "What is unusual about when this band formed?"}',
         },
@@ -63,7 +65,11 @@ task_library = [
     Task(
         task_name="Draft New Document Section",
         details={
-            "description": "Draft a new section analogous to the revised example section, ensuring alignment with its structure, format, and scope (from {{TaskRef:Understand Differentiation}} output).  Use the section structure you defined in {{TaskRef:Define subsections for this section}}. However, the details should be related to the target and not the example document.",
+            "description": "Draft a new section analogous to the revised example section, ensuring alignment with its "
+                           "structure, format, and scope (from {{TaskRef:Understand Differentiation}} output).  Use "
+                           "the section structure you defined in {{TaskRef:Define subsections for this section}}. "
+                           "However, the details should be related to the target and not the example document."
+                           "Call the save_draft_section tool to save the draft.",
             "guidelines": [
                 "Clearly identify the section number and section heading/title at the top of the content.",
                 "The new section should have its unique scope and purpose, distinct from the example section.",
@@ -79,55 +85,16 @@ task_library = [
             ],
         },
     ),
-    # Task(
-    #     task_name="Final Section Review",
-    #     details={
-    #         "description": "Review the final text for this section and provide a PASS/FAIL decision based on the success criteria.",
-    #         "prerequisite_tasks": ["Draft New Document Section"],
-    #         "instructions": [
-    #             "Evaluate the success of the new section draft",
-    #             "Document the review outcome",
-    #             "Print the final review output.",
-    #         ],
-    #         "success_flag_criteria": {
-    #             "FAIL": [
-    #                 "The section includes information beyond what's relevant as indicated by {{TaskRef:Understand Differentiation}}.",
-    #                 "Any mention of specific drugs or combination therapies not relevant to the new study context.",
-    #                 "Information in the new section is redundant with the sections analyzed in {{TaskRef:Understand Differentiation}}.",
-    #                 "The draft does not reflect the structure, format, or detail level of the revised example section (output of {{TaskRef:Handle Treatment Details}}).",
-    #                 "Missing or incorrectly referenced tables or figures from the new reference materials.",
-    #                 "Significant deviation from the new reference materials, suggesting misalignment with the study's current focus.",
-    #                 "Inconsistent use of verb tenses where required.",
-    #             ],
-    #             "PASS": [
-    #                 "The section appropriately includes information within the scope defined by {{TaskRef:Understand Differentiation}}.",
-    #                 "The draft logically follows what the section heading describes.",
-    #                 "The draft focuses exclusively on the new study context.",
-    #                 "The draft meets criteria for completeness, accuracy, and is aligned with the revised example and the new reference materials.",
-    #             ],
-    #         },
-    #         "additional_instructions": "Offer feedback on the process of differentiating from other sections, the use of source materials, and the rationale for selected source mappings.",
-    #         "output_format": {
-    #             "Section Review": "[SECTION NUMBER] - [SECTION HEADING]",
-    #             "Draft Review": "[content here]",
-    #             "Comments": "[comments here]",
-    #             "Success Flag": "[FAIL/PASS]",
-    #             "Source Mapping Review": "[REVIEW OF UTILIZED SOURCES]",
-    #             "Tables": "[LIST OF REFERENCED TABLES]",
-    #             "Figures": "[LIST OF REFERENCED FIGURES]",
-    #             "Cross-References": "[REFERENCES TO OTHER DOCUMENT SECTIONS (FROM EXAMPLE DOCUMENT)]",
-    #             "Scope of Section Review": "[REFLECTION ON FOLLOWING THE SCOPE GUIDELINES SET OUT IN {{TaskRef:Understand Differentiation}} OUTPUT]",
-    #         },
-    #     },
-    # ),
     Task(
         task_name="Prepare for Next Document Section",
         details={
-            "description": "SIgnal that you have completed the draft by calling the pop_context function and prepare to start drafting the next section of the document.",
+            "description": "Signal that you have completed the draft by calling the pop_context function and prepare "
+                           "to start drafting the next section of the document.",
             "function_call": "Use the pop_context function with the argument value = current section identifier.",
             "example_call": "{{'current_section_identifier': ['1.2']}}",
             "instructions": [
-                "Announce completion: 'Proceed to the next section of the document, [current section identifier] has been completed.'"
+                "Announce completion: 'Proceed to the next section of the document, [current section identifier] has "
+                "been completed.'"
             ],
         },
     ),
