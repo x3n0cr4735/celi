@@ -16,14 +16,12 @@ from celi_framework.utils.log import app_logger
 @dataclass
 class Directories:
     output_dir: str
-    drafts_dir: str
     evaluations_dir: str
 
     @staticmethod
     def create(output_dir: str) -> Directories:
         return Directories(
             output_dir=output_dir,
-            drafts_dir=f"{output_dir}/drafts",
             evaluations_dir=f"{output_dir}/evaluations",
         )
 
@@ -69,7 +67,6 @@ def run_celi(celi_config: CELIConfig):
         codex=codex,
         parser_factory=parser_factory,
         tool_implementations=celi_config.tool_implementations,
-        drafts_dir=celi_config.directories.drafts_dir,
         llm_cache=celi_config.llm_cache,
     )
 
@@ -96,4 +93,4 @@ def run_celi(celi_config: CELIConfig):
     # Wait for threads to finish
     [_.join() for _ in threads]
     app_logger.info("Threads completed. Exiting.")
-    return process_runner.draft_doc
+    return

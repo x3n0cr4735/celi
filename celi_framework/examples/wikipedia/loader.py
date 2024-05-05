@@ -9,6 +9,7 @@ __all__ = [
     "ContentHierarchyNode",
     "ContentReference",
     "load_content_from_wikipedia_url",
+    "format_content",
 ]
 
 
