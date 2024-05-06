@@ -21,8 +21,8 @@ task_library = [
         task_name="Product the final output.",
         details={
             "description": """Your final output should be the body of the function indented by 4 spaces.  Do not
-            include the function header.  Signal that you have completed the example by calling the pop_context 
-            function."""
+            include the function header.  Write the final output using the `save_draft_section` tool.  
+            Signal that you have completed the example by calling the pop_context function."""
         },
     ),
 ]

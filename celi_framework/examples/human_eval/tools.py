@@ -1,4 +1,5 @@
 import logging
+import multiprocessing
 import os
 import traceback
 from dataclasses import dataclass
@@ -7,14 +8,18 @@ from typing import Dict
 
 import pandas as pd
 
-from celi_framework.core.job_description import ToolImplementations
-from celi_framework.utils.utils import format_toc
+from celi_framework.core.job_description import BaseDocToolImplementations
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
-class HumanEvalTools(ToolImplementations):
+class HumanEvalTools(BaseDocToolImplementations):
+
+    def __init__(self, drafts_dir: str = "target/celi_output/drafts"):
+        super().__init__(drafts_dir=drafts_dir)
+        self.__post_init__()
+
 
     def __post_init__(self):
         test_file = os.path.join(dirname(__file__), 'test.csv')
@@ -42,17 +47,39 @@ class HumanEvalTools(ToolImplementations):
             task_id (str): The task id for which to run tests.
             func (str): Code for the implemented function
         """
+        result_queue = multiprocessing.Queue()
+        p = multiprocessing.Process(target=self._run_tests_sandboxed, args=[task_id, func, result_queue])
+        p.start()
+
+        try:
+            # Wait for the process to finish, with a timeout of 3 seconds
+            p.join(timeout=3)
+            if p.is_alive():
+                # If the process is still alive after 3 seconds, terminate it
+                p.terminate()
+                p.join()
+                return "Function execution timed out"
+            result = result_queue.get()
+            return result
+        finally:
+            result_queue.close()
+
+    def _run_tests_sandboxed(self, task_id: str, func: str, result_queue: multiprocessing.Queue):
+        ret = self._run_tests(task_id, func)
+        logger.info(f"Result is {ret}")
+        result_queue.put(ret)
+
+    def _run_tests(self, task_id: str, func: str):
         local_namespace = {}
 
         # Define the function
         logger.debug(f"Evaluating {task_id}:\n{func}")
         try:
             exec(func, local_namespace, local_namespace)
+        except TimeoutError:
+            return "Function execution timed out.  Check for an infinite loop."
         except Exception as e:
             return f"There was an error in your function:\n{e}"
-
-        # # Define the check function in the same namespace
-        # exec(example["test"][0], {}, local_namespace)
 
         # Now run the checks
         test_func = self.tests.loc[task_id, "test"]

@@ -17,6 +17,7 @@ Classes:
 This module represents a flexible tool for automating and enhancing the document creation process,
 capable of catering to a broad spectrum of document types and requirements.
 """
+from typing import Dict
 
 from celi_framework.core.job_description import JobDescription, Task
 from celi_framework.utils.utils import generate_hash_id
@@ -54,7 +55,7 @@ class MasterTemplateFactory:
     across a wide array of applications.
     """
 
-    def __init__(self, job_desc: JobDescription, schema):
+    def __init__(self, job_desc: JobDescription, schema: Dict[str, str]):
         """
         Initializes the MasterTemplateFactory with the provided configuration and schema, setting up the necessary
         attributes for generating structured document instructions. This method prepares the factory to create

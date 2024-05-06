@@ -65,7 +65,6 @@ def run_celi(celi_config: CELIConfig):
     process_runner = ProcessRunner(
         master_template=mt,
         codex=codex,
-        parser_factory=parser_factory,
         tool_implementations=celi_config.tool_implementations,
         llm_cache=celi_config.llm_cache,
     )

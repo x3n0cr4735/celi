@@ -9,10 +9,12 @@ from celi_framework.examples.human_eval.tools import HumanEvalTools
 
 logger = logging.getLogger(__name__)
 
+
 @lru_cache()
 def get_tests():
     test_file = os.path.join(dirname(__file__), 'test.csv')
     return pd.read_csv(test_file)
+
 
 def test_get_prompt():
     tools = HumanEvalTools()
@@ -76,3 +78,11 @@ def test_run_tests_assertion_in_func():
     ret = tools.run_tests(example['task_id'], code)
     assert "An assert failed in the function" in ret
 
+
+def test_timeout():
+    tests = get_tests()
+    tools = HumanEvalTools()
+    example = tests.iloc[0,:]
+    code = example['prompt']+"\n    while True:\n        pass\n"
+    ret = tools.run_tests(example['task_id'], code)
+    assert "Function execution timed out" in ret

@@ -29,6 +29,7 @@ scikit-learn = "^1.4.2"
 pymupdf = "^1.24.1"
 python-docx = "^1.1.0"
 jupyter = "^1.0.0"
+timeout-decorator = "^0.5.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = ">=7.4.4"

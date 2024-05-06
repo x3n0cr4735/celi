@@ -29,9 +29,9 @@ the main execution loop to handling responses from the language model and updati
 The class ensures that each interaction with the language model contributes towards the completion of the document,
 while also managing token usage to prevent excessive costs."""
 
-import datetime
 import json
-import os
+import logging
+from json import JSONDecodeError
 from typing import Dict, List, Tuple
 
 from openai.types.chat.chat_completion import Choice
@@ -42,18 +42,13 @@ from celi_framework.core.job_description import (
 )
 from celi_framework.core.mt_factory import MasterTemplateFactory
 from celi_framework.utils.codex import MongoDBUtilitySingleton
-from celi_framework.utils.llmcore_utils import (
-    ParserFactory,
-)
 from celi_framework.utils.llms import ToolDescription, ask_split
 from celi_framework.utils.log import app_logger
-from celi_framework.utils.token_counters import (
-    get_master_counter_instance,
-)
 from celi_framework.utils.utils import (
     create_new_timestamp,
 )
 
+logger = logging.getLogger(__name__)
 
 ChatMessageable = Tuple[str, str] | Dict[str, str]
 
@@ -67,7 +62,6 @@ class ProcessRunner:
     Args:
         master_template (MasterTemplateFactory): Factory instance to manage task templates.
         codex (MongoDBUtilitySingleton): Persistent storage - holds the LLM cache and CELI output
-        parser_factory (ParserFactory): Which LLM to use for parsing output
         tool_implementations (ToolImplementations): Tools that CELI can call
         llm_cache (bool): Whether to cache LLM requests
         skip_section_list (List[str]): Optional list of sections to skip in the processing
@@ -79,7 +73,6 @@ class ProcessRunner:
         self,
         master_template: MasterTemplateFactory,
         codex: MongoDBUtilitySingleton,
-        parser_factory: ParserFactory,
         tool_implementations: ToolImplementations,
         llm_cache: bool,
         skip_section_list=None,
@@ -110,29 +103,27 @@ class ProcessRunner:
         ]
         self.codex = codex
         self.llm_cache = llm_cache
-        self.parser_factory = parser_factory
-        self.tool_implementations = tool_implementations
-        self.keep_running = True
-        self.completed_section = None
-        self.sections_to_be_completed = list(
-            self.master_template.schema.keys()
-        )  # Assuming json_doc_new is a dict
-        self.process_skip_section_list(skip_section_list)
-        self.current_section = self.sections_to_be_completed[0]
-        self.most_recent_task = "Pre-Tasks"
+
         self.system_message = self.master_template.create_system_message()
         app_logger.info(
             f"System message created:\n{self.system_message}", extra={"color": "cyan"}
         )
-        self.ongoing_chat: List[Dict[str, str] | Tuple[str, str]] = [
-            ("user", self.master_template.job_desc.initial_user_message)
-        ]
-        self.token_counter = get_master_counter_instance()
+        self.save_template()
+
+        section_list = list(self.master_template.schema.keys())
+        self.sections_to_be_completed = self.removed_skipped_sections(section_list, skip_section_list)
+        self.current_section = self.sections_to_be_completed[0]
+
+        self.tool_implementations = tool_implementations
         self.tool_descriptions = generate_tool_descriptions(
             self.master_template.job_desc.tool_implementations_class
         )
+
+        self.ongoing_chat: List[Dict[str, str] | Tuple[str, str]] = [
+            ("user", self.master_template.job_desc.initial_user_message)
+        ]
         self.pop_context_flag = False
-        self.save_template()
+        self.keep_running = True
 
     def process_iteration(self):
         app_logger.info("Started a new iteration", extra={"color": "orange"})
@@ -162,7 +153,6 @@ class ProcessRunner:
         if self.pop_context_flag:
             self.handle_pop_context()
 
-
     def format_chat_messages(self, msgs: List[ChatMessageable]):
         return "\n\n".join(self.format_message_content(m) for m in msgs)
 
@@ -171,31 +161,23 @@ class ProcessRunner:
             return f"{m['role'].capitalize()}:\n{m['content']}"
         return f"{m[0].capitalize()}:\n{m[1]}"
 
-    def process_skip_section_list(self, skip_section_list):
+    def removed_skipped_sections(self, all_sections: List[str], skip_section_list: List[str]):
         """
         Filters out sections from the drafting process based on a provided list of sections to skip.
 
-        This method updates the internal list of sections that are pending completion by removing any
-        sections specified in the skip_section_list. This is particularly useful for excluding sections
-        that have already been completed or are not relevant to the current drafting context.
-
         Args:
+            all_sections (list of str): The full list of section identifiers
             skip_section_list (list of str): A list of section identifiers to be skipped in the drafting process.
 
-        Modifies:
-            self.sections_to_be_completed: Updates the list by removing sections specified in skip_section_list.
+        Returns:
+            The section list with skipped sections removed.
         """
 
-        # The method starts by iterating over each section in the skip_section_list
-        for section in skip_section_list:
-            # It checks if the current section is in the list of sections to be completed
-            if section in self.sections_to_be_completed:
-                # If the section is in the list, it removes the section from the list
-                self.sections_to_be_completed.remove(section)
-        # After all sections in the skip_section_list have been processed, it logs the remaining number of sections to be completed
+        ret = [section for section in all_sections if section not in skip_section_list]
         app_logger.info(
-            f"Sections (num) remaining after processing skip list: {len(self.sections_to_be_completed)}"
+            f"Sections (num) remaining after processing skip list: {len(ret)}"
         )
+        return ret
 
     def save_template(self):
         """
@@ -270,26 +252,29 @@ class ProcessRunner:
     def make_tool_calls(self, response: Choice):
         def make_tool_call(tool_call):
             name = tool_call.function.name
-            arguments = json.loads(tool_call.function.arguments)
-
-            if name == "pop_context":
-                # pop_context is a built-in function and not in the tool_implementations.
-                self.pop_context_flag = True
-                function_return = arguments["current_section_number"]
-            else:
-                method_to_call = None
-                try:
-                    method_to_call = getattr(self.tool_implementations, name)
-                except AttributeError:
-                    pass
-
-                if not method_to_call:
-                    app_logger.error(
-                        f"Unknown function name: {name}", extra={"color": "red"}
-                    )
-                    function_return = f"Error: Called unknown function name: {name}"
+            function_return = None
+            try:
+                arguments = json.loads(tool_call.function.arguments)
+            except JSONDecodeError as e:
+                arguments = "<Unable to parse>"
+                function_return = f"Error: Unable to parse arguments {e}"
+            if not function_return:
+                if name == "pop_context":
+                    # pop_context is a built-in function and not in the tool_implementations.
+                    self.pop_context_flag = True
+                    function_return = arguments["current_section_number"]
                 else:
-                    function_return = method_to_call(**arguments)
+                    if hasattr(self.tool_implementations, name):
+                        method_to_call = getattr(self.tool_implementations, name)
+                        try:
+                            function_return = method_to_call(**arguments)
+                        except Exception as e:
+                            function_return = f"Error: {e}"
+                    else:
+                        app_logger.error(
+                            f"Unknown function name: {name}", extra={"color": "red"}
+                        )
+                        function_return = f"Error: Called unknown function name: {name}"
             function_log = f"Call to function {name} with arguments {arguments} returned\n{function_return}"
             return {"role": "function", "name": name, "content": function_log}
 
@@ -313,7 +298,7 @@ class ProcessRunner:
         app_logger.info("Popping context")
 
         self.pop_context_flag = False
-        # Remove the completed section from sections_to_be_completed if it exists
+
         assert self.current_section in self.sections_to_be_completed
         self.sections_to_be_completed.remove(self.current_section)
         if self.sections_to_be_completed:
@@ -336,7 +321,6 @@ class ProcessRunner:
             ("user", self.master_template.job_desc.initial_user_message),
             ("user", next_user_msg),
         ]
-        self.completed_section = self.current_section
         self.current_section = next_section
 
         app_logger.info(
