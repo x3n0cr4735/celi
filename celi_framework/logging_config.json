@@ -48,6 +48,9 @@
         "opensearch": {
             "level": "INFO"
         },
+        "pymongo": {
+            "level": "INFO"
+        },
         "requests_cache": {
             "level": "INFO"
         },

@@ -1,5 +1,21 @@
 # Change Log
 
+## 0.2.0 (May 6, 2024)
+* Changed to 0.2.0 because there is an API change (tools should now inherit from `BaseDocToolImplementations` instead of `ToolImplementations`)
+* Moved writing of the document into the tools.  This allows CELI to be used for tasks that don't involve document 
+generation, and also allows draft documents to be updated by multiple tasks.
+* `BaseDocToolImplementations` has a `save_draft_section` section that writes the draft document.
+* Added HumanEval example that gets 88.89% correct.
+* Improved the error handling when the LLM generates a bad function call.  This is now fed back for correction rather 
+than throwing an uncaught exception.
+* Several minor code cleanup and logging improvements.
+
+### Upgrading to 0.2.0
+* ToolImplementations that write documents (previously all of them) must be changed to derive from 
+`BaseDocToolImplementations` instead of `ToolImplementations`.  Also, some prompts may need to be updated 
+to indicate that the tools are now responsible for writing the final output.  That used to be handled directly
+by the CELI processor.
+
 ## 0.1.0 (Apr 21, 2024)   
 * First "release" release
 

@@ -2,7 +2,7 @@ from __future__ import annotations
 from dataclasses import asdict, dataclass
 from queue import Queue
 import threading
-from typing import Type
+from typing import Type, Optional
 from llm_core.parsers import BaseParser
 from celi_framework.core.job_description import JobDescription, ToolImplementations
 from celi_framework.core.monitor import MonitoringAgent
@@ -35,7 +35,7 @@ class MongoDBConfig:
 
 @dataclass
 class CELIConfig:
-    mongo_config: MongoDBConfig
+    mongo_config: Optional[MongoDBConfig]
     directories: Directories
     job_description: JobDescription
     tool_implementations: ToolImplementations
@@ -65,7 +65,6 @@ def run_celi(celi_config: CELIConfig):
     process_runner = ProcessRunner(
         master_template=mt,
         codex=codex,
-        parser_factory=parser_factory,
         tool_implementations=celi_config.tool_implementations,
         llm_cache=celi_config.llm_cache,
     )
