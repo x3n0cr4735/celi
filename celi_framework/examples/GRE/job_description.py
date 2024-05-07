@@ -219,6 +219,18 @@ Task(
     ),
 
 # TODO: To Add a step to review both saved drafts (pre/post revisions) and to choose the better one <<<<<<<<<<
+Task(
+        task_name="Score the final essay",
+        details={
+            "description": "Use the rubric provided in the instructions to score the final response from 1 to 6. Afterwards include the final score at the top of the essay.",
+            "instructions": [
+                "Use the 'get_rubric' function to fetch the rubric used to score the essay"
+                "Use the returned rubric to score the essay from 1-6."
+                "Be sure to take the entire essay into account when scoring the essay"
+            ],
+            "tool_call": "Use a function to retrieve the rubric to score this question",
+    }
+    ),
 
 Task(
         task_name="Finish Essay and move on to next question",

@@ -18,6 +18,8 @@ from celi_framework.main import instantiate_with_argparse_args
 from celi_framework.utils.utils import get_obj_by_name, str2bool
 from tools import GREToolImplementations
 from job_description import job_description
+from run_gpt_alone import run_gpt
+
 
 
 logger = logging.getLogger(__name__)
@@ -98,7 +100,10 @@ def runner():
     config.tool_implementations = GREToolImplementations()
 
     # Pass shutdown_flag to run_celi
-    run_celi(config)
+    for i in range(3):
+        run_celi(config)
+
+    run_gpt()
 
 if __name__ == "__main__":
     runner()  # Invoke celi runner functions after preprocessing completes

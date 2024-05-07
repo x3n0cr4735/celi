@@ -36,6 +36,17 @@ class GREToolImplementations(ToolImplementations):
     def get_schema(self) -> Dict[str, str]:
         return load_json(f'{ROOT_DIR}/celi_framework/examples/GRE/schema.json')
 
+    def get_rubric(self) -> str: 
+        """
+        Retrieves the rubric to score the questions.
+
+        Returns:
+            str: The rubric to score the question.
+        """
+        rubric = load_text_file(f"{ROOT_DIR}/celi_framework/examples/GRE/data/working_data/rubric/gre_1_scoring_guidelines.txt")
+
+        return rubric
+
     def retrieve_question_prompt(self, question_number: str) -> str:
         """
         Retrieves the prompt for a given question in the free response section of the test.
