@@ -22,7 +22,7 @@ class HumanEvalTools(BaseDocToolImplementations):
 
 
     def __post_init__(self):
-        test_file = os.path.join(dirname(__file__), 'test_gte_80.csv')  # TODO <- Test gte 80
+        test_file = os.path.join(dirname(__file__), 'test.csv')  # TODO <- Test gte 80
         self.tests = pd.read_csv(test_file, index_col="task_id")
 
     # Retrieves the top level schema for the doc.  Ignore subsections as they change page to page.
