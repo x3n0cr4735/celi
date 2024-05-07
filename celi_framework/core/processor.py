@@ -86,15 +86,15 @@ class ProcessRunner:
             ToolDescription(
                 name="pop_context",
                 description='This used to signal to the outer layer that a pop is requested by the LLMs. Returns the '
-                            'next section number.\n\nThis function should not be called unless the "Final Document '
-                            'Review" has been completed and you are ready to move to the next section.\nIt will empty '
+                            'next test case taskID.\n\nThis function should not be called unless the save_draft_section'
+                            'function has been called and you are ready to move to the next test case.\nIt will empty '
                             'out the current chat history.',
                 parameters={
                     "type": "object",
                     "properties": {
                         "current_section_number": {
                             "type": "string",
-                            "description": "No description provided.",
+                            "description": "Current taskID.",
                         }
                     },
                     "required": ["current_section_number"],

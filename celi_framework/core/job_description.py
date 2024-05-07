@@ -112,20 +112,20 @@ class BaseDocToolImplementations(ToolImplementations, ABC):
         logger.info(f"Writing output to {self.draft_doc}")
 
     def save_draft_section(self, doc_section: str, draft: str):
-        """Saves a draft of the current section.
+        """Saves a draft of the current coding solution.
 
-        This must be called with the final output before calling pop_context and moving on to the next section.
+        This must be called with the final output before calling pop_context and moving on to the next test case.
 
         Args:
-            doc_section: The section name to save
+            doc_section: The current test case's taskID for which the draft must be saved
             draft: The draft text
         """
         logger.info(
-            f"Completed section {doc_section}.  Draft output is:\n{draft}",
+            f"Completed problem {doc_section}.  Draft output is:\n{draft}",
             extra={"color": "orange"},
         )
 
-        logger.info(f"Adding section {doc_section} to {self.draft_doc}")
+        logger.info(f"Adding problem {doc_section} to {self.draft_doc}")
         try:
             current = read_json_from_file(self.draft_doc)
         except FileNotFoundError:
