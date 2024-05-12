@@ -25,20 +25,22 @@ Features and Functionalities:
 
 import functools
 import os
+import re
 import time
 from typing import Optional, Dict, List, Any, Tuple
-from pydantic import BaseModel
+
 import openai
 from openai.types.chat import ChatCompletion
+from pydantic import BaseModel
 from requests import HTTPError
 
 from celi_framework.utils.codex import MongoDBUtilitySingleton
+from celi_framework.utils.exceptions import ContextLengthExceededException
+from celi_framework.utils.log import app_logger
 from celi_framework.utils.token_counters import (
     token_counter_decorator_ask_split,
     token_counter_decorator_quick_ask,
 )
-from celi_framework.utils.log import app_logger
-from celi_framework.utils.exceptions import ContextLengthExceededException
 
 
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
@@ -112,6 +114,7 @@ def ask_split(
         ) as e:
             err_cnt += 1
             app_logger.exception(f"Error attempt {err_cnt}", extra={"color": "red"})
+            app_logger.error(f"Error: Prompt was {user_prompt}")
             time.sleep(wait_between_retries)
             last_error = e
 
@@ -223,6 +226,9 @@ def quick_ask(
         raise Exception(f"{err}\nLast error: {last_error} with Prompt:\n{prompt}")
 
 
+VALID_ROLES = r"^[a-zA-Z0-9_-]+$"
+
+
 def assemble_chat_messages(prompt: str | List[Tuple[str, str] | Dict[str, str]]):
     """Takes a prompt and formats it as chat messages.  Prompt can be in the form:
     * "" - str - A single prompt string
@@ -232,8 +238,11 @@ def assemble_chat_messages(prompt: str | List[Tuple[str, str] | Dict[str, str]])
 
     def format_message(m):
         if isinstance(m, dict):
+            assert re.match(VALID_ROLES, m["role"]), f"Invalid role: {m['role']}"
             return m
         else:
+            role = m[0]
+            assert re.match(VALID_ROLES, role), f"Invalid role: {role}"
             return {"role": m[0], "content": m[1]}
 
     if isinstance(prompt, str):

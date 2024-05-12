@@ -85,10 +85,10 @@ class ProcessRunner:
         self.builtin_tool_descriptions = [
             ToolDescription(
                 name="pop_context",
-                description='This used to signal to the outer layer that a pop is requested by the LLMs. Returns the '
-                            'next test case taskID.\n\nThis function should not be called unless the save_draft_section'
-                            'function has been called and you are ready to move to the next test case.\nIt will empty '
-                            'out the current chat history.',
+                description="This used to signal to the outer layer that a pop is requested by the LLMs. Returns the "
+                "next test case taskID.\n\nThis function should not be called unless the save_draft_section"
+                "function has been called and you are ready to move to the next test case.\nIt will empty "
+                "out the current chat history.",
                 parameters={
                     "type": "object",
                     "properties": {
@@ -111,7 +111,9 @@ class ProcessRunner:
         self.save_template()
 
         section_list = list(self.master_template.schema.keys())
-        self.sections_to_be_completed = self.removed_skipped_sections(section_list, skip_section_list)
+        self.sections_to_be_completed = self.removed_skipped_sections(
+            section_list, skip_section_list
+        )
         self.current_section = self.sections_to_be_completed[0]
 
         self.tool_implementations = tool_implementations
@@ -150,8 +152,26 @@ class ProcessRunner:
             extra={"color": "green"},
         )
 
+        if self.check_for_duplicates(self.ongoing_chat):
+            logger.warning(
+                "Identified a loop.  Identical messages are repeating.  pop_context and moving on to the next section."
+            )
+            self.pop_context_flag = True
+
         if self.pop_context_flag:
             self.handle_pop_context()
+
+    def check_for_duplicates(
+        self, ongoing_chat: List[Dict[str, str] | Tuple[str, str]]
+    ):
+        if len(ongoing_chat) == 0:
+            return False
+        last_message = ongoing_chat[-1]
+        duplicates = 0
+        for message in ongoing_chat[:-1]:
+            if message == last_message:
+                duplicates += 1
+        return duplicates > 2
 
     def format_chat_messages(self, msgs: List[ChatMessageable]):
         return "\n\n".join(self.format_message_content(m) for m in msgs)
@@ -161,7 +181,9 @@ class ProcessRunner:
             return f"{m['role'].capitalize()}:\n{m['content']}"
         return f"{m[0].capitalize()}:\n{m[1]}"
 
-    def removed_skipped_sections(self, all_sections: List[str], skip_section_list: List[str]):
+    def removed_skipped_sections(
+        self, all_sections: List[str], skip_section_list: List[str]
+    ):
         """
         Filters out sections from the drafting process based on a provided list of sections to skip.
 
@@ -274,7 +296,10 @@ class ProcessRunner:
                         app_logger.error(
                             f"Unknown function name: {name}", extra={"color": "red"}
                         )
-                        function_return = f"Error: Called unknown function name: {name}"
+                        return (
+                            "user",
+                            f"Error: Called unknown function name: {name} with arguments {arguments}",
+                        )
             function_log = f"Call to function {name} with arguments {arguments} returned\n{function_return}"
             return {"role": "function", "name": name, "content": function_log}
 

@@ -1,3 +1,5 @@
+import datetime
+import json
 import logging
 import multiprocessing
 import os
@@ -8,47 +10,97 @@ from typing import Dict
 
 import pandas as pd
 
-from celi_framework.core.job_description import BaseDocToolImplementations
+from celi_framework.core.job_description import (
+    ToolImplementations,
+)
+from celi_framework.utils.utils import read_json_from_file, write_string_to_file
 
 logger = logging.getLogger(__name__)
 
 
+class SafeExecException(Exception):
+    pass
+
+
 @dataclass
-class HumanEvalTools(BaseDocToolImplementations):
-
-    def __init__(self, drafts_dir: str = "target/celi_output/drafts"):
-        super().__init__(drafts_dir=drafts_dir)
-        self.__post_init__()
-
+class HumanEvalTools(ToolImplementations):
+    drafts_dir: str = "target/celi_output/drafts"
 
     def __post_init__(self):
-        test_file = os.path.join(dirname(__file__), 'test.csv')  # TODO <- Test gte 80
+        os.makedirs(self.drafts_dir, exist_ok=True)
+        self.draft_doc = f"{self.drafts_dir}/{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json"
+        logger.info(f"Writing output to {self.draft_doc}")
+
+        test_file = os.path.join(dirname(__file__), "test.csv")
         self.tests = pd.read_csv(test_file, index_col="task_id")
+
+        self.last_func = None
+        self.last_test_func = None
+        self.last_task_id = None
 
     # Retrieves the top level schema for the doc.  Ignore subsections as they change page to page.
     def get_schema(self) -> Dict[str, str]:
-        return {k:v for k,v in zip(self.tests.index, self.tests['entry_point'])}
+        return {k: v for k, v in zip(self.tests.index, self.tests["entry_point"])}
 
     def get_prompt(self, task_id: str) -> str:
         """Returns the prompt for the given task.
 
         Args:
-            task_id (str): The task id for which to get the prompt.  An example taskId is: "HumanEval/10"
+            task_id (str): The task id, including the "HumanEval/" prefix.  For example, "HumanEval/10".
 
         Returns:
-            str - The prompt for this question.
+            str - The prompt for this question.  This will be a function signature and doc string.
         """
         return self.tests.loc[task_id, "prompt"]
 
-    def run_tests(self, task_id: str, func: str):
+    def save_final_output(self, task_id: str, func: str, test_func: str):
+        """Writes the final output for the problem.
+
+        Args:
+            task_id (str): The HumanEval problem identifier
+            func (str): The body of the function indented by 4 spaces (without the function signature).
+            test_func (str): The full definition of the `check` function (including the `def check` line)
+
+        This must be called before calling pop_context and moving on to the next problem.  The most recently submitted
+        code will be used.
+        """
+        logger.info(
+            f"Completed problem {task_id}.  Code is:\n{func}\nTests are:\n{test_func}",
+            extra={"color": "orange"},
+        )
+
+        logger.info(f"Adding section {task_id} to {self.draft_doc}")
+        try:
+            current = read_json_from_file(self.draft_doc)
+        except FileNotFoundError:
+            current = {}
+        current[task_id] = {
+            "func": func,
+            "tests": test_func,
+        }
+        write_string_to_file(json.dumps(current, indent=2), self.draft_doc)
+
+    def _run_official_tests(self, task_id: str, func: str):
         """Runs the tests on a HumanEval example.
 
         Args:
             task_id (str): The task id for which to run tests.
             func (str): Code for the implemented function
         """
+        # logger.debug(f"Running official test {task_id}")
+        test_func = self.tests.loc[task_id, "test"]
+        return self.run_tests(task_id, func, test_func)
+
+    def run_tests(self, task_id: str, func: str, test_func: str):
+        self.last_task_id = task_id
+        self.last_func = func
+        self.last_test_func = test_func
+
         result_queue = multiprocessing.Queue()
-        p = multiprocessing.Process(target=self._run_tests_sandboxed, args=[task_id, func, result_queue])
+        p = multiprocessing.Process(
+            target=self._run_tests_sandboxed,
+            args=[task_id, func, test_func, result_queue],
+        )
         p.start()
 
         try:
@@ -64,37 +116,57 @@ class HumanEvalTools(BaseDocToolImplementations):
         finally:
             result_queue.close()
 
-    def _run_tests_sandboxed(self, task_id: str, func: str, result_queue: multiprocessing.Queue):
-        ret = self._run_tests(task_id, func)
+    def _run_tests_sandboxed(
+        self,
+        task_id: str,
+        func: str,
+        test_func: str,
+        result_queue: multiprocessing.Queue,
+    ):
+        ret = self._execute_test(task_id, func, test_func)
         logger.info(f"Result is {ret}")
         result_queue.put(ret)
 
-    def _run_tests(self, task_id: str, func: str):
+    def _execute_test(self, task_id: str, func: str, test_func: str):
         local_namespace = {}
+        entry_point = self.tests.loc[task_id, "entry_point"]
 
         # Define the function
-        logger.debug(f"Evaluating {task_id}:\n{func}")
-        try:
-            exec(func, local_namespace, local_namespace)
-        except TimeoutError:
-            return "Function execution timed out.  Check for an infinite loop."
-        except Exception as e:
-            return f"There was an error in your function:\n{e}"
+        logger.debug(f"Evaluating {task_id}:\n{func}\n{test_func}")
 
-        # Now run the checks
-        test_func = self.tests.loc[task_id, "test"]
-        entry_point = self.tests.loc[task_id, "entry_point"]
-        logger.debug(f"locals are {local_namespace.keys()}")
+        def safe_exec(code: str, error_prefix: str):
+            try:
+                exec(code, local_namespace, local_namespace)
+            except AssertionError as e:
+                tb = traceback.extract_tb(e.__traceback__)
+                last_tb = tb[-1]
+                if last_tb.name == "check":
+                    line = test_func.split("\n")[last_tb.lineno - 1]
+                    raise SafeExecException(
+                        f"The function failed a check:\n{e}\n{line}"
+                    )
+                else:
+                    raise SafeExecException(
+                        f"An assert failed in the function.\n{e}\n{tb}"
+                    )
+            except Exception as e:
+                tb = traceback.extract_tb(e.__traceback__)
+                raise SafeExecException(f"{error_prefix}:\n{e}\n{tb}")
+
         try:
-            exec(f'{test_func}\ncheck({entry_point})', local_namespace, local_namespace)
-        except AssertionError as e:
-            tb = traceback.extract_tb(e.__traceback__)
-            last_tb = tb[-1]
-            if last_tb.name == 'check':
-                line = test_func.split('\n')[last_tb.lineno]
-                return f"The function failed a check:\n{line}"
-            else:
-                return f"An assert failed in the function.\n{e}\n{tb}"
-        except Exception as e:
-            tb = traceback.extract_tb(e.__traceback__)
-            return f"An exception was thrown:\n{e}\n{tb}"
+            safe_exec(func, "There was an error in your function definition")
+
+            if "check" in local_namespace:
+                return "You defined a 'check' function in your function definition.  That isn't allowed.  Use a different name"
+            if entry_point not in local_namespace:
+                return f"Your function didn't have the right entry point name.  Expected {entry_point}, but got {local_namespace.keys()}"
+
+            safe_exec(test_func, "There was an error in your test function definition")
+
+            if "check" not in local_namespace:
+                return "Your test code didn't define a 'check' function."
+
+            # Now run the checks
+            safe_exec(f"check({entry_point})", "An exception was thrown")
+        except SafeExecException as e:
+            return e.args[0]
