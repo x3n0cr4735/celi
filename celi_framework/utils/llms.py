@@ -69,6 +69,7 @@ def ask_split(
     timeout: Optional[int] = 120,
     codex: Optional[MongoDBUtilitySingleton] = None,
     tool_descriptions: List[ToolDescription] = [],
+    json_mode: bool = False,
 ):
     """
     Sends a prompt to the OpenAI API and returns the response, with retries on error.
@@ -92,6 +93,7 @@ def ask_split(
                     {"type": "function", "function": _.model_dump()}
                     for _ in tool_descriptions
                 ],
+                response_format={"type": "json_object"} if json_mode else None,
                 tool_choice="auto",
                 model=model_name,
                 temperature=temperature,

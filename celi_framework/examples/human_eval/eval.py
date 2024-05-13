@@ -1,14 +1,15 @@
 import sys
 
 from celi_framework.examples.human_eval.tools import HumanEvalTools
-from celi_framework.utils.utils import read_json_from_file, get_most_recent_file
+from celi_framework.utils.utils import read_json_from_file
 
 # Evaluate results
 if len(sys.argv) > 1:
     file = sys.argv[1]
 else:
-    directory = "target/celi_output/drafts"
-    file = get_most_recent_file(directory)
+    # directory = "target/celi_output/drafts"
+    # file = get_most_recent_file(directory)
+    file = "celi_framework/examples/human_eval/example_output.json"
 
 print(f"Evaluating {file}")
 results = read_json_from_file(file)

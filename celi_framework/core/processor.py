@@ -104,9 +104,11 @@ class ProcessRunner:
         self.codex = codex
         self.llm_cache = llm_cache
 
-        self.system_message = self.master_template.create_system_message()
+        self.original_system_message = self.master_template.create_system_message()
+        self.current_system_message = self.original_system_message
         app_logger.info(
-            f"System message created:\n{self.system_message}", extra={"color": "cyan"}
+            f"System message created:\n{self.original_system_message}",
+            extra={"color": "cyan"},
         )
         self.save_template()
 
@@ -135,7 +137,7 @@ class ProcessRunner:
         llm_response = ask_split(
             codex=self.codex if self.llm_cache else None,
             user_prompt=self.ongoing_chat,  # type: ignore
-            system_message=self.system_message,
+            system_message=self.current_system_message,
             verbose=True,
             timeout=None,
             tool_descriptions=self.tool_descriptions + self.builtin_tool_descriptions,
@@ -159,7 +161,20 @@ class ProcessRunner:
             self.pop_context_flag = True
 
         if self.pop_context_flag:
-            self.handle_pop_context()
+            redo = self.builtin_review()
+            if redo:
+                logger.warning(f"Retrying section {self.current_section}")
+                self.ongoing_chat = [
+                    ("user", redo["new_initial_user_message"]),
+                    (
+                        "user",
+                        f"Proceed to document section {self.current_section}, and do Task #1",
+                    ),
+                ]
+                self.current_system_message = redo["new_system_message"]
+                self.pop_context_flag = False
+            else:
+                self.handle_pop_context()
 
     def check_for_duplicates(
         self, ongoing_chat: List[Dict[str, str] | Tuple[str, str]]
@@ -172,6 +187,49 @@ class ProcessRunner:
             if message == last_message:
                 duplicates += 1
         return duplicates > 2
+
+    def builtin_review(self):
+        system_message = """Your job is to review the chat history of an LLM trying to accomplish a goal and decide if
+         it achieved that goal or if it should try again.  If it should try again, please propose a modified system and 
+         initial user prompt that should be used.  Your output should be JSON with the following format:
+         If it did a good job:
+            {
+                "success": true,
+            }
+        If it should try again:
+            {
+                "success": false,
+                "new_system_message": "The new system message to be used",
+                "new_initial_user_message": "The new initial user message to be used"
+            }
+        """
+        user_message = f"The initial prompt was:\n{self.master_template.job_desc.initial_user_message}\n\nHere is the chat history:\n{self.format_chat_messages(self.ongoing_chat)}\n\n"
+        llm_response = ask_split(
+            codex=self.codex if self.llm_cache else None,
+            user_prompt=user_message,  # type: ignore
+            system_message=system_message,
+            verbose=True,
+            timeout=None,
+            json_mode=True,
+        )
+        ret = json.loads(llm_response.message.content)
+        assert "success" in ret
+        if "success" not in ret:
+            logger.warning(
+                "Built-in review didn't return a success key.  Assuming success."
+            )
+            return None
+
+        if ret["success"]:
+            return None
+
+        if "new_system_message" and "new_initial_user_message" not in ret:
+            logger.warning(
+                "Built-in review didn't return a new_system_message or new_initial_user_message.  Skipping retry."
+            )
+            return None
+
+        return ret
 
     def format_chat_messages(self, msgs: List[ChatMessageable]):
         return "\n\n".join(self.format_message_content(m) for m in msgs)
@@ -342,6 +400,7 @@ class ProcessRunner:
             self.keep_running = False
             return
 
+        self.current_system_message = self.original_system_message
         self.ongoing_chat = [
             ("user", self.master_template.job_desc.initial_user_message),
             ("user", next_user_msg),
