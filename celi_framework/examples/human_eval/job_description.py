@@ -9,19 +9,43 @@ task_library = [
         },
     ),
     Task(
-        task_name="Write code and run tests",
+        task_name="Develop initial test cases",
         details={
-            "description": """Decide how to implement the function and call run_tests to check your implementation.
-            If the tests don't pass, review the error, correct.  Keep going as long as you are making progress, but if 
-            you can't get all the tests to pass after a few tried, move on to the next step.  Include the full prompt
-            (with imports) in your call to run function.  Append your implementation to the end of the prompt.""",
+            "description": """Think through the problem and develop an initial set of test cases that will be used to
+            check the logic for your function.  The test cases must be implemented as a function called 
+            'def check(candidate)' that takes the function as an argument.  Each test is an 'assert' statement that 
+            calls the function with some inputs and verifies that that output is as expected.  For example, if the task its to create a function called
+            'add_two_numbers", the test function might look like:
+            def check(candidate):
+                assert add_two_numbers(1, 2) == 3
+                assert add_two_numbers(0, 0) == 0
+                assert add_two_numbers(-1, 1) == 0
+                assert add_two_numbers(1.5, 1) == 2.5
+            
+            Think through edge cases and different types of inputs that might be passed to the function.            
+            """,
+        },
+    ),
+    Task(
+        task_name="Write code and tests",
+        details={
+            "description": """
+            In this task you iteratively refine your implementation and test cases.   
+            Decide how to implement the function and call run_tests to check your implementation, passing in the code 
+            and tests. If the tests don't pass, check both your implementation and the test cases and decide which needs 
+            to be adjusted (or both). Don't assume the test cases are correct, review the problem specification and 
+            adjust if necessary.  Also, feel free to add more tests.  
+            Keep going as long as you are making progress, but if 
+            you can't get all the tests to pass after a few tries, save your best effort result and move on to the 
+            next problem.""",
         },
     ),
     Task(
         task_name="Product the final output.",
         details={
-            "description": """Your final output should be the body of the function indented by 4 spaces.  Do not
-            include the function header.  Write the final output using the `save_draft_section` tool.  
+            "description": """Call save_final_output to save off your final answer.  This should include your 
+            function implementation as well as your test function.  Always do this, even if you aren't completely
+            happy with your answer. 
             Signal that you have completed the example by calling the pop_context function."""
         },
     ),
@@ -59,9 +83,10 @@ If the new section draft is complete, ensure to 'Prepare for Next Document Secti
 
 pre_algo_instruct = """
 I am going to give you step by step instructions on how to solve problems in the HumanEval data set.  For each problem
-you are given a prompt which is a Python function signature and doc string.  Your job is to draft the function.  There
-are a set of test cases that will check the behavior.  You can run the tests and check the results as many times as you
-like.  When you are done with your result, your final output is the function body.
+you are given a prompt which is a Python function signature and doc string.  Your job is to draft the function.  You have
+a tool available to run a set of tests and check the results.  You can run the tests and check the results as many times as you
+like, but make sure you don't get stuck in a loop of sending the same code to test over and over.  
+When you are done with your result, your final output is the function body.
 For example.  If the prompt is;
 def add(a: int, b: int) -> int:
     "Add two numbers"

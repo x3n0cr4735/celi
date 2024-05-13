@@ -51,7 +51,7 @@ sphinx-autodoc-typehints = "^2.0.0"
 
 [tool.pytest.ini_options]
 log_level="DEBUG"
-#log_cli=true
+log_cli=true
 
 [build-system]
 requires = ["poetry-core"]

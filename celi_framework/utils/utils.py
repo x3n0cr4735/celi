@@ -27,18 +27,18 @@ easy integration into existing projects, enhancing functionality without signifi
 
 """
 
-import importlib
-from pathlib import Path
-import random
-from datetime import datetime
-import hashlib
-import time
-from functools import wraps
-import json
-import re
-from typing import Optional
-import os
 import glob
+import hashlib
+import importlib
+import json
+import os
+import random
+import re
+import time
+from datetime import datetime
+from functools import wraps
+from pathlib import Path
+from typing import Optional
 
 
 class UnrecoverableException(BaseException):
@@ -113,6 +113,14 @@ def read_txt(file_path):
     except Exception as e:
         print(f"An error occurred: {e}")
         return ""
+
+
+def get_most_recent_file(directory):
+    # Create a full path and ensure it only lists files
+    files = [
+        f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))
+    ]
+    return os.path.join(directory, sorted(files)[-1])
 
 
 def check_last_line(input_string, string_to_check="[END]"):
