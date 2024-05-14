@@ -41,7 +41,7 @@ task_library = [
         },
     ),
     Task(
-        task_name="Product the final output.",
+        task_name="Produce the final output.",
         details={
             "description": """Call save_final_output to save off your final answer.  This should include your 
             function implementation as well as your test function.  Always do this, even if you aren't completely
@@ -110,4 +110,5 @@ job_description = JobDescription(
     post_context_instruct=post_algo_instruct,
     general_comments=general_comments,
     initial_user_message=initial_user_message,
+    include_schema_in_system_message=False,
 )

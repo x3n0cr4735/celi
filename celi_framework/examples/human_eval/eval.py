@@ -9,6 +9,7 @@ if len(sys.argv) > 1:
 else:
     directory = "target/celi_output/drafts"
     file = get_most_recent_file(directory)
+    # file = "celi_framework/examples/human_eval/example_output.json"
 
 print(f"Evaluating {file}")
 results = read_json_from_file(file)

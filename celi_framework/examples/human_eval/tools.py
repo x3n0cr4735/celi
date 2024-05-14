@@ -6,7 +6,7 @@ import os
 import traceback
 from dataclasses import dataclass
 from os.path import dirname
-from typing import Dict
+from typing import Dict, Optional
 
 import pandas as pd
 
@@ -25,6 +25,7 @@ class SafeExecException(Exception):
 @dataclass
 class HumanEvalTools(ToolImplementations):
     drafts_dir: str = "target/celi_output/drafts"
+    single_example: Optional[str] = None  # "HumanEval/129"
 
     def __post_init__(self):
         os.makedirs(self.drafts_dir, exist_ok=True)
@@ -38,9 +39,13 @@ class HumanEvalTools(ToolImplementations):
         self.last_test_func = None
         self.last_task_id = None
 
-    # Retrieves the top level schema for the doc.  Ignore subsections as they change page to page.
     def get_schema(self) -> Dict[str, str]:
-        return {k: v for k, v in zip(self.tests.index, self.tests["entry_point"])}
+        ret = {
+            k: v
+            for k, v in zip(self.tests.index, self.tests["entry_point"])
+            if self.single_example is None or k == self.single_example
+        }
+        return ret
 
     def get_prompt(self, task_id: str) -> str:
         """Returns the prompt for the given task.
