@@ -41,7 +41,7 @@ task_library = [
         },
     ),
     Task(
-        task_name="Product the final output.",
+        task_name="Produce the final output.",
         details={
             "description": """Call save_final_output to save off your final answer.  This should include your 
             function implementation as well as your test function.  Always do this, even if you aren't completely
@@ -73,11 +73,12 @@ Do not ever return a tool or function call with the name 'multi_tool_use.paralle
 
 
 initial_user_message = """
-Begin with task #1 for this section.
+Please see system message for instructions. Take note of which document section is currently being worked on and which 
+tasks have been completed. Complete the next uncompleted task.
+If you do not see any tasks completed for the current section, begin with Task #1.
 
-Your goal is to produce a correct implementation and write out the result.
-
-When you have completed all the tasks, call 'save_final_output' to save your final answer and then 'pop_context' to move to the next section.
+If all tasks for the current section have been completed, proceed to the next document section.
+If the new section draft is complete, ensure to 'Prepare for Next Document Section' as described in the tasks.
 """
 
 pre_algo_instruct = """

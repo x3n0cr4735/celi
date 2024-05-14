@@ -1,16 +1,16 @@
 from __future__ import annotations
 
 import datetime
+import inspect
 import json
 import logging
 import os
 from abc import ABC, abstractmethod
-import inspect
 from typing import Any, Callable, Dict, List, Optional, Type
 
-from celi_framework.utils.llms import ToolDescription
-
 from pydantic import BaseModel, field_serializer
+
+from celi_framework.utils.llms import ToolDescription
 from celi_framework.utils.utils import (
     encode_class_type,
     read_json_from_file,
@@ -150,7 +150,7 @@ class JobDescription(BaseModel):
     - `general_comments` and `user_message`: Provide overarching guidance and specific instructions to users or AI agents undertaking the drafting tasks. These sections ensure that the drafting process is approached systematically, with clear expectations for each task's completion.
     - `pre_algo_instruct` and `post_algo_instruct`: Introductory and concluding instructions that frame the drafting tasks within a broader context, helping to orient the user or AI agent to the document's overall structure and objectives.
     - `config`: A dictionary consolidating all elements of the configuration, including the role of the user or AI agent, the context for the drafting tasks, and the structure of the task list. Additional parameters like `include_prerequisites` and `final_output_task` further customize the drafting guidance provided by the `MasterTemplateFactory`.
-     - 'include_schema_in_system_message' A bool (defaults to True) indicating whether the system message should include the schema.  This is useful if the different items in the schema relate to each other (like sections in a document), but not if they are independent (like different test cases in a benchmark)
+    - 'include_schema_in_system_message': A bool (defaults to True) indicating whether the system message should include the schema.  This is useful if the different items in the schema relate to each other (like sections in a document), but not if they are independent (like different test cases in a benchmark)
 
     Usage:
     This configuration file is intended for use with the `MasterTemplateFactory` class to generate dynamic, structured instructions for drafting or analyzing documents. By defining tasks, prerequisites, and contextual guidance, it enables the automated creation of detailed documents across a variety of fields, including but not limited to technical documentation, and research reporting.
