@@ -96,7 +96,7 @@ class SectionProcessor:
         if not self.section_complete_flag:
             return True
 
-        redo = None  # await self.builtin_review()
+        redo = await self.builtin_review()
         if not redo:
             return False
         else:
@@ -131,7 +131,10 @@ class SectionProcessor:
 
     async def builtin_review(self):
         system_message = """Your job is to review the chat history of an LLM trying to accomplish a goal and decide if
-         it achieved that goal or if it should try again.  If it should try again, please propose a modified system and 
+         it achieved that goal or if it should try again.  Specifically, you should check for:
+         * Ensure that the save_final_output function was called.
+         
+         If it should try again, please propose a modified system and 
          initial user prompt that should be used.  Your output should be JSON that always contains a "success" tag and
          has the following format:
          If it did a good job:
