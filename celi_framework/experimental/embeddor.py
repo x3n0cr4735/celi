@@ -12,15 +12,18 @@ The module's focus is on transforming cleaned and standardized text data into em
 TODO: Consider refactoring for optimized integration with the pre-processed data.
 """
 
+import asyncio
+import os
+
+import pandas as pd
+
 from celi_framework.experimental.utils.ada import (
     get_openai_embedding_sync_timeouts,
     chunk_text,
 )
-from celi_framework.utils.token_counters import token_counter_og
 from celi_framework.utils.llms import quick_ask
+from celi_framework.utils.token_counters import token_counter_og
 from celi_framework.utils.utils import load_json, save_json
-import os
-import pandas as pd
 
 
 def summarize_long_sections(text):
@@ -205,10 +208,14 @@ def create_df_data(
     top_5_rows = df.nlargest(5, "token_count")
     print(top_5_rows)
 
+    def run_async(row):
+        loop = asyncio.get_event_loop()
+        return loop.run_until_complete(
+            get_openai_embedding_sync_timeouts(row, model="text-embedding-ada-002")
+        )
+
     # Apply embeddings to the content of each chunk
-    df["embedding"] = df["Content"].apply(
-        lambda x: get_openai_embedding_sync_timeouts(x, model="text-embedding-ada-002")
-    )
+    df["embedding"] = df["Content"].apply(run_async)
 
     # Construct the filename for the saved dataframe
     document_name = schema_filename.rsplit("_schema.json", 1)[0]

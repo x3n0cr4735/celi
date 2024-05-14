@@ -109,4 +109,5 @@ job_description = JobDescription(
     post_context_instruct=post_algo_instruct,
     general_comments=general_comments,
     initial_user_message=initial_user_message,
+    include_schema_in_system_message=False,
 )

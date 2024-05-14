@@ -17,6 +17,7 @@ Classes:
 This module represents a flexible tool for automating and enhancing the document creation process,
 capable of catering to a broad spectrum of document types and requirements.
 """
+
 from typing import Dict
 
 from celi_framework.core.job_description import JobDescription, Task
@@ -94,12 +95,17 @@ class MasterTemplateFactory:
         This method plays a crucial role in ensuring that the instructions begin with a clear and comprehensive
         overview, laying a solid foundation for the successful execution of subsequent tasks.
         """
+        schema = (
+            f"{self.schema}\n\n"
+            if self.job_desc.include_schema_in_system_message
+            else ""
+        )
 
         return (
             f"{self.job_desc.role}\n\n"
             f"{self.job_desc.pre_context_instruct}\n\n"
             f"{self.job_desc.context}\n"
-            f"{self.schema}\n\n"
+            f"{schema}"
             f"{self.job_desc.post_context_instruct}\n\n"
         )
 

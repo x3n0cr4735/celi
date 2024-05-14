@@ -30,22 +30,21 @@ Classes:
 This module reflects an ongoing effort to enhance automated process monitoring and management, aiming for a dynamic, responsive, and efficient system capable of self-improvement over time.
 """
 
-import copy
 import os
-import json
-import time
 import queue
+import time
 from contextlib import contextmanager
+
 from celi_framework.core.templates import (
     make_prompt_for_secondary_analysis,
     make_prompt_for_function_call_analysis,
     # make_prompt_for_third_analysis,
 )
 from celi_framework.utils.exceptions import ContextLengthExceededException
-from celi_framework.utils.llms import quick_ask
-from celi_framework.utils.token_counters import TokenCounter
 from celi_framework.utils.llmcore_utils import SecondaryAnalysisReport, parse
+from celi_framework.utils.llms import quick_ask
 from celi_framework.utils.log import app_logger
+from celi_framework.utils.token_counters import TokenCounter
 
 
 class MonitoringAgent:
@@ -107,7 +106,7 @@ class MonitoringAgent:
             extra={"color": "dark_grey"},
         )
 
-    def start(self):
+    async def start(self):
         """
         Initiates the monitoring activities for the `MonitoringAgent`. This includes starting threads for both
         polling the log files for updates and processing messages from the update queue. The method sets up a

@@ -46,7 +46,7 @@ from celi_framework.utils.token_counters import (
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
 @functools.lru_cache(1)
 def get_openai_client():
-    return openai.OpenAI(api_key=os.environ["OPENAI_API_KEY"])
+    return openai.AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"])
 
 
 class ToolDescription(BaseModel):
@@ -56,7 +56,7 @@ class ToolDescription(BaseModel):
 
 
 @token_counter_decorator_ask_split  # TODO - Not necessary to run outside of project
-def ask_split(
+async def ask_split(
     user_prompt: str | List[Tuple[str, str]],
     system_message,
     model_name="gpt-4-0125-preview",
@@ -68,7 +68,7 @@ def ask_split(
     temperature=0.0,
     timeout: Optional[int] = 120,
     codex: Optional[MongoDBUtilitySingleton] = None,
-    tool_descriptions: List[ToolDescription] = [],
+    tool_descriptions: Optional[List[ToolDescription]] = None,
     json_mode: bool = False,
 ):
     """
@@ -83,18 +83,22 @@ def ask_split(
         try:
             if err_cnt > 1:
                 app_logger.error(f"Attempt {err_cnt + 1}:", extra={"color": "red"})
-            chat_completion = cached_chat_completion(
+            chat_completion = await cached_chat_completion(
                 codex=codex,
                 messages=[
                     {"role": "system", "content": system_message},
                 ]
                 + assemble_chat_messages(user_prompt),
-                tools=[
-                    {"type": "function", "function": _.model_dump()}
-                    for _ in tool_descriptions
-                ],
+                tools=(
+                    [
+                        {"type": "function", "function": _.model_dump()}
+                        for _ in tool_descriptions
+                    ]
+                    if tool_descriptions
+                    else None
+                ),
                 response_format={"type": "json_object"} if json_mode else None,
-                tool_choice="auto",
+                tool_choice="auto" if tool_descriptions else None,
                 model=model_name,
                 temperature=temperature,
                 max_tokens=max_tokens,
@@ -253,7 +257,7 @@ def assemble_chat_messages(prompt: str | List[Tuple[str, str] | Dict[str, str]])
         return [format_message(msg) for msg in prompt]
 
 
-def cached_chat_completion(
+async def cached_chat_completion(
     codex: Optional[MongoDBUtilitySingleton], **kwargs
 ) -> ChatCompletion:
     if codex:
@@ -263,8 +267,8 @@ def cached_chat_completion(
             return ChatCompletion.model_validate(ret["completion"])
         else:
             app_logger.debug("Caching LLM response")
-            result = get_openai_client().chat.completions.create(**kwargs)
+            result = await get_openai_client().chat.completions.create(**kwargs)
             codex.cache_llm_response(response={"completion": result.dict()}, **kwargs)
             return result
     else:
-        return get_openai_client().chat.completions.create(**kwargs)
+        return await get_openai_client().chat.completions.create(**kwargs)

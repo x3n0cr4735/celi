@@ -1,15 +1,18 @@
 from __future__ import annotations
+
+import asyncio
 from dataclasses import asdict, dataclass
 from queue import Queue
-import threading
 from typing import Type, Optional
+
 from llm_core.parsers import BaseParser
+
 from celi_framework.core.job_description import JobDescription, ToolImplementations
 from celi_framework.core.monitor import MonitoringAgent
 from celi_framework.core.mt_factory import MasterTemplateFactory
 from celi_framework.core.processor import ProcessRunner
 from celi_framework.utils.codex import MongoDBUtilitySingleton
-from celi_framework.utils.llmcore_utils import ParserFactory, new_parser_factory
+from celi_framework.utils.llmcore_utils import new_parser_factory
 from celi_framework.utils.log import app_logger
 
 
@@ -55,12 +58,6 @@ def run_celi(celi_config: CELIConfig):
     )
 
     codex = MongoDBUtilitySingleton(**asdict(celi_config.mongo_config))
-    parser_factory = new_parser_factory(
-        celi_config.parser_cls,
-        celi_config.parser_model_name,
-        cache=celi_config.llm_cache,
-        codex=codex,
-    )
 
     process_runner = ProcessRunner(
         master_template=mt,
@@ -69,27 +66,28 @@ def run_celi(celi_config: CELIConfig):
         llm_cache=celi_config.llm_cache,
     )
 
-    # Start ProcessRunner in its own thread
-    process_runner_thread = threading.Thread(target=process_runner.run, daemon=True)
-    process_runner_thread.start()
-    threads = [process_runner_thread]
-
+    monitoring_agent = None
     if celi_config.use_monitor:
-        # # Start MonitoringAgent in its own thread
+        # Start MonitoringAgent in its own thread
+        parser_factory = new_parser_factory(
+            celi_config.parser_cls,
+            celi_config.parser_model_name,
+            cache=celi_config.llm_cache,
+            codex=codex,
+        )
         monitoring_agent = MonitoringAgent(
             codex=codex,
             update_queue=update_queue,
             parser_factory=parser_factory,
             evaluations_dir=celi_config.directories.evaluations_dir,
         )
+    asyncio.run(_await_agents(process_runner, monitoring_agent))
 
-        monitoring_agent_thread = threading.Thread(
-            target=monitoring_agent.start, daemon=True
-        )
-        monitoring_agent_thread.start()
-        threads.append(monitoring_agent_thread)
 
-    # Wait for threads to finish
-    [_.join() for _ in threads]
-    app_logger.info("Threads completed. Exiting.")
-    return
+async def _await_agents(
+    process_runner: ProcessRunner, monitoring_agent: MonitoringAgent
+):
+    tasks = [process_runner.run()]
+    if monitoring_agent:
+        tasks.append(monitoring_agent.start())
+    await asyncio.gather(*tasks)

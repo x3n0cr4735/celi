@@ -28,18 +28,15 @@ Note:
 """
 
 import ast
-import os
 import time
 
-
 import numpy as np
-import openai
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
 from celi_framework.utils.llms import get_openai_client
-from celi_framework.utils.token_counters import token_counter_og
 from celi_framework.utils.log import app_logger
+from celi_framework.utils.token_counters import token_counter_og
 
 EMBEDDING_MODEL = "text-embedding-ada-002"
 EMBEDDING_TOKEN_LIMIT = 8100
@@ -73,7 +70,7 @@ def chunk_text(text: str, chunk_size: int, overlap: int, token_counter) -> list:
     return chunks
 
 
-def get_openai_embedding_sync_timeouts(
+async def get_openai_embedding_sync_timeouts(
     text: str, model="text-embedding-ada-002", retries=3, timeout=10
 ) -> list:
     """
@@ -90,7 +87,7 @@ def get_openai_embedding_sync_timeouts(
     for retry in range(retries):
         try:
             if len(text) > 0 and text != "[Empty Section]":
-                response = (
+                response = await (
                     get_openai_client()
                     .embeddings.create(input=[text], model=model)
                     .data[0]

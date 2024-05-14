@@ -29,20 +29,18 @@ the main execution loop to handling responses from the language model and updati
 The class ensures that each interaction with the language model contributes towards the completion of the document,
 while also managing token usage to prevent excessive costs."""
 
-import json
+import asyncio
 import logging
-from json import JSONDecodeError
-from typing import Dict, List, Tuple
-
-from openai.types.chat.chat_completion import Choice
+from typing import List
 
 from celi_framework.core.job_description import (
     ToolImplementations,
     generate_tool_descriptions,
 )
 from celi_framework.core.mt_factory import MasterTemplateFactory
+from celi_framework.core.section_processor import SectionProcessor
 from celi_framework.utils.codex import MongoDBUtilitySingleton
-from celi_framework.utils.llms import ToolDescription, ask_split
+from celi_framework.utils.llms import ToolDescription
 from celi_framework.utils.log import app_logger
 from celi_framework.utils.utils import (
     create_new_timestamp,
@@ -50,14 +48,16 @@ from celi_framework.utils.utils import (
 
 logger = logging.getLogger(__name__)
 
-ChatMessageable = Tuple[str, str] | Dict[str, str]
-
 
 class ProcessRunner:
     """
-    The ProcessRunner class orchestrates document drafting by managing a sequence of tasks that interact with language models for content generation and refinement. It leverages a MasterTemplateFactory for dynamic task management based on a predefined configuration and schema, ensuring a structured approach to document creation.
+    The ProcessRunner class orchestrates document drafting by managing a sequence of tasks that interact with language
+    models for content generation and refinement. It leverages a MasterTemplateFactory for dynamic task management based
+    on a predefined configuration and schema, ensuring a structured approach to document creation.
 
-    This class is central to automating the drafting process, utilizing natural language processing to generate, analyze, and refine text based on source material and expert guidance. It interacts closely with utility functions and MongoDB for data storage and retrieval, optimizing the process through adaptive learning and feedback mechanisms.
+    This class is central to automating the drafting process, utilizing natural language processing to generate,
+    analyze, and refine text based on source material and expert guidance. It interacts closely with utility functions
+    and MongoDB for data storage and retrieval, optimizing the process through adaptive learning and feedback mechanisms.
 
     Args:
         master_template (MasterTemplateFactory): Factory instance to manage task templates.
@@ -104,10 +104,9 @@ class ProcessRunner:
         self.codex = codex
         self.llm_cache = llm_cache
 
-        self.original_system_message = self.master_template.create_system_message()
-        self.current_system_message = self.original_system_message
+        self.system_message = self.master_template.create_system_message()
         app_logger.info(
-            f"System message created:\n{self.original_system_message}",
+            f"System message created:\n{self.system_message}",
             extra={"color": "cyan"},
         )
         self.save_template()
@@ -116,128 +115,32 @@ class ProcessRunner:
         self.sections_to_be_completed = self.removed_skipped_sections(
             section_list, skip_section_list
         )
-        self.current_section = self.sections_to_be_completed[0]
 
         self.tool_implementations = tool_implementations
         self.tool_descriptions = generate_tool_descriptions(
             self.master_template.job_desc.tool_implementations_class
         )
 
-        self.ongoing_chat: List[Dict[str, str] | Tuple[str, str]] = [
-            ("user", self.master_template.job_desc.initial_user_message)
-        ]
-        self.pop_context_flag = False
-        self.keep_running = True
-
-    def process_iteration(self):
-        app_logger.info("Started a new iteration", extra={"color": "orange"})
-        self.pop_context_flag = False
-        chat_len = len(self.ongoing_chat)
-
-        llm_response = ask_split(
-            codex=self.codex if self.llm_cache else None,
-            user_prompt=self.ongoing_chat,  # type: ignore
-            system_message=self.current_system_message,
-            verbose=True,
-            timeout=None,
-            tool_descriptions=self.tool_descriptions + self.builtin_tool_descriptions,
-        )
-        self.ongoing_chat += [("assistant", str(llm_response.message.content or ""))]
-
-        if llm_response.finish_reason == "tool_calls":
-            tool_result = self.make_tool_calls(llm_response)
-            self.ongoing_chat += tool_result
-
-        app_logger.info(
-            "New chat iteration:\n"
-            + self.format_chat_messages(self.ongoing_chat[chat_len:]),
-            extra={"color": "green"},
-        )
-
-        if self.check_for_duplicates(self.ongoing_chat):
-            logger.warning(
-                "Identified a loop.  Identical messages are repeating.  pop_context and moving on to the next section."
-            )
-            self.pop_context_flag = True
-
-        if self.pop_context_flag:
-            redo = self.builtin_review()
-            if redo:
-                logger.warning(f"Retrying section {self.current_section}")
-                self.ongoing_chat = [
-                    ("user", redo["new_initial_user_message"]),
-                    (
-                        "user",
-                        f"Proceed to document section {self.current_section}, and do Task #1",
-                    ),
-                ]
-                self.current_system_message = redo["new_system_message"]
-                self.pop_context_flag = False
-            else:
-                self.handle_pop_context()
-
-    def check_for_duplicates(
-        self, ongoing_chat: List[Dict[str, str] | Tuple[str, str]]
-    ):
-        if len(ongoing_chat) == 0:
-            return False
-        last_message = ongoing_chat[-1]
-        duplicates = 0
-        for message in ongoing_chat[:-1]:
-            if message == last_message:
-                duplicates += 1
-        return duplicates > 2
-
-    def builtin_review(self):
-        system_message = """Your job is to review the chat history of an LLM trying to accomplish a goal and decide if
-         it achieved that goal or if it should try again.  If it should try again, please propose a modified system and 
-         initial user prompt that should be used.  Your output should be JSON with the following format:
-         If it did a good job:
-            {
-                "success": true,
-            }
-        If it should try again:
-            {
-                "success": false,
-                "new_system_message": "The new system message to be used",
-                "new_initial_user_message": "The new initial user message to be used"
-            }
+    async def run(self):
         """
-        user_message = f"The initial prompt was:\n{self.master_template.job_desc.initial_user_message}\n\nHere is the chat history:\n{self.format_chat_messages(self.ongoing_chat)}\n\n"
-        llm_response = ask_split(
-            codex=self.codex if self.llm_cache else None,
-            user_prompt=user_message,  # type: ignore
-            system_message=system_message,
-            verbose=True,
-            timeout=None,
-            json_mode=True,
-        )
-        ret = json.loads(llm_response.message.content)
-        assert "success" in ret
-        if "success" not in ret:
-            logger.warning(
-                "Built-in review didn't return a success key.  Assuming success."
+        Runs all sections of the document.
+        """
+        section_processors = [
+            SectionProcessor(
+                current_section=_,
+                system_message=self.system_message,
+                initial_user_message=self.master_template.job_desc.initial_user_message,
+                tool_descriptions=self.tool_descriptions
+                + self.builtin_tool_descriptions,
+                tool_implementations=self.tool_implementations,
+                codex=self.codex,
+                llm_cache=self.llm_cache,
             )
-            return None
-
-        if ret["success"]:
-            return None
-
-        if "new_system_message" and "new_initial_user_message" not in ret:
-            logger.warning(
-                "Built-in review didn't return a new_system_message or new_initial_user_message.  Skipping retry."
-            )
-            return None
-
-        return ret
-
-    def format_chat_messages(self, msgs: List[ChatMessageable]):
-        return "\n\n".join(self.format_message_content(m) for m in msgs)
-
-    def format_message_content(self, m: ChatMessageable):
-        if isinstance(m, dict):
-            return f"{m['role'].capitalize()}:\n{m['content']}"
-        return f"{m[0].capitalize()}:\n{m[1]}"
+            for _ in self.sections_to_be_completed
+        ]
+        tasks = [section_processor.run() for section_processor in section_processors]
+        await asyncio.gather(*tasks)
+        app_logger.info("All sections have been completed.", extra={"color": "cyan"})
 
     def removed_skipped_sections(
         self, all_sections: List[str], skip_section_list: List[str]
@@ -289,125 +192,3 @@ class ProcessRunner:
 
         # Log a message to indicate that the template has been saved to the codex
         app_logger.info("Stored controller template to codex", {"color": "cyan"})
-
-        # The method does not return anything
-        return None
-
-    def run(self):
-        """
-        Initiates and manages the main execution loop for drafting documents. This loop continues
-        until the `keep_running` flag is set to False, indicating a request to terminate the process, either due to
-        completion of all tasks or an external command to halt operations.
-
-        Within each iteration of the loop, the method performs the following operations:
-            - Generates task instructions based on the current state and configuration.
-            - Retrieves a response from the language model using the current task instructions and context.
-            - Processes the language model's response, including handling any specified function calls, updating
-                the draft content, and managing the ongoing conversation context.
-            - Checks for token usage limits to ensure compliance with predefined constraints.
-            - Updates internal state and prepares for the next iteration or termination of the process.
-
-        The method ensures that each task is processed in accordance with the system's operational logic,
-        leveraging the language model's capabilities for content generation and refinement. It maintains
-        responsive interaction with the language model, adapting to its feedback and instructions to
-        dynamically guide the drafting process.
-
-        No parameters are required for this method, as it operates based on the class's internal state
-        and configuration. However, it relies on several other methods within the class to perform its
-        operations, including `process_iteration`, `get_response`, and `handle_response`.
-
-        Returns:
-            None. The method's primary function is to execute the drafting process loop, updating internal
-            state and interacting with external systems as necessary. Any outputs are managed through
-            side-effects on the class's state or external data stores.
-
-        This method represents the core operational loop of the `ProcessRunner` class, driving the
-        automated drafting of document by coordinating tasks, responses, and updates in a continuous,
-        controlled cycle.
-        """
-
-        while self.keep_running:
-            self.process_iteration()
-
-    def make_tool_calls(self, response: Choice):
-        def make_tool_call(tool_call):
-            name = tool_call.function.name
-            function_return = None
-            try:
-                arguments = json.loads(tool_call.function.arguments)
-            except JSONDecodeError as e:
-                arguments = "<Unable to parse>"
-                function_return = f"Error: Unable to parse arguments {e}"
-            if not function_return:
-                if name == "pop_context":
-                    # pop_context is a built-in function and not in the tool_implementations.
-                    self.pop_context_flag = True
-                    function_return = arguments["current_section_number"]
-                else:
-                    if hasattr(self.tool_implementations, name):
-                        method_to_call = getattr(self.tool_implementations, name)
-                        try:
-                            function_return = method_to_call(**arguments)
-                        except Exception as e:
-                            function_return = f"Error: {e}"
-                    else:
-                        app_logger.error(
-                            f"Unknown function name: {name}", extra={"color": "red"}
-                        )
-                        return (
-                            "user",
-                            f"Error: Called unknown function name: {name} with arguments {arguments}",
-                        )
-            function_log = f"Call to function {name} with arguments {arguments} returned\n{function_return}"
-            return {"role": "function", "name": name, "content": function_log}
-
-        return [make_tool_call(_) for _ in response.message.tool_calls]
-
-    def handle_pop_context(self):
-        """
-        Adjusts the drafting context in response to a 'pop context' function call, which is used to manage the conversation
-        history and focus on relevant content. This method may be triggered by specific directives in the language model's
-        response or as part of context management strategies to optimize the interaction with the language model.
-
-        Returns:
-            str: A summary message reflecting the action taken to adjust the context. This may include confirmation that
-                    older or less relevant conversation history has been truncated or summarized to maintain focus and efficiency.
-
-        The 'handle_pop_context' method is crucial for maintaining the relevance and manageability of the ongoing conversation
-        context, ensuring that interactions with the language model remain focused and productive. It supports the drafting
-        process by dynamically adapting the context to fit current needs and constraints.
-        """
-
-        app_logger.info("Popping context")
-
-        self.pop_context_flag = False
-
-        assert self.current_section in self.sections_to_be_completed
-        self.sections_to_be_completed.remove(self.current_section)
-        if self.sections_to_be_completed:
-            next_section = self.sections_to_be_completed[0]
-            try:
-                next_user_msg = (
-                    f"Proceed to document section {next_section}, and do Task #1."
-                )
-                app_logger.info(next_user_msg, extra={"color": "cyan"})
-            except Exception as e:
-                next_user_msg = f"An error occurred in handle_pop_context: {e}.\nStart with the document section immediately after {self.current_section}. Do Task #1"
-                app_logger.error(next_user_msg)
-        else:
-            next_user_msg = "All sections have been completed."
-            app_logger.info(next_user_msg, extra={"color": "cyan"})
-            self.keep_running = False
-            return
-
-        self.current_system_message = self.original_system_message
-        self.ongoing_chat = [
-            ("user", self.master_template.job_desc.initial_user_message),
-            ("user", next_user_msg),
-        ]
-        self.current_section = next_section
-
-        app_logger.info(
-            f"After pop ongoing chat:\n{self.format_chat_messages(self.ongoing_chat)}",
-            extra={"color": "green"},
-        )
