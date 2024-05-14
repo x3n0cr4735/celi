@@ -27,6 +27,7 @@ class SectionProcessor:
     tool_implementations: ToolImplementations
     codex: MongoDBUtilitySingleton
     llm_cache: bool
+    monitor_instructions: str
 
     def __post_init__(self):
         self.ongoing_chat: List[Dict[str, str] | Tuple[str, str]] = [
@@ -130,25 +131,28 @@ class SectionProcessor:
         return duplicates > 2
 
     async def builtin_review(self):
-        system_message = """Your job is to review the chat history of an LLM trying to accomplish a goal and decide if
-         it achieved that goal or if it should try again.  Specifically, you should check for:
-         * Ensure that the save_final_output function was called.
-         
+        task_specific = (
+            "Specifically, you should check for:\nself.monitor_instructions\n"
+            if self.monitor_instructions
+            else ""
+        )
+        system_message = f"""Your job is to review the chat history of an LLM trying to accomplish a goal and decide if
+         it achieved that goal or if it should try again.  {task_specific}
          If it should try again, please propose a modified system and 
          initial user prompt that should be used.  Your output should be JSON that always contains a "success" tag and
          has the following format:
          If it did a good job:
-            {
+            {{
                 "rationale": "All requirements specified in the user_prompt were resolved.",
                 "success": true,
-            }
+            }}
         If it should try again:
-            {
+            {{
                 "rationale": "The output was not written before calling pop_context.",
                 "success": false,
                 "new_system_message": "The new system message to be used",
                 "new_initial_user_message": "The new initial user message to be used"
-            }
+            }}
         """
         user_message = f"The initial prompt was:\n{self.initial_user_message}\n\nHere is the chat history:\n{self.format_chat_messages(self.ongoing_chat)}\n\n"
         llm_response = await ask_split(

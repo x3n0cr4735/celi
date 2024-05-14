@@ -135,6 +135,7 @@ class ProcessRunner:
                 tool_implementations=self.tool_implementations,
                 codex=self.codex,
                 llm_cache=self.llm_cache,
+                monitor_instructions=self.master_template.job_desc.monitor_instructions,
             )
             for _ in self.sections_to_be_completed
         ]
