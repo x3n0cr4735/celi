@@ -1,0 +1,120 @@
+#### Question 1
+
+**Suggested reading and writing time—55 minutes**
+It is suggested that you spend 15 minutes reading the question, analyzing and evaluating the sources, and 40 minutes writing your response.
+Note: You may begin writing your response before the reading period is over.
+
+(This question counts as one-third of the total essay section score.)
+
+PROMPT:
+Vertical farms are indoor agricultural facilities in which plants are grown, often in a hydroponic (soilless) environment, on tall stacks of shelves. Plants are given water, nutrients, and light mostly through automated processes. Advocates say that vertical farms are key to providing food for the future, yielding high-quality produce while making efficient use of land and water. Critics warn about the energy consumption associated with vertical farms’ automated processes as well as problems related to cost and nutritional value.
+Carefully read the following six sources, including the introductory information for each source. Write an essay that synthesizes material from at least three of the sources and develops your position on the value, if any, of vertical farms to the future of agriculture.
+Source A (Severson article)
+Source B (Ling and Altland interview)
+Source C (table from Kozai and Niu)
+Source D (Foley article)
+Source E (Benke and Tomkins article)
+Source F (graphic from Despommier)
+In your response you should do the following:
+- Respond to the prompt with a thesis that presents a defensible position.
+- Select and use evidence from at least three of the provided sources to support your line of reasoning. Indicate clearly the sources used through direct quotation, paraphrase, or summary.
+- Explain how the evidence supports your line of reasoning.
+- Use appropriate grammar and punctuation in communicating your argument.
+
+### Source A
+Severson, Kim. “No Soil. No Growing Seasons. Just Add Water and Technology.” The New York Times, 6 July 2021, [www.nytimes.com/2021/07/06/dining/hydroponic-farming.html](https://www.nytimes.com/2021/07/06/dining/hydroponic-farming.html).
+The following is excerpted from an online article published in a national American newspaper.
+[A] high-tech greenhouse so large it could cover 50 football fields glows with the pinks and yellows of 30,600 LED and high-pressure sodium lights.
+Inside, without a teaspoon of soil, nearly 3 million pounds of beefsteak tomatoes grow on 45-feet-high vines whose roots are bathed in nutrient-enhanced rainwater. Other vines hold thousands of small, juicy snacking tomatoes with enough tang to impress Martha Stewart<sup>1</sup>, who is on the board of AppHarvest, a start-up that harvested its first crop here in January and plans to open 11 more indoor farms in Appalachia by 2025.
+In a much more industrial setting near the Hackensack River in Kearny, N.J., trays filled with sweet baby butterhead lettuce and sorrel that tastes of lemon and green apple are stacked high in a windowless warehouse—what is known as a vertical farm. Bowery, the largest vertical-farming company in the United States, manipulates light, humidity, temperature and other conditions to grow produce, bankrolled by investors like Justin Timberlake, Natalie Portman, and the chefs José Andrés and Tom Colicchio.
+“Once I tasted the arugula, I was sold,” said Mr. Colicchio, who for years rolled his eyes at people who claimed to grow delicious hydroponic produce. “It was so spicy and so vibrant, it just blew me away.”
+The two operations are part of a new generation of hydroponic farms that create precise growing conditions using technological advances like machine-learning algorithms, data analytics and proprietary software systems to coax customized flavors and textures from fruits and vegetables. And they can do it almost anywhere.
+These farms arrive at a pivotal moment, as swaths of the country wither in the heat and drought of climate change, abetted in part by certain forms of agriculture. The demand for locally grown food has never been stronger, and the pandemic has shown many people that the food supply chain isn’t as resilient as they thought. . . .
+“We’ve perfected mother nature indoors through that perfect combination of science and technology married with farming,” said Daniel Malechuk, the chief executive of Kalera, a company that sells whole lettuces, with the roots intact, in plastic clamshells for about the same price as other prewashed lettuce. In March, the company opened a 77,000-square-foot facility south of Atlanta that can produce more than 10 million heads of lettuce a year. . . .
+Although the nutritional profile of hydroponic produce continues to improve, no one yet knows what kind of long-term health impact fruits and vegetables grown without soil will have. No matter how many nutrients indoor farmers put into the water, critics insist that indoor farms can never match the taste and nutritional value, or provide the environmental advantages, that come from the marriage of sun, a healthy soil microbiome and plant biology found on well-run organic farms.
+“What will the health outcomes be in two generations?” Mr. Chapman [Dave Chapman, a Vermont farmer and the executive director of the Real Organic Project] asked. “It’s a huge live experiment, and we are the rats.”
+
+<sup>1</sup> businesswoman and television presenter whose work focuses on crafts, recipes, and home goods
+
+### Source B
+Ling, Kai-Shu, and James Altland. Interview by Georgia Jiang. “Vertical Farming—No Longer a Futuristic Concept.” Under the Microscope: Zooming in on Agriculture’s Biggest Challenges, Agricultural Research Service, United States Department of Agriculture, 27 Jan. 2022, [www.ars.usda.gov/oc/utm/vertical-farming-no-longer-a-futuristic-concept](https://www.ars.usda.gov/oc/utm/vertical-farming-no-longer-a-futuristic-concept).
+
+The following is excerpted from an interview with Kai-Shu Ling, a research plant pathologist, and James Altland, a research horticulturalist. The interview is one of the “Under the Microscope” series of monthly interviews published online by the Agricultural Research Service [ARS] of the United States Department of Agriculture [USDA].
+UM [Under the Microscope Interviewer]—What are the advantages of vertical farming?
+KL [Kai-Shu Ling]: Vertical farming offers many benefits that traditional farming cannot. For example, while the crops produced by traditional farming are limited by geographic region and seasonal changes, vertical farming allows growers to grow regional or seasonal crops indoors year-round. They can grow crops anywhere a greenhouse or controlled environment can be established. As a result, consumers (especially those in urban areas typically far from traditional farmlands) can also have easier access to fresher produce.
+We’re currently repurposing ship containers to become vertical farming research units. Although vertical farming’s high costs can often be discouraging, shipping containers and abandoned warehouses are readily available and relatively inexpensive. Converting them into vertical farming environments not only breathes life back into discarded infrastructure but also puts fresh produce in parking lots and urban centers.
+JA [James Altland]: Vertical farming also uses much less land. For some crops, 10 to 20 times the yield can be obtained per acre in vertical farming compared to open-field crops. Other advantages are that vertical farms are in enclosed structures, so not subject to extreme or inclement weather. Vertical farms are being built in deserts, high-population urban areas, and other places that traditional open-field farming is not practical.
+UM—What are the limitations to this type of farming? What is ARS doing to overcome these challenges?
+JA: The major disadvantage is that you give up access to the Sun, which is [the] most abundant (and free) source of energy on Earth. Growing plants vertically in stacked systems often requires artificial light sources, which can become costly. Vertical farming also requires humidity control through expensive and energy-intensive heating, ventilation, and air conditioning (HVAC) systems.
+UM—What crops are best grown through vertical farming? Which crops are better suited for traditional farming?
+JA: Currently, lettuce and other leafy greens are the most popular crops for vertical farming. While research is underway to grow all types of crops in vertical farms, the most successful ones today would be those that can be grown hydroponically, have relatively short compact growth forms, and can be harvested in their entirety. For example, lettuce can be harvested in its whole form, as opposed to corn where only the cob is harvested for sale and the rest must be disposed of some other way.
+KL: We’re currently investigating the vertical farming potential of small fruits (e.g., strawberries) and fruiting vegetables (e.g., tomato, pepper). Cereal and row crops (e.g., corn, rice, wheat and soybeans) are still better suited for traditional farming.
+UM—I understand that vertical farming has launched into space. What are you hoping to accomplish with this effort?
+JA: NASA is keenly interested in CEA [controlled environment agriculture] for its use on long-term manned space missions.
+KL: Agreed. NASA is a pioneer in research on crop production under controlled environment. NASA continues to improve the technologies for growing vegetables and fruits in space for future Moon and Mars explorations. USDA has a long history of collaboration with NASA on controlled environment agriculture research.
+
+### Source C
+**Kozai, Toyoki, and Genhua Niu. “Role of the Plant Factory with Artificial Lighting (PFAL) in Urban Areas.”**
+*Plant Factory: An Indoor Vertical Farming System for Efficient Quality Food Production*, edited by Toyoki Kozai et al., Elsevier, 2016, pp. 7–32.
+
+**Table: Classification of Four Types of Plant Production Systems by Their Relative Stability and Controllability, and Other Factors**
+
+| Stability and Controllability            | Open Fields | Greenhouse: Soil Culture | Greenhouse: Hydroponics | Vertical Farms |
+|------------------------------------------|-------------|--------------------------|-------------------------|----------------|
+| **Natural stability of aerial zone**     | Very low    | Low                      | Low                     | Low            |
+| **Artificial controllability of aerial zone** | Very low    | Medium                   | Medium                  | Very high      |
+| **Natural stability of root zone**       | High        | High                     | Low                     | Low            |
+| **Artificial controllability of root zone** | Low         | Low                      | High                    | High           |
+| **Vulnerability of yield and quality**   | High        | Medium                   | Relatively low          | Low            |
+| **Initial investment per unit land area**| Low         | Medium                   | Relatively high         | Extremely high |
+| **Yield**                                | Low         | Medium                   | Relatively high         | Extremely high |
+
+Note: “Aerial zone” refers to weather in the “Open Fields” category; “root zone” refers to soil environment.
+
+### Source D
+**Foley, Jonathan. “No, Vertical Farms Won’t Feed the World.” GlobalEcoGuy, 1 Aug. 2018,**
+[globalEcoguy.org/no-vertical-farms-wont-feed-the-world-5313e3e961c0](https://globalecoguy.org/no-vertical-farms-wont-feed-the-world-5313e3e961c0).
+
+The following is excerpted from an article published online by an environmental scientist and sustainability expert.
+[T]here are costs to these [vertical] farms. Huge costs.
+First, these systems are really expensive to build. The shipping container systems developed by [container farming technology company] Freight Farms, for example, cost between $82,000 and $85,000 per container—an astonishing sum for a box that just grows greens and herbs. Just one container costs as much as 10 entire acres of prime American farmland—which is a far better investment, both in terms of food production and future economic value. Just remember: farmland has the benefit of generally appreciating in value over time, whereas a big metal box is likely to only decrease in value.
+Second, food produced this way is very expensive. For example, the Wall Street Journal reports that mini-lettuces grown by Green Line Growers cost more than twice as much as organic lettuce available in most stores. And this is typical for other indoor growers around the country: it’s very, very expensive, even compared to organic food. Instead of making food more available, especially to poorer families on limited budgets, these indoor crops are only available to the affluent. It might be fine for gourmet lettuce, or fancy greens for expensive restaurants, but regular folks may find it out of reach.
+Finally, indoor farms use a lot of energy and materials to operate. The container farms from Freight Farms, for example, use about 80 kilowatt-hours of electricity a day to power the lights and pumps. That’s nearly 2–3 times as much electricity as a typical (and still very inefficient) American home, or about 8 times the electricity used by an average San Francisco apartment. And on the average American electrical grid, this translates to emitting 44,000 pounds of CO2 per container per year, from electricity alone, not counting any additional heating costs. This is vastly more than the emissions it would take to ship the food from someplace else. And none of it is necessary.
+But, Wait, Can’t Indoor Farms Use Renewable Energy?
+Proponents of indoor techno-farms often say that they can offset the enormous sums of electricity they use, by powering them with renewable energy—especially solar panels—to make the whole thing carbon neutral.
+But just stop and think about this for a second.
+These indoor “farms” would use solar panels to harvest naturally occurring sunlight, and convert it into electricity, so that they can power . . . artificial sunlight? In other words, they’re trying to use the sun to replace the sun.
+But we don’t need to replace the sun. Of all of the things we should worry about in agriculture, the availability of free sunlight is not one of them. Any system that seeks to replace the sun to grow food is probably a bad idea.
+
+### Source E
+**Benke, Kurt, and Bruce Tomkins. “Future Food-Production Systems: Vertical Farming and Controlled-Environment Agriculture.”**
+*Sustainability: Science, Practice and Policy*, vol. 13, no. 1, Nov. 2017, pp. 13-26, [www.tandfonline.com/doi/full/10.1080/15487733.2017.1394054](https://www.tandfonline.com/doi/full/10.1080/15487733.2017.1394054).
+
+The following is excerpted from a research article in an online interdisciplinary journal that focuses on sustainability-related topics.
+The vertical farming model was proposed with the aim of increasing the amount of agricultural land by ‘building upwards.’ In other words, the effective arable<sup>1</sup> area for crops can be increased by constructing a high-rise building with many levels on the same footprint of land (Despommier 2010; The Economist 2010).
+One approach is to employ a single tall glasshouse design with many racks of crops stacked vertically. It is an extension of the greenhouse hydroponic farming model and addresses problems relating to the use of soils, such as the requirement for herbicides, pesticides, and fertilizers. . . .
+
+**Clean, green, and gourmet (CGG) food**
+The possibility of CGG food production is easily the most attractive feature of the vertical farming model. This aspect is less price sensitive to affluent consumers in high-demand countries such as China. All-year-round crop production without seasonality, in a climate-controlled environment (including both temperature and humidity), will produce fresh produce virtually on demand. There would be no weather-related crop failures due to drought or flooding if hydroponic and aeroponic technologies are employed.
+Using recycled water and nutrients in a closed, indoor, climate-controlled environment adds to food security and can reduce or even completely eliminate the need for pesticides and herbicides. Contamination by pathogens or heavy metals will no longer be an issue as occurs in rural farming. There is scope for marketing the product in this respect. Strict hygienic practices must still be observed to minimize the risk of introduction of pathogens and biological contamination into the growing space. However, in a vertical farming situation, one can closely monitor the crop for signs of pest or disease both manually and automatically using sensing technologies. This mode of cultivation is very well suited to adopting new and emerging robotic technologies as well as remote-sensing procedures. This means that outbreaks are detected early to enable diseased and infested plants to be identified and disposed of appropriately. Any residual contamination can be cleaned up when the crop is harvested using strict hygienic practices.
+One possible obstacle to vertical farming is that some consumers may regard the products as ‘Frankenfoods,’ as discovered by managers of a giant underground farm supplying London’s restaurants (Curtis 2016) and another business that supplies between 8% and 12% of the British output of tomatoes, peppers, and cucumbers (Fletcher 2013). For this reason, some enterprises may not publicize growing conditions for fear of alienating consumers and destabilizing sales potential. To minimize this issue, it can be stressed that growing conditions are not different from existing hydroponic facilities with respect to germplasm<sup>2</sup>, nutrition, and other cultural and production practices. Furthermore, the plants are derived from natural breeding programs with normal nutrients supplied. There is an advantage that plants are grown in a hygienic environment with reduced need for pesticides and are in a closed system so there is no environmental pollution from nitrogen leaching or run-off.
+
+<sup>1</sup>suitable for growing crops
+<sup>2</sup>living plant tissue used to generate other plants
+
+### Source F
+**Despommier, Dickson D. The Vertical Farm: Feeding the World in the 21st Century. Thomas Dunne / St. Martin’s, 2010.**
+
+The following is adapted from a graphic published in a book about vertical farming.
+
+[START INFOGRAPHIC DESCRIPTION]
+
+This infographic is presented in two side-by-side panels, with the left panel labeled "2010" and the right panel labeled "2050".
+
+In the 2010 panel, there is an image of the continent of South America with an arrow pointing downwards to a row of six black silhouetted figures representing the global population. Underneath, it reads "World Population: 6.8 billion". The text below states that 80% of the total arable land on Earth is currently used for the production of food, which is equivalent in size to the continent of South America.
+
+The 2050 panel features the image of South America again, with an additional smaller land mass resembling the shape of Brazil, indicating an increase in land needed to feed the population. The same downward arrow points to a row of nine silhouetted figures, three of which are lighter in color, signifying an addition to the population. Below, the text reads "Projected World Population: 9.5 billion". The accompanying text explains that an area the size of Brazil is required to feed an additional 2.7 billion people. It emphasizes that this amount of arable land is simply not available.
+
+[END INFOGRAPHIC DESCRIPTION]
+
+Note: Arable land is land that is used or suitable for growing crops.

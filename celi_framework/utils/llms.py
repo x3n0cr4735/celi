@@ -33,6 +33,7 @@ import openai
 from openai.types.chat import ChatCompletion
 from pydantic import BaseModel
 from requests import HTTPError
+from dotenv import load_dotenv
 
 from celi_framework.utils.codex import MongoDBUtilitySingleton
 from celi_framework.utils.exceptions import ContextLengthExceededException
@@ -42,6 +43,7 @@ from celi_framework.utils.token_counters import (
     token_counter_decorator_quick_ask,
 )
 
+load_dotenv()
 
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
 @functools.lru_cache(1)
@@ -191,7 +193,7 @@ def quick_ask(
                 codex=codex,
                 messages=assemble_chat_messages(prompt),
                 model=model_name,
-                temperature=0.0,
+                temperature=temperature,
                 max_tokens=max_tokens,
                 seed=seed,
                 response_format=response_format,
