@@ -1,11 +1,11 @@
 import re
 
-from celi_framework.utils.llms import quick_ask
 from celi_framework.experimental.utils.nougat_preprocessing.preprocessing_templates import (
     make_correct_mmd_output,
     make_parse_clean_tables_2,
     make_remove_table_syntax,
 )
+from celi_framework.utils.llms import quick_ask
 
 
 # TODO - run this on an EC2
@@ -263,7 +263,7 @@ def parse_table_content(table_dict, section, model_name="gpt-4-0613"):
         # Format the prompt with section details and table content for parsing
         formatted_prompt = f"I have a slightly ill-structured LaTeX table under section {section} with the title '{table_heading}'. The content of the table is: {table_content}. Could you help me clean it up and present it in a well-structured format?"
         # Use an external function (e.g., a GPT model) to parse and structure the table content
-        response = quick_ask(formatted_prompt, model_name)
+        response = quick_ask(formatted_prompt, model_name=model_name)
         # Store the parsed table content in the dictionary
         parsed_table[table_heading] = response
 

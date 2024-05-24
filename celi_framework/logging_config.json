@@ -15,6 +15,9 @@
         }
     },
     "loggers": {
+        "asyncio": {
+            "level": "INFO"
+        },
         "charset_normalizer": {
             "level": "INFO"
         },

@@ -75,10 +75,14 @@ class ProcessRunner:
         codex: MongoDBUtilitySingleton,
         tool_implementations: ToolImplementations,
         llm_cache: bool,
+        primary_model_name: str,
         skip_section_list=None,
     ):
         if skip_section_list is None:
             skip_section_list = []
+        self.primary_model_name = primary_model_name
+        logger.info(f"Using {primary_model_name} as the primary LLM")
+
         self.master_template = master_template  # config and schema need to be defined # TODO -> Read latest version from codex?
         # TODO -> Have it be so that there is a manual template creation process which would be what's above (but with arg for manual create passed in),
         #  then rest of time have it just read from Mongo/codex
@@ -133,6 +137,7 @@ class ProcessRunner:
                 tool_descriptions=self.tool_descriptions
                 + self.builtin_tool_descriptions,
                 tool_implementations=self.tool_implementations,
+                primary_model_name=self.primary_model_name,
                 codex=self.codex,
                 llm_cache=self.llm_cache,
                 monitor_instructions=self.master_template.job_desc.monitor_instructions,

@@ -25,6 +25,7 @@ class SectionProcessor:
     initial_user_message: str
     tool_descriptions: List[ToolDescription]
     tool_implementations: ToolImplementations
+    primary_model_name: str
     codex: MongoDBUtilitySingleton
     llm_cache: bool
     monitor_instructions: str
@@ -71,6 +72,7 @@ class SectionProcessor:
         llm_response = await ask_split(
             codex=self.codex if self.llm_cache else None,
             user_prompt=self.ongoing_chat,  # type: ignore
+            model_name=self.primary_model_name,
             system_message=self.system_message,
             verbose=True,
             timeout=None,
@@ -159,6 +161,7 @@ class SectionProcessor:
             codex=self.codex if self.llm_cache else None,
             user_prompt=user_message,  # type: ignore
             system_message=system_message,
+            model_name=self.primary_model_name,
             verbose=True,
             timeout=None,
             json_mode=True,

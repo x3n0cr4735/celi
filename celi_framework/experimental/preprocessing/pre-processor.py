@@ -25,21 +25,24 @@ This script is built to be adaptable, enabling users to tailor its functions to 
 #  Do this programatically at some point
 
 
+import json
+import os
 import re
 import subprocess
 import time
-import os
-import json
-from celi_framework.utils.token_counters import token_counter_og
-from celi_framework.utils.llms import quick_ask
+
 from celi_framework.core.templates import make_cleanup_dict_prompt_template
+from celi_framework.utils.llms import quick_ask
+from celi_framework.utils.log import (
+    app_logger as logger,
+)  # TODO: Check that the logger works correctly
+from celi_framework.utils.token_counters import token_counter_og
 from celi_framework.utils.utils import (
     load_json,
     save_json,
     filter_empty_sections,
     read_txt,
 )
-from celi_framework.utils.log import app_logger as logger  # TODO: Check that the logger works correctly
 
 
 # STEP 1
@@ -69,6 +72,7 @@ def convert_docx_to_markdown(input_file, output_file):
         print(f"Conversion successful: {input_file} to {output_file}")
     except subprocess.CalledProcessError as e:
         logger.error(f"An error occurred during conversion: {e}")
+
 
 def process_markdown_fill_flat_2(file_path, section_dict):
     """
@@ -379,7 +383,11 @@ def clean_up_dict(input_dict, schema_dict, section_numbers_to_process=None):
             try:
                 # Send the prompt to the AI model and get a response
                 response_str = quick_ask(
-                    prompt, json_output=True, max_retries=2, timeout=None
+                    prompt,
+                    json_output=True,
+                    max_retries=2,
+                    timeout=None,
+                    model_name="gpt-4-0125-preview",
                 )
             except:
                 # Handle exceptions in getting a response

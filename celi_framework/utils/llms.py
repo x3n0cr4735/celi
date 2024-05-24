@@ -59,7 +59,7 @@ class ToolDescription(BaseModel):
 async def ask_split(
     user_prompt: str | List[Tuple[str, str]],
     system_message,
-    model_name="gpt-4-0125-preview",
+    model_name,
     max_tokens=4096,
     seed=777,
     verbose=False,  # model_name="gpt-4-1106-preview"
@@ -135,7 +135,7 @@ async def ask_split(
 def quick_ask(
     prompt,
     token_counter,
-    model_name="gpt-4-0125-preview",
+    model_name,
     max_tokens=None,
     seed=777,
     verbose=False,

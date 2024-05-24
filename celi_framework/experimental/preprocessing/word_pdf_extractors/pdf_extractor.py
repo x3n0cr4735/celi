@@ -47,7 +47,10 @@ def create_toc(doc):
 
     prompt = make_toc_prompt(all_text)
     response = quick_ask(
-        prompt, json_output=True, token_counter=get_master_counter_instance()
+        prompt,
+        json_output=True,
+        token_counter=get_master_counter_instance(),
+        model_name="gpt-4-0125-preview",
     )
     toc_dict = json.loads(response)
     toc = convert_dict_to_toc(toc_dict)

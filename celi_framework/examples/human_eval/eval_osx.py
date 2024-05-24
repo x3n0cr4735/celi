@@ -31,6 +31,8 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
         file = sys.argv[1]
     else:
-        file = "celi_framework/examples/human_eval/example_output.json"
+        file = (
+            "celi_framework/examples/human_eval/example_output_gpt-4-0125-preview.json"
+        )
 
     main(file)
