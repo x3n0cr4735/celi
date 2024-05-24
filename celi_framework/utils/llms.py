@@ -30,10 +30,10 @@ import time
 from typing import Optional, Dict, List, Any, Tuple
 
 import openai
+from dotenv import load_dotenv
 from openai.types.chat import ChatCompletion
 from pydantic import BaseModel
 from requests import HTTPError
-from dotenv import load_dotenv
 
 from celi_framework.utils.codex import MongoDBUtilitySingleton
 from celi_framework.utils.exceptions import ContextLengthExceededException
@@ -44,6 +44,7 @@ from celi_framework.utils.token_counters import (
 )
 
 load_dotenv()
+
 
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
 @functools.lru_cache(1)

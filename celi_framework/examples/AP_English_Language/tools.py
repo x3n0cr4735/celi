@@ -1,40 +1,31 @@
 # TODO -> Put stuff in utils/common where it makes sense
 
-import sys
-import os
 from dotenv import load_dotenv
+
 load_dotenv()
-ROOT_DIR = os.getenv("ROOT_DIR")
-sys.path.append(ROOT_DIR)
 
 import json
 import os
-import re
-import time
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict
 
 from celi_framework.core.job_description import ToolImplementations
 from celi_framework.utils.log import app_logger as logger
 from celi_framework.utils.utils import load_json, load_text_file
 from docx import Document
 
-# TODO: THis next line is causing a circular import error
-# from project_runner import ShutdownManager
-#
-# sm = ShutdownManager()
+cur_dir = os.path.dirname(os.path.realpath(__file__))
 
-ROOT_DIR = os.getenv("ROOT_DIR")
 
 @dataclass
 class APEnglishLanguageToolImplementations(ToolImplementations):
     def __post_init__(self):
-        self.schema = load_json(f'{ROOT_DIR}/celi_framework/examples/AP_English_Language/schema.json')
+        self.schema = load_json(f"{cur_dir}/schema.json")
 
     # Retrieves the question numbers and topics of the questions that need to be answered.
     def get_schema(self) -> Dict[str, str]:
-        return load_json(f'{ROOT_DIR}/celi_framework/examples/AP_English_Language/schema.json')
+        return self.schema
 
     def retrieve_question_prompt(self, question_number: str) -> str:
         """
@@ -46,7 +37,9 @@ class APEnglishLanguageToolImplementations(ToolImplementations):
         Returns:
             str: The prompt for the question.
         """
-        prompt = load_text_file(f"{ROOT_DIR}/celi_framework/examples/AP_English_Language/data/working_data/targets/set_1_target_{question_number}_question.txt")
+        prompt = load_text_file(
+            f"{cur_dir}/data/working_data/targets/set_1_target_{question_number}_question.txt"
+        )
 
         return prompt
 
@@ -60,8 +53,12 @@ class APEnglishLanguageToolImplementations(ToolImplementations):
         Returns:
             str: Prompt, question example pair.
         """
-        prompt = load_text_file(f"{ROOT_DIR}/celi_framework/examples/AP_English_Language/data/working_data/examples/set_2_example_{question_number}_question.txt")
-        response = load_text_file(f"{ROOT_DIR}/celi_framework/examples/AP_English_Language/data/working_data/examples/set_2_example_{question_number}_response_a.txt")
+        prompt = load_text_file(
+            f"{cur_dir}/data/working_data/examples/set_2_example_{question_number}_question.txt"
+        )
+        response = load_text_file(
+            f"{cur_dir}/data/working_data/examples/set_2_example_{question_number}_response_a.txt"
+        )
         pair = f"{prompt}\n\n{response}"
 
         return pair
@@ -76,7 +73,9 @@ class APEnglishLanguageToolImplementations(ToolImplementations):
         Returns:
             str: Prompt, question example pair.
         """
-        response = load_text_file(f"{ROOT_DIR}/celi_framework/examples/AP_English_Language/data/working_data/examples/set_2_example_{question_number}_response_a.txt")
+        response = load_text_file(
+            f"{cur_dir}/data/working_data/examples/set_2_example_{question_number}_response_a.txt"
+        )
 
         return response
 
@@ -91,7 +90,8 @@ class APEnglishLanguageToolImplementations(ToolImplementations):
             str: Prompt, question example pair.
         """
         instructions = load_text_file(
-            f"{ROOT_DIR}/celi_framework/examples/AP_English_Language/data/working_data/instructions/{question_number}_instructions.txt")
+            f"{cur_dir}/data/working_data/instructions/{question_number}_instructions.txt"
+        )
 
         return instructions
 
@@ -117,10 +117,10 @@ class APEnglishLanguageToolImplementations(ToolImplementations):
                 output_filename (str): The name of the file to be saved.
             """
             # Extract the draft text
-            draft_text = draft_dict.get('draft', '')
+            draft_text = draft_dict.get("draft", "")
 
             filename = f"{question_number}_Final.docx"
-            output_dir_path = f"{ROOT_DIR}/celi_framework/examples/AP_English_Language/output/draft_word"
+            output_dir_path = f"{cur_dir}/output/draft_word"
 
             output_docx_path = os.path.join(output_dir_path, filename)
 
@@ -132,16 +132,23 @@ class APEnglishLanguageToolImplementations(ToolImplementations):
             return output_docx_path
 
         timestamp = datetime.now().strftime("%m%d%y-%H%M%S")
-        logger.info(f"DRAFT DICT TEXT LOOKS LIKE THIS\n{draft_dict}", extra={'color':'cyan'})
+        logger.info(
+            f"DRAFT DICT TEXT LOOKS LIKE THIS\n{draft_dict}", extra={"color": "cyan"}
+        )
 
         # Assuming draft_dict is a string that needs to be loaded into a dictionary
         draft_dict = json.loads(draft_dict)
-        structured_dict = {'draft': draft_dict.get('draft', '')}
+        structured_dict = {"draft": draft_dict.get("draft", "")}
 
         # Define the full path for the saved file
-        file_path = os.path.join(ROOT_DIR, 'celi_framework/examples/AP_English_Language/output/draft_dict',
-                                 f'{question_number}-response-{timestamp}.json')
-        os.makedirs(os.path.dirname(file_path), exist_ok=True)  # Ensure directory exists
+        file_path = os.path.join(
+            cur_dir,
+            "output/draft_dict",
+            f"{question_number}-response-{timestamp}.json",
+        )
+        os.makedirs(
+            os.path.dirname(file_path), exist_ok=True
+        )  # Ensure directory exists
 
         # Save the JSON file
         with open(file_path, "w") as json_file:
@@ -151,11 +158,13 @@ class APEnglishLanguageToolImplementations(ToolImplementations):
             # Assuming save_draft_to_docx returns the full path to the saved .docx file
             docx_filepath = save_draft_to_docx(structured_dict, question_number)
             if docx_filepath:
-                redis_key = f'draft_ready:{question_number}'
+                redis_key = f"draft_ready:{question_number}"
                 # redis_client.set(redis_key, docx_filepath)
                 # logger.info(f"Signaled Redis that draft for question {question_number} is ready.", extra={'color':'cyan'})
             else:
-                logger.error(f"Failed to save the .docx for question {question_number}.")
+                logger.error(
+                    f"Failed to save the .docx for question {question_number}."
+                )
         except Exception as e:
             logger.error(f"Error saving draft or signaling Redis: {e}")
 
@@ -166,9 +175,3 @@ class APEnglishLanguageToolImplementations(ToolImplementations):
         # redis_client.set(f'draft_ready:{question}', 'true')
 
         return structured_dict
-
-
-
-
-
-
