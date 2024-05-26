@@ -13,7 +13,6 @@ build:
       - pip install poetry
       #- poetry config virtualenvs.create false
     post_install:
-      - sudo apt install portaudio19-dev
       - VIRTUAL_ENV=$READTHEDOCS_VIRTUALENV_PATH poetry install --all-extras
       # Attempt to remedy repeated errors: ModuleNotFoundError: No module named 'typing_extensions'
       #- pip install typing_extensions

@@ -13,13 +13,16 @@ from fastapi import Body, FastAPI
 from pydantic import BaseModel
 from starlette.middleware.cors import CORSMiddleware
 from starlette.websockets import WebSocket
-from voice_stream import queue_source, map_step
-from voice_stream.integrations.fastapi import fastapi_websocket_text_sink
 
 from celi_framework.core.celi_update_callback import CELIUpdateCallback
 from celi_framework.core.mt_factory import MasterTemplateFactory
 from celi_framework.core.processor import ProcessRunner
 from celi_framework.core.section_processor import SectionProcessor
+from celi_framework.core.websocket.streams import (
+    map_step,
+    fastapi_websocket_text_sink,
+    queue_source,
+)
 from celi_framework.logging_setup import setup_logging
 from celi_framework.main import setup_standard_args, parse_standard_args
 from celi_framework.utils.codex import MongoDBUtilitySingleton
