@@ -30,13 +30,16 @@ function App() {
       <div className="App">
         {!sessionId ? (
             <div className="App-input-container">
+              Source Wikipedia Page:
               <input
+
                   type="text"
                   className="App-input-field"
                   value={exampleUrl}
                   onChange={e => setExampleUrl(e.target.value)}
                   placeholder="Example URL"
               />
+              Target Wikipedia Page:
               <input
                   type="text"
                   className="App-input-field"
