@@ -46,6 +46,7 @@ class CELIConfig:
     parser_model_name: str
     llm_cache: bool
     use_monitor: bool
+    primary_model_name: str
 
 
 def run_celi(celi_config: CELIConfig):
@@ -64,6 +65,7 @@ def run_celi(celi_config: CELIConfig):
         codex=codex,
         tool_implementations=celi_config.tool_implementations,
         llm_cache=celi_config.llm_cache,
+        primary_model_name=celi_config.primary_model_name,
     )
 
     monitoring_agent = None

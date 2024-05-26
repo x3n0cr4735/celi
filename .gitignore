@@ -10,6 +10,7 @@
 .local_notebooks
 dist/
 target/
+output/
 docs/_build
 celi/
 _gen/

@@ -14,22 +14,22 @@ import os
 from typing import Dict
 
 from attr import dataclass
+
 from celi_framework.core.job_description import (
-    ToolImplementations,
-    generate_tool_descriptions, BaseDocToolImplementations,
+    BaseDocToolImplementations,
 )
 from celi_framework.core.templates import (
     make_draft_setting_output_prompt,
     make_table_setting_output_prompt,
 )
 from celi_framework.utils.llms import quick_ask
+from celi_framework.utils.log import app_logger
 from celi_framework.utils.token_counters import get_master_counter_instance
 from celi_framework.utils.utils import (
     format_toc,
     get_section_context_as_text,
     read_json_from_file,
 )
-from celi_framework.utils.log import app_logger
 
 
 @dataclass
@@ -197,6 +197,7 @@ class ReportingToolImplementations(BaseDocToolImplementations):
             token_counter=get_master_counter_instance(),
             json_output=True,
             timeout=150,
+            model_name="gpt-4-0125-preview",
         )
         try:
             # Attempt to parse the response string as JSON
@@ -233,7 +234,10 @@ class ReportingToolImplementations(BaseDocToolImplementations):
         prompt = make_table_setting_output_prompt(table_content)
         # Send the prompt to an external service (LLM)
         response_str = quick_ask(
-            prompt, token_counter=get_master_counter_instance(), json_output=True
+            prompt,
+            token_counter=get_master_counter_instance(),
+            json_output=True,
+            model_name="gpt-4-0125-preview",
         )
         try:
             # Attempt to parse the response string as JSON

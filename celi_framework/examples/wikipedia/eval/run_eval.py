@@ -48,6 +48,7 @@ def get_config():
         parser_model_name=args.parser_model_name,
         llm_cache=llm_cache,
         use_monitor=use_monitor,
+        primary_model_name=args.primary_model_name,
     )
 
 

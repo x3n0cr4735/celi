@@ -37,7 +37,9 @@ def get_config():
     args = parser.parse_args()
 
     directories = Directories.create(args.output_dir)
-    mongo_config = None if args.no_db else instantiate_with_argparse_args(args, MongoDBConfig)
+    mongo_config = (
+        None if args.no_db else instantiate_with_argparse_args(args, MongoDBConfig)
+    )
 
     job_description = get_obj_by_name(args.job_description)
 
@@ -75,6 +77,7 @@ def get_config():
         parser_model_name=args.parser_model_name,
         llm_cache=llm_cache,
         use_monitor=use_monitor,
+        primary_model_name=args.primary_model_name,
     )
 
 
@@ -94,6 +97,12 @@ def setup_standard_args():
         type=str,
         default=os.getenv("OUTPUT_DIR"),
         help="Output directory path",
+    )
+    parser.add_argument(
+        "--primary-model-name",
+        type=str,
+        default=os.getenv("PRIMARY_LLM", "gpt-4-0125-preview"),
+        help="Name of the primary LLM to use",
     )
     parser.add_argument(
         "--db-url",
@@ -162,5 +171,3 @@ if __name__ == "__main__":
     logger.debug("Starting CELI")
     config = get_config()
     run_celi(config)
-
-

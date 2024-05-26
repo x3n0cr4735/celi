@@ -30,6 +30,7 @@ import time
 from typing import Optional, Dict, List, Any, Tuple
 
 import openai
+from dotenv import load_dotenv
 from openai.types.chat import ChatCompletion
 from pydantic import BaseModel
 from requests import HTTPError
@@ -41,6 +42,8 @@ from celi_framework.utils.token_counters import (
     token_counter_decorator_ask_split,
     token_counter_decorator_quick_ask,
 )
+
+load_dotenv()
 
 
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
@@ -59,7 +62,7 @@ class ToolDescription(BaseModel):
 async def ask_split(
     user_prompt: str | List[Tuple[str, str]],
     system_message,
-    model_name="gpt-4-0125-preview",
+    model_name,
     max_tokens=4096,
     seed=777,
     verbose=False,  # model_name="gpt-4-1106-preview"
@@ -135,7 +138,7 @@ async def ask_split(
 def quick_ask(
     prompt,
     token_counter,
-    model_name="gpt-4-0125-preview",
+    model_name,
     max_tokens=None,
     seed=777,
     verbose=False,
@@ -191,7 +194,7 @@ def quick_ask(
                 codex=codex,
                 messages=assemble_chat_messages(prompt),
                 model=model_name,
-                temperature=0.0,
+                temperature=temperature,
                 max_tokens=max_tokens,
                 seed=seed,
                 response_format=response_format,

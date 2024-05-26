@@ -38,7 +38,7 @@ def summarize_long_sections(text):
     """
 
     prompt = f"summarize this chunk of text from a [ENTER DOC TYPE] document succinctly:\n{text}"  # TODO-> Fill in doc type
-    response = quick_ask(prompt)
+    response = quick_ask(prompt, model_name="gpt-4-0125-preview")
     return response
 
 
