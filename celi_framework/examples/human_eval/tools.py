@@ -9,6 +9,7 @@ from os.path import dirname
 from typing import Dict, Optional
 
 import pandas as pd
+from pydantic import BaseModel
 
 from celi_framework.core.job_description import (
     ToolImplementations,
@@ -20,6 +21,11 @@ logger = logging.getLogger(__name__)
 
 class SafeExecException(Exception):
     pass
+
+
+class HumanEvalInit(BaseModel):
+    drafts_dir: str = "target/celi_output/drafts"
+    single_example: Optional[str] = None  # "HumanEval/129"
 
 
 @dataclass

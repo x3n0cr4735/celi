@@ -2,10 +2,11 @@ import json
 import logging
 from dataclasses import dataclass
 from json import JSONDecodeError
-from typing import List, Dict, Tuple
+from typing import List, Dict, Tuple, Optional
 
 from openai.types.chat.chat_completion import Choice
 
+from celi_framework.core.celi_update_callback import CELIUpdateCallback
 from celi_framework.core.job_description import ToolImplementations
 from celi_framework.utils.codex import MongoDBUtilitySingleton
 from celi_framework.utils.llms import ToolDescription, ask_split
@@ -29,23 +30,47 @@ class SectionProcessor:
     codex: MongoDBUtilitySingleton
     llm_cache: bool
     monitor_instructions: str
+    callback: Optional[CELIUpdateCallback] = None
 
     def __post_init__(self):
-        self.ongoing_chat: List[Dict[str, str] | Tuple[str, str]] = [
-            ("user", self.initial_user_message),
+        self.ongoing_chat: List[Dict[str, str] | Tuple[str, str]] = []
+        self.pending_human_input = None
+        self._update_ongoing_chat(("user", self.initial_user_message))
+        self._update_ongoing_chat(
             (
                 "user",
                 f"Proceed to document section {self.current_section}, and do Task #1.",
-            ),
-        ]
+            )
+        )
         self.section_complete_flag = False
         self.retry_number = 0
         self.tool_names = [_.name for _ in self.tool_descriptions]
+        self.is_running = False
+
+    def _update_ongoing_chat(self, msg: Dict[str, str] | Tuple[str, str]):
+        self.ongoing_chat.append(msg)
+        if self.callback:
+            self.callback.on_message(self.current_section, msg)
+        if self.pending_human_input:
+            user_msg = ("user", self.pending_human_input)
+            self.ongoing_chat.append(user_msg)
+            self.callback.on_message(self.current_section, user_msg)
+            self.pending_human_input = None
+
+    async def add_human_input(self, input: str):
+        if self.is_running:
+            self.pending_human_input = input
+        else:
+            self._update_ongoing_chat(("user", input))
+            # If we've finished, start again.
+            await self.run()
 
     async def run(self):
-        keep_running = True
-        while keep_running:
-            keep_running = await self.process_iteration()
+        self.is_running = True
+        while self.is_running:
+            self.is_running = await self.process_iteration()
+        if self.callback:
+            self.callback.on_section_complete(self.current_section)
 
     async def process_iteration(self):
         """
@@ -78,11 +103,13 @@ class SectionProcessor:
             timeout=None,
             tool_descriptions=self.tool_descriptions,
         )
-        self.ongoing_chat += [("assistant", str(llm_response.message.content or ""))]
+        self._update_ongoing_chat(
+            ("assistant", str(llm_response.message.content or ""))
+        )
 
         if llm_response.finish_reason == "tool_calls":
             tool_result = self.make_tool_calls(llm_response)
-            self.ongoing_chat += tool_result
+            [self._update_ongoing_chat(_) for _ in tool_result]
 
         app_logger.info(
             f"New chat iteration for {self.current_section}:\n"
@@ -199,13 +226,15 @@ class SectionProcessor:
 
         return ret
 
-    def format_chat_messages(self, msgs: List[ChatMessageable]):
-        return "\n\n".join(self.format_message_content(m) for m in msgs)
-
-    def format_message_content(self, m: ChatMessageable):
+    @staticmethod
+    def format_message_content(m: ChatMessageable):
         if isinstance(m, dict):
             return f"{m['role'].capitalize()}:\n{m['content']}"
         return f"{m[0].capitalize()}:\n{m[1]}"
+
+    @staticmethod
+    def format_chat_messages(msgs: List[ChatMessageable]):
+        return "\n\n".join(SectionProcessor.format_message_content(m) for m in msgs)
 
     def make_tool_calls(self, response: Choice):
         def make_tool_call(tool_call):

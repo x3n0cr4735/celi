@@ -5,11 +5,14 @@ import inspect
 import json
 import logging
 import os
+import re
 from abc import ABC, abstractmethod
 from typing import Any, Callable, Dict, List, Optional, Type
 
+import Levenshtein
 from pydantic import BaseModel, field_serializer
 
+from celi_framework.core.celi_update_callback import CELIUpdateCallback
 from celi_framework.utils.llms import ToolDescription
 from celi_framework.utils.utils import (
     encode_class_type,
@@ -107,8 +110,13 @@ class ToolImplementations(ABC):
 class BaseDocToolImplementations(ToolImplementations, ABC):
     """A base class for ToolImplementations that draft documents.  Adds a standard `update_draft_doc` tool."""
 
-    def __init__(self, drafts_dir: str = "target/celi_output/drafts"):
+    def __init__(
+        self,
+        drafts_dir: str = "target/celi_output/drafts",
+        callback: Optional[CELIUpdateCallback] = None,
+    ):
         os.makedirs(drafts_dir, exist_ok=True)
+        self.callback = callback
         self.draft_doc = (
             f"{drafts_dir}/{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json"
         )
@@ -123,10 +131,13 @@ class BaseDocToolImplementations(ToolImplementations, ABC):
             doc_section: The section name to save
             draft: The draft text
         """
+        matched_section = self.match_doc_section(doc_section)
         logger.info(
-            f"Completed section {doc_section}.  Draft output is:\n{draft}",
+            f"Completed section {doc_section} ({matched_section}).  Draft output is:\n{draft}",
             extra={"color": "orange"},
         )
+        if self.callback:
+            self.callback.on_output(matched_section, draft)
 
         logger.info(f"Adding section {doc_section} to {self.draft_doc}")
         try:
@@ -135,6 +146,38 @@ class BaseDocToolImplementations(ToolImplementations, ABC):
             current = {}
         current[doc_section] = draft
         write_string_to_file(json.dumps(current, indent=2), self.draft_doc)
+
+    def match_doc_section(self, doc_section):
+        # Try to extract a number first
+        number = BaseDocToolImplementations._extract_number(doc_section)
+        if number is not None:
+            return str(number)
+
+        # If no number found, get the closest match from the dictionary
+        return BaseDocToolImplementations._find_closest_match(
+            doc_section, self.get_schema()
+        )
+
+    @staticmethod
+    def _extract_number(doc_section):
+        # Find all numbers in the string
+        numbers = re.findall(r"\d+", doc_section)
+        if numbers:
+            return int(numbers[0])  # Return the first number found as an integer
+        return None
+
+    @staticmethod
+    def _find_closest_match(section, schema_dict):
+        closest_key = None
+        closest_distance = float("inf")
+
+        for key, value in schema_dict.items():
+            distance = Levenshtein.distance(section, value)
+            if distance < closest_distance:
+                closest_distance = distance
+                closest_key = key
+
+        return closest_key
 
 
 class JobDescription(BaseModel):

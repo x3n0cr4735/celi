@@ -21,6 +21,7 @@ Explore the rest of the documentation to learn more about CELI.
 getting_started
 new_use_cases
 running_celi
+rest_server
 reference/index
 ```
 
