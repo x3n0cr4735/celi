@@ -30,6 +30,7 @@ import time
 from typing import Optional, Dict, List, Any, Tuple
 
 import openai
+from dotenv import load_dotenv
 from openai.types.chat import ChatCompletion
 from pydantic import BaseModel
 from requests import HTTPError
@@ -41,6 +42,8 @@ from celi_framework.utils.token_counters import (
     token_counter_decorator_ask_split,
     token_counter_decorator_quick_ask,
 )
+
+load_dotenv()
 
 
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
@@ -191,7 +194,7 @@ def quick_ask(
                 codex=codex,
                 messages=assemble_chat_messages(prompt),
                 model=model_name,
-                temperature=0.0,
+                temperature=temperature,
                 max_tokens=max_tokens,
                 seed=seed,
                 response_format=response_format,

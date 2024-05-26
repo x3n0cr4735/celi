@@ -1,0 +1,82 @@
+### G R E® Scoring Guide
+#### Score 6
+In addressing the specific task directions, a 6 response presents a cogent, wellarticulated analysis of the issue and conveys meaning skillfully.
+A typical response in this category exhibits the following characteristics:
+It articulates a clear and insightful position on the issue in accordance with the assigned task.
+It develops the position fully, with compelling reasons and/or persuasive examples.
+It sustains a wellfocused, wellorganized analysis, connecting ideas logically.
+It conveys ideas fluently and precisely, using effective vocabulary and sentence variety.
+It demonstrates superior facility with the conventions of standard written English (i.e., grammar, usage, and mechanics) but may have minor errors.
+
+#### Score 5
+In addressing the specific task directions, a 5 response presents a generally thoughtful, welldeveloped analysis of the issue and conveys meaning clearly.
+A typical response in this category exhibits the following characteristics:
+It presents a clear and wellconsidered position on the issue in accordance with the assigned task.
+It develops the position with logically sound reasons and/or wellchosen examples.
+It is focused and generally well organized, connecting ideas appropriately.
+It conveys ideas clearly and well, using appropriate vocabulary and sentence variety.
+It demonstrates facility with the conventions of standard written English but may have minor errors.
+
+#### Score 4
+In addressing the specific task directions, a 4 response presents a competent analysis of the issue and conveys meaning with acceptable clarity.
+A typical response in this category exhibits the following characteristics:
+It presents a clear position on the issue in accordance with the assigned task.
+It develops the position with relevant reasons and/or examples.
+It is adequately focused and organized.
+It demonstrates sufficient control of language to express ideas with acceptable clarity.
+It generally demonstrates control of the conventions of standard written English but may have some errors.
+#### Score 3
+A 3 response demonstrates some competence in addressing the specific task directions, in analyzing the issue, and in conveying meaning but is obviously flawed.
+A typical response in this category exhibits ONE OR MORE of the following characteristics:
+It is vague or limited in addressing the specific task directions and/or in presenting or developing a position on the issue.
+It is weak in the use of relevant reasons or examples, or relies largely on unsupported claims.
+It is limited in focus and/or organization.
+It has problems in language and sentence structure that result in a lack of clarity.
+It contains occasional major errors or frequent minor errors in grammar, usage, or mechanics that can interfere with meaning.
+
+#### Score 2
+A 2 response largely disregards the specific task directions and/or demonstrates serious weaknesses in analytical writing.
+A typical response in this category exhibits ONE OR MORE of the following characteristics:
+It is unclear or seriously limited in addressing the specific task directions and/or in presenting or developing a position on the issue.
+It provides few, if any, relevant reasons or examples in support of its claims.
+It is poorly focused and/or poorly organized.
+It has serious problems in language and sentence structure that frequently interfere with meaning.
+It contains serious errors in grammar, usage, or mechanics that frequently obscure meaning.
+
+#### Score 1
+A 1 response demonstrates fundamental deficiencies in analytical writing.
+A typical response in this category exhibits ONE OR MORE of the following characteristics:
+It provides little or no evidence of understanding the issue.
+It provides little or no evidence of the ability to develop an organized response (e.g., is disorganized and/or extremely brief).
+It has severe problems in language and sentence structure that persistently interfere with meaning.
+It contains pervasive errors in grammar, usage, or mechanics that result in incoherence.
+
+#### Score 0
+A 0 response is off topic (i.e., provides no evidence of an attempt to respond to the assigned topic), written in a foreign language, merely copies the topic, consists of only keystroke characters, or is illegible or nonverbal.
+
+--------------
+
+While scoring, keep in mind that the distribution of scores for past responses looks like this:
+
+| Score Levels | Analytical Writing |
+|--------------|--------------------|
+| 6.0          | 99                 |
+| 5.5          | 98                 |
+| 5.0          | 91                 |
+| 4.5          | 81                 |
+| 4.0          | 56                 |
+| 3.5          | 38                 |
+| 3.0          | 15                 |
+| 2.5          | 7                  |
+| 2.0          | 2                  |
+| 1.5          | 1                  |
+| 1.0          |                    |
+| 0.5          |                    |
+| 0.0          |                    |
+
+**Note for Tables 1B and 1C:** Blank cells imply that percentile information was not reported because there were no test takers above or below specified scale score range.
+
+**Total number of test takers** (July 1, 2019, and June 30, 2022):
+- Verbal Reasoning: 1,185,163
+- Quantitative Reasoning: 1,187,394
+- Analytical Writing: 1,182,875
