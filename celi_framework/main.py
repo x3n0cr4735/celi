@@ -33,15 +33,14 @@ def get_config():
     load_dotenv("./.env")
 
     parser = setup_standard_args()
-
-    args = parser.parse_args()
-
-    directories = Directories.create(args.output_dir)
-    mongo_config = (
-        None if args.no_db else instantiate_with_argparse_args(args, MongoDBConfig)
+    parser.add_argument(
+        "--tool-config-json",
+        type=str,
+        default=os.getenv("TOOL_CONFIG_JSON"),
+        help="Path to a JSON file which will be used to instantiate the tool implementation.",
     )
-
-    job_description = get_obj_by_name(args.job_description)
+    args = parser.parse_args()
+    config = parse_standard_args(args)
 
     # If the tool_config_json file doesn't exist, try to find it relative to the root of the installed package.
     # This allows examples packaged with celi to work correctly.
@@ -60,7 +59,20 @@ def get_config():
     else:
         tool_config = {}
 
-    tool_implementations = job_description.tool_implementations_class(**tool_config)
+    config.tool_implementations = config.job_description.tool_implementations_class(
+        **tool_config
+    )
+
+    return config
+
+
+def parse_standard_args(args):
+    directories = Directories.create(args.output_dir)
+    mongo_config = (
+        None if args.no_db else instantiate_with_argparse_args(args, MongoDBConfig)
+    )
+
+    job_description = get_obj_by_name(args.job_description)
 
     llm_cache = not args.no_cache
     use_monitor = not args.no_monitor
@@ -72,7 +84,7 @@ def get_config():
         mongo_config=mongo_config,
         directories=directories,
         job_description=job_description,
-        tool_implementations=tool_implementations,
+        tool_implementations=None,
         parser_cls=parser_cls,
         parser_model_name=args.parser_model_name,
         llm_cache=llm_cache,
@@ -126,12 +138,6 @@ def setup_standard_args():
             "celi_framework.examples.wikipedia.job_description.job_description",
         ),
         help="Fully qualified name of a JobDescription instance with information on the task to perform",
-    )
-    parser.add_argument(
-        "--tool-config-json",
-        type=str,
-        default=os.getenv("TOOL_CONFIG_JSON"),
-        help="Path to a JSON file which will be used to instantiate the tool implementation.",
     )
     parser.add_argument(
         "--parser-model-class",

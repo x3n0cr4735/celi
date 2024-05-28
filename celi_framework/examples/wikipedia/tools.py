@@ -7,7 +7,9 @@ from typing import Any, Dict, List, Optional
 from llama_index.core.base.response.schema import Response
 from llama_index.core.schema import MetadataMode, QueryBundle, NodeWithScore, TextNode
 from llama_index.vector_stores.chroma.base import ChromaVectorStore
+from pydantic import BaseModel
 
+from celi_framework.core.celi_update_callback import CELIUpdateCallback
 from celi_framework.core.job_description import BaseDocToolImplementations
 from celi_framework.examples.wikipedia.index import get_wikipedia_index
 from celi_framework.utils.codex import MongoDBUtilitySingleton
@@ -28,16 +30,31 @@ class RecreatedNode:
         return self.text
 
 
-@dataclass
-class WikipediaToolImplementations(BaseDocToolImplementations):
-    """If ignore_updates is set, then a cached version of that URL will be used, even if it is out of date.
-    Otherwise, a cache will only be used if it hasn't expired and the content hasn't changed."""
+class WikipediaInit(BaseModel):
     example_url: str
     target_url: str
     ignore_updates: bool = False
 
-    def __init__(self, example_url: str, target_url: str, ignore_updates: bool, drafts_dir: str = "target/celi_output/drafts"):
-        super().__init__(drafts_dir=drafts_dir)
+
+@dataclass
+class WikipediaToolImplementations(BaseDocToolImplementations):
+    """If ignore_updates is set, then a cached version of that URL will be used, even if it is out of date.
+    Otherwise, a cache will only be used if it hasn't expired and the content hasn't changed.
+    """
+
+    example_url: str
+    target_url: str
+    ignore_updates: bool = False
+
+    def __init__(
+        self,
+        example_url: str,
+        target_url: str,
+        ignore_updates: bool,
+        drafts_dir: str = "target/celi_output/drafts",
+        callback: Optional[CELIUpdateCallback] = None,
+    ):
+        super().__init__(drafts_dir=drafts_dir, callback=callback)
         self.example_url = example_url
         self.target_url = target_url
         self.ignore_updates = ignore_updates

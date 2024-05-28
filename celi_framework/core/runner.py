@@ -41,7 +41,7 @@ class CELIConfig:
     mongo_config: Optional[MongoDBConfig]
     directories: Directories
     job_description: JobDescription
-    tool_implementations: ToolImplementations
+    tool_implementations: Optional[ToolImplementations]
     parser_cls: Type[BaseParser]
     parser_model_name: str
     llm_cache: bool

@@ -31,8 +31,9 @@ while also managing token usage to prevent excessive costs."""
 
 import asyncio
 import logging
-from typing import List
+from typing import List, Dict, Optional
 
+from celi_framework.core.celi_update_callback import CELIUpdateCallback
 from celi_framework.core.job_description import (
     ToolImplementations,
     generate_tool_descriptions,
@@ -77,10 +78,12 @@ class ProcessRunner:
         llm_cache: bool,
         primary_model_name: str,
         skip_section_list=None,
+        callback: Optional[CELIUpdateCallback] = None,
     ):
         if skip_section_list is None:
             skip_section_list = []
         self.primary_model_name = primary_model_name
+        self.callback = callback
         logger.info(f"Using {primary_model_name} as the primary LLM")
 
         self.master_template = master_template  # config and schema need to be defined # TODO -> Read latest version from codex?
@@ -125,28 +128,59 @@ class ProcessRunner:
             self.master_template.job_desc.tool_implementations_class
         )
 
+    def get_schema(self) -> Dict[str, str]:
+        return self.tool_implementations.get_schema()
+
     async def run(self):
         """
         Runs all sections of the document.
         """
-        section_processors = [
-            SectionProcessor(
-                current_section=_,
-                system_message=self.system_message,
-                initial_user_message=self.master_template.job_desc.initial_user_message,
-                tool_descriptions=self.tool_descriptions
-                + self.builtin_tool_descriptions,
-                tool_implementations=self.tool_implementations,
-                primary_model_name=self.primary_model_name,
-                codex=self.codex,
-                llm_cache=self.llm_cache,
-                monitor_instructions=self.master_template.job_desc.monitor_instructions,
+        try:
+            logger.info(
+                f"Starting new run on {self.sections_to_be_completed} sections."
             )
-            for _ in self.sections_to_be_completed
-        ]
-        tasks = [section_processor.run() for section_processor in section_processors]
-        await asyncio.gather(*tasks)
+            self.section_processors = [
+                SectionProcessor(
+                    current_section=_,
+                    system_message=self.system_message,
+                    initial_user_message=self.master_template.job_desc.initial_user_message,
+                    tool_descriptions=self.tool_descriptions
+                    + self.builtin_tool_descriptions,
+                    tool_implementations=self.tool_implementations,
+                    primary_model_name=self.primary_model_name,
+                    codex=self.codex,
+                    llm_cache=self.llm_cache,
+                    monitor_instructions=self.master_template.job_desc.monitor_instructions,
+                    callback=self.callback,
+                )
+                for _ in self.sections_to_be_completed
+            ]
+            self.tasks = {
+                section_processor.current_section: asyncio.create_task(
+                    section_processor.run()
+                )
+                for section_processor in self.section_processors
+            }
+            logger.info(f"Done creating tasks.")
+            await self.wait_on_tasks()
+        except Exception as e:
+            logger.exception("Error in process runner.")
+            raise e
+
+    async def wait_on_tasks(self):
+        app_logger.info("Waiting on task completion", extra={"color": "cyan"})
+        await asyncio.gather(*self.tasks.values())
         app_logger.info("All sections have been completed.", extra={"color": "cyan"})
+        if self.callback:
+            self.callback.on_all_sections_complete()
+
+    async def add_human_input_on_section(self, section_id: str, input: str):
+        new_task = [
+            _ for _ in self.section_processors if _.current_section == section_id
+        ][0].add_human_input(input)
+        if new_task:
+            self.tasks[section_id] = new_task
+        await self.wait_on_tasks()
 
     def removed_skipped_sections(
         self, all_sections: List[str], skip_section_list: List[str]

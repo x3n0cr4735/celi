@@ -66,10 +66,10 @@ task_library = [
         task_name="Draft New Document Section",
         details={
             "description": "Draft a new section analogous to the revised example section, ensuring alignment with its "
-                           "structure, format, and scope (from {{TaskRef:Understand Differentiation}} output).  Use "
-                           "the section structure you defined in {{TaskRef:Define subsections for this section}}. "
-                           "However, the details should be related to the target and not the example document."
-                           "Call the save_draft_section tool to save the draft.",
+            "structure, format, and scope (from {{TaskRef:Understand Differentiation}} output).  Use "
+            "the section structure you defined in {{TaskRef:Define subsections for this section}}. "
+            "However, the details should be related to the target and not the example document."
+            "Call the save_draft_section tool to save the draft.  Pass in the section number to save_draft_section",
             "guidelines": [
                 "Clearly identify the section number and section heading/title at the top of the content.",
                 "The new section should have its unique scope and purpose, distinct from the example section.",
@@ -89,7 +89,7 @@ task_library = [
         task_name="Prepare for Next Document Section",
         details={
             "description": "Signal that you have completed the draft by calling the pop_context function and prepare "
-                           "to start drafting the next section of the document.",
+            "to start drafting the next section of the document.",
             "function_call": "Use the pop_context function with the argument value = current section identifier.",
             "example_call": "{{'current_section_identifier': ['1.2']}}",
             "instructions": [
