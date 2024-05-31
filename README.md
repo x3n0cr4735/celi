@@ -5,93 +5,45 @@
 ![Python Versions](https://img.shields.io/pypi/pyversions/celi-framework)
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 
-<!-- start elevator-pitch -->
-# CELI: Controller-Embedded Language Interactions
+![CELI Logo](docs/CELI_README_Header_Picture.png)
 
-**CELI (pronounced 'Kelly')** is a framework designed for the automation of a diverse array of knowledge work tasks. Leveraging the analytical and computational capabilities of large language models (LLMs), CELI facilitates:
+# <b>C</b>ELI: A Framework for <u><b>C</b></u>ontroller-<u><b>E</b></u>mbedded <u><b>L</b></u>anguage <u><b>I</b></u>nteractions
 
-- **Autonomous Operation:** Unlike traditional agent-based frameworks, CELI embeds controller logic directly within LLM prompts. This unique approach enables CELI to operate autonomously, adjusting its strategies in real-time to handle errors, incongruencies, and multi-step decision-making without requiring human intervention. CELI's ability to self-correct and adapt ensures continuous progress and efficiency in automated tasks, making it exceptionally suited for complex applications.
+**CELI (pronounced 'Kelly')** leverages the capabilities of large language models (LLMs) to automate a wide range of knowledge work tasks. Here’s an overview of what CELI offers:
 
-- **Flexible Task Automation:** Enables automation across a broad spectrum of tasks, including but not limited to drafting complex documents, conducting systematic literature reviews, data analysis and summarization, and much more.
+- 🚀 **Autonomous Operation:** Functions independently, dynamically adapting strategies without human intervention.
+- 🛠️ **Flexible Task Automation:** Applicable across diverse tasks from document drafting to data analysis.
+- 📈 **Scalability:** Efficiently manages projects of varying sizes and complexities.
+- 📊 **Streamlined Document Management:** Enhances every phase of the document lifecycle management.
+- 🏗️ **Development Flexibility:** Supports the development of custom applications that meet specific industry standards.
 
-- **Scalability:** Designed to accommodate projects of any scale, CELI efficiently processes massive datasets and documents, and produces output of any size, making it an ideal solution for both targeted tasks and large-scale knowledge work automation.
+🔗 [Join our Discord](https://discord.gg/C5SQNdzV) | 🔗 [Read our Docs](https://celi.readthedocs.io/en/latest/)
 
-- **Streamlined Document Lifecycle Management:** CELI optimizes the entire lifecycle of document processing, encompassing pre-processing, embedding, synthesis, content generation, and quality monitoring.
+<p>
+  <i class="fa fa-exclamation-triangle"></i>
+  <strong>Important:</strong> CELI is currently in alpha. For support, join our Discord server or submit an issue on this GitHub repo.
+</p>
 
-- **Development Flexibility:** CELI is architecturally designed to support developers in creating bespoke applications that conform to specific industry standards, including compliance, methodological rigor, and auditing requirements. This fosters innovation in the field of automated knowledge work by providing a scalable framework that integrates seamlessly into enterprise ecosystems.
+## What is CELI?
 
-Join our [Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
+CELI (Controller-Embedded Language Interactions) is a sophisticated framework designed to enhance automation by incorporating advanced components into its architecture. Unlike traditional AI agent frameworks that feature a hierarchical control structure, CELI integrates controller logic directly with operational functions for more dynamic and efficient task management. Key features include:
 
-Read through [our documentation](https://celi.readthedocs.io/en/latest/) for detailed explanations of our codebase.
+- ### 💡 **Inversion of Control and Dynamic LLM-OOP Integration**
 
-Note: CELI is currently in alpha. If there are any issues installing, running, or utilizing CELI in your projects please let us know on Discord or create an issue or pull request. We will get back to you promptly.
+  - Transforms traditional hierarchical models by embedding the LLM controller within the operational fabric of Object-Oriented Programming (OOP) via Inversion of Control (IoC).
+  - This integration moves away from a single OOP controller directing multiple LLM agents and instead allows the LLM controller to actively manage and execute OOP functions. 
+  - Each OOP function directly interacts with the LLM controller, enhancing their autonomy and enabling dynamic function calls. 
+  - This setup ensures cohesive system operation and facilitates real-time interactions with external systems like APIs, databases, and LLM agents, significantly boosting flexibility and enabling complex operations.
 
-## Goals
+- ### 🔄 **Dynamic Workflow Management**
 
-The CELI (Controller-Embedded Language Interactions) framework aims to empower users across various industries and domains with tools to automate routine and complex tasks efficiently. Our objectives are encapsulated in the following goals:
+    Supports complex workflows with the capability for nested operations and recursion within tasks. This dynamic structure allows workflows to adapt based on contextual changes or external data inputs, providing unparalleled flexibility and responsiveness.
 
-### Streamline Task Automation
-- **Empower Efficiency**: Automate both routine and complex tasks to significantly reduce time and effort, enabling a focus on higher-value activities.
-- **Boost Productivity**: By minimizing manual task execution, CELI enhances productivity, allowing users to allocate more time to strategic and creative endeavors.
+- ### ⚙️ **Automation Engine**
 
-### Enhance Quality and Accuracy
-- **Improve Output Quality**: CELI ensures high-quality outputs with standardized processes, aiming to reduce errors typically associated with manual operations.
-- **Ensure Consistency**: Standardize and automate processes to maintain consistency across documents and datasets, a critical factor for compliance, research integrity, and business reporting.
-
-### Foster Innovation and Collaboration
-- **Encourage Exploration**: CELI serves as a platform for users to explore new areas of automation, potentially leading to innovative applications that redefine existing processes.
-- **Build a Community**: Cultivate an open-source community around CELI, where members contribute enhancements, share use cases, and support new users in integrating automation into their workflows.
-
-### Support Diverse Applications
-- **Versatile Use Cases**: Designed for flexibility, CELI supports a broad spectrum of applications, from document and data management to complex analytics.
-- **Customization and Scalability**: Ensure that CELI can be tailored to specific user needs and scaled up to accommodate large-scale projects, making it suitable for both small teams and large enterprises.
-
-## Overview
-
-CELI comprises several modules, each responsible for a distinct part of the document processing workflow:
-
-- **Processor**: Manages and orchestrates the drafting of documents using language models, acting as the core of the CELI system.
-- **Monitor**: Observes and evaluates the performance of the ProcessRunner, ensuring quality and efficiency in automated tasks.
-- **Tasks**: Each CELI workflow is a user-defined list of tasks that instruct the agent how to run.
-- **Tools**: Tools provide mechansims for CELI to interact with the world.  Tools can be customized for the use case.
-
-These components are in the CELI 'celi_framework.core' package
-
-CELI contains experimental versions of several additional tools that can help develop new use cases more quickly and accomplish different tasks:
-- **Pre-Processor**: Converts DOCX documents to a clean Markdown format, making them primed for embedding.
-- **Embeddor**: Embeds pre-cleaned text data from source documents, preparing it for machine learning models and data analysis.
-- **Mapper**: Focuses on pre-computing mappings between document content, enhancing the efficiency of the embedding process.
-- **Post-Monitor**: Evaluates the execution of processes, standardizing task labels and analyzing task quality variations.
-- **Mechanic**: Fixes issues identified by the post-monitor, ensuring the system adapts and improves over time.
-
-These components are in `celi_framework.experimental`.
-
-Additionally, `celi_framework.examples` contains examples for applying CELI to different use cases.
-
-## Comparison with Agent-Based Frameworks
-
-CELI represents a paradigm shift in automated knowledge work, distinguishing itself from traditional agentic frameworks through its unique approach to task automation and interaction with large language models (LLMs). Below are key differentiators that set CELI apart:
-
-- **Controller-Embedded LLM Interactions:** Unlike conventional frameworks where the controller scripts orchestrate LLM interactions in a reactive manner, CELI embeds the controller logic directly within LLM prompts. This design philosophy allows for a more seamless and integrated process, enabling the LLM to act upon a broader context and undertake complex tasks with greater autonomy.
-
-- **Beyond Conversation-Like Flows:** Traditional agent-based models often mimic conversational exchanges, limiting the scope and efficiency of task execution. CELI, by contrast, utilizes a pseudo-code structure in its prompts, freeing the interaction model from the constraints of conversational flows. This allows for the development of more sophisticated and task-specific applications without the limitations of a dialogue format.
-
-- **Function Calling Capabilities:** CELI extends the LLM's functionality through an innovative use of function calls within the prompts. This approach transforms the LLM into a dynamic entity capable of retrieving necessary data (getters) and saving produced data (setters), effectively bridging the gap between LLM reasoning and practical application needs.
-
-- **Error Handling and Self-Correction:** A standout feature of CELI is its ability to self-correct and adapt in real-time. In the face of errors or incongruencies, CELI autonomously adjusts its approach, ensuring continuous progress without the need for human intervention at every decision point. This resilience makes CELI particularly suited for handling complex documents and datasets with varying formats and structures.
-
-- **Scalability and Flexibility:** Addressing the challenge of processing voluminous documents and intricate data sets, CELI is designed to scale effortlessly. Its architecture supports both granular tasks and expansive projects, accommodating the diverse needs of automated knowledge work.
-
-- **Comparison with Existing Frameworks:** Existing agent-based frameworks like LangChain, Haystack, and Autogen, while powerful, often face limitations in flow flexibility and dependency on predefined paths or human inputs for decision-making. CELI's controller-embedded design and autonomous capabilities represent a significant evolution, offering a more scalable, efficient, and versatile solution for automated knowledge work.
-
-By fundamentally reimagining the interaction between controllers and LLMs, CELI paves the way for transformative solutions in knowledge work automation. Its innovative approach to task automation, combined with the power of LLMs, marks a new frontier in the development of intelligent, autonomous applications tailored to complex workflows and diverse industry requirements.
-
-
-<!-- end elevator-pitch -->
+    Acts as the central orchestrating unit, managing all operations from data handling to task execution. The engine efficiently handles both predefined tasks and dynamic adjustments, ensuring seamless automation across diverse platforms and use cases.
 
 ## Getting started
-
-<!-- start getting-started -->
 
 [Join our Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
 
@@ -143,7 +95,83 @@ This example use case uses the wikipedia page for Led Zeppelin as the example do
 
 Note that running this takes around 30 minutes (give or take).
 
-<!-- end getting-started -->
+## Project Overview
+
+CELI is structured into distinct packages, each housing modules responsible for different aspects of the document processing workflow.
+
+### Core Modules
+Located in the `celi_framework.core` package, the following essential core modules facilitate CELI's primary operations:
+
+- **Processor**: Manages and orchestrates the drafting of documents using language models, acting as the core of the CELI system.
+- **Monitor**: Observes and evaluates the performance of the ProcessRunner, ensuring quality and efficiency in automated tasks.
+- **Job Description**: Manages a comprehensive list of user-defined job descriptions that guide how tasks are executed.
+- **Tools**: Provides mechanisms for CELI to interact with external systems and can be customized to suit specific use cases.
+
+### Customizable Extensions
+Users extend the CELI framework by defining their own job descriptions and tools, which leverage and extend the functionalities of the core modules. This allows for a high degree of customization and tailoring to specific needs:
+
+- **User-Defined Job Descriptions**: Users can create unique job descriptions that specify detailed instructions and operational steps, ensuring that automated processes align closely with project requirements.
+- **Custom Tool Implementations**: Developers can implement custom tools by importing core modules and utilizing their functionalities. These tools can be adapted to integrate seamlessly with existing systems or to introduce new capabilities.
+
+### Experimental Modules
+Located in the `celi_framework.experimental` package, these modules are designed to support the development of new use cases and enhance existing functionalities:
+
+- **Pre-Processor**: Converts DOCX documents into a clean Markdown format, priming them for further processing.
+- **Embeddor**: Embeds pre-cleaned text data from source documents, preparing it for integration with machine learning models and data analysis.
+- **Mapper**: Focuses on pre-computing mappings between document contents to enhance the efficiency of the embedding process.
+
+### Example Use Cases
+For practical applications and demonstrations, explore the `celi_framework.examples` package:
+
+- This package contains a variety of examples demonstrating how CELI can be applied across different scenarios and use cases.
+
+## Secret Sauce: Controller-Embedded Recursion
+
+CELI's architecture uniquely integrates recursion within its operational logic, significantly enhanced by embedding controller logic directly within LLM prompts. This sophisticated structure enables CELI to efficiently handle complex, multi-layered tasks with greater autonomy. The key capabilities facilitated by this approach include:
+
+- ### ⚙️ Controller-Embedded Recursion
+
+    Controllers within LLM prompts direct the flow of operations, establishing loops that enable recursion crucial for managing complex sequences, where tasks may depend on the outcomes of preceding actions or require repeated iterations until a certain condition is met.
+
+- ### 🔄 Deep Task Nesting
+
+    CELI manages tasks requiring multiple layers of sub-tasks, recursively processing each layer across various sections of documents or elements within data structures like dictionaries or lists, enhancing the system’s ability to handle diverse and complex workflows.
+
+- ### 🛠️ Sophisticated Error Handling
+
+    By leveraging recursion, CELI dynamically identifies and manages errors or inconsistencies during task execution, ensuring reliability and operational accuracy.
+
+- ### 🧠 Adaptive Learning Loops
+
+    The recursive nature of CELI’s task management supports an environment of adaptive learning, continuously refining strategies and approaches based on ongoing interactions and feedback.
+
+## CELI vs. LLM Agents
+
+CELI offers a distinct approach to automated knowledge work, setting it apart from traditional agent-based frameworks with its effective integration of task automation and interaction with large language models (LLMs). Key differentiators include:
+
+- ### 🎛️ Integrated Control Logic
+
+    CELI’s controller logic embedded within LLM prompts enables a more autonomous and streamlined operation for handling complex tasks, reducing the dependency on manual interventions.
+
+- ### 🏗️ Enhanced Task Structuring
+
+    Unlike traditional models confined to conversational dynamics, CELI employs a structured pseudo-code approach, allowing for complex and precise task execution beyond simple dialogue systems.
+
+- ### 🔁 Recursive Task Management 
+
+    Utilizes recursion to manage multiple layers of tasks efficiently, allowing for dynamic adaptation in response to operational challenges, enhancing system reliability and responsiveness.
+
+- ### 🌐 Active Data Management
+
+    Enhances LLM utility by embedding function calls within operational prompts, enabling real-time data interactions crucial for applying model outputs effectively in real-world scenarios.
+
+- ### 📈 Robust and Adaptable Framework
+
+    Designed to handle a wide range of demands, from small tasks to large-scale projects, CELI’s architecture supports diverse requirements without sacrificing performance.
+
+## Discord Server
+
+[Join our Discord server](https://discord.gg/C5SQNdzV) to discuss the project with users, contributors, and project authors.
 
 ## Documentation
 
@@ -152,10 +180,7 @@ Explore the rest of the documentation to learn more about CELI.
 * [Running CELI](https://celi.readthedocs.io/en/stable/running_celi.html) - Learn more about the various ways to run CELI.
 * [New Use Cases](https://celi.readthedocs.io/en/stable/new_use_cases.html) - Learn how to apply CELI to your own use case.
 * [API Reference](https://celi.readthedocs.io/en/stable/reference/index.html) - If you are into reading API docs directly.
-
-## Discord Server
-
-[Join our Discord server](https://discord.gg/C5SQNdzV) to discuss the project with users, contributors, and project authors.
+The CELI dev team is committed to continuous improvement and user-driven development. Whether you're a seasoned developer or just starting, your feedback and contributions are invaluable to us. Let's build a smarter future together!
 
 ## Contributing
 
