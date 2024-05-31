@@ -7,7 +7,7 @@
 
 ![CELI Logo](docs/CELI_README_Header_Picture.png)
 
-# <b>C</b>ELI: A Framework for <u><b>C</b></u>ontroller-<u><b>E</b></u>mbedded <u><b>L</b></u>anguage <u><b>I</b></u>nteractions
+# <b>C</b>ELI: A Framework for <u><b>C</b></u>ontroller-<u><b>E</b></u>mbedded <u><b>L</b></u>anguage Model <u><b>I</b></u>nteractions
 
 **CELI (pronounced 'Kelly')** leverages the capabilities of large language models (LLMs) to automate a wide range of knowledge work tasks. Here’s an overview of what CELI offers:
 
