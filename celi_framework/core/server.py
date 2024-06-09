@@ -145,6 +145,8 @@ async def sessions_create(data: dict = Body(...)) -> Dict[str, str]:
         tool_implementations=tool_implementations,
         llm_cache=celi_config.llm_cache,
         primary_model_name=celi_config.primary_model_name,
+        model_url=celi_config.model_url,
+        max_tokens=celi_config.max_tokens,
         callback=cb,
     )
     task = asyncio.create_task(process_runner.run())

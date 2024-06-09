@@ -47,6 +47,8 @@ class CELIConfig:
     llm_cache: bool
     use_monitor: bool
     primary_model_name: str
+    max_tokens: int
+    model_url: Optional[str]
 
 
 def run_celi(celi_config: CELIConfig):
@@ -66,6 +68,8 @@ def run_celi(celi_config: CELIConfig):
         tool_implementations=celi_config.tool_implementations,
         llm_cache=celi_config.llm_cache,
         primary_model_name=celi_config.primary_model_name,
+        model_url=celi_config.model_url,
+        max_tokens=celi_config.max_tokens,
     )
 
     monitoring_agent = None

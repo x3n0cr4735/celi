@@ -90,6 +90,8 @@ def parse_standard_args(args):
         llm_cache=llm_cache,
         use_monitor=use_monitor,
         primary_model_name=args.primary_model_name,
+        model_url=args.model_api_url,
+        max_tokens=args.max_tokens,
     )
 
 
@@ -115,6 +117,18 @@ def setup_standard_args():
         type=str,
         default=os.getenv("PRIMARY_LLM", "gpt-4-0125-preview"),
         help="Name of the primary LLM to use",
+    )
+    parser.add_argument(
+        "--max-tokens",
+        type=int,
+        default=os.getenv("MAX_TOKENS", 4096),
+        help="Maximum number of tokens in any output.",
+    )
+    parser.add_argument(
+        "--model-api-url",
+        type=str,
+        default=os.getenv("MODEL_API_URL", None),
+        help="URL of the vLLM server serving the model.  Leave blank for OpenAI",
     )
     parser.add_argument(
         "--db-url",
