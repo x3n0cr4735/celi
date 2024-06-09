@@ -9,6 +9,7 @@
 
 # <b>C</b>ELI: A Framework for <u><b>C</b></u>ontroller-<u><b>E</b></u>mbedded <u><b>L</b></u>anguage <u><b>I</b></u>nteractions
 
+ <!-- start elevator-pitch -->
 **CELI (pronounced 'Kelly')** leverages the capabilities of large language models (LLMs) to automate a wide range of knowledge work tasks. Here’s an overview of what CELI offers:
 
 - 🚀 **Autonomous Operation:** Functions independently, dynamically adapting strategies without human intervention.
@@ -43,8 +44,10 @@ CELI (Controller-Embedded Language Interactions) is a sophisticated framework de
 
     Acts as the central orchestrating unit, managing all operations from data handling to task execution. The engine efficiently handles both predefined tasks and dynamic adjustments, ensuring seamless automation across diverse platforms and use cases.
 
-## Getting started
+<!-- end elevator-pitch -->
 
+## Getting started
+<!-- start getting-started -->
 [Join our Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
 
 To get an idea of what CELI can do, we have prepackaged an example use case.  In this case, we will have CELI write a wiki page on a topic given an example page and a set of references.
@@ -94,6 +97,7 @@ python -m celi_framework.main
 This example use case uses the wikipedia page for Led Zeppelin as the example document, and then creates a new wiki page for the Jonas Brothers based on the references cited from their wikipedia page.  The result will be put in the `target/drafts` directory.
 
 Note that running this takes around 30 minutes (give or take).
+<!-- end getting-started -->
 
 ## Project Overview
 
