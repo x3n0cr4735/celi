@@ -4,6 +4,8 @@ import os
 import openai
 import pytest
 
+from celi_framework.utils.llms import quick_ask
+
 logger = logging.getLogger(__name__)
 
 
@@ -17,4 +19,12 @@ async def test_ask_split():
         messages=[{"role": "user", "content": "the quick brown fox jumps over the"}],
         model=os.getenv("PRIMARY_LLM", None),
     )
+    logger.info(f"LLM returned: {ret}")
+
+
+def test_quick_ask():
+    ret = quick_ask(
+        "Hello", token_counter=None, model_name=os.getenv("PRIMARY_LLM", None)
+    )
+    assert type(ret) == str
     logger.info(f"LLM returned: {ret}")
