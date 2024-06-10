@@ -77,12 +77,16 @@ class ProcessRunner:
         tool_implementations: ToolImplementations,
         llm_cache: bool,
         primary_model_name: str,
+        max_tokens: int,
         skip_section_list=None,
         callback: Optional[CELIUpdateCallback] = None,
+        model_url: Optional[str] = None,
     ):
         if skip_section_list is None:
             skip_section_list = []
         self.primary_model_name = primary_model_name
+        self.model_url = model_url
+        self.max_tokens = max_tokens
         self.callback = callback
         logger.info(f"Using {primary_model_name} as the primary LLM")
 
@@ -152,6 +156,8 @@ class ProcessRunner:
                     llm_cache=self.llm_cache,
                     monitor_instructions=self.master_template.job_desc.monitor_instructions,
                     callback=self.callback,
+                    model_url=self.model_url,
+                    max_tokens=self.max_tokens,
                 )
                 for _ in self.sections_to_be_completed
             ]

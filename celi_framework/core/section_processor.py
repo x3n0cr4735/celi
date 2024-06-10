@@ -30,7 +30,9 @@ class SectionProcessor:
     codex: MongoDBUtilitySingleton
     llm_cache: bool
     monitor_instructions: str
+    max_tokens: int
     callback: Optional[CELIUpdateCallback] = None
+    model_url: Optional[str] = None
 
     def __post_init__(self):
         self.ongoing_chat: List[Dict[str, str] | Tuple[str, str]] = []
@@ -102,6 +104,8 @@ class SectionProcessor:
             verbose=True,
             timeout=None,
             tool_descriptions=self.tool_descriptions,
+            model_url=self.model_url,
+            max_tokens=self.max_tokens,
         )
         self._update_ongoing_chat(
             ("assistant", str(llm_response.message.content or ""))
@@ -192,6 +196,8 @@ class SectionProcessor:
             verbose=True,
             timeout=None,
             json_mode=True,
+            model_url=self.model_url,
+            max_tokens=self.max_tokens,
         )
         text_response = llm_response.message.content.strip()
 
@@ -204,7 +210,14 @@ class SectionProcessor:
             )
             return None
 
-        ret = json.loads(text_response)
+        try:
+            ret = json.loads(text_response)
+        except JSONDecodeError as e:
+            logger.warning(
+                f"Built-in review for {self.current_section} didn't return valid JSON.  {e}\nResponse was: {text_response}"
+            )
+            ret = {}
+
         if "success" not in ret:
             logger.warning(
                 f"Built-in review for {self.current_section} didn't return a success key.  Assuming success."

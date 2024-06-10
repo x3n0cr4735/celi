@@ -54,6 +54,8 @@ task_library = [
 general_comments = """
 ============
 GENERAL COMMENTS:
+Do not return an empty response.
+
 START WITH THE FIRST SECTION. ONLY DO THE NEXT UNCOMPLETED TASK (ONLY ONE TASK AT A TIME).
 EXPLICITLY print out the current section identifier.
 EXPLICITLY print out whether the last task completed successfully or not.
