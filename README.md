@@ -27,7 +27,7 @@
 
 ## What is CELI?
 
-CELI (Controller-Embedded Language Interactions) is a sophisticated framework designed to enhance automation by incorporating advanced components into its architecture. Unlike traditional AI agent frameworks that feature a hierarchical control structure, CELI integrates controller logic directly with operational functions for more dynamic and efficient task management. Key features include:
+CELI (Controller-Embedded Language Interactions) automates projects by decomposing them into sets of tasks and utilizing LLM-directed controller logic for execution. Key features include:
 
 - ### 💡 **Inversion of Control and Dynamic LLM-OOP Integration**
 
