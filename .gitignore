@@ -15,3 +15,4 @@ output/
 docs/_build
 celi/
 _gen/
+/.cache/
