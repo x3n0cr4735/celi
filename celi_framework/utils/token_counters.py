@@ -47,7 +47,7 @@ This module is a comprehensive solution for managing token usage, crucial for op
 """
 
 import functools
-import tiktoken
+
 from celi_framework.utils.log import app_logger
 
 
@@ -65,6 +65,8 @@ def token_counter_og(string, api="gpt-4") -> int:
         int: The number of tokens in the encoded string.
     """
     if api == "gpt-4":
+        import tiktoken
+
         encoding = tiktoken.get_encoding("cl100k_base")
         num_tokens = len(encoding.encode(string, disallowed_special=()))
     else:
@@ -181,10 +183,6 @@ def token_counter_decorator_ask_split(api_call_function):
         # Assume the token counter instance is passed as an argument
         dec_token_counter = kwargs.get("token_counter")
         if not dec_token_counter:
-            app_logger.info(
-                f"Token counter in decorator is None: {dec_token_counter}",
-                extra={"color": "red"},
-            )
             return api_call_function(
                 *args, **kwargs
             )  # Proceed with the call without token counting

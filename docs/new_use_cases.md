@@ -8,8 +8,18 @@ We have put in an example use case for celi_framework.  In this use case, we per
 
 We provide an example script with evaluation that generates several pages from each of 3 categories, and uses BertScore to compare the generated wiki page to the original to judge quality.  To run this eval, run
 
+To run this example, you'll need to install the wikipedia extras from the celi package:
+
+```bash
+pip install celi-framework[wikipedia]
+```
+
+Then you can run the evaluation script with the following command:
+
 ```python 
-python -m celi_framework.examples.wikipedia.eval.run_eval
+python -m celi_framework.examples.wikipedia.eval.run_eval \
+    --job-description=celi_framework.examples.wikipedia.job_description.job_description \
+    --openai-api-key=<Insert your OpenAI API key here>
 ```
 
 We will use the Wikipedia use case to describe the overall process of configuring CELI for a new use case.

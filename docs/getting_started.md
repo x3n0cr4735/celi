@@ -1,6 +1,6 @@
 # Getting Started
 
-## Running the Wikipedia generation example
+## Running the HumanEval generation example
 
 ```{include} ../README.md
 :start-after: <!-- start getting-started -->
