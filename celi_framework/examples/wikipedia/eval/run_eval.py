@@ -10,7 +10,7 @@ import pandas as pd
 from dotenv import load_dotenv
 from evaluate import load
 
-from celi_framework.core.runner import CELIConfig, Directories, MongoDBConfig, run_celi
+from celi_framework.core.runner import CELIConfig, run_celi
 from celi_framework.examples.wikipedia.job_description import job_description
 from celi_framework.examples.wikipedia.loader import (
     format_content,
@@ -18,7 +18,7 @@ from celi_framework.examples.wikipedia.loader import (
 )
 from celi_framework.examples.wikipedia.tools import WikipediaToolImplementations
 from celi_framework.logging_setup import setup_logging
-from celi_framework.main import instantiate_with_argparse_args, setup_standard_args
+from celi_framework.main import setup_standard_args
 from celi_framework.utils.utils import get_obj_by_name, read_json_from_file
 
 logger = logging.getLogger(__name__)
@@ -30,8 +30,7 @@ def get_config():
     parser = setup_standard_args()
     args = parser.parse_args()
 
-    directories = Directories.create(args.output_dir)
-    mongo_config = instantiate_with_argparse_args(args, MongoDBConfig)
+    output_dir = "target/celi_output/drafts"
 
     llm_cache = not args.no_cache
     use_monitor = not args.no_monitor
@@ -40,14 +39,9 @@ def get_config():
     parser_cls = get_obj_by_name(args.parser_model_class)
 
     return CELIConfig(  # noqa: F821
-        mongo_config=mongo_config,
-        directories=directories,
         job_description=job_description,
         tool_implementations=None,
-        parser_cls=parser_cls,
-        parser_model_name=args.parser_model_name,
         llm_cache=llm_cache,
-        use_monitor=use_monitor,
         primary_model_name=args.primary_model_name,
     )
 
@@ -60,7 +54,7 @@ def run_test(config: CELIConfig, example: str, target: str):
     logger.info(
         f"Running test with example: {page_name(example)} and target: {page_name(target)}"
     )
-    dir = os.path.join(config.directories.output_dir + "/wikipedia_eval")
+    dir = os.path.join(config.output_dir + "/wikipedia_eval")
     os.makedirs(dir, exist_ok=True)
     result_file_name = f"{page_name(target)}_from_{page_name(example)}.json"
     eval_path = os.path.join(dir, result_file_name)

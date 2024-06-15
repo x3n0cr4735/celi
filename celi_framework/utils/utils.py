@@ -516,17 +516,6 @@ def make_list_of_dirs(list_of_dirs):
             os.makedirs(dir)
 
 
-def str2bool(v):
-    if isinstance(v, bool):
-        return v
-    if v.lower() in ("yes", "true", "t", "y", "1"):
-        return True
-    elif v.lower() in ("no", "false", "f", "n", "0"):
-        return False
-    else:
-        raise ValueError(f"Boolean value expected. Got: {v}")
-
-
 def generate_hash_id(obj):
     """
     Generates a unique template ID based on the hash of stringable object.

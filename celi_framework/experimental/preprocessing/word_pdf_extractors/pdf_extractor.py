@@ -21,16 +21,17 @@ This script can be used as part of a larger data extraction pipeline, content ma
 Note: Docstrings and comments were made by Sam.
 """
 
-import os
 import json
-import fitz
-import regex
-import pandas as pd
+import os
 
-from .extractor_helpers import save_to_json, toc_iterator
-from celi_framework.core.templates import make_toc_prompt
+import fitz
+import pandas as pd
+import regex
+
+from celi_framework.experimental.templates import make_toc_prompt
 from celi_framework.utils.llms import quick_ask
 from celi_framework.utils.token_counters import get_master_counter_instance
+from .extractor_helpers import save_to_json, toc_iterator
 
 pd.set_option("display.max_colwidth", 0)
 

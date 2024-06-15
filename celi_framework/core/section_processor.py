@@ -8,7 +8,6 @@ from openai.types.chat.chat_completion import Choice
 
 from celi_framework.core.celi_update_callback import CELIUpdateCallback
 from celi_framework.core.job_description import ToolImplementations
-from celi_framework.utils.codex import MongoDBUtilitySingleton
 from celi_framework.utils.llms import ToolDescription, ask_split
 from celi_framework.utils.log import app_logger
 
@@ -27,7 +26,6 @@ class SectionProcessor:
     tool_descriptions: List[ToolDescription]
     tool_implementations: ToolImplementations
     primary_model_name: str
-    codex: MongoDBUtilitySingleton
     llm_cache: bool
     monitor_instructions: str
     max_tokens: int
@@ -97,7 +95,6 @@ class SectionProcessor:
         chat_len = len(self.ongoing_chat)
 
         llm_response = await ask_split(
-            codex=self.codex if self.llm_cache else None,
             user_prompt=self.ongoing_chat,  # type: ignore
             model_name=self.primary_model_name,
             system_message=self.system_message,
@@ -189,7 +186,6 @@ class SectionProcessor:
         """
         user_message = f"The initial prompt was:\n{self.initial_user_message}\n\nHere is the chat history:\n{self.format_chat_messages(self.ongoing_chat)}\n\n"
         llm_response = await ask_split(
-            codex=self.codex if self.llm_cache else None,
             user_prompt=user_message,  # type: ignore
             system_message=system_message,
             model_name=self.primary_model_name,
