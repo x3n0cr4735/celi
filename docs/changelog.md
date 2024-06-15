@@ -4,7 +4,7 @@
 
 * Removed many dependencies from the core framework and moved them into extras
 * Made HumanEval the default use case and provide a prefilled cache with LLM responses.
-* Created a simlified demo and added --simulate-live
+* Created a simplified demo and added --simulate-live
 * Removed requirement for MongoDB
 
 ## 0.2.2 (May 12, 2024)
