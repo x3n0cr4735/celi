@@ -200,7 +200,7 @@ This command will install all necessary dependencies as specified in the project
    While inside the project directory, install the project and its dependencies using Poetry:
 
    ```bash
-   poetry install
+   poetry install --all-extras
    ```
 
    This command will create a virtual environment and set up all the dependencies for you, allowing you to work on the project in an isolated environment.
