@@ -28,9 +28,10 @@ def run_celi(celi_config: CELIConfig):
         loop.run_until_complete(run_process_runner(celi_config))
     finally:
         pending_tasks = asyncio.all_tasks(loop)
-        app_logger.debug(
-            f"Pending tasks: {pending_tasks}",
-        )
+        if pending_tasks:
+            app_logger.debug(
+                f"Pending tasks: {pending_tasks}",
+            )
         for task in pending_tasks:
             task.cancel()
         loop.run_until_complete(asyncio.gather(*pending_tasks, return_exceptions=True))

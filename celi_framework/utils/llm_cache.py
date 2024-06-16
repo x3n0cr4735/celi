@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import random
 import shutil
 from pathlib import Path
@@ -7,6 +8,8 @@ from pathlib import Path
 import aiosqlite
 
 from celi_framework.utils.utils import generate_hash_id, get_cache_dir
+
+logger = logging.getLogger(__name__)
 
 _global_llm_cache = None
 
@@ -30,6 +33,7 @@ class LLMCache:
         dir = get_cache_dir()
         self.cache_file = dir / "llm_cache.db"
         if not self.cache_file.exists():
+            logger.info("LLM Cache file didn't exist, copying seed file.")
             shutil.copy(Path(__file__).parent / "seed_llm_cache.db", self.cache_file)
         self.cache_delay = 3.0 if simulate_live else None
         self._connection = None
@@ -60,7 +64,7 @@ class LLMCache:
 
     async def check_llm_cache(self, **kwargs):
         id = generate_hash_id(kwargs)
-        # Check if the id is in the cache.  Return the cache entry if it is, False otherwise.classmethod
+        # Check if the id is in the cache.  Return the cache entry if it is, False otherwise.
         c = await self.connection()
         cursor = await c.execute("SELECT response FROM llm_cache WHERE _id = ?", (id,))
         row = await cursor.fetchone()
