@@ -7,6 +7,7 @@
 
 ![CELI Logo](docs/CELI_README_Header_Picture.png)
 
+ <!-- start elevator-pitch -->
 # <b>C</b>ELI: A Framework for <u><b>C</b></u>ontroller-<u><b>E</b></u>mbedded <u><b>L</b></u>anguage <u><b>I</b></u>nteractions
 
 **CELI (pronounced 'Kelly')** leverages the capabilities of large language models (LLMs) to automate a wide range of knowledge work tasks. Here’s an overview of what CELI offers:
@@ -26,7 +27,7 @@
 
 ## What is CELI?
 
-CELI (Controller-Embedded Language Interactions) is a sophisticated framework designed to enhance automation by incorporating advanced components into its architecture. Unlike traditional AI agent frameworks that feature a hierarchical control structure, CELI integrates controller logic directly with operational functions for more dynamic and efficient task management. Key features include:
+CELI (Controller-Embedded Language Interactions) automates projects by decomposing them into sets of tasks and utilizing LLM-directed controller logic for execution. Key features include:
 
 - ### 💡 **Inversion of Control and Dynamic LLM-OOP Integration**
 
@@ -43,8 +44,10 @@ CELI (Controller-Embedded Language Interactions) is a sophisticated framework de
 
     Acts as the central orchestrating unit, managing all operations from data handling to task execution. The engine efficiently handles both predefined tasks and dynamic adjustments, ensuring seamless automation across diverse platforms and use cases.
 
-## Getting started
+<!-- end elevator-pitch -->
 
+## Getting started
+<!-- start getting-started -->
 [Join our Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
 
 To get an idea of what CELI can do, we have prepackaged an example use case.  In this case, we will have CELI write a wiki page on a topic given an example page and a set of references.
@@ -59,41 +62,41 @@ pip install celi-framework
 
 You can also clone the [GitHub repo](https://github.com/x3n0cr4735/celi) and install CELI from source.  See [Running CELI from Source](https://celi.readthedocs.io/en/stable/running_celi.html) for info on how to do that.
 
-### Set up a mongo DB server to store documents
-
-CELI uses Mongo to cache LLM responses, store documentsm inspect runs.  If you already have a Mongo server running, you can point Celi to it and it will create a new database called 'celi'.  If not, you can quickly spin up a local mongo server using this docker command:
-
-```bash
-docker run --name mongodb -p 27017:27017 -d mongo
-```
-
-### Configure your environment
-
-The main script for CELI loads some configuration from environment variables.  The [`python-dotenv`](https://pypi.org/project/python-dotenv/) package is used to load these files from a file called `.env` in the current directory.
-
-Create a .env file with an example configuration, copying the file below and substituting in your OpenAI API key.  If you have the repo cloned, you can copy the .env.example file.
-
-    OPENAI_API_KEY=<REPLACE WITH YOUR OPENAI API KEY>
-    OUTPUT_DIR=target/celi_output
-    DB_URL=mongodb://localhost:27017/
-    EXTERNAL_DB=True
-    NO_MONITOR=True
-    JOB_DESCRIPTION=celi_framework.examples.wikipedia.job_description.job_description
-    TOOL_CONFIG_JSON=celi_framework/examples/wikipedia/example_config.json
-    PARSER_MODEL_CLASS=llm_core.parsers.OpenAIParser
-    PARSER_MODEL_NAME=gpt-3.5-turbo-16k
 
 ### Run the example use case
 
-Once you have the steps above done, you can test your setup by running:
+Once you have the steps above done, you can test your setup by running a demo of CELI's capabilities:
 
 ```bash
-python -m celi_framework.main
+python -m celi_framework.main \
+  --job-description=celi_framework.examples.human_eval.job_description.job_description \
+  --tool-config='{"single_example":"HumanEval/3"}' \
+  --simulate-live
 ```
 
-This example use case uses the wikipedia page for Led Zeppelin as the example document, and then creates a new wiki page for the Jonas Brothers based on the references cited from their wikipedia page.  The result will be put in the `target/drafts` directory.
+This example simulates using CELI to solve problem #3 of the HumanEval benchmark programming problem set.  It uses 
+cached versions of the LLM outputs so it doesn't require an API key or make any paid LLM calls on your behalf.  The 
+result will be put in the `target/drafts` directory.
 
-Note that running this takes around 30 minutes (give or take).
+Running this demo should take a couple minutes.  You will be able to see how CELI tackles the problem and the LLM calls
+it makes, along with the responses.
+
+### Running live
+
+The code above uses a cached version of the LLM results.  To meaningfully run CELI on anything new, you will need to 
+make new LLM calls, which will require an OpenAI API key (or your own local LLM.  See [LLM Support](https://celi.readthedocs.io/en/stable/llm_support.html)).
+
+We can now run the full HumanEval data set.  This has 168 examples, so we won't use --simulate-live to impose a delay.
+
+```bash
+python -m celi_framework.main \
+  --job-description=celi_framework.examples.human_eval.job_description.job_description \
+  --openai-api-key=<Insert your OpenAI API key here> \
+```
+
+You can also set an OPENAI_API_KEY environment variable instead of passing one on the command line.
+
+<!-- end getting-started -->
 
 ## Project Overview
 

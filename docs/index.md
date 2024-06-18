@@ -22,6 +22,7 @@ getting_started
 new_use_cases
 running_celi
 rest_server
+llm_support
 reference/index
 ```
 

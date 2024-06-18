@@ -23,33 +23,35 @@ Features and Functionalities:
 
 """
 
+import asyncio
 import functools
+import logging
 import os
 import re
 import time
 from typing import Optional, Dict, List, Any, Tuple
 
 import openai
-from dotenv import load_dotenv
 from openai.types.chat import ChatCompletion
 from pydantic import BaseModel
 from requests import HTTPError
 
-from celi_framework.utils.codex import MongoDBUtilitySingleton
-from celi_framework.utils.exceptions import ContextLengthExceededException
+from celi_framework.utils.llm_cache import get_celi_llm_cache
 from celi_framework.utils.log import app_logger
 from celi_framework.utils.token_counters import (
     token_counter_decorator_ask_split,
     token_counter_decorator_quick_ask,
 )
 
-load_dotenv()
+logger = logging.getLogger(__name__)
 
 
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
-@functools.lru_cache(1)
-def get_openai_client():
-    return openai.AsyncOpenAI(api_key=os.environ["OPENAI_API_KEY"])
+@functools.lru_cache()
+def get_openai_client(base_url: Optional[str] = None):
+    return openai.AsyncOpenAI(
+        base_url=base_url, api_key=os.environ.get("OPENAI_API_KEY", None)
+    )
 
 
 class ToolDescription(BaseModel):
@@ -70,8 +72,8 @@ async def ask_split(
     wait_between_retries=2,
     temperature=0.0,
     timeout: Optional[int] = 120,
-    codex: Optional[MongoDBUtilitySingleton] = None,
     tool_descriptions: Optional[List[ToolDescription]] = None,
+    model_url: Optional[str] = None,
     json_mode: bool = False,
 ):
     """
@@ -86,28 +88,44 @@ async def ask_split(
         try:
             if err_cnt > 1:
                 app_logger.error(f"Attempt {err_cnt + 1}:", extra={"color": "red"})
-            chat_completion = await cached_chat_completion(
-                codex=codex,
-                messages=[
-                    {"role": "system", "content": system_message},
-                ]
-                + assemble_chat_messages(user_prompt),
-                tools=(
-                    [
-                        {"type": "function", "function": _.model_dump()}
-                        for _ in tool_descriptions
+            if model_url is None:
+                chat_completion = await cached_chat_completion(
+                    base_url=model_url,
+                    messages=[
+                        {"role": "system", "content": system_message},
                     ]
-                    if tool_descriptions
-                    else None
-                ),
-                response_format={"type": "json_object"} if json_mode else None,
-                tool_choice="auto" if tool_descriptions else None,
-                model=model_name,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                seed=seed,
-                timeout=timeout,
-            )
+                    + assemble_chat_messages(user_prompt),
+                    tools=(
+                        [
+                            {"type": "function", "function": _.model_dump()}
+                            for _ in tool_descriptions
+                        ]
+                        if tool_descriptions
+                        else None
+                    ),
+                    response_format={"type": "json_object"} if json_mode else None,
+                    tool_choice="auto" if tool_descriptions else None,
+                    model=model_name,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    seed=seed,
+                    timeout=timeout,
+                )
+            else:
+                chat_completion = await cached_chat_completion(
+                    base_url=model_url,
+                    messages=[
+                        {"role": "system", "content": system_message},
+                    ]
+                    + assemble_chat_messages(user_prompt),
+                    response_format={"type": "json_object"} if json_mode else None,
+                    model=model_name,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    seed=seed,
+                    timeout=timeout,
+                )
+
             if verbose:
                 app_logger.info(
                     f"LLM {model_name.upper()} responded", extra={"color": "yellow"}
@@ -140,6 +158,7 @@ def quick_ask(
     token_counter,
     model_name,
     max_tokens=None,
+    temperature=None,
     seed=777,
     verbose=False,
     json_output=False,  # model_name="gpt-4-1106-preview"
@@ -147,7 +166,7 @@ def quick_ask(
     wait_between_retries=10,
     timeout=90,
     time_increase=30,
-    codex: Optional[MongoDBUtilitySingleton] = None,
+    model_url: Optional[str] = None,
 ):
     """
     Simplified version of ask_split for quickly sending prompts to the OpenAI API, with error handling and retries.
@@ -190,15 +209,17 @@ def quick_ask(
             else:
                 response_format = None
 
-            chat_completion = cached_chat_completion(
-                codex=codex,
-                messages=assemble_chat_messages(prompt),
-                model=model_name,
-                temperature=temperature,
-                max_tokens=max_tokens,
-                seed=seed,
-                response_format=response_format,
-                timeout=timeout,
+            chat_completion = asyncio.run(
+                cached_chat_completion(
+                    base_url=model_url,
+                    messages=assemble_chat_messages(prompt),
+                    model=model_name,
+                    temperature=temperature,
+                    max_tokens=max_tokens,
+                    seed=seed,
+                    response_format=response_format,
+                    timeout=timeout,
+                )
             )
 
             response = chat_completion.choices[0].message.content
@@ -260,18 +281,35 @@ def assemble_chat_messages(prompt: str | List[Tuple[str, str] | Dict[str, str]])
         return [format_message(msg) for msg in prompt]
 
 
-async def cached_chat_completion(
-    codex: Optional[MongoDBUtilitySingleton], **kwargs
-) -> ChatCompletion:
-    if codex:
-        ret = codex.check_llm_cache(**kwargs)
+async def cached_chat_completion(base_url: Optional[str], **kwargs) -> ChatCompletion:
+    cache = get_celi_llm_cache()
+    if cache:
+        url_dict = {} if base_url is None else {"base_url": base_url}
+        cache_args = {**url_dict, **kwargs}
+        ret = await cache.check_llm_cache(**cache_args)
         if ret:
             app_logger.debug("Using cached LLM response")
+            if isinstance(ret, str):
+                logger.info(ret)
             return ChatCompletion.model_validate(ret["completion"])
         else:
             app_logger.debug("Caching LLM response")
-            result = await get_openai_client().chat.completions.create(**kwargs)
-            codex.cache_llm_response(response={"completion": result.dict()}, **kwargs)
+            result = await get_openai_client(
+                base_url=base_url,
+            ).chat.completions.create(**kwargs)
+            await cache.cache_llm_response(
+                response={"completion": result.dict()}, **cache_args
+            )
             return result
     else:
-        return await get_openai_client().chat.completions.create(**kwargs)
+        return await get_openai_client(base_url=base_url).chat.completions.create(
+            **kwargs
+        )
+
+
+class ContextLengthExceededException(Exception):
+    """Exception raised when the input exceeds the model's maximum context length."""
+
+    def __init__(self, message="Context length exceeded the model's maximum limit."):
+        self.message = message
+        super().__init__(self.message)

@@ -28,10 +28,11 @@ import logging
 import os
 
 from dotenv import load_dotenv
+
 from celi_framework.examples.wikipedia.index import get_wikipedia_index
 from celi_framework.examples.wikipedia.tools import WikipediaToolImplementations
-from celi_framework.utils.codex import MongoDBUtilitySingleton
-from celi_framework.utils.utils import str2bool
+from celi_framework.experimental.codex import MongoDBUtilitySingleton
+from celi_framework.utils.cli import str2bool
 
 load_dotenv()
 logger = logging.getLogger(__name__)

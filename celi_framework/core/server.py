@@ -25,7 +25,7 @@ from celi_framework.core.websocket.streams import (
 )
 from celi_framework.logging_setup import setup_logging
 from celi_framework.main import setup_standard_args, parse_standard_args
-from celi_framework.utils.codex import MongoDBUtilitySingleton
+from celi_framework.utils.llm_cache import enable_llm_caching
 from celi_framework.utils.utils import get_obj_by_name
 
 logger = logging.getLogger(__name__)
@@ -53,7 +53,8 @@ parser.add_argument(
 args = parser.parse_args([])
 init_class = get_obj_by_name(args.init_class)
 celi_config = parse_standard_args(args)
-codex = MongoDBUtilitySingleton(**asdict(celi_config.mongo_config))
+if celi_config.llm_cache:
+    enable_llm_caching()
 
 current_sessions: Dict[str, SessionData] = {}
 
@@ -141,10 +142,11 @@ async def sessions_create(data: dict = Body(...)) -> Dict[str, str]:
     )
     process_runner = ProcessRunner(
         master_template=mt,
-        codex=codex,
         tool_implementations=tool_implementations,
         llm_cache=celi_config.llm_cache,
         primary_model_name=celi_config.primary_model_name,
+        model_url=celi_config.model_url,
+        max_tokens=celi_config.max_tokens,
         callback=cb,
     )
     task = asyncio.create_task(process_runner.run())

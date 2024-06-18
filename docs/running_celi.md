@@ -4,13 +4,81 @@ CELI can be run from the command line, with configuration arguments, or directly
 
 ## Running from the command line
 
-When running CELI from the command line, all arguments can be passed on the command line, provided in environment variables, or provided in a .env file in the current directory, which will get read in as environment variables.  The precedence is that command line arguments override environment variables, which override valies provided in a .env file.
+When running CELI from the command line, all arguments can be passed on the command line, provided in environment variables, or provided in a .env file in the current directory, which will get read in as environment variables.  The precedence is that command line arguments override environment variables, which override values provided in a .env file.
 
-When running from the command line, you need to include your JobDescription and ToolImplementations classes in the python path.  Two configuration variables control how the job is specified.
-   * JOB_DESCRIPTION - This is the name of the class that contains the JobDescription.  This class must have a no-arg constructor.  For the example use case, we use "celi_framework.examples.wikipedia.job_description.job_description"
-   * TOOL_CONFIG_JSON - This is the path to a JSON file.  This JSON file will be used to construct the `ToolImplementations` class.  The JSON file will be read in and converted to a dictionary.  This dictionary will then be passed as keyword arguments to the `ToolImplementations` class.
+Full instructions on running CELI from the command line are available in with the -h flag:
 
-For the example use case, the `WikipediaToolImplementations` is a dataclass that takes 3 arguments (2 are required):
+```
+usage: main.py [-h] [--openai-api-key OPENAI_API_KEY] [--primary-model-name PRIMARY_MODEL_NAME]
+               [--max-tokens MAX_TOKENS] [--model-api-url MODEL_API_URL] [--job-description JOB_DESCRIPTION]
+               [--simulate-live] [--no-cache] [--tool-config-json TOOL_CONFIG_JSON] [--tool-config TOOL_CONFIG]
+
+All of the options below can also be set as environment variables(using the capitalized names), or in a local .env
+file.
+
+options:
+  -h, --help            show this help message and exit
+  --openai-api-key OPENAI_API_KEY
+                        Your OpenAI API key. For security reasons, it is preferrable to set this as an environment
+                        variable rather than passing it on the command line. If you are serving your own models using
+                        --model-api-url, this will be the API keypassed in the calls to those models. The specific
+                        value required will depend on the server.
+  --primary-model-name PRIMARY_MODEL_NAME
+                        Name of the primary LLM to use. This will be passed in the OpenAI LLM calls. If you are using
+                        OpenAI, you can use any of the OpenAI model names found at
+                        https://platform.openai.com/docs/models. If you areserving your own models (using --model-api-
+                        url), you can use any name that the server supports.
+  --max-tokens MAX_TOKENS
+                        The maximum number of tokens to be included in any one request. This is a comprehensive
+                        number, it includes the tokens in the system message, chat history, and output response.
+                        Setting this to a largernumber than the default 4096 increases cost but allows for longer
+                        prompts and responses. You may need toset this shorter if you are using a non-OpenAI model
+                        with a shorter context length.
+  --model-api-url MODEL_API_URL
+                        Sets the URL to use when making OpenAI LLM calls. Leave this blank to use the normal OpenAI
+                        models. Ifyou are serving models locally using a server that implements the OpenAI API, you
+                        can set this to the URL for that server. Several serving platforms support the OpenAI
+                        interface, including vLLM, NIMs, Ollama.
+  --job-description JOB_DESCRIPTION
+                        CELI requires a job description to know what task to run. This parameter specifies the Python
+                        class name for the class containing the job description. It must have JobDescription as a base
+                        class. Several example job descriptions are provided within the celi_framework.examples
+                        module.
+  --simulate-live       Set to true to add a delay to the LLM cache. This simulates what a live run would look like
+                        even when cached LLM results are used
+  --no-cache            Set to True to turn off LLM caching
+  --tool-config-json TOOL_CONFIG_JSON
+                        Path to a JSON file which will be used to configure the tools. See --tool-config for more
+                        information.This option allows the JSON to be specified in a file instead of the command line.
+                        If --tool-config isalso specified, this option will be ignored.
+  --tool-config TOOL_CONFIG
+                        This should be a JSON string which will be used to configure the tools. The JSON will be
+                        converted into an object, which will be passed as keyword arguments to the tool
+                        implementation. The specific values required (if any) will depend on the tool implementations.
+                        For the HumanEval tools, a single argument can be passed that indicates only one example
+                        should be run. --tool-config='{"single_example":"HumanEval/3"}' This option overrides --tool-
+                        config-json if both are set.
+```
+
+## Environment variables
+
+All command line options can optionally be specified as environment variables.  Use the capitalized version shown in the help message above.
+
+Additionally, the [`python-dotenv`](https://pypi.org/project/python-dotenv/) package is used to load a file called `.env` in the current directory and set it's
+values.  This allows you to have a simple file where all options are stored.
+
+To create a .env file with an example configuration, copying the file below and substituting in your OpenAI API key.  If you have the repo cloned, you can copy the .env.example file.
+
+```
+OPENAI_API_KEY=sk-XXXX
+NO_CACHE=False
+JOB_DESCRIPTION=celi_framework.examples.wikipedia.job_description.job_description
+TOOL_CONFIG_JSON=celi_framework/examples/wikipedia/example_config.json
+```
+
+## Tool Configurations
+
+For the wikipedia example use case, the `WikipediaToolImplementations` is a dataclass that takes 3 arguments (2 are required):
 
 
 ```python
@@ -31,8 +99,18 @@ The example JSON config file we use is:
 }
 ```
 
-
 When CELI is started from the command line, to reads the JSON config file and calls `WikipediaToolImplmentations` with the 3 arguments.
+
+## Optional packages
+
+The core CELI framework is installed using PIP.  There are also certain optional dependencies that can be installed to
+add additional functionality.  To install these, run:
+
+```
+pip install celi-framework[wikipedia,experimental]
+``` 
+
+Note these dependencies may require certain system packages to be installed and may require several gigs of disk space.
 
 ## Calling CELI from Python
 
@@ -122,7 +200,7 @@ This command will install all necessary dependencies as specified in the project
    While inside the project directory, install the project and its dependencies using Poetry:
 
    ```bash
-   poetry install
+   poetry install --all-extras
    ```
 
    This command will create a virtual environment and set up all the dependencies for you, allowing you to work on the project in an isolated environment.
