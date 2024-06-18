@@ -1,5 +1,17 @@
 # Change Log
 
+## 0.3.3 (June 18, 2024)
+
+* Changed write_string_to_file to default to UTF-8 and allow other encodings.
+
+## 0.3.2 (June 15, 2024)
+
+* Updated seed database for LLM cache
+
+## 0.3.1 (June 15, 2024)
+
+* Updated seed database for LLM cache
+
 ## 0.3.0 (June 15, 2024)
 
 * Removed many dependencies from the core framework and moved them into extras
