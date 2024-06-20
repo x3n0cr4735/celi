@@ -16,15 +16,17 @@ The script is structured to initiate and manage parallel threads dedicated to do
 
 import argparse
 import inspect
+import json
 import logging.config
 import os
 from typing import Type
 
 from dotenv import load_dotenv
 
-from celi_framework.core.runner import CELIConfig, Directories, MongoDBConfig, run_celi
+from celi_framework.core.runner import CELIConfig, run_celi
 from celi_framework.logging_setup import setup_logging
-from celi_framework.utils.utils import get_obj_by_name, read_json_from_file, str2bool
+from celi_framework.utils.cli import bool_opt
+from celi_framework.utils.utils import get_obj_by_name, read_json_from_file
 
 logger = logging.getLogger(__name__)
 
@@ -37,10 +39,22 @@ def get_config():
         "--tool-config-json",
         type=str,
         default=os.getenv("TOOL_CONFIG_JSON"),
-        help="Path to a JSON file which will be used to instantiate the tool implementation.",
+        help="Path to a JSON file which will be used to configure the tools.  See --tool-config for more information."
+        "This option allows the JSON to be specified in a file instead of the command line.  If --tool-config is"
+        "also specified, this option will be ignored.",
+    )
+    parser.add_argument(
+        "--tool-config",
+        type=str,
+        default=os.getenv("TOOL_CONFIG"),
+        help="This should be a JSON string which will be used to configure the tools.  The JSON will be converted into "
+        "an object, which will be passed as keyword arguments to the tool implementation.  The specific values "
+        "required (if any) will depend on the tool implementations.  For the HumanEval tools, a single argument can be "
+        """passed that indicates only one example should be run.  --tool-config='{"single_example":"HumanEval/3"}' """
+        "This option overrides --tool-config-json if both are set.",
     )
     args = parser.parse_args()
-    config = parse_standard_args(args)
+    celi_config = parse_standard_args(args)
 
     # If the tool_config_json file doesn't exist, try to find it relative to the root of the installed package.
     # This allows examples packaged with celi to work correctly.
@@ -56,39 +70,27 @@ def get_config():
                     f"Could not find {args.tool_config_json} or {tool_config_json}"
                 )
         tool_config = read_json_from_file(tool_config_json)
+    elif args.tool_config:
+        tool_config = json.loads(args.tool_config)
     else:
         tool_config = {}
 
-    config.tool_implementations = config.job_description.tool_implementations_class(
-        **tool_config
+    celi_config.tool_implementations = (
+        celi_config.job_description.tool_implementations_class(**tool_config)
     )
 
-    return config
+    return celi_config
 
 
 def parse_standard_args(args):
-    directories = Directories.create(args.output_dir)
-    mongo_config = (
-        None if args.no_db else instantiate_with_argparse_args(args, MongoDBConfig)
-    )
-
-    job_description = get_obj_by_name(args.job_description)
-
-    llm_cache = not args.no_cache
-    use_monitor = not args.no_monitor
-
-    # Instantiate the class, passing parser_model as a parameter
-    parser_cls = get_obj_by_name(args.parser_model_class)
+    if args.openai_api_key:
+        os.environ["OPENAI_API_KEY"] = args.openai_api_key
 
     return CELIConfig(  # noqa: F821
-        mongo_config=mongo_config,
-        directories=directories,
-        job_description=job_description,
+        job_description=get_obj_by_name(args.job_description),
         tool_implementations=None,
-        parser_cls=parser_cls,
-        parser_model_name=args.parser_model_name,
-        llm_cache=llm_cache,
-        use_monitor=use_monitor,
+        llm_cache=not args.no_cache,
+        simulate_live=args.simulate_live,
         primary_model_name=args.primary_model_name,
         model_url=args.model_api_url,
         max_tokens=args.max_tokens,
@@ -96,80 +98,62 @@ def parse_standard_args(args):
 
 
 def setup_standard_args():
-    parser = argparse.ArgumentParser(description="Run the document generator.")
-
-    def bool_opt(opt: str, env_var: str, help: str):
-        parser.add_argument(
-            opt,
-            action="store_true",
-            default=str2bool(os.getenv(env_var, "False")),
-            help=help,
-        )
+    parser = argparse.ArgumentParser(
+        description="All of the options below can also be set as environment variables"
+        "(using the capitalized names), or in a local .env file."
+    )
 
     parser.add_argument(
-        "--output-dir",
+        "--openai-api-key",
         type=str,
-        default=os.getenv("OUTPUT_DIR"),
-        help="Output directory path",
+        default=None,
+        help="Your OpenAI API key.  For security reasons, it is preferrable to set this as an environment variable "
+        "rather than passing it on the command line.  If you are serving your own models using --model-api-url, this will be the API key"
+        "passed in the calls to those models.  The specific value required will depend on the server.",
     )
     parser.add_argument(
         "--primary-model-name",
         type=str,
         default=os.getenv("PRIMARY_LLM", "gpt-4-0125-preview"),
-        help="Name of the primary LLM to use",
+        help="Name of the primary LLM to use.  This will be passed in the OpenAI LLM calls.  If you are using OpenAI, "
+        "you can use any of the OpenAI model names found at https://platform.openai.com/docs/models.  If you are"
+        "serving your own models (using --model-api-url), you can use any name that the server supports.  ",
     )
     parser.add_argument(
         "--max-tokens",
         type=int,
         default=os.getenv("MAX_TOKENS", 4096),
-        help="Maximum number of tokens in any output.",
+        help="The maximum number of tokens to be included in any one request.  This is a comprehensive number, it "
+        "includes the tokens in the system message, chat history, and output response.  Setting this to a larger"
+        "number than the default 4096 increases cost but allows for longer prompts and responses.  You may need to"
+        "set this shorter if you are using a non-OpenAI model with a shorter context length.",
     )
     parser.add_argument(
         "--model-api-url",
         type=str,
         default=os.getenv("MODEL_API_URL", None),
-        help="URL of the vLLM server serving the model.  Leave blank for OpenAI",
-    )
-    parser.add_argument(
-        "--db-url",
-        type=str,
-        default=os.getenv("DB_URL", "mongodb://localhost:27017/"),
-        help="Mongo DB URL",
-    )
-    parser.add_argument(
-        "--db-name", type=str, default="celi", help="Mongo database name"
-    )
-    bool_opt(
-        "--external-db",
-        "EXTERNAL_DB",
-        "Set to True if using an existing mongo server.",
+        help="Sets the URL to use when making OpenAI LLM calls.  Leave this blank to use the normal OpenAI models.  If"
+        "you are serving models locally using a server that implements the OpenAI API, you can set this to the "
+        "URL for that server.  Several serving platforms support the OpenAI interface, including vLLM, NIMs, Ollama.",
     )
     parser.add_argument(
         "--job-description",
         type=str,
         default=os.getenv(
             "JOB_DESCRIPTION",
-            "celi_framework.examples.wikipedia.job_description.job_description",
+            "celi_framework.examples.human_eval.job_description.job_description",
         ),
-        help="Fully qualified name of a JobDescription instance with information on the task to perform",
+        help="CELI requires a job description to know what task to run.  This parameter specifies the Python class name"
+        " for the class containing the job description.  It must have JobDescription as a base class.  Several "
+        "example job descriptions are provided within the celi_framework.examples module.",
     )
-    parser.add_argument(
-        "--parser-model-class",
-        type=str,
-        default=os.getenv("PARSER_MODEL_CLASS", "llm_core.parsers.LLaMACPPParser"),
-    )
-    parser.add_argument(
-        "--parser-model-name",
-        type=str,
-        default=os.getenv("PARSER_MODEL_NAME", "mixtral-8x7b-v0.1.Q5_K_M.gguf"),
-    )
-    bool_opt("--no-cache", "NO_CACHE", "Set to True to turn off LLM caching")
-    bool_opt("--no-db", "NO_DB", "Set to True to turn off database persistence")
     bool_opt(
-        "--no-monitor",
-        "NO_MONITOR",
-        "Set to True to turn off the monitoring thread",
+        parser,
+        "--simulate-live",
+        "SIMULATE_LIVE",
+        "Set to true to add a delay to the LLM cache.  This simulates what a live run would look like even when cached LLM results are used",
     )
+    bool_opt(parser, "--no-cache", "NO_CACHE", "Set to True to turn off LLM caching")
     return parser
 
 
@@ -181,7 +165,6 @@ def instantiate_with_argparse_args(args: argparse.Namespace, cls: Type):
         for param_name in init_signature.parameters.keys()
         if param_name != "self"
     ]
-    # cls.__annotations__
     cls_args = {k: v for k, v in vars(args).items() if k in arg_names}
     return cls(**cls_args)
 

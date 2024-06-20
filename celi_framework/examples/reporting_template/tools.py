@@ -18,7 +18,7 @@ from attr import dataclass
 from celi_framework.core.job_description import (
     BaseDocToolImplementations,
 )
-from celi_framework.core.templates import (
+from celi_framework.experimental.templates import (
     make_draft_setting_output_prompt,
     make_table_setting_output_prompt,
 )

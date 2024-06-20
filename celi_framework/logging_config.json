@@ -15,6 +15,9 @@
         }
     },
     "loggers": {
+        "aiosqlite": {
+            "level": "INFO"
+        },
         "asyncio": {
             "level": "INFO"
         },

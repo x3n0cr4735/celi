@@ -31,7 +31,7 @@ import re
 import subprocess
 import time
 
-from celi_framework.core.templates import make_cleanup_dict_prompt_template
+from celi_framework.experimental.templates import make_cleanup_dict_prompt_template
 from celi_framework.utils.llms import quick_ask
 from celi_framework.utils.log import (
     app_logger as logger,

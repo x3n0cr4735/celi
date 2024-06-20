@@ -40,12 +40,8 @@ from celi_framework.core.job_description import (
 )
 from celi_framework.core.mt_factory import MasterTemplateFactory
 from celi_framework.core.section_processor import SectionProcessor
-from celi_framework.utils.codex import MongoDBUtilitySingleton
 from celi_framework.utils.llms import ToolDescription
 from celi_framework.utils.log import app_logger
-from celi_framework.utils.utils import (
-    create_new_timestamp,
-)
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +69,6 @@ class ProcessRunner:
     def __init__(
         self,
         master_template: MasterTemplateFactory,
-        codex: MongoDBUtilitySingleton,
         tool_implementations: ToolImplementations,
         llm_cache: bool,
         primary_model_name: str,
@@ -112,7 +107,6 @@ class ProcessRunner:
                 },
             )
         ]
-        self.codex = codex
         self.llm_cache = llm_cache
 
         self.system_message = self.master_template.create_system_message()
@@ -120,7 +114,6 @@ class ProcessRunner:
             f"System message created:\n{self.system_message}",
             extra={"color": "cyan"},
         )
-        self.save_template()
 
         section_list = list(self.master_template.schema.keys())
         self.sections_to_be_completed = self.removed_skipped_sections(
@@ -152,7 +145,6 @@ class ProcessRunner:
                     + self.builtin_tool_descriptions,
                     tool_implementations=self.tool_implementations,
                     primary_model_name=self.primary_model_name,
-                    codex=self.codex,
                     llm_cache=self.llm_cache,
                     monitor_instructions=self.master_template.job_desc.monitor_instructions,
                     callback=self.callback,
@@ -207,34 +199,3 @@ class ProcessRunner:
             f"Sections (num) remaining after processing skip list: {len(ret)}"
         )
         return ret
-
-    def save_template(self):
-        """
-        Saves the current task template to MongoDB, incorporating versioning for record-keeping.
-
-        This method serializes the current state of the MasterTemplateFactory instance, including the
-        configuration and schema, and saves it to a designated MongoDB collection. This allows for the
-        auditing of templates used in the drafting process and supports the retrieval of specific templates
-        for review or reuse in future drafting sessions.
-
-        Returns:
-            None
-        """
-        # Generate a unique id for the template by appending the current timestamp (in milliseconds) to the template id
-        unique_id = str(self.master_template.id + create_new_timestamp(ms=True))
-
-        # Create a dictionary to represent the template, including all relevant attributes and configurations
-        template = {
-            "_id": unique_id,  # Unique id for the template
-            "id": self.master_template.id,  # Template id
-            "process_id": f"{self.codex._id}",  # Process id from the codex
-            "job_description": self.master_template.job_desc.model_dump(),  # User message from the template configuration
-            "schema": self.master_template.schema,  # Schema of the template
-        }
-
-        # Save the template to MongoDB using the codex's save_document_with_versioning method
-        # The template is saved to the "templates" collection
-        self.codex.save_document_with_versioning(template, collection_name="templates")
-
-        # Log a message to indicate that the template has been saved to the codex
-        app_logger.info("Stored controller template to codex", {"color": "cyan"})

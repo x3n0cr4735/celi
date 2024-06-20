@@ -15,7 +15,8 @@ import logging.config
 
 from celi_framework.core.runner import CELIConfig, Directories, MongoDBConfig, run_celi
 from celi_framework.main import instantiate_with_argparse_args
-from celi_framework.utils.utils import get_obj_by_name, str2bool
+from celi_framework.utils.utils import get_obj_by_name
+from celi_framework.utils.cli import str2bool
 from tools import GREToolImplementations
 from job_description import job_description
 from run_gpt_alone import run_gpt

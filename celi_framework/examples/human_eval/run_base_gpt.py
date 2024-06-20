@@ -6,7 +6,6 @@ from dotenv import load_dotenv
 
 from celi_framework.examples.human_eval.tools import HumanEvalTools
 from celi_framework.logging_setup import setup_logging
-from celi_framework.utils.codex import MongoDBUtilitySingleton
 from celi_framework.utils.llms import ask_split
 from celi_framework.utils.utils import save_json
 
@@ -39,7 +38,6 @@ FINAL OUTPUT:
 setup_logging()
 load_dotenv()
 tools = HumanEvalTools()
-codex = MongoDBUtilitySingleton(external_db=True)
 
 
 async def run_gpt(id):
@@ -47,7 +45,6 @@ async def run_gpt(id):
         system_message=system_prompt,
         user_prompt=tools.tests.loc[id, "prompt"],
         model_name="gpt-4o",
-        codex=codex,
     )
     response = ret.message.content
     delimiter = "FINAL OUTPUT:\n"

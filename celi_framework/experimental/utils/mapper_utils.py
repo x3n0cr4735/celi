@@ -28,7 +28,9 @@ import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 from celi_framework.experimental.utils.ada import get_openai_embedding_sync_timeouts
 from celi_framework.utils.llms import quick_ask
-from celi_framework.core.templates import create_prompt_for_essential_section_analysis
+from celi_framework.experimental.templates import (
+    create_prompt_for_essential_section_analysis,
+)
 from celi_framework.utils.token_counters import get_master_counter_instance
 from celi_framework.utils.utils import load_json, get_section_context_as_text
 from celi_framework.utils.log import app_logger
@@ -194,7 +196,7 @@ def get_relevant_sections_by_section(
     if return_document_content:
         toc = load_json("/path/to/document_schema.json")
         relevant_sections["Document"] = (
-            f'{get_section_context_as_text(document_section, toc)}'
+            f"{get_section_context_as_text(document_section, toc)}"
             f'Content:\n{document_content.get(document_section, "Section not found in the main document")}'
         )
 
@@ -211,9 +213,9 @@ def get_relevant_sections_by_section(
                 content = reference_material_content.get(
                     sec, "Section not found in reference material"
                 )
-                relevant_sections["Reference Material"][sec] = (
-                    f"{context_text}Content:\n{content}"
-                )
+                relevant_sections["Reference Material"][
+                    sec
+                ] = f"{context_text}Content:\n{content}"
 
             app_logger.info(
                 "relevant_sections['Reference Material']", extra={"color": "cyan"}
@@ -228,9 +230,9 @@ def get_relevant_sections_by_section(
             for sec in sections:
                 context_text = get_section_context_as_text(sec, guidelines_toc)
                 content = guidelines_content.get(sec, "Section not found in guidelines")
-                relevant_sections["Guidelines"][sec] = (
-                    f"{context_text}Content:\n{content}"
-                )
+                relevant_sections["Guidelines"][
+                    sec
+                ] = f"{context_text}Content:\n{content}"
 
             app_logger.info("relevant_sections['Guidelines']", extra={"color": "cyan"})
             app_logger.info(

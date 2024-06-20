@@ -31,6 +31,7 @@ import glob
 import hashlib
 import importlib
 import json
+import logging
 import os
 import random
 import re
@@ -39,6 +40,8 @@ from datetime import datetime
 from functools import wraps
 from pathlib import Path
 from typing import Optional
+
+logger = logging.getLogger(__name__)
 
 
 class UnrecoverableException(BaseException):
@@ -516,17 +519,6 @@ def make_list_of_dirs(list_of_dirs):
             os.makedirs(dir)
 
 
-def str2bool(v):
-    if isinstance(v, bool):
-        return v
-    if v.lower() in ("yes", "true", "t", "y", "1"):
-        return True
-    elif v.lower() in ("no", "false", "f", "n", "0"):
-        return False
-    else:
-        raise ValueError(f"Boolean value expected. Got: {v}")
-
-
 def generate_hash_id(obj):
     """
     Generates a unique template ID based on the hash of stringable object.
@@ -537,6 +529,7 @@ def generate_hash_id(obj):
     Returns:
         str: A unique template ID.
     """
+    # logger.debug(f"Hash for {obj}")
     # Convert the config dictionary to a string and encode it to bytes
     txt_str = str(obj).encode("utf-8")
 
