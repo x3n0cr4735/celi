@@ -8,7 +8,7 @@ reporting requirements.
 
 from celi_framework.core.job_description import JobDescription, Task
 
-from tools import GREToolImplementations
+from tools import AlpacaEvalToolImplementations
 from celi_framework.core.mt_factory import MasterTemplateFactory
 from celi_framework.utils.utils import load_json
 
@@ -141,7 +141,7 @@ job_description = JobDescription(
     role=system_message,
     context="Respond to questions from the Alpaca_Eval dataset by following the provided instructions and generating accurate and comprehensive responses. Use the tools and guidelines provided to ensure the quality and relevance of your answers.",
     task_list=task_library,
-    tool_implementations_class=GREToolImplementations,
+    tool_implementations_class=AlpacaEvalToolImplementations,
     pre_context_instruct=pre_algo_instruct,
     post_context_instruct=post_algo_instruct,
     #general_comments=general_comments,
