@@ -18,7 +18,7 @@ task_library = [
         details={
             "description": "Find and retrieve the text for the prompt of the current test question.",
             "tool_call": "Perform a function call to retrieve the question's prompt by calling retrieve_question_prompt function",
-            "example_call": "{{'question_number': 1}}",
+            "example_call": "{{'question_number': ['1']}}",
             "instructions": [  
             ],
         },

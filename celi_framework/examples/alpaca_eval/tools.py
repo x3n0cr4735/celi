@@ -58,7 +58,8 @@ class AlpacaEvalToolImplementations(ToolImplementations):
         Returns:
             str: The prompt for the question.
         """
-        prompt_data = self.load_json(f"{ALL_QUESTIONS_DIR}/instructions_all.json")
+        prompt_data = self.load_json(f"{ALL_QUESTIONS_DIR}/instructions_sample.json")
+        print(prompt_data) 
         return prompt_data[question_number]['instruction']
 
     def retrieve_example_prompt_response(self, question_number: str) -> str:
