@@ -17,9 +17,9 @@ task_library = [
         task_name="Retrieve prompt for question",
         details={
             "description": "Find and retrieve the text for the prompt of the current test question.",
-            "tool_call": "Perform a function call to retrieve the question's prompt.",
-            "example_call": "{{'question_number': ['q1']}}",
-            "instructions": [
+            "tool_call": "Perform a function call to retrieve the question's prompt by calling retrieve_question_prompt function",
+            "example_call": "{{'question_number': 1}}",
+            "instructions": [  
             ],
         },
     ),
@@ -27,8 +27,6 @@ task_library = [
         task_name="Analyze and Understand the Example Prompt & Response",
         details={
             "description": "This task involves a critical analysis of an example response to a prompt similar to the one retrieved in the previous step. The objective is to dissect and understand the structural components, argumentation style, and evidence utilization within the example. This analysis is essential for developing a strategy that aligns with high-scoring responses.",
-            "tool_call": "Use a function call to retrieve the example prompt and response pair for detailed analysis.",
-            "example_call": "{{'question_number': ['q1']}}",
             "instructions": [
                 "Retrieve an example prompt and response pair using the provided function call, ensuring it correlates with the question number of the current task.",
                 "Analyse the types of questions and formulate a strategy for the type of question."
@@ -37,8 +35,8 @@ task_library = [
             "additional_notes": [
                 "Highlight any innovative or particularly effective methods used in the example that could be adapted for your response.",
             ],
-            "tool_call": "Use a function call to retrieve the example prompt and response pair for analysis.",
-            "example_call": "{{'question_number': ['q1']}}",
+            "tool_call": "Use a function call to retrieve_example_prompt_response and response pair for analysis.",
+            "example_call": "{{'question_number': 1}}",
         }
     ),
     
@@ -83,7 +81,7 @@ task_library = [
         details={
             "description": "Use the rubric provided in the instructions to score the final response",
             "tool_call": "Get the rubric using the get_rubric function for the current question.",
-            "example_call": "{{'question_number': ['q1']}}",
+            "example_call": "{{}}",
             "instructions": [
                 "Use the rubric to score the final response",
                 "The score should between 0 and 100. Consider the accuracy, clarity, and completeness of the response when assigning a score.",

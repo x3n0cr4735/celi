@@ -43,8 +43,10 @@ class AlpacaEvalToolImplementations(ToolImplementations):
         Returns:
             str: The rubric to score the question.
         """
-        rubric_data = self.load_json(f"{cur_dir}/data/working_data/rubric/gre_1_scoring_guidelines.json")
-        return rubric_data['rubric']
+        rubric_file_path = f"{cur_dir}/data/working_data/rubric/gre_1_scoring_guidelines.txt"
+        with open(rubric_file_path, 'r', encoding='utf-8') as file:
+            rubric_data = file.read()
+        return rubric_data
 
     def retrieve_question_prompt(self, question_number: str) -> str:
         """
@@ -71,7 +73,7 @@ class AlpacaEvalToolImplementations(ToolImplementations):
         """
         example = self.load_json(f"{EXAMPLE_QUESTIONS_DIR}/set_1_example.json")
         prompt = example[question_number]['instruction']
-        response = example[question_number]['response']
+        response = example[question_number]['output']
         pair = f"{prompt}\n\n{response}"
         return pair
 
