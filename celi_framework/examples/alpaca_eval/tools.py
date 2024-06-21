@@ -80,40 +80,45 @@ class AlpacaEvalToolImplementations(ToolImplementations):
 
     def save_json(self, response, question_number):
         # Specify the JSON output file path
-        json_file_path = os.path.join(
-            cur_dir, "output/gpt/alpaca_eval_auto_output.json")
+        json_file_path = os.path.join(cur_dir, "output/gpt/alpaca_eval_auto_output.json")
+        
+        print("#################Saving responses to JSON...")
+        print("Initial Response:", response)
+
         # Load existing data or initialize an empty dictionary
         if os.path.exists(json_file_path):
             with open(json_file_path, 'r', encoding='utf-8') as file:
                 try:
                     data = json.load(file)
                 except json.JSONDecodeError:
+                    print("Existing JSON file corrupted, initializing new data.")
                     data = {}
         else:
             data = {}
 
-        # Check if the response is a string and convert it to a dictionary if necessary
-        if isinstance(response, str):
+        # Ensure the response is a valid JSON string
+        try:
+            # Directly attempt to parse the response if already properly formatted
+            if isinstance(response, str):
+                response = json.loads(response)
+        except json.JSONDecodeError:
+            print("Failed to decode the JSON response. Check formatting.")
+            # Attempt to fix common formatting issues and retry
             try:
-                response = json.loads(response.replace("'", '"'))  # Replacing single quotes with double quotes for valid JSON
+                formatted_response = response.replace("'", '"').replace('\\\\', '\\')
+                response = json.loads(formatted_response)
             except json.JSONDecodeError:
-                print("Failed to decode the JSON response.")
+                print("Second decoding attempt failed. Formatted Response for Debug:", formatted_response)
                 return
 
-        # Assign the response to the specific question number key
-        if question_number in data:
-            # Append or update the existing list of responses for the question
-            if isinstance(data[question_number], list):
-                data[question_number].append(response)
-            else:
-                data[question_number] = [data[question_number], response]
-        else:
-            # Create a new entry if the question number is not already present
-            data[question_number] = [response]
+        # Append or create new entry for the question number
+        data.setdefault(question_number, {}).update(response)
 
         # Save the updated data to the JSON file
         with open(json_file_path, 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
-        print("Responses have been auto-saved to JSON.")
+        print("Responses have been auto-saved to JSON under the question number:", question_number)
+
+
 

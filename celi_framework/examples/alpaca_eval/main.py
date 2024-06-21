@@ -78,6 +78,9 @@ def get_config():
     llm_cache = not args.no_cache
     use_monitor = not args.no_monitor
 
+    # Couldn't make llm_cache work, so setting it to False. Dont add this to main branch.
+    
+    
     # Instantiate the class, passing parser_model as a parameter
     parser_cls = get_obj_by_name(args.parser_model_class)
 

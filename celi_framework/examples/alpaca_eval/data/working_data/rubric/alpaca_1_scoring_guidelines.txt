@@ -1,37 +1,45 @@
-Alpaca Eval Response Grading Rubric
-1. Accuracy (30 Points)
-30 Points: The response is factually correct and provides an accurate answer to the given instruction.
-20 Points: The response contains minor inaccuracies that do not significantly alter the correctness of the answer.
-10 Points: The response contains significant inaccuracies that affect the correctness of the answer.
-0 Points: The response is factually incorrect or entirely irrelevant to the given instruction.
+**Alpaca Eval Response Grading Rubric**
 
-2. Relevance (25 Points)
-25 Points: The response directly addresses the instruction, with all parts of the response clearly related to the question.
-15 Points: The response generally addresses the instruction, but some parts may be tangentially related.
-10 Points: The response addresses the instruction only minimally, with much of the content being irrelevant.
-0 Points: The response does not address the given instruction.
+1. **Accuracy (30 Points)**
+   - **30 Points**: The response is factually correct and provides an accurate answer to the given instruction.
+   - **20 Points**: The response contains minor inaccuracies that do not significantly alter the correctness of the answer.
+   - **10 Points**: The response contains significant inaccuracies that affect the correctness of the answer.
+   - **0 Points**: The response is factually incorrect or entirely irrelevant to the given instruction.
 
-3. Completeness (20 Points)
-20 Points: The response thoroughly answers all components of the instruction, leaving no aspect unaddressed.
-15 Points: The response covers most parts of the instruction, but misses one or two minor details.
-10 Points: The response partially answers the instruction, missing a significant component or detail.
-0 Points: The response provides no meaningful information regarding the instruction.
+2. **Relevance (25 Points)**
+   - **25 Points**: The response directly addresses the instruction, with all parts of the response clearly related to the question.
+   - **15 Points**: The response generally addresses the instruction, but some parts may be tangentially related.
+   - **10 Points**: The response addresses the instruction only minimally, with much of the content being irrelevant.
+   - **0 Points**: The response does not address the given instruction.
 
-4. Clarity and Structure (15 Points)
-15 Points: The response is clearly articulated and well-structured, making it easy to follow and understand.
-10 Points: The response is mostly clear but may have some structural or grammatical issues that slightly hinder understanding.
-5 Points: The response has major issues with clarity or structure that make it difficult to understand.
-0 Points: The response is incoherent or poorly structured to the extent that it is unintelligible.
+3. **Completeness (15 Points)**
+   - **15 Points**: The response thoroughly answers all components of the instruction, leaving no aspect unaddressed.
+   - **10 Points**: The response covers most parts of the instruction, but misses one or two minor details.
+   - **5 Points**: The response partially answers the instruction, missing a significant component or detail.
+   - **0 Points**: The response provides no meaningful information regarding the instruction.
 
-5. Creativity or Analytical Depth (10 Points)
-10 Points: The response shows exceptional creativity or deep analytical insight relevant to the question.
-7 Points: The response is somewhat creative or shows some level of depth in analysis.
-4 Points: The response is basic, with no significant creativity or analytical depth.
-0 Points: The response is clichéd, trivial, or lacks any creativity or analysis.
+4. **Clarity and Structure (10 Points)**
+   - **10 Points**: The response is clearly articulated and well-structured, making it easy to follow and understand.
+   - **7 Points**: The response is mostly clear but may have some structural or grammatical issues that slightly hinder understanding.
+   - **3 Points**: The response has major issues with clarity or structure that make it difficult to understand.
+   - **0 Points**: The response is incoherent or poorly structured to the extent that it is unintelligible.
 
-Additional Comments and Scoring Guidance
-Feedback: Provide specific examples from the response to justify the score awarded in each category.
-Scoring Adjustment: Consider any extenuating circumstances that might impact the response's effectiveness, such as complex or unusual instructions.
-Final Score: Sum up the scores from each category to give a final score out of 100.
-Example Usage of Rubric
+5. **Conciseness (10 Points)**
+   - **10 Points**: The response is concise, delivering the answer efficiently without unnecessary content.
+   - **7 Points**: The response is generally concise but includes some extraneous information.
+   - **3 Points**: The response includes unnecessary details that dilute the focus or effectiveness of the answer.
+   - **0 Points**: The response is verbose and cluttered with irrelevant information, detracting significantly from the core message.
+
+6. **Creativity or Analytical Depth (10 Points)**
+   - **10 Points**: The response shows exceptional creativity or deep analytical insight relevant to the question.
+   - **7 Points**: The response is somewhat creative or shows some level of depth in analysis.
+   - **4 Points**: The response is basic, with no significant creativity or analytical depth.
+   - **0 Points**: The response is clichéd, trivial, or lacks any creativity or analysis.
+
+**Additional Comments and Scoring Guidance**
+- **Feedback**: Provide specific examples from the response to justify the score awarded in each category.
+- **Scoring Adjustment**: Consider any extenuating circumstances that might impact the response's effectiveness, such as complex or unusual instructions.
+- **Final Score**: Sum up the scores from each category to give a final score out of 100.
+
+**Example Usage of Rubric**
 For the instruction "What are the names of some famous actors that started their careers on Broadway?", a response listing relevant actors with correct names and context would score highly in accuracy, relevance, and completeness but might score lower in creativity unless additional interesting facts or insights were included.

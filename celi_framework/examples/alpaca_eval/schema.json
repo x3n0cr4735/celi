@@ -1,6 +1,5 @@
 {
-
-    "1" : {  "dataset": "helpful_base",
+ "1" : {  "dataset": "helpful_base",
       "instruction": "question1",
       "output": "answer1",
       "generator": "text_davinci_003"
@@ -9,10 +8,5 @@
       "instruction": "question2",
       "output": "answer2",
       "generator": "text_davinci_003"
-    },
-    "3" : {  "dataset": "helpful_base",
-    "instruction": "question3",
-    "output": "answer3",
-    "generator": "text_davinci_003"
     }
-  }
+}
