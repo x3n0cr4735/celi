@@ -43,12 +43,12 @@ class AlpacaEvalToolImplementations(ToolImplementations):
         Returns:
             str: The rubric to score the question.
         """
-        rubric_file_path = f"{cur_dir}/data/working_data/rubric/gre_1_scoring_guidelines.txt"
+        rubric_file_path = f"{cur_dir}/data/working_data/rubric/alpaca_1_scoring_guidelines.txt"
         with open(rubric_file_path, 'r', encoding='utf-8') as file:
             rubric_data = file.read()
         return rubric_data
 
-    def retrieve_question_prompt(self, question_number: str) -> str:
+    def retrieve_question_prompt(self,question_number: str) -> str:
         """
         Retrieves the prompt for a given question in the free response section of the test.
 
@@ -59,10 +59,10 @@ class AlpacaEvalToolImplementations(ToolImplementations):
             str: The prompt for the question.
         """
         prompt_data = self.load_json(f"{ALL_QUESTIONS_DIR}/instructions_sample.json")
-        print(prompt_data) 
+        #print(prompt_data) 
         return prompt_data[question_number]['instruction']
 
-    def retrieve_example_prompt_response(self, question_number: str) -> str:
+    def retrieve_example_prompt_response(self) -> str:
         """
         Retrieves a prompt, answer pair for a question that tests similar skills as the question being answered in the free response section of the test.
 
@@ -73,19 +73,47 @@ class AlpacaEvalToolImplementations(ToolImplementations):
             str: Prompt, question example pair.
         """
         example = self.load_json(f"{EXAMPLE_QUESTIONS_DIR}/set_1_example.json")
-        prompt = example[question_number]['instruction']
-        response = example[question_number]['output']
+        prompt = example["1"]['instruction']
+        response = example["1"]['output']
         pair = f"{prompt}\n\n{response}"
         return pair
 
-    def save_json (self, response):
-        
+    def save_json(self, response, question_number):
         # Specify the JSON output file path
-        json_file_path = "output/gpt/alpaca_eval_auto_output.json"
+        json_file_path = os.path.join(
+            cur_dir, "output/gpt/alpaca_eval_auto_output.json")
+        # Load existing data or initialize an empty dictionary
+        if os.path.exists(json_file_path):
+            with open(json_file_path, 'r', encoding='utf-8') as file:
+                try:
+                    data = json.load(file)
+                except json.JSONDecodeError:
+                    data = {}
+        else:
+            data = {}
 
-        # Save the collected question-answer pairs to a JSON file
-        with open(json_file_path, 'w', encoding='utf-8') as f:
-            json.dump(response, f, ensure_ascii=False, indent=4)
+        # Check if the response is a string and convert it to a dictionary if necessary
+        if isinstance(response, str):
+            try:
+                response = json.loads(response.replace("'", '"'))  # Replacing single quotes with double quotes for valid JSON
+            except json.JSONDecodeError:
+                print("Failed to decode the JSON response.")
+                return
 
-        print("Responses have been auto saved to JSON.")
+        # Assign the response to the specific question number key
+        if question_number in data:
+            # Append or update the existing list of responses for the question
+            if isinstance(data[question_number], list):
+                data[question_number].append(response)
+            else:
+                data[question_number] = [data[question_number], response]
+        else:
+            # Create a new entry if the question number is not already present
+            data[question_number] = [response]
+
+        # Save the updated data to the JSON file
+        with open(json_file_path, 'w', encoding='utf-8') as file:
+            json.dump(data, file, ensure_ascii=False, indent=4)
+
+        print("Responses have been auto-saved to JSON.")
 

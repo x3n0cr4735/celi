@@ -1,0 +1,21 @@
+{
+
+  "1":{
+    "dataset": "koala",
+    "instruction": "Marie is at the music store for a store day. She bought two $50 combos. Then, for $25 she bought two t-shirts for $5 each and five hoodies for $2 each. Then, she bought sneakers for $8 each. How much did she spend total?",
+    "output": "Marie spent a total of $147.",
+    "generator": "text_davinci_003"
+  },
+  "2":{
+    "dataset": "oasst",
+    "instruction": "I have an almost irrational hatred for the American version of \"The Office\". I've never really watched it though, nor the original British version. Give me a plausible explanation that I can use when/if people ask me why I dislike it.",
+    "output": "I think the American version of \"The Office\" just doesn't capture the same spirit of the British version. I find it too formulaic and I think it lacks the originality and wit of the original show. Plus, I'm not a fan of the way some of the jokes and characters are portrayed.",
+    "generator": "text_davinci_003"
+  },
+  "3":{
+    "dataset": "vicuna",
+    "instruction": "How can I increase my productivity while working from home?",
+    "output": "1. Create a specific workspace: Find a quiet place in your home to serve as your designated workspace. Make sure it\u2019s free from distractions and other stimuli that could interfere with your productivity.\n\n2. Establish a routine: Structure your day by setting a specific start and end time for work, as well as specific times for breaks and meals.\n\n3. Take regular breaks: Working from home can sometimes be isolating, so it\u2019s important to take regular breaks to stay focused and productive.\n\n4. Make to-do lists: Prepare a list of tasks to complete each day and prioritize the most important ones.\n\n5. Limit distractions: Turn off notifications on your phone and computer, and avoid checking your social media accounts during work hours.\n\n6. Exercise: Exercise can help improve your focus and energy levels, so make sure to get some physical activity each day.",
+    "generator": "text_davinci_003"
+  }
+}

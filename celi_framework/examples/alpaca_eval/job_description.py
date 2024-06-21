@@ -17,7 +17,7 @@ task_library = [
         task_name="Retrieve prompt for question",
         details={
             "description": "Find and retrieve the text for the prompt of the current test question.",
-            "tool_call": "Perform a function call to retrieve the question's prompt by calling retrieve_question_prompt function",
+            "tool_call": "Perform a function call to retrieve the question's prompt by calling retrieve_question_prompt function for each question in the schema",
             "example_call": "{{'question_number': ['1']}}",
             "instructions": [  
             ],
@@ -28,15 +28,16 @@ task_library = [
         details={
             "description": "This task involves a critical analysis of an example response to a prompt similar to the one retrieved in the previous step. The objective is to dissect and understand the structural components, argumentation style, and evidence utilization within the example. This analysis is essential for developing a strategy that aligns with high-scoring responses.",
             "instructions": [
-                "Retrieve an example prompt and response pair using the provided function call, ensuring it correlates with the question number of the current task.",
+                "Retrieve an example prompt and response pair using the provided function call",
                 "Analyse the types of questions and formulate a strategy for the type of question."
                 "Examine how the response effectively addresses the instruction, noting the use of specific details and the structure of the answer."
             ],
             "additional_notes": [
                 "Highlight any innovative or particularly effective methods used in the example that could be adapted for your response.",
+                "You don't have to answer the question in this task, focus on understanding the example prompt and response."
             ],
             "tool_call": "Use a function call to retrieve_example_prompt_response and response pair for analysis.",
-            "example_call": "{{'question_number': 1}}",
+            "example_call": "{{}}",
         }
     ),
     
@@ -90,12 +91,12 @@ task_library = [
         },
     ),
     Task(
-        task_name="Save the repsone",
+        task_name="Save the repsone for each question in json format",
         details={
-            "description": "Save the response in the format.",
-            "instructions": "Save response into one json file",
+            "description": "Save the response in the json format.",
+            "instructions": "Save response for each question one by one into json file by calling save_json function",
             "tool_call": "Use the save_json tool.",
-            "example_call": "{{'instruction': 'Which year india won the first world cup in cricket?', 'baseline_response': 'India won the first world cricket cup in 1985', 'final_response': 'India won the first world cricket cup in 1981.', 'Excepted_output': 'India won the first world cricket cup in 1981.', 'verification_questions': ['Question 1', 'Question 2', ...], 'verification_answers': {'Question 1': 'Answer', 'Question 2': 'Answer', ...}, 'feedback': {'accuracy': 'The response is factually correct and provides an accurate answer to the given instruction.', 'relevance': 'The response directly addresses the instruction, with all parts of the response clearly related to the question.', 'completeness': 'The response thoroughly answers the instruction, leaving no aspect unaddressed.', 'clarity_and_structure': 'The response is clearly articulated and well-structured, making it easy to follow and understand.', 'creativity_or_analytical_depth': 'The response is basic, with no significant creativity or analytical depth.'}, 'score': {'accuracy': 30, 'relevance': 25, 'completeness': 20, 'clarity_and_structure': 15, 'creativity_or_analytical_depth': 4, 'final_score': 94}}}",
+            "example_call": "{{'response' :{'instruction': 'Which year india won the first world cup in cricket?', 'baseline_response': 'India won the first world cricket cup in 1985', 'final_response': 'India won the first world cricket cup in 1981.', 'Excepted_output': 'India won the first world cricket cup in 1981.',  'verification_answers': {'Question 1': 'Answer', 'Question 2': 'Answer', ...}, 'feedback': {'accuracy': 'The response is factually correct and provides an accurate answer to the given instruction.', 'relevance': 'The response directly addresses the instruction, with all parts of the response clearly related to the question.', 'completeness': 'The response thoroughly answers the instruction, leaving no aspect unaddressed.', 'clarity_and_structure': 'The response is clearly articulated and well-structured, making it easy to follow and understand.', 'creativity_or_analytical_depth': 'The response is basic, with no significant creativity or analytical depth.'}, 'score': {'accuracy': 30, 'relevance': 25, 'completeness': 20, 'clarity_and_structure': 15, 'creativity_or_analytical_depth': 4, 'final_score': 94}, 'question_number': '1'}}}",
 
                 },
     ),
@@ -129,7 +130,7 @@ initial_User_Message = "Welcome to your task dashboard for the Alpaca_Eval datas
 
 pre_algo_instruct = "Before we start answering questions from the Alpaca_Eval dataset, ensure you understand the context and requirements of each question. You will be provided with the question and expected to research and draft a response based on reliable sources. Pay close attention to the specifics of each question to tailor your responses appropriately."
 
-post_algo_instruct = "After drafting your response, review it against the example outputs provided for quality and comprehensiveness. Ensure your final response aligns with the expected format and detail as illustrated by successful examples. Reflect on any feedback or revisions suggested in the dataset guidelines to optimize your response before submission."
+post_algo_instruct = "After drafting your response, review it against the example outputs provided for quality and comprehensiveness. Ensure your final response aligns with the expected format and detail as illustrated by successful examples. Reflect on any feedback or revisions suggested in the dataset guidelines to optimize your response before submission. Then go to the next question and repeat the process if there are question left"
     
 system_message = """
     As an AI trained to assist with the answering questions, your goal is to generate concise and precise answers to the provided instructions.

@@ -1,20 +1,18 @@
 {
 
     "1" : {  "dataset": "helpful_base",
-      "instruction": "What are the names of some famous actors that started their careers on Broadway?",
-      "output": "Some famous actors that started their careers on Broadway include: \n1. Hugh Jackman \n2. Meryl Streep \n3. Denzel Washington \n4. Julia Roberts \n5. Christopher Walken \n6. Anthony Rapp \n7. Audra McDonald \n8. Nathan Lane \n9. Sarah Jessica Parker \n10. Lin-Manuel Miranda",
+      "instruction": "question1",
+      "output": "answer1",
       "generator": "text_davinci_003"
     },
-   "2" : {
-      "dataset": "helpful_base",
-      "instruction": "How did US states get their names?",
-      "output": "US states get their names from a variety of sources, including Native American tribes, Spanish explorers, British colonists, and even presidents. For example, the state of Alabama was named after the Native American tribe that lived in the area, while the state of Florida gets its name from the Spanish explorer, Ponce de Leon, who explored the area in the 1500s. Other states are named after English kings (like Virginia, named after England's \"Virgin Queen,\" Queen Elizabeth I) or presidents (like Washington, named after George Washington).",
+    "2" : {  "dataset": "helpful_base",
+      "instruction": "question2",
+      "output": "answer2",
       "generator": "text_davinci_003"
     },
-    "3" :{
-      "dataset": "helpful_base",
-      "instruction": "Hi, my sister and her girlfriends want me to play kickball with them. Can you explain how the game is played, so they don't take advantage of me?",
-      "output": "Kickball is a game similar to baseball, but with a large rubber ball instead of a bat and a ball. The game is usually played with two teams of six players each. Each team has three bases and a home plate. The players on the kicking team line up at home plate and take turns kicking the ball. The object of the game is to score runs by running around all three bases and back to home plate without being tagged out by the defense. The team with the most runs at the end of the game is the winner.",
-      "generator": "text_davinci_003"
+    "3" : {  "dataset": "helpful_base",
+    "instruction": "question3",
+    "output": "answer3",
+    "generator": "text_davinci_003"
     }
   }

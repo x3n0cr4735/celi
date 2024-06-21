@@ -1,8 +1,9 @@
 {
 
-  "1" : {  "dataset": "helpful_base",
-    "instruction": "What are the names of some famous actors that started their careers on Broadway?",
-    "output": "Some famous actors that started their careers on Broadway include: \n1. Hugh Jackman \n2. Meryl Streep \n3. Denzel Washington \n4. Julia Roberts \n5. Christopher Walken \n6. Anthony Rapp \n7. Audra McDonald \n8. Nathan Lane \n9. Sarah Jessica Parker \n10. Lin-Manuel Miranda",
+  "1" :    {
+    "dataset": "helpful_base",
+    "instruction": "What year was the Yamato Battleship built?",
+    "output": "The Yamato Battleship was built in 1941.",
     "generator": "text_davinci_003"
   },
  "2" : {
