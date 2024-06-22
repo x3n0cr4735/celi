@@ -42,6 +42,7 @@ from celi_framework.core.mt_factory import MasterTemplateFactory
 from celi_framework.core.section_processor import SectionProcessor
 from celi_framework.utils.llms import ToolDescription
 from celi_framework.utils.log import app_logger
+from celi_framework.utils.token_counters import TokenCounter
 
 logger = logging.getLogger(__name__)
 
@@ -76,12 +77,14 @@ class ProcessRunner:
         skip_section_list=None,
         callback: Optional[CELIUpdateCallback] = None,
         model_url: Optional[str] = None,
+        token_counter: Optional[TokenCounter] = None,
     ):
         if skip_section_list is None:
             skip_section_list = []
         self.primary_model_name = primary_model_name
         self.model_url = model_url
         self.max_tokens = max_tokens
+        self.token_counter = token_counter
         self.callback = callback
         logger.info(f"Using {primary_model_name} as the primary LLM")
 
@@ -150,6 +153,7 @@ class ProcessRunner:
                     callback=self.callback,
                     model_url=self.model_url,
                     max_tokens=self.max_tokens,
+                    token_counter=self.token_counter,
                 )
                 for _ in self.sections_to_be_completed
             ]
@@ -168,7 +172,10 @@ class ProcessRunner:
     async def wait_on_tasks(self):
         app_logger.info("Waiting on task completion", extra={"color": "cyan"})
         await asyncio.gather(*self.tasks.values())
-        app_logger.info("All sections have been completed.", extra={"color": "cyan"})
+        app_logger.info(
+            f"All sections have been completed. {self.token_counter.current_token_count} live tokens and {self.token_counter.cached_token_count} cached tokens.",
+            extra={"color": "cyan"},
+        )
         if self.callback:
             self.callback.on_all_sections_complete()
 

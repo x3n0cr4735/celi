@@ -94,6 +94,7 @@ def parse_standard_args(args):
         primary_model_name=args.primary_model_name,
         model_url=args.model_api_url,
         max_tokens=args.max_tokens,
+        token_budget=args.token_budget,
     )
 
 
@@ -146,6 +147,16 @@ def setup_standard_args():
         help="CELI requires a job description to know what task to run.  This parameter specifies the Python class name"
         " for the class containing the job description.  It must have JobDescription as a base class.  Several "
         "example job descriptions are provided within the celi_framework.examples module.",
+    )
+    parser.add_argument(
+        "--token_budget",
+        type=int,
+        default=os.getenv(
+            "TOKEN_BUDGET",
+            0,
+        ),
+        help="Total budget in tokens for a singe CELI run, across all calls.  If set to 0, there is no budget.  This "
+        "only includes live calls, not cached calls.  If the budget is exceeded, the run will stop.",
     )
     bool_opt(
         parser,
