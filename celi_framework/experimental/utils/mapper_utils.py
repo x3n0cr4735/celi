@@ -23,17 +23,19 @@ import ast
 import json
 import os
 from collections import defaultdict, Counter
+
 import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-from celi_framework.experimental.utils.ada import get_openai_embedding_sync_timeouts
-from celi_framework.utils.llms import quick_ask
+
 from celi_framework.experimental.templates import (
     create_prompt_for_essential_section_analysis,
 )
+from celi_framework.experimental.utils.ada import get_openai_embedding_sync_timeouts
+from celi_framework.utils.llms import quick_ask
+from celi_framework.utils.log import app_logger
 from celi_framework.utils.token_counters import get_master_counter_instance
 from celi_framework.utils.utils import load_json, get_section_context_as_text
-from celi_framework.utils.log import app_logger
 
 TOKEN_LIMIT_PER_MINUTE = 120000
 
@@ -421,7 +423,7 @@ def source_material_getter(section_number):
     except Exception as e:
         bare_err = f"Error during source material retrieval: {e}"
         response_error = f"\nResponse was {response}"
-        app_logger.error(f"{response_error}", extra={"color": "red"})
+        app_logger.warning(f"{response_error}")
         response_msg = (
             f"{bare_err}\n{response_error}\nIMPORTANT: Trimming to essential source materials was unsuccessful but, for the next tasks, "
             f"just use all the potentially essential source sections below:\n{relevant_sections}.\n"
@@ -433,7 +435,7 @@ def source_material_getter(section_number):
         app_logger.info(response_msg, extra={"color": "cyan"})
         return response_msg
 
-    return (
+    return (warning
         text_response
         + '\n\n SUCCESS: source_sections_getter function has found the section source materials. \n "Task #4 is complete. Proceed to Task #5 immediately."'
     )

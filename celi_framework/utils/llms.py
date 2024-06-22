@@ -87,7 +87,7 @@ async def ask_split(
     while err_cnt < max_retries:
         try:
             if err_cnt > 1:
-                app_logger.error(f"Attempt {err_cnt + 1}:", extra={"color": "red"})
+                app_logger.warning(f"Attempt {err_cnt + 1}:")
             if model_url is None:
                 chat_completion = await cached_chat_completion(
                     base_url=model_url,
@@ -140,15 +140,13 @@ async def ask_split(
             TimeoutError,
         ) as e:
             err_cnt += 1
-            app_logger.exception(f"Error attempt {err_cnt}", extra={"color": "red"})
-            app_logger.error(f"Error: Prompt was {user_prompt}")
+            app_logger.exception(f"Error attempt {err_cnt}")
+            app_logger.warning(f"Error: Prompt was {user_prompt}")
             time.sleep(wait_between_retries)
             last_error = e
 
     if verbose:
-        app_logger.error(
-            f"All retries failed after {max_retries} attempts.", extra={"color": "red"}
-        )
+        app_logger.error(f"All retries failed after {max_retries} attempts.")
     raise last_error  # type: ignore
 
 
@@ -198,7 +196,7 @@ def quick_ask(
     while err_cnt < max_retries:
         try:
             if err_cnt > 1:
-                app_logger.error(f"Attempt {err_cnt + 1}:", extra={"color": "red"})
+                app_logger.warning(f"Attempt {err_cnt + 1}:")
             if verbose:
                 app_logger.info(
                     f"Calling: {model_name.upper()}", extra={"color": "yellow"}
