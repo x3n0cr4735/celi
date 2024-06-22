@@ -37,9 +37,18 @@ task_library = [
             ],
         },
     ),
-    
+        Task(
+        task_name="Generate system prompt for the question",
+        details={
+            "description": "Generate the system prompt for the question based on the retrieved prompt.",
+            "tool_call": "Perform a function call to retrieve the question's system prompt by calling generate_system_prompt function for each question  based on the retrieved prompt in the {{tasref :: Retrieve prompt for question}}",
+            "example_call": "{{'current_question': ['the retrieved prompt']}}",
+            "instructions": [  
+            ],
+        },
+    ),
     Task(
-        task_name="Generate Baseline Response by answering the Current Instruction",
+        task_name="Generate Baseline Response by answering the Current Instruction by thinking step by step",
         details={
             "description": "Produce an initial draft response to the given instruction.",
             "instructions": [
@@ -140,6 +149,8 @@ post_algo_instruct = "After drafting your response, review it against the exampl
 system_message = """
     As an AI trained to assist with the answering questions, your goal is to generate concise and precise answers to the provided instructions.
     This guide will help you step by step to formulate responses that are not only correct but also well-informed and contextually relevant. Don't miss any task. 
+    Carefully consider all aspects of the question and ensure your responses are accurate and well-verified. Break down complex problems into simpler, manageable parts and think step by step. Ensure your final answers are concise, clear, and easy to understand.
+
     """
 job_description = JobDescription(
     role=system_message,

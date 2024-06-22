@@ -14,6 +14,8 @@ from celi_framework.core.job_description import ToolImplementations
 from celi_framework.utils.log import app_logger as logger
 from celi_framework.utils.utils import load_json, load_text_file
 from docx import Document
+import textgrad as tg
+from textgrad.tasks import load_task
 
 cur_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -120,5 +122,42 @@ class AlpacaEvalToolImplementations(ToolImplementations):
 
         print("Responses have been auto-saved to JSON under the question number:", question_number)
 
+    def generate_system_prompt(self, current_question):
+        '''This function uses text_grad to generate a prompt for each question'''
 
+        instruction = current_question
+        llm_engine = tg.get_engine("gpt-3.5-turbo")
+        tg.set_backward_engine("gpt-4o",override=True)
 
+        #_, val_set, _, eval_fn = load_task("BBH_object_counting", llm_engine)
+        #question_str, answer_str = val_set[0]
+        question = tg.Variable(instruction, role_description="question to the LLM", requires_grad=False)
+        #answer = tg.Variable("This will have the exact answer for the question", role_description="answer to the question", requires_grad=False)
+       
+        system_prompt = tg.Variable("You are a concise LLM. Think step by step.",
+                            requires_grad=True,
+                            role_description="system prompt to guide the LLM's reasoning strategy for accurate responses")
+
+        model = tg.BlackboxLLM(llm_engine, system_prompt=system_prompt)
+        optimizer = tg.TGD(parameters=list(model.parameters()))
+
+        prediction = model(question)
+        
+        evaluation_instruction = (f"Here's a question: {question}. " 
+                           "Create a prompt that will guide the LLM to answer the question. "
+                           "be smart, logical, and very critical. "
+                           "Just provide concise feedback.")
+        
+        
+
+        # TextLoss is a natural-language specified loss function that describes 
+        # how we want to evaluate the reasoning.
+        loss_fn = tg.TextLoss(evaluation_instruction)
+        loss = loss_fn(prediction)
+        for i in range(2):
+            loss.backward()
+            optimizer.step()
+      
+        prediction = model(question)
+        return system_prompt
+        
