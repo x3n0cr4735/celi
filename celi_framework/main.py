@@ -152,7 +152,7 @@ def setup_standard_args():
         "example job descriptions are provided within the celi_framework.examples module.",
     )
     parser.add_argument(
-        "--token_budget",
+        "--token-budget",
         type=int,
         default=os.getenv(
             "TOKEN_BUDGET",

@@ -1,5 +1,11 @@
 # Change Log
 
+## 0.3.4 (June 23, 2024)
+
+* Added --token-budget option to limit the number of LLM calls made.
+* Fixes #71 - only error logs are red
+* Fixes #74 - only check most recent messages for duplicates.
+
 ## 0.3.3 (June 18, 2024)
 
 * Changed write_string_to_file to default to UTF-8 and allow other encodings.
