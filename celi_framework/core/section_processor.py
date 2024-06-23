@@ -158,10 +158,10 @@ class SectionProcessor:
             return False
         last_message = ongoing_chat[-1]
         duplicates = 0
-        for message in ongoing_chat[:-1]:
+        for message in ongoing_chat[-7:-1]:
             if message == last_message:
                 duplicates += 1
-        return duplicates > 2
+        return duplicates >= 3
 
     async def builtin_review(self):
         task_specific = (
@@ -271,9 +271,7 @@ class SectionProcessor:
                         except Exception as e:
                             function_return = f"Error: {e}"
                     else:
-                        app_logger.error(
-                            f"Unknown function name: {name}", extra={"color": "red"}
-                        )
+                        app_logger.warning(f"Unknown function name: {name}")
                         return (
                             "user",
                             f"Error: Called unknown function name: {name} with arguments {arguments}",

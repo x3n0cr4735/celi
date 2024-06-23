@@ -104,7 +104,7 @@ class ReportingToolImplementations(BaseDocToolImplementations):
         try:
             sections_dict = json.loads(sections_dict_str)
         except json.JSONDecodeError as e:
-            app_logger.error(f"Invalid JSON format: {e}", extra={"color": "red"})
+            app_logger.warning(f"Invalid JSON format: {e}")
             return "Error: Provided sections_dict_str is not a valid JSON format."
 
         output_text = ""
