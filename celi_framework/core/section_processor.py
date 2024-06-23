@@ -155,10 +155,10 @@ class SectionProcessor:
             return False
         last_message = ongoing_chat[-1]
         duplicates = 0
-        for message in ongoing_chat[:-1]:
+        for message in ongoing_chat[-7:-1]:
             if message == last_message:
                 duplicates += 1
-        return duplicates > 2
+        return duplicates >= 3
 
     async def builtin_review(self):
         task_specific = (
