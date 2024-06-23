@@ -38,10 +38,7 @@ from requests import HTTPError
 
 from celi_framework.utils.llm_cache import get_celi_llm_cache
 from celi_framework.utils.log import app_logger
-from celi_framework.utils.token_counters import (
-    token_counter_decorator_ask_split,
-    token_counter_decorator_quick_ask,
-)
+from celi_framework.utils.token_counters import TokenCounter
 
 logger = logging.getLogger(__name__)
 
@@ -60,7 +57,6 @@ class ToolDescription(BaseModel):
     parameters: Dict[str, Any]
 
 
-@token_counter_decorator_ask_split  # TODO - Not necessary to run outside of project
 async def ask_split(
     user_prompt: str | List[Tuple[str, str]],
     system_message,
@@ -75,6 +71,7 @@ async def ask_split(
     tool_descriptions: Optional[List[ToolDescription]] = None,
     model_url: Optional[str] = None,
     json_mode: bool = False,
+    token_counter: Optional[TokenCounter] = None,
 ):
     """
     Sends a prompt to the OpenAI API and returns the response, with retries on error.
@@ -90,6 +87,7 @@ async def ask_split(
                 app_logger.warning(f"Attempt {err_cnt + 1}:")
             if model_url is None:
                 chat_completion = await cached_chat_completion(
+                    token_counter=token_counter,
                     base_url=model_url,
                     messages=[
                         {"role": "system", "content": system_message},
@@ -113,6 +111,7 @@ async def ask_split(
                 )
             else:
                 chat_completion = await cached_chat_completion(
+                    token_counter=token_counter,
                     base_url=model_url,
                     messages=[
                         {"role": "system", "content": system_message},
@@ -150,10 +149,8 @@ async def ask_split(
     raise last_error  # type: ignore
 
 
-@token_counter_decorator_quick_ask
 def quick_ask(
     prompt,
-    token_counter,
     model_name,
     max_tokens=None,
     temperature=None,
@@ -165,6 +162,7 @@ def quick_ask(
     timeout=90,
     time_increase=30,
     model_url: Optional[str] = None,
+    token_counter: Optional[TokenCounter] = None,
 ):
     """
     Simplified version of ask_split for quickly sending prompts to the OpenAI API, with error handling and retries.
@@ -182,11 +180,6 @@ def quick_ask(
     Returns:
         str: The content of the response message or error message after all retries.
     """
-    if token_counter is None:
-        app_logger.error(
-            f"global_token_counter inside quick_ask definition is {token_counter}",
-            extra={"color": "red"},
-        )
     err_cnt = 0
     last_error = None
 
@@ -209,6 +202,7 @@ def quick_ask(
 
             chat_completion = asyncio.run(
                 cached_chat_completion(
+                    token_counter=token_counter,
                     base_url=model_url,
                     messages=assemble_chat_messages(prompt),
                     model=model_name,
@@ -279,7 +273,11 @@ def assemble_chat_messages(prompt: str | List[Tuple[str, str] | Dict[str, str]])
         return [format_message(msg) for msg in prompt]
 
 
-async def cached_chat_completion(base_url: Optional[str], **kwargs) -> ChatCompletion:
+async def cached_chat_completion(
+    token_counter: Optional[TokenCounter] = None,
+    base_url: Optional[str] = None,
+    **kwargs,
+) -> ChatCompletion:
     cache = get_celi_llm_cache()
     if cache:
         url_dict = {} if base_url is None else {"base_url": base_url}
@@ -289,20 +287,40 @@ async def cached_chat_completion(base_url: Optional[str], **kwargs) -> ChatCompl
             app_logger.debug("Using cached LLM response")
             if isinstance(ret, str):
                 logger.info(ret)
-            return ChatCompletion.model_validate(ret["completion"])
+            result = ChatCompletion.model_validate(ret["completion"])
+            if token_counter:
+                token_counter.count_cached_tokens(
+                    kwargs.get("messages", ""),
+                    kwargs.get("tools", ""),
+                    result.choices[0].message.content,
+                )
+            return result
         else:
             app_logger.debug("Caching LLM response")
             result = await get_openai_client(
                 base_url=base_url,
             ).chat.completions.create(**kwargs)
+            if token_counter:
+                token_counter.count_request_tokens(
+                    kwargs.get("messages", ""), kwargs.get("tools", "")
+                )
             await cache.cache_llm_response(
                 response={"completion": result.dict()}, **cache_args
             )
+            if token_counter:
+                token_counter.count_response_tokens(result.choices[0].message.content)
             return result
     else:
-        return await get_openai_client(base_url=base_url).chat.completions.create(
+        if token_counter:
+            token_counter.count_request_tokens(
+                kwargs.get("messages", ""), kwargs.get("tools", "")
+            )
+        result = await get_openai_client(base_url=base_url).chat.completions.create(
             **kwargs
         )
+        if token_counter:
+            token_counter.count_response_tokens(result.choices[0].message.content)
+        return result
 
 
 class ContextLengthExceededException(Exception):

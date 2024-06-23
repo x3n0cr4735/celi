@@ -225,9 +225,7 @@ class MonitoringAgent:
                 model_name = "gpt-4-32k"
             else:
                 model_name = "gpt-4-0125-preview"
-            response = quick_ask(
-                prompt, token_counter=self.token_counter, model_name=model_name
-            )
+            response = quick_ask(prompt, model_name=model_name)
         except ContextLengthExceededException as e:
             app_logger.info(
                 f"Context length issue with model {model_name}: {e}",
@@ -239,9 +237,7 @@ class MonitoringAgent:
                 app_logger.info(
                     f"Trying {model_name} instead: {e}", extra={"color": "orange"}
                 )
-                response = quick_ask(
-                    prompt, token_counter=self.token_counter, model_name=model_name
-                )
+                response = quick_ask(prompt, model_name=model_name)
             except ContextLengthExceededException as e:
                 app_logger.error(
                     f"Failed again with model {model_name}: {e}", extra={"color": "red"}

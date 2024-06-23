@@ -50,9 +50,7 @@ def run_gpt():
         print(f"{whole_prompt}")
 
         # print(f"{whole_prompt}\n\n")
-        llm_response = quick_ask(
-            prompt=whole_prompt, token_counter=None, model_name="gpt-4o"
-        )
+        llm_response = quick_ask(prompt=whole_prompt, model_name="gpt-4o")
 
         # save gpt_outputs
         print("successfully created gpt output for question " + key)
@@ -77,7 +75,7 @@ def run_gpt():
         print(f"{whole_prompt}")
 
         # print(f"{whole_prompt}\n\n")
-        llm_response = quick_ask(prompt=whole_prompt, token_counter=None)
+        llm_response = quick_ask(prompt=whole_prompt)
 
         # Specify the directory and filename
         file_path = f"output/gpt/{key}_final_essay_gpt_scored.docx"

@@ -36,6 +36,6 @@ for i in range(1, 4):
         whole_prompt = f"{system_message}\n\n{user_prompt}"
 
         # print(f"{whole_prompt}\n\n")
-        llm_response = quick_ask(prompt=whole_prompt, token_counter=None)
+        llm_response = quick_ask(prompt=whole_prompt)
 
         print(llm_response)

@@ -24,7 +24,6 @@ from celi_framework.experimental.templates import (
 )
 from celi_framework.utils.llms import quick_ask
 from celi_framework.utils.log import app_logger
-from celi_framework.utils.token_counters import get_master_counter_instance
 from celi_framework.utils.utils import (
     format_toc,
     get_section_context_as_text,
@@ -194,7 +193,6 @@ class ReportingToolImplementations(BaseDocToolImplementations):
         # Send the prompt to an external service (LLM)
         response_str = quick_ask(
             prompt,
-            token_counter=get_master_counter_instance(),
             json_output=True,
             timeout=150,
             model_name="gpt-4-0125-preview",
@@ -235,7 +233,6 @@ class ReportingToolImplementations(BaseDocToolImplementations):
         # Send the prompt to an external service (LLM)
         response_str = quick_ask(
             prompt,
-            token_counter=get_master_counter_instance(),
             json_output=True,
             model_name="gpt-4-0125-preview",
         )

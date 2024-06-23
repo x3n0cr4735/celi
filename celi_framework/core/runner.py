@@ -9,6 +9,7 @@ from celi_framework.core.mt_factory import MasterTemplateFactory
 from celi_framework.core.processor import ProcessRunner
 from celi_framework.utils.llm_cache import enable_llm_caching, get_celi_llm_cache
 from celi_framework.utils.log import app_logger
+from celi_framework.utils.token_counters import TokenCounter
 
 
 @dataclass
@@ -20,6 +21,7 @@ class CELIConfig:
     max_tokens: int
     model_url: Optional[str]
     simulate_live: bool = False
+    token_budget: int = 0
 
 
 def run_celi(celi_config: CELIConfig):
@@ -58,6 +60,7 @@ async def run_process_runner(celi_config):
             primary_model_name=celi_config.primary_model_name,
             model_url=celi_config.model_url,
             max_tokens=celi_config.max_tokens,
+            token_counter=TokenCounter(celi_config.token_budget),
         )
 
         if celi_config.llm_cache:

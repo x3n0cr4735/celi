@@ -30,7 +30,6 @@ import regex
 
 from celi_framework.experimental.templates import make_toc_prompt
 from celi_framework.utils.llms import quick_ask
-from celi_framework.utils.token_counters import get_master_counter_instance
 from .extractor_helpers import save_to_json, toc_iterator
 
 pd.set_option("display.max_colwidth", 0)
@@ -50,7 +49,6 @@ def create_toc(doc):
     response = quick_ask(
         prompt,
         json_output=True,
-        token_counter=get_master_counter_instance(),
         model_name="gpt-4-0125-preview",
     )
     toc_dict = json.loads(response)

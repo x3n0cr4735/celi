@@ -86,6 +86,9 @@ def parse_standard_args(args):
     if args.openai_api_key:
         os.environ["OPENAI_API_KEY"] = args.openai_api_key
 
+    if args.no_cache:
+        logger.warning("LLM Caching is turned off.")
+
     return CELIConfig(  # noqa: F821
         job_description=get_obj_by_name(args.job_description),
         tool_implementations=None,
@@ -94,6 +97,7 @@ def parse_standard_args(args):
         primary_model_name=args.primary_model_name,
         model_url=args.model_api_url,
         max_tokens=args.max_tokens,
+        token_budget=args.token_budget,
     )
 
 
@@ -146,6 +150,16 @@ def setup_standard_args():
         help="CELI requires a job description to know what task to run.  This parameter specifies the Python class name"
         " for the class containing the job description.  It must have JobDescription as a base class.  Several "
         "example job descriptions are provided within the celi_framework.examples module.",
+    )
+    parser.add_argument(
+        "--token_budget",
+        type=int,
+        default=os.getenv(
+            "TOKEN_BUDGET",
+            10000000,
+        ),
+        help="Total budget in tokens for a singe CELI run, across all calls.  If set to 0, there is no budget.  This "
+        "only includes live calls, not cached calls.  If the budget is exceeded, the run will stop.",
     )
     bool_opt(
         parser,

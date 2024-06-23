@@ -10,6 +10,7 @@ from celi_framework.core.celi_update_callback import CELIUpdateCallback
 from celi_framework.core.job_description import ToolImplementations
 from celi_framework.utils.llms import ToolDescription, ask_split
 from celi_framework.utils.log import app_logger
+from celi_framework.utils.token_counters import TokenCounter
 
 logger = logging.getLogger(__name__)
 
@@ -31,6 +32,7 @@ class SectionProcessor:
     max_tokens: int
     callback: Optional[CELIUpdateCallback] = None
     model_url: Optional[str] = None
+    token_counter: Optional[TokenCounter] = None
 
     def __post_init__(self):
         self.ongoing_chat: List[Dict[str, str] | Tuple[str, str]] = []
@@ -103,6 +105,7 @@ class SectionProcessor:
             tool_descriptions=self.tool_descriptions,
             model_url=self.model_url,
             max_tokens=self.max_tokens,
+            token_counter=self.token_counter,
         )
         self._update_ongoing_chat(
             ("assistant", str(llm_response.message.content or ""))
@@ -194,6 +197,7 @@ class SectionProcessor:
             json_mode=True,
             model_url=self.model_url,
             max_tokens=self.max_tokens,
+            token_counter=self.token_counter,
         )
         text_response = llm_response.message.content.strip()
 

@@ -23,8 +23,6 @@ async def test_ask_split():
 
 
 def test_quick_ask():
-    ret = quick_ask(
-        "Hello", token_counter=None, model_name=os.getenv("PRIMARY_LLM", None)
-    )
+    ret = quick_ask("Hello", model_name=os.getenv("PRIMARY_LLM", None))
     assert type(ret) == str
     logger.info(f"LLM returned: {ret}")

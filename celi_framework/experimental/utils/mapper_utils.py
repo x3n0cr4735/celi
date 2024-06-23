@@ -34,7 +34,6 @@ from celi_framework.experimental.templates import (
 from celi_framework.experimental.utils.ada import get_openai_embedding_sync_timeouts
 from celi_framework.utils.llms import quick_ask
 from celi_framework.utils.log import app_logger
-from celi_framework.utils.token_counters import get_master_counter_instance
 from celi_framework.utils.utils import load_json, get_section_context_as_text
 
 TOKEN_LIMIT_PER_MINUTE = 120000
@@ -350,13 +349,10 @@ def source_material_getter(section_number):
             extra={"color": "blue"},
         )
 
-        token_counter = get_master_counter_instance()
-
         app_logger.info("Calling home to GPT", extra={"color": "yellow"})
 
         response_str = quick_ask(
             prompt,
-            token_counter=token_counter,
             json_output=True,
             timeout=None,
             model_name="gpt-4-turbo-preview",

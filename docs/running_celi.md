@@ -44,6 +44,10 @@ options:
                         class name for the class containing the job description. It must have JobDescription as a base
                         class. Several example job descriptions are provided within the celi_framework.examples
                         module.
+  --token_budget TOKEN_BUDGET
+                        Total budget in tokens for a singe CELI run, across all calls. If set to 0, there is no
+                        budget. This only includes live calls, not cached calls. If the budget is exceeded, the run
+                        will stop.
   --simulate-live       Set to true to add a delay to the LLM cache. This simulates what a live run would look like
                         even when cached LLM results are used
   --no-cache            Set to True to turn off LLM caching
