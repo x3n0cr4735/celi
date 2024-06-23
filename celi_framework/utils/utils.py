@@ -389,7 +389,7 @@ def format_toc(toc_dict):
     return formatted_toc
 
 
-def write_string_to_file(input_string, file_name):
+def write_string_to_file(input_string, file_name, encoding: str = "utf-8"):
     """
     Writes a given string to a text file.
 
@@ -400,7 +400,7 @@ def write_string_to_file(input_string, file_name):
     Returns:
     None
     """
-    with open(file_name, "w") as file:
+    with open(file_name, "w", encoding=encoding) as file:
         file.write(input_string)
 
 
