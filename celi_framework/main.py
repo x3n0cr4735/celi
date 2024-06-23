@@ -86,6 +86,9 @@ def parse_standard_args(args):
     if args.openai_api_key:
         os.environ["OPENAI_API_KEY"] = args.openai_api_key
 
+    if args.no_cache:
+        logger.warning("LLM Caching is turned off.")
+
     return CELIConfig(  # noqa: F821
         job_description=get_obj_by_name(args.job_description),
         tool_implementations=None,
@@ -153,7 +156,7 @@ def setup_standard_args():
         type=int,
         default=os.getenv(
             "TOKEN_BUDGET",
-            0,
+            10000000,
         ),
         help="Total budget in tokens for a singe CELI run, across all calls.  If set to 0, there is no budget.  This "
         "only includes live calls, not cached calls.  If the budget is exceeded, the run will stop.",
