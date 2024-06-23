@@ -189,9 +189,7 @@ class MonitoringAgent:
         # """
 
         if not doc:
-            app_logger.error(
-                f"Document with ID {document_id} not found.", extra={"color": "red"}
-            )
+            app_logger.error(f"Document with ID {document_id} not found.")
             return
 
         prompt_exception = doc.get("prompt_exception", True)

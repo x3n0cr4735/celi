@@ -267,9 +267,7 @@ class SectionProcessor:
                         except Exception as e:
                             function_return = f"Error: {e}"
                     else:
-                        app_logger.error(
-                            f"Unknown function name: {name}", extra={"color": "red"}
-                        )
+                        app_logger.warning(f"Unknown function name: {name}")
                         return (
                             "user",
                             f"Error: Called unknown function name: {name} with arguments {arguments}",

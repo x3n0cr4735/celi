@@ -128,7 +128,7 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
         try:
             sections_dict = json.loads(sections_dict_str)
         except json.JSONDecodeError as e:
-            logger.error(f"Invalid JSON format: {e}", extra={"color": "red"})
+            logger.warning(f"Invalid JSON format: {e}")
             return "Error: Provided sections_dict_str is not a valid JSON format."
 
         output_text = ""
