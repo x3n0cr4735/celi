@@ -35,11 +35,6 @@ from celi_framework.experimental.utils.ada import get_openai_embedding_sync_time
 from celi_framework.utils.llms import quick_ask
 from celi_framework.utils.log import app_logger
 from celi_framework.utils.utils import load_json, get_section_context_as_text
-from celi_framework.experimental.utils.ada import get_openai_embedding_sync_timeouts
-from celi_framework.utils.llms import quick_ask
-from celi_framework.utils.log import app_logger
-from celi_framework.utils.token_counters import get_master_counter_instance
-from celi_framework.utils.utils import load_json, get_section_context_as_text
 
 TOKEN_LIMIT_PER_MINUTE = 120000
 
