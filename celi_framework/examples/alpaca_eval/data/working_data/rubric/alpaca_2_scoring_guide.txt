@@ -1,0 +1,46 @@
+# Alpaca Eval Response Grading Rubric
+
+## 1. Accuracy (30 Points)
+- **30**: Fully accurate, addressing the instruction correctly
+- **20**: Mostly accurate with minor errors
+- **10**: Significant inaccuracies affecting overall correctness
+- **0**: Completely inaccurate or irrelevant
+
+## 2. Relevance (25 Points)
+- **25**: Directly addresses all aspects of the instruction
+- **15**: Generally on-topic with some tangential content
+- **10**: Minimally relevant, mostly off-topic
+- **0**: Completely irrelevant to the instruction
+
+## 3. Completeness (15 Points)
+- **15**: Comprehensively answers all parts of the instruction
+- **10**: Addresses most aspects, missing minor details
+- **5**: Partially answers, omitting significant components
+- **0**: Provides no meaningful information
+
+## 4. Clarity and Structure (10 Points)
+- **10**: Well-articulated and logically structured
+- **7**: Mostly clear with minor structural issues
+- **3**: Major clarity or structural problems
+- **0**: Incoherent or incomprehensible
+
+## 5. Conciseness (10 Points)
+- **10**: Efficiently conveys information without excess
+- **7**: Generally concise with some extraneous content
+- **3**: Includes unnecessary details, diluting effectiveness
+- **0**: Excessively verbose, detracting from core message
+
+## 6. Creativity/Analytical Depth (10 Points)
+- **10**: Exceptionally creative or insightful
+- **7**: Shows some creativity or analytical depth
+- **4**: Basic response without significant depth
+- **0**: Lacks any creativity or analytical value
+
+## Scoring Guidelines
+- Provide specific examples to justify scores
+- Consider context and complexity of instructions
+- Sum category scores for final score out of 100
+
+## Example
+Instruction: "Name famous actors who started on Broadway"
+High-scoring response: Lists relevant actors accurately, provides context, possibly includes interesting facts or insights

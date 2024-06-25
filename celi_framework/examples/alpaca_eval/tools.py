@@ -45,7 +45,7 @@ class AlpacaEvalToolImplementations(ToolImplementations):
         Returns:
             str: The rubric to score the question.
         """
-        rubric_file_path = f"{cur_dir}/data/working_data/rubric/alpaca_1_scoring_guidelines.txt"
+        rubric_file_path = f"{cur_dir}/data/working_data/rubric/alpaca_2_scoring_guide.txt"
         with open(rubric_file_path, 'r', encoding='utf-8') as file:
             rubric_data = file.read()
         return rubric_data
@@ -64,26 +64,70 @@ class AlpacaEvalToolImplementations(ToolImplementations):
         #print(prompt_data) 
         return prompt_data[question_number]['instruction']
 
-    def retrieve_example_prompt_response(self) -> str:
-        """
-        Retrieves a prompt, answer pair for a question that tests similar skills as the question being answered in the free response section of the test.
+    # def retrieve_example_prompt_response(self) -> str:
+    #     """
+    #     Retrieves a prompt, answer pair for a question that tests similar skills as the question being answered in the free response section of the test.
 
-        Args:
-            question_number (str): The unique identifier for the question (q1).
+    #     Args:
+    #         question_number (str): The unique identifier for the question (q1).
 
-        Returns:
-            str: Prompt, question example pair.
-        """
-        example = self.load_json(f"{EXAMPLE_QUESTIONS_DIR}/set_1_example.json")
-        prompt = example["1"]['instruction']
-        response = example["1"]['output']
-        pair = f"{prompt}\n\n{response}"
-        return pair
+    #     Returns:
+    #         str: Prompt, question example pair.
+    #     """
+    #     example = self.load_json(f"{EXAMPLE_QUESTIONS_DIR}/set_1_example.json")
+    #     prompt = example["1"]['instruction']
+    #     response = example["1"]['output']
+    #     pair = f"{prompt}\n\n{response}"
+    #     return pair
 
+    # def save_json(self, response, question_number):
+    #     # Specify the JSON output file path
+    #     json_file_path = os.path.join(cur_dir, "output/gpt/alpaca_eval_auto_output.json")
+        
+    #     print("#################Saving responses to JSON...")
+    #     print("Initial Response:", response)
+
+    #     # Load existing data or initialize an empty dictionary
+    #     if os.path.exists(json_file_path):
+    #         with open(json_file_path, 'r', encoding='utf-8') as file:
+    #             try:
+    #                 data = json.load(file)
+    #             except json.JSONDecodeError:
+    #                 print("Existing JSON file corrupted, initializing new data.")
+    #                 data = {}
+    #     else:
+    #         data = {}
+
+    #     # Ensure the response is a valid JSON string
+    #     try:
+    #         # Directly attempt to parse the response if already properly formatted
+    #         if isinstance(response, str):
+    #             response = json.loads(response)
+    #     except json.JSONDecodeError:
+    #         print("Failed to decode the JSON response. Check formatting.")
+    #         # Attempt to fix common formatting issues and retry
+    #         try:
+    #             formatted_response = response.replace("'", '"').replace('\\\\', '\\')
+    #             response = json.loads(formatted_response)
+    #         except json.JSONDecodeError:
+    #             print("Second decoding attempt failed. Formatted Response for Debug:", formatted_response)
+    #             return
+
+    #     # Append or create new entry for the question number
+    #     data.setdefault(question_number, {}).update(response)
+
+    #     # Save the updated data to the JSON file
+    #     with open(json_file_path, 'w', encoding='utf-8') as file:
+    #         json.dump(data, file, ensure_ascii=False, indent=4)
+
+    #     print("Responses have been auto-saved to JSON under the question number:", question_number)
+    
+    
+    ### Save json from CL
     def save_json(self, response, question_number):
         # Specify the JSON output file path
+        cur_dir = os.path.dirname(os.path.abspath(__file__))
         json_file_path = os.path.join(cur_dir, "output/gpt/alpaca_eval_auto_output.json")
-        
         print("#################Saving responses to JSON...")
         print("Initial Response:", response)
 
@@ -98,28 +142,20 @@ class AlpacaEvalToolImplementations(ToolImplementations):
         else:
             data = {}
 
-        # Ensure the response is a valid JSON string
-        try:
-            # Directly attempt to parse the response if already properly formatted
-            if isinstance(response, str):
-                response = json.loads(response)
-        except json.JSONDecodeError:
-            print("Failed to decode the JSON response. Check formatting.")
-            # Attempt to fix common formatting issues and retry
+        # Ensure the response is a valid JSON object
+        if isinstance(response, str):
             try:
-                formatted_response = response.replace("'", '"').replace('\\\\', '\\')
-                response = json.loads(formatted_response)
+                response = json.loads(response)
             except json.JSONDecodeError:
-                print("Second decoding attempt failed. Formatted Response for Debug:", formatted_response)
-                return
+                print("Failed to decode the JSON response. Using the string as is.")
+                response = {"response": response}
 
         # Append or create new entry for the question number
-        data.setdefault(question_number, {}).update(response)
+        data[str(question_number)] = response
 
         # Save the updated data to the JSON file
         with open(json_file_path, 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-
         print("Responses have been auto-saved to JSON under the question number:", question_number)
 
     def generate_system_prompt(self, current_question):
@@ -159,5 +195,5 @@ class AlpacaEvalToolImplementations(ToolImplementations):
             optimizer.step()
       
         prediction = model(question)
-        return system_prompt
+        return f"This is the helping prompt for the current question. {system_prompt}."
         

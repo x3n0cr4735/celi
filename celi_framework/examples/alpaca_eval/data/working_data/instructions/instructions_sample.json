@@ -1,14 +1,14 @@
 {
-  "1" :    {
-    "dataset": "helpful_base",
-    "instruction": "What year was the Yamato Battleship built?",
-    "output": "The Yamato Battleship was built in 1941.",
+  "1" :      {
+    "dataset": "koala",
+    "instruction": "Who will be the president of South Korea in 2023?",
+    "output": "The president of South Korea in 2023 is not yet known.",
     "generator": "text_davinci_003"
   },
-  "2":    {
-    "dataset": "koala",
-    "instruction": "Mick pays his teacher $800 for 40 lessons worth 2 hours each. If this will be all he is going to pay for his lessons, how much did he receive?",
-    "output": "He received 80 hours of lessons.",
+  "2":   {
+    "dataset": "vicuna",
+    "instruction": "Given that f(x) = 5x^3 - 2x + 3, find the value of f(2).",
+    "output": "43",
     "generator": "text_davinci_003"
   }
 }

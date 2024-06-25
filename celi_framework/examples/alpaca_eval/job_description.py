@@ -12,42 +12,44 @@ from .tools import AlpacaEvalToolImplementations
 from celi_framework.core.mt_factory import MasterTemplateFactory
 from celi_framework.utils.utils import load_json
 
-output_format = """{'instruction': 'Which year india won the first world cup in cricket?', 
-                                'baseline_response': 'India won the first world cricket cup in 1985',
-                                'final_response': 'India won the first world cricket cup in 1981.',
-                                'verification_answers': {'Your_verification_question_1': 'Answer', 'Your_verification_question_2': 'Answer', ...},
-                                'feedback': {'accuracy': 'The response is factually correct and provides an accurate answer to the given instruction.', 
-                                            'relevance': 'The response directly addresses the instruction, with all parts of the response clearly related to the question.',
-                                            'completeness': 'The response thoroughly answers the instruction, leaving no aspect unaddressed.',
-                                            'conciseness': 'The response is concise and to the point, avoiding unnecessary information.',
-                                            'clarity_and_structure': 'The response is clearly articulated and well-structured, making it easy to follow and understand.', 
-                                            'creativity_or_analytical_depth': 'The response is basic, with no significant creativity or analytical depth.'}, 
-                                'score': {'accuracy': 30, 'relevance': 25, 'completeness': 10, 'conciseness':10,'clarity_and_structure': 15, 'creativity_or_analytical_depth': 4, 'final_score': 94}
-                                }, 
-                        }"""
+output_format = """{
+  "instruction": "Which year india won the first world cup in cricket?",
+  "baseline_response": "India won the first world cricket cup in 1985",
+  "final_response": "India won the first world cricket cup in 1982.",
+  "score": {
+    "accuracy": 30,
+    "relevance": 25,
+    "completeness": 10,
+    "conciseness": 10,
+    "clarity_and_structure": 15,
+    "creativity_or_analytical_depth": 4,
+    "final_score": 94
+  },
+  "feedback": "The response did not answer the question accurately. The correct year is 1981, not 1982. Please provide the correct information in the final response."
+}"""
 
 task_library = [
        Task(
         task_name="Retrieve prompt for question",
         details={
             "description": "Find and retrieve the text for the prompt of the current test question.",
-            "tool_call": "Perform a function call to retrieve the question's prompt by calling retrieve_question_prompt function for each question in the schema",
+            "tool_call": "Perform a function call to retrieve the question's prompt by calling retrieve_question_prompt function for each question in the schema.",
             "example_call": "{{'question_number': ['1']}}",
-            "instructions": [  
-            ],
+            "instructions": [ ],
         },
     ),
+  
         Task(
-        task_name="Generate system prompt for the question",
+        task_name="Generate prompt to assist for the current question",
         details={
-            "description": "Generate the system prompt for the question based on the retrieved prompt.",
-            "tool_call": "Perform a function call to retrieve the question's system prompt by calling generate_system_prompt function for each question  based on the retrieved prompt in the {{tasref :: Retrieve prompt for question}}",
+            "description": "Generate the a prompt for the current question based on the retrieved prompt.",
+            "tool_call": "Perform a function call to retrieve the question's prompt by calling generate_system_prompt function for each question  based on the retrieved prompt in the {{tasref :: Retrieve prompt for question}}",
             "example_call": "{{'current_question': ['the retrieved prompt']}}",
-            "instructions": [  
+            "instructions": [  "Call this only for the actual question and not for the verification questions.",
             ],
         },
     ),
-    Task(
+         Task(
         task_name="Generate Baseline Response by answering the Current Instruction by thinking step by step",
         details={
             "description": "Produce an initial draft response to the given instruction.",
@@ -56,7 +58,8 @@ task_library = [
             ],
         },
     ),
-    Task(
+
+  Task(
         task_name="Plan Verifications",
         details={
             "description": "Develop a set of verification questions that test the factual accuracy and relevance of the baseline response.",
@@ -81,9 +84,12 @@ task_library = [
         details={
             "description": "Integrate the insights from the verification process to revise and finalize the response.",
             "instructions": [
-                "Revise and rewrite the response based on the evaluations and feedback from previous tasks"]
+                "Revise and rewrite the response based on the evaluations and feedback from previous tasks",
+                "Make the answer concise and clear. It should address only the question asked."]
         },
     ),
+        
+    
     Task(
         task_name="Score the Response",
         details={
@@ -104,11 +110,13 @@ task_library = [
     ),
     
     Task(
-        task_name="Save the repsone for each question in json format",
+        task_name=f"Save the response for each question in json format{output_format}",
         details={
-            "description": f"Save the response in the json format: {output_format}",
+            "description": f"Save the response in the json format{output_format}",
             "instructions": ["Save response for each question one by one into json file by calling save_json function",
-                               "Don't forget to save any question." ],
+                               "Don't forget to save any question.",
+                               "If new answer for the question is generated, save the new answer again.",
+                               f"The final response should also contain the answer from the task {{tasref :: Generate Final Verified Response}} in the json format {output_format}",],
             "tool_call": "Use the save_json tool.",
             "example_call": f"{{{output_format},'question_number': '1'}}",
 
@@ -140,7 +148,7 @@ task_library = [
 # =============
 # """
 
-initial_User_Message = "Welcome to your task dashboard for the Alpaca_Eval dataset. Please review the question in the dataset and start with the first uncompleted task. Focus on generating accurate and comprehensive responses. Refer to any previous tasks if needed to maintain continuity and accuracy."
+initial_User_Message = "Welcome to your task dashboard for the Alpaca_Eval dataset. Please review the question in the dataset and start with the first uncompleted task. Focus on generating accurate and comprehensive responses. Refer to any previous tasks if needed to maintain continuity and accuracy. Always complete all the rest of the tasks if you start any tasks inbetween. Do the tasks for each questions, only once. Unless you need to do corrections."
 
 pre_algo_instruct = """Before we start answering questions from the Alpaca_Eval dataset, ensure you understand the context and requirements of each question. You will be provided with the question and expected to research and draft a response based on reliable sources. Pay close attention to the specifics of each question to tailor your responses appropriately."""
 
@@ -150,7 +158,6 @@ system_message = """
     As an AI trained to assist with the answering questions, your goal is to generate concise and precise answers to the provided instructions.
     This guide will help you step by step to formulate responses that are not only correct but also well-informed and contextually relevant. Don't miss any task. 
     Carefully consider all aspects of the question and ensure your responses are accurate and well-verified. Break down complex problems into simpler, manageable parts and think step by step. Ensure your final answers are concise, clear, and easy to understand.
-
     """
 job_description = JobDescription(
     role=system_message,
@@ -162,3 +169,98 @@ job_description = JobDescription(
     #general_comments=general_comments,
     initial_user_message=initial_User_Message,
 )
+
+
+
+######### CT tasks #########
+
+    # Task(
+    #     task_name="Generate Baseline Response by answering the Current Instruction by thinking step by step",
+    #     details={
+    #         "description": "Produce an initial draft response to the given instruction.",
+    #         "instructions": [
+    #             "Analyze the instruction carefully and draft a response that fully addresses the query or requirement."
+    #         ],
+    #     },
+    # ),
+  
+  # Task(
+    #     task_name="Plan Verifications",
+    #     details={
+    #         "description": "Develop a set of verification questions that test the factual accuracy and relevance of the baseline response.",
+    #         "instructions": [
+    #             "Develop a series of questions that can be used to verify the accuracy and relevance of the response.",
+    #             "The verification questions can also ask for sources to explain the reasoning behind the response."
+    #             "Review the response to ensure that it correctly interprets the instruction and provides all necessary information or answers all parts of the question."
+    #         ],
+    #     },
+    # ),
+    # Task(
+    #     task_name="Execute Verifications",
+    #     details={
+    #         "description": "Address each verification question independently to validate the baseline response.",
+    #         "instructions": [
+    #             "Examine the response to ensure that it is straightforward, avoiding any vague or redundant content."
+    #         ],
+    #     },
+    # ),
+    # Task(
+    #     task_name="Generate Final Verified Response",
+    #     details={
+    #         "description": "Integrate the insights from the verification process to revise and finalize the response.",
+    #         "instructions": [
+    #             "Revise and rewrite the response based on the evaluations and feedback from previous tasks"]
+    #     },
+    # ),
+    
+    
+    ######## CL template
+    
+    #     # Task(
+    #     # task_name="Generate Baseline Response",
+    #     # details={
+    #     # "description": "Produce an initial draft response to the given instruction.",
+    #     # "instructions": [
+    #     # "Analyze the instruction carefully and draft a response that fully addresses the current question using the system prompt.",
+    #     # "Think step by step to ensure a comprehensive answer."
+    #     # ],
+    #     # },
+    #     # ),
+    #     Task(
+    #     task_name="Plan Verifications",
+    #     details={
+    #     "description": "Develop a set of verification questions to fact-check the baseline response for the current instruction.",
+    #     "instructions": [
+    #     "Review the baseline response and identify key facts or claims.",
+    #     "For each important fact or claim, create a specific verification question.",
+    #     "Ensure the verification questions are independent and don't rely on information from other parts of the response.",
+    #     "Focus on questions that can help identify potential hallucinations or inaccuracies.",
+    #     "These are verification questions and not additional questions for the baseline response of the current main question."
+
+    #     ],
+    #     },
+    #     ),
+    #     Task(
+    #     task_name="Execute Verifications",
+    #     details={
+    #     "description": "Address each verification question independently to validate the baseline response",
+    #     "instructions": [
+    #      "Address each verification question independently to validate the baseline response."
+    #     "Provide concise, factual answers to each verification question.",
+    #     "If uncertain about an answer, indicate this rather than guessing."
+    #     "Strictly Don't call generate_system_prompt function for these verification questions."
+    #     ],
+    #     },
+    #     ),
+    #     Task(
+    #     task_name="Generate Final Verified Response",
+    #     details={
+    #     "description": "Integrate the insights from the verification process to revise and finalize the response.",
+    #     "instructions": [
+    #     "Compare the verification answers with the baseline response.",
+    #     "Identify any inconsistencies or inaccuracies in the baseline response.",
+    #     "Revise the response to correct any errors and incorporate verified information.",
+    #     "Ensure the final response is coherent, accurate, and addresses the original instruction."
+    #     ],
+    #     },
+    #     ),

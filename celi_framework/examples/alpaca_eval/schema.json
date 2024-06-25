@@ -1,9 +1,9 @@
 {
- "1" : {  "dataset": "helpful_base",
-      "instruction": "question1",
-      "output": "answer1",
-      "generator": "text_davinci_003"
-    },
+    "1" : {  "dataset": "helpful_base",
+        "instruction": "question1",
+        "output": "answer1",
+        "generator": "text_davinci_003"
+      },
     "2" : {  "dataset": "helpful_base",
       "instruction": "question2",
       "output": "answer2",
