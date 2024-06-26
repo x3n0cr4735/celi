@@ -187,7 +187,7 @@ class AlpacaEvalToolImplementations(ToolImplementations):
     def save_json(self, response, question_number):
         # Specify the JSON output file path
         cur_dir = os.path.dirname(os.path.abspath(__file__))
-        json_file_path = os.path.join(cur_dir, f"output/gpt/alpaca_eval_auto_output_set_number{question_number}.json")
+        json_file_path = os.path.join(cur_dir, f"output/gpt/alpaca_eval_auto_output.json")
         
         print("#################Saving responses to JSON...")
         print("Initial Response:", response)
