@@ -15,7 +15,7 @@ from celi_framework.utils.utils import load_json
 output_format = """{
   "instruction": "Which year india won the first world cup in cricket?",
   "baseline_response": "India won the first world cricket cup in 1985",
-  "final_response": "India won the first world cricket cup in 1982.",
+  "output": "Your final response",
   "score": {
     "accuracy": 30,
     "relevance": 25,

@@ -1,14 +1,14 @@
-{
-  "1" :      {
+[
+ {
     "dataset": "koala",
     "instruction": "Who will be the president of South Korea in 2023?",
     "output": "The president of South Korea in 2023 is not yet known.",
     "generator": "text_davinci_003"
   },
-  "2":   {
+ {
     "dataset": "vicuna",
     "instruction": "Given that f(x) = 5x^3 - 2x + 3, find the value of f(2).",
     "output": "43",
     "generator": "text_davinci_003"
   }
-}
+]

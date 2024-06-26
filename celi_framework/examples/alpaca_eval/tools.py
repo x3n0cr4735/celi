@@ -49,20 +49,43 @@ class AlpacaEvalToolImplementations(ToolImplementations):
         with open(rubric_file_path, 'r', encoding='utf-8') as file:
             rubric_data = file.read()
         return rubric_data
-
-    def retrieve_question_prompt(self,question_number: str) -> str:
+    
+    def retrieve_question_prompt(self, question_number: str) -> str:
         """
         Retrieves the prompt for a given question in the free response section of the test.
-
         Args:
-            question_number (str): The unique identifier for the question (q1, q2, or q3).
-
+        question_number (str): The string representation of the question number (e.g., "1", "2", "3").
         Returns:
-            str: The prompt for the question.
+        str: The prompt for the question.
         """
         prompt_data = self.load_json(f"{ALL_QUESTIONS_DIR}/instructions_sample.json")
-        #print(prompt_data) 
-        return prompt_data[question_number]['instruction']
+        
+        try:
+            # Convert the string to a zero-based index
+            index = int(question_number) - 1
+            
+            # Ensure index is within the valid range
+            if index < 0 or index >= len(prompt_data):
+                raise ValueError(f"Invalid question number: {question_number}. Must be between 1 and {len(prompt_data)}")
+            
+            return prompt_data[index]['instruction']
+        except ValueError:
+            raise ValueError(f"Invalid question number: {question_number}. Must be a valid integer string.")
+        
+
+    # def retrieve_question_prompt(self,question_number: str) -> str:
+    #     """
+    #     Retrieves the prompt for a given question in the free response section of the test.
+
+    #     Args:
+    #         question_number (str): The unique identifier for the question (q1, q2, or q3).
+
+    #     Returns:
+    #         str: The prompt for the question.
+    #     """
+    #     prompt_data = self.load_json(f"{ALL_QUESTIONS_DIR}/instructions_sample.json")
+    #     #print(prompt_data) 
+    #     return prompt_data[question_number]['instruction']
 
     # def retrieve_example_prompt_response(self) -> str:
     #     """
@@ -123,25 +146,65 @@ class AlpacaEvalToolImplementations(ToolImplementations):
     #     print("Responses have been auto-saved to JSON under the question number:", question_number)
     
     
-    ### Save json from CL
+    ################## Save json from CL, has keys in the output
+    # def save_json(self, response, question_number):
+    #     # Specify the JSON output file path
+    #     cur_dir = os.path.dirname(os.path.abspath(__file__))
+    #     json_file_path = os.path.join(cur_dir, "output/gpt/alpaca_eval_auto_output.json")
+    #     print("#################Saving responses to JSON...")
+    #     print("Initial Response:", response)
+
+    #     # Load existing data or initialize an empty dictionary
+    #     if os.path.exists(json_file_path):
+    #         with open(json_file_path, 'r', encoding='utf-8') as file:
+    #             try:
+    #                 data = json.load(file)
+    #             except json.JSONDecodeError:
+    #                 print("Existing JSON file corrupted, initializing new data.")
+    #                 data = {}
+    #     else:
+    #         data = {}
+
+    #     # Ensure the response is a valid JSON object
+    #     if isinstance(response, str):
+    #         try:
+    #             response = json.loads(response)
+    #         except json.JSONDecodeError:
+    #             print("Failed to decode the JSON response. Using the string as is.")
+    #             response = {"response": response}
+
+    #     # Append or create new entry for the question number
+    #     data[str(question_number)] = response
+
+    #     # Save the updated data to the JSON file
+    #     with open(json_file_path, 'w', encoding='utf-8') as file:
+    #         json.dump(data, file, ensure_ascii=False, indent=4)
+    #     print("Responses have been auto-saved to JSON under the question number:", question_number)
+    
+
+################## Save json from CL, has keys in the output
+
     def save_json(self, response, question_number):
         # Specify the JSON output file path
         cur_dir = os.path.dirname(os.path.abspath(__file__))
-        json_file_path = os.path.join(cur_dir, "output/gpt/alpaca_eval_auto_output.json")
+        json_file_path = os.path.join(cur_dir, f"output/gpt/alpaca_eval_auto_output_set_number{question_number}.json")
+        
         print("#################Saving responses to JSON...")
         print("Initial Response:", response)
-
-        # Load existing data or initialize an empty dictionary
+        
+        # Load existing data or initialize an empty list
         if os.path.exists(json_file_path):
             with open(json_file_path, 'r', encoding='utf-8') as file:
                 try:
                     data = json.load(file)
+                    if not isinstance(data, list):
+                        data = []
                 except json.JSONDecodeError:
                     print("Existing JSON file corrupted, initializing new data.")
-                    data = {}
+                    data = []
         else:
-            data = {}
-
+            data = []
+        
         # Ensure the response is a valid JSON object
         if isinstance(response, str):
             try:
@@ -149,14 +212,19 @@ class AlpacaEvalToolImplementations(ToolImplementations):
             except json.JSONDecodeError:
                 print("Failed to decode the JSON response. Using the string as is.")
                 response = {"response": response}
-
-        # Append or create new entry for the question number
-        data[str(question_number)] = response
-
+        
+        # Rename 'final_response' to 'output' if it exists
+        if 'final_response' in response:
+            response['output'] = response.pop('final_response')
+        
+        # Append the response to the list
+        data.append(response)
+        
         # Save the updated data to the JSON file
         with open(json_file_path, 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-        print("Responses have been auto-saved to JSON under the question number:", question_number)
+        
+        print(f"Response has been auto-saved to JSON. Total entries: {len(data)}")
 
     def generate_system_prompt(self, current_question):
         '''This function uses text_grad to generate a prompt for each question'''
