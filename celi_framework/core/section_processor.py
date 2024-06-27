@@ -158,10 +158,22 @@ class SectionProcessor:
             return False
         last_message = ongoing_chat[-1]
         duplicates = 0
-        for message in ongoing_chat[-7:-1]:
+        for message in ongoing_chat[-6:-1]:
             if message == last_message:
                 duplicates += 1
-        return duplicates >= 3
+        if duplicates >= 5:
+            return True
+        # Check for cycles of 2 repeating messages
+        if len(ongoing_chat) > 2:
+            previous_message = ongoing_chat[-2]
+            alternating_duplicates = 0
+            if previous_message != last_message:
+                for message in ongoing_chat[-7:-2]:
+                    if message == last_message:
+                        alternating_duplicates += 1
+                    if duplicates >= 3 and alternating_duplicates >= 3:
+                        return True
+        return False
 
     async def builtin_review(self):
         task_specific = (
