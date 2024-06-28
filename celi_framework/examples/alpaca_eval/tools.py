@@ -20,14 +20,14 @@ from textgrad.tasks import load_task
 cur_dir = os.path.dirname(os.path.realpath(__file__))
 
 # Adjust paths to reflect new JSON structure
-ALL_QUESTIONS_DIR = f"{cur_dir}/data/working_data/instructions"
+ALL_QUESTIONS_DIR = f"{cur_dir}/data/working_data/instructions/instruction_set"
 EXAMPLE_QUESTIONS_DIR = f"{cur_dir}/data/working_data/examples"
 
 @dataclass
 class AlpacaEvalToolImplementations(ToolImplementations):
     def __post_init__(self):
         self.schema = self.load_json(f"{cur_dir}/schema.json")
-
+        self.prompt_data= self.load_json(f"{ALL_QUESTIONS_DIR}/instructions_set_1.json")
     # Utility method to load JSON files
     @staticmethod
     def load_json(file_path):
@@ -58,17 +58,17 @@ class AlpacaEvalToolImplementations(ToolImplementations):
         Returns:
         str: The prompt for the question.
         """
-        prompt_data = self.load_json(f"{ALL_QUESTIONS_DIR}/instructions_sample.json")
+        #prompt_data = self.load_json(f"{ALL_QUESTIONS_DIR}/instructions_set_1.json")
         
         try:
             # Convert the string to a zero-based index
             index = int(question_number) - 1
             
             # Ensure index is within the valid range
-            if index < 0 or index >= len(prompt_data):
-                raise ValueError(f"Invalid question number: {question_number}. Must be between 1 and {len(prompt_data)}")
+            if index < 0 or index >= len(self.prompt_data):
+                raise ValueError(f"Invalid question number: {question_number}. Must be between 1 and {len(self.prompt_data)}")
             
-            return prompt_data[index]['instruction']
+            return self.prompt_data[index]['instruction']
         except ValueError:
             raise ValueError(f"Invalid question number: {question_number}. Must be a valid integer string.")
         
@@ -187,11 +187,25 @@ class AlpacaEvalToolImplementations(ToolImplementations):
     def save_json(self, response, question_number):
         # Specify the JSON output file path
         cur_dir = os.path.dirname(os.path.abspath(__file__))
-        json_file_path = os.path.join(cur_dir, f"output/gpt/alpaca_eval_auto_output.json")
-        
+        json_file_path = os.path.join(cur_dir, "output/gpt/alpaca_output_1/output_set_1.json")
+
+        try:
+            # Convert the string to a zero-based index
+            index = int(question_number) - 1
+            # Ensure index is within the valid range
+            if index < 0 or index >= len(self.prompt_data):
+                raise ValueError(f"Invalid question number: {question_number}. Must be between 1 and {len(self.prompt_data)}")
+            instruction = self.prompt_data[index]['instruction']
+            print(f"The prompt for the question: {instruction}")
+        except ValueError:
+            raise ValueError(f"Invalid question number: {question_number}. Must be a valid integer string.")
+
         print("#################Saving responses to JSON...")
         print("Initial Response:", response)
-        
+
+        # Create directory if it doesn't exist
+        os.makedirs(os.path.dirname(json_file_path), exist_ok=True)
+
         # Load existing data or initialize an empty list
         if os.path.exists(json_file_path):
             with open(json_file_path, 'r', encoding='utf-8') as file:
@@ -203,27 +217,48 @@ class AlpacaEvalToolImplementations(ToolImplementations):
                     print("Existing JSON file corrupted, initializing new data.")
                     data = []
         else:
+            print(f"File {json_file_path} does not exist. Creating a new file.")
             data = []
-        
+
         # Ensure the response is a valid JSON object
         if isinstance(response, str):
             try:
                 response = json.loads(response)
             except json.JSONDecodeError:
-                print("Failed to decode the JSON response. Using the string as is.")
-                response = {"response": response}
+                print("Failed to decode the JSON response. Saving as string in output key.")
+                response = {
+                    "instruction": instruction,
+                    "output": response,
+                    "generator": "celi"
+                }
         
-        # Rename 'final_response' to 'output' if it exists
-        if 'final_response' in response:
-            response['output'] = response.pop('final_response')
-        
+        # If response is not a dictionary, make it one
+        if not isinstance(response, dict):
+            response = {
+                "instruction": instruction,
+                "output": str(response),
+                "generator": "celi"
+            }
+
+        # Ensure the response has the required keys
+        if 'instruction' not in response:
+            response['instruction'] = instruction
+        if 'output' not in response:
+            response['output'] = str(response.get('response', ''))
+        response['generator'] = "celi"
+
+        # Ensure all string values are properly escaped
+        for key, value in response.items():
+            if isinstance(value, str):
+                response[key] = json.dumps(value)[1:-1]  # Remove outer quotes
+
         # Append the response to the list
         data.append(response)
-        
+
         # Save the updated data to the JSON file
         with open(json_file_path, 'w', encoding='utf-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
-        
+
         print(f"Response has been auto-saved to JSON. Total entries: {len(data)}")
 
     def generate_system_prompt(self, current_question):

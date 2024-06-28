@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "Does the 5 second rule actually exist?",
+    "output": "Yes, the 5 second rule exists and applies to food dropped on the ground. However, the likelihood of food being contaminated by bacteria or other germs increases the longer it is left on the ground. Therefore, it is recommended to discard food that has been on the ground for more than 5 seconds.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Could you provide a brief summary of the book \"Fooled by Randomness\", by Nassim Nicholas Taleb? Please provide a few paragraphs with the summary and the main points discussed in the book. \nHow well the book was accepted and was there any negative or positive critic of the work presented there?",
+    "output": "Fooled by Randomness, written by Nassim Nicholas Taleb, is a book that explores the role of randomness in our lives. Taleb argues that our decisions and outcomes are often influenced by randomness more than we realize. He uses numerous examples from real life to explain his point, such as the stock market and gambling. He also explores how to protect ourselves from the risks posed by randomness. \n\nTaleb argues that too often people overestimate their skills and underestimate the influence of luck, creating a false sense of control. He claims that most of the time, people who are successful in certain areas are lucky, rather than actually possessing superior skills. He argues that it is only by accepting the randomness of life that we can truly make informed decisions and become successful.\n\nThe book has been generally well-received, with many praising Taleb for his ability to explain complex concepts in simple terms. Critics have argued that Taleb's argument oversimplifies the role of randomness and ignores other factors that can influence outcomes. However, the book is generally seen as an interesting and insightful exploration of the role of randomness in our lives.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How far away is Saggitarius A*, the black hole in the center of the milky way galaxy, from Earth and can you please provide that distance in light years and parsecs? Can you please also compare that distance to the distance of the center of the Andromeda galaxy from Earth?",
+    "output": "Saggitarius A* is approximately 25,800 light years from Earth. This is equivalent to 8 kiloparsecs. For comparison, the center of the Andromeda galaxy is approximately 2.5 million light years from Earth, or 780 kiloparsecs.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Assume a role of master psychologist. \nImagine you were transported into 1919 Germany with a purpose of changing Adolph Hitler's views on politics and life. You only can use words and your own knowledge. You cannot expose the fact of time travel.\nHow do you approach such task?",
+    "output": "I would approach this task with a combination of empathy and understanding. I would start by trying to get to know Adolph Hitler, and understand his beliefs and motivations. I would ask questions in a non-confrontational way, and listen carefully to his answers. I would then try to identify the root cause of his political views, in order to be able to more effectively address them. I would focus on understanding his experiences, and try to help him find a new perspective on his life and beliefs. I would then provide alternative views and perspectives that may help him to see things differently and form new opinions. Lastly, I would provide support and guidance, helping him to develop new skills and coping strategies that could help him to move away from his current beliefs.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is the difference betwean interpreted compiled and JIT-ed programming language, can you also tell me some benefits of each type of language?\nCan you give me at least 3 examples from each of these categories of programming languages?",
+    "output": "Interpreted Languages: Interpreted languages are those that are executed directly from source code without the need for compilation. Examples include JavaScript, Python, Perl, and Ruby.\n\nBenefits of Interpreted Languages: \n1. They are easy to use and require less development time.\n2. They are platform-independent, meaning they can be written on one platform and executed on another.\n3. They are usually more flexible and allow for quick development cycles.\n\nCompiled Languages: Compiled languages are those that are translated from source code into machine code before execution. Examples include C, C++, Rust, and Go.\n\nBenefits of Compiled Languages:\n1. They are usually faster to execute than interpreted languages.\n2. They provide better memory and processor usage optimization.\n3. They are more secure than interpreted languages, as the source code is not visible to the user.\n\nJIT-ed Languages: JIT-ed (Just-in-time) languages are similar to compiled languages in that they are translated from source code into machine code before execution. However, they are further optimized for faster execution. Examples include Java and .NET.\n\nBenefits of JIT-ed Languages:\n1. They provide improved performance over interpreted and compiled languages.\n2. They are platform-independent and can be written on one platform and executed on another.\n3. They provide better memory usage optimization than interpreted and compiled languages.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Would you be able to design an electric Pok\u00e9mon? Describe it as best as you can and also give me the stats of that Pok\u00e9mon.",
+    "output": "Electric Pok\u00e9mon:\nName: Voltron\nType: Electric\nHeight: 3'1\"\nWeight: 27.5 lbs\nDescription: Voltron is a small and agile electric-type Pok\u00e9mon. It has a sleek, yellow and black fur pattern with bright blue eyes. Its body is mainly yellow and black with a splash of white on its chest. Its four limbs are powerful and can generate electric shocks to paralyze its opponents. Its tail is long and whip-like and its long ears give it great hearing capabilities.\n\nStats:\nHP: 50\nAttack: 65\nDefense: 50\nSpecial Attack: 80\nSpecial Defense: 70\nSpeed: 90",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Im a broke college student living in Silicon Valley. Tell me a joke mocking Silicon Valley and how broke I am simultaneously.",
+    "output": "Q: Why did the broke college student move to Silicon Valley?\nA: To get a great view of the future... from the back of his Uber.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "what chemicals does l-theanine affect",
+    "output": "L-theanine affects the neurotransmitters dopamine, serotonin, and GABA. It has also been found to increase alpha waves in the brain, which can result in a relaxed yet alert feeling.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "I would like you to act as a virtual assistant, I will give you commands and you will execute them automatically for me.\nPlease only reply in the following formats, only replace the content inside the curly braces with the relevant category\n\nWhen you require additional information:\n[ADDITIONAL_INFORMATION_NEEDED]: {questions about additional information, separated by [ADDITIONAL_INFORMATION_NEEDED]}\n\nWhen you could perform an action using an api\n[API_REQUEST]: {curl of an api request. please replace any api key needed with API_KEY}\n*The reply will be the result of the api\n\nfor answering me:\n[ANSWER]: {your answer}\n\n\nfor a test run, Please answer with any additional formats you think you may need, if any.",
+    "output": "[CONFIRMATION]: Can you confirm that the above format is sufficient to execute all requests?",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "can you write haiku for different inductive biases in deep learning models? start with attention",
+    "output": "Attention is key\nUnveiling hidden patterns\nIn deep learning stack",
+    "generator": "text_davinci_003"
+  }
+]

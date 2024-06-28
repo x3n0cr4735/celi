@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Extract the address of the property from the \"About this space\" section of Airbnb.\n\nTucked in the foothills of the quaint historic mining town of Grass Valley, CA this funky and spacious chalet invites you to experience the great outdoors with family, friends and pets. Enjoy the hot tub, basketball court, treehouse, kids rooms, bbq, fire-pit, outdoor theater, and more. One hour from Tahoe and 10 minutes to town, you\u2019re never short of things to explore.",
+    "output": "Grass Valley, CA",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Design a simple training challenge on Strava that everyone could attend.",
+    "output": "Create a virtual race called \u201cThe Strava Challenge\u201d. Participants must complete 10 miles (or 16 kilometers) within one week. The race will be open to all Strava users and the fastest three finishers will receive a special Strava medal. The race will be promoted on Strava\u2019s social media channels and the start and finish times will be tracked using Strava\u2019s tracking technology. Good luck!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Suggest some names for a friendly group in telegram.",
+    "output": "1. Chatty Chums\n2. Chatty Buddies\n3. The Talkative Tribe\n4. The Friendly Forum\n5. Chatterbox Club\n6. The Funky Family\n7. The Chatty Crew\n8. The Chatty Connection\n9. The Loquacious League\n10. The Vocal Village",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write what the pronunciation of the given word sounds like. Follow the \"Google pronunciation dictionary\" scheme for phonetic spelling.\n\ninterpretations",
+    "output": "in-t\u0259r-pr\u0259-\u02c8t\u0101-sh\u0259nz",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Explain the meaning of the given phrase in simple terms. Use an example if possible. It would be helpful if you could give an example.\n\n\"With a little give in them\"",
+    "output": "The phrase \"With a little give in them\" means that something has a certain degree of flexibility or elasticity. For example, a pair of shoes with a little give in them would be comfortable to wear because they offer a slight degree of cushioning and support.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "How can I improve my time management skills?",
+    "output": "1. Set clear goals and prioritize tasks.\n2. Break down tasks into smaller, more manageable chunks.\n3. Create to-do lists and use a calendar to plan out your day.\n4. Block out specific times for tasks and stick to those times.\n5. Reduce distractions by turning off notifications and focusing on the task at hand.\n6. Take breaks throughout the day to recharge and stay focused.\n7. Delegate tasks to others when possible.\n8. Reward yourself for completing tasks.\n9. Learn to say \u201cno\u201d when necessary.\n10. Ask for help when needed.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "What are the most effective ways to deal with stress?",
+    "output": "1. Exercise: Regular physical activity can help reduce stress and release endorphins. \n2. Get enough sleep: Sleep can help restore balance to your body and mind.\n3. Talk to someone: Talking to a friend or family member can help you express your feelings and get different perspectives.\n4. Take a break: Taking a break from whatever is causing you stress can help give you a fresh perspective.\n5. Meditate: Practicing mindfulness meditation can help you focus on the present, and be more aware of your own thoughts and feelings.\n6. Eat healthy: Eating a balanced diet can help reduce stress and provide the body with essential nutrients.\n7. Make time for hobbies: Taking time to do something you enjoy can help you relax and de-stress. \n8. Stay organized: Planning ahead and staying organized can help reduce stress and keep you on track.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "What are the main differences between Python and JavaScript programming languages?",
+    "output": "Python is a general-purpose, high-level programming language, while JavaScript is a scripting language used mainly for client-side web development. Python has a more traditional syntax, while JavaScript has an object-oriented syntax based on prototypes. Python is compiled before being run, while JavaScript is interpreted. Python is better for application development, while JavaScript is better for website development. Python is better for scripting, while JavaScript is better for game development. Python is easier to learn, while JavaScript is more difficult and has more complex syntax.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "How can I increase my productivity while working from home?",
+    "output": "1. Create a specific workspace: Find a quiet place in your home to serve as your designated workspace. Make sure it\u2019s free from distractions and other stimuli that could interfere with your productivity.\n\n2. Establish a routine: Structure your day by setting a specific start and end time for work, as well as specific times for breaks and meals.\n\n3. Take regular breaks: Working from home can sometimes be isolating, so it\u2019s important to take regular breaks to stay focused and productive.\n\n4. Make to-do lists: Prepare a list of tasks to complete each day and prioritize the most important ones.\n\n5. Limit distractions: Turn off notifications on your phone and computer, and avoid checking your social media accounts during work hours.\n\n6. Exercise: Exercise can help improve your focus and energy levels, so make sure to get some physical activity each day.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Can you explain the basics of quantum computing?",
+    "output": "Quantum computing is a new form of computing that makes use of the principles of quantum mechanics to store and process information. It involves encoding information into quantum bits (qubits) instead of the traditional bits (binary digits) used in classical computers. These qubits can exist in multiple states simultaneously, allowing them to represent more information than a classical bit. This allows quantum computers to solve certain problems much faster than traditional computers. Additionally, quantum computers can help to simulate complex physical systems, such as molecules, better than classical computers.",
+    "generator": "text_davinci_003"
+  }
+]

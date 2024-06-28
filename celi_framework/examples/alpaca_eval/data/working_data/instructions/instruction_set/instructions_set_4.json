@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "helpful_base",
+    "instruction": "How do I detail a car?",
+    "output": "1. Gather the necessary materials for detailing a car, such as a vacuum cleaner, microfiber towels, car wash soap, soft brush, glass cleaner, upholstery cleaner, interior wipes, wax and tire dressing.\n\n2. Start by vacuuming the interior of the car to remove dirt, debris, and other particles.\n\n3. Use a soft brush to dust the surfaces and clean the vents.\n\n4. Use the car wash soap and a microfiber towel to clean the exterior of the car.\n\n5. Apply glass cleaner to the windows and use a microfiber towel to clean them.\n\n6. Apply upholstery cleaner to the seats and use a microfiber towel to clean them.\n\n7. Use interior wipes to clean the dashboard, center console, and other interior surfaces.\n\n8. Apply wax to the exterior of the car to protect it from the elements.\n\n9. Apply tire dressing to the tires to give them a glossy finish.\n\n10. Clean the rims and tires to finish the detailing process.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I am going to make pumpkin pie for the first time.  Can you help me?",
+    "output": "Sure, I'd be happy to help! Follow these steps: \n1. Preheat your oven to 425\u00b0F (218\u00b0C). \n2. Mix the pumpkin puree, eggs, sugar, spices, and cream together in a large bowl until smooth.\n3. Unroll the pastry crust and place it into a 9-inch pie dish.\n4. Pour the pumpkin mixture into the crust.\n5. Bake the pie for 15 minutes.\n6. Reduce the oven temperature to 350\u00b0F (177\u00b0C) and bake for another 40 to 50 minutes, or until the center of the pie is set.\n7. Let the pie cool before serving. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What kind of foods do they eat in Thailand",
+    "output": "Thai cuisine is known for its balance of the five fundamental taste senses in each dish or the overall meal: sour, sweet, salty, bitter, and spicy. Common ingredients used in Thai cuisine include rice, garlic, chillies, fish sauce, shrimp paste, lime juice, and coconut milk. Popular dishes include green and red curries, Pad Thai, Tom Yum soup, Som Tam (green papaya salad), and Kai Med Ma Muang (chicken with cashew nuts).",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What are some good browser alternatives to Chrome?",
+    "output": "Firefox, Safari, Microsoft Edge, Opera, Vivaldi, Brave.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Who created the Superman cartoon character?",
+    "output": "The Superman cartoon character was created by Jerry Siegel and Joe Shuster.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What is Atlantis?",
+    "output": "Atlantis is a mythical island that is said to have been swallowed up by the sea in a great flood. It is described in the works of the ancient Greek philosopher Plato and is a popular subject in literature, art, and popular culture.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How do I make escargot?",
+    "output": "1. Preheat your oven to 350 degrees Fahrenheit.\n2. Rinse 1 pound of escargot under cold running water, and then pat them dry.\n3. Peel and mince 4 cloves of garlic.\n4. In a medium bowl, mix together the escargot, garlic, 1/4 cup of olive oil, 1 tablespoon of chopped parsley, 1 teaspoon of salt, and 1/4 teaspoon of black pepper.\n5. Spread the escargot mixture into a 9-inch baking dish.\n6. Bake for 15 minutes, or until the escargot are golden brown and cooked through.\n7. Serve the escargot hot with crusty bread and melted butter. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What exactly causes volcanoes to form?",
+    "output": "Volcanoes are formed when molten rock (magma) from beneath the Earth's surface rises and erupts through the surface. This magma is formed when tectonic plates move and the Earth's mantle melts due to the high pressure and temperatures.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Hi, I have some falafel, but no tahini to put on them. Can you give me a recipe for making tahini?",
+    "output": "Ingredients:\n- 1 cup sesame seeds\n- 2 tablespoons olive oil\n- 2 tablespoons lemon juice\n- 1 teaspoon garlic powder\n- Salt to taste\n\nInstructions:\n1. Preheat the oven to 350\u00b0F.\n2. Spread the sesame seeds on a baking sheet and roast for 10 minutes, stirring a few times.\n3. Allow the sesame seeds to cool before transferring to a food processor.\n4. Add the olive oil, lemon juice, garlic powder, and salt to the food processor.\n5. Pulse the ingredients until a creamy paste is formed.\n6. Serve the tahini immediately or store in an airtight container in the refrigerator for up to two weeks. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Should I get my children a nanny? I'm so exhausted.",
+    "output": "It is ultimately up to you to decide if you should get a nanny for your children. Consider how much help you need and how much time you have to devote to your children. You may also want to consider the cost of hiring a nanny and if that fits into your budget. Ultimately, it is important to make sure you are taking care of yourself and getting the help you need.",
+    "generator": "text_davinci_003"
+  }
+]

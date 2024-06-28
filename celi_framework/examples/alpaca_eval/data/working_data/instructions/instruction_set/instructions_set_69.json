@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Create a brief resume introduction using the following information.\n\nname: Mark\nnationality: Italian\nlanguage: English\nattributes: creative, goal-oriented, motivated\nskills: software engineering, content marketing",
+    "output": "Mark is an Italian professional with a creative, goal-oriented and motivated attitude. He is highly experienced in software engineering and content marketing.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Make a list of adjectives that can be used to describe the given brand.\n\na creative tech startup",
+    "output": "Innovative, ambitious, cutting-edge, forward-thinking, disruptive, groundbreaking, pioneering, revolutionary, dynamic, resourceful.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Someone gives you some information about where they want to go and what they enjoy seeing and doing. Describe a proper road trip for them and find the best stops and sctivities in the way.\n\nI'm looking for a west coast road trip. My goal is to start near San Diego and travel to Los Angeles.",
+    "output": "A great road trip from San Diego to Los Angeles would be a great way to explore the West Coast! You can drive along the Pacific Coast Highway and enjoy the stunning views of the ocean. You can make stops at some of the best beaches in California, including La Jolla, Laguna Beach, and Malibu. You can also make time to visit some of the area\u2019s iconic attractions, such as the Hollywood Sign, Universal Studios, and the Santa Monica Pier. \n\nIn between your stops, you can take in the scenery along the way, including the beautiful mountains, forests, and valleys of the region. You can also take some time to explore the local towns, such as San Juan Capistrano and Oceanside. With each stop, you\u2019ll be able to experience the unique culture and charm of the area. \n\nIf you\u2019re looking for more active activities, you can also take a hike in one of the many state parks in the area. There are plenty of trails to explore, from easy to difficult. You can also check out some of the area\u2019s best wineries, beaches, and outdoor markets. \n\nAt the end of your trip, you\u2019ll have an unforgettable experience full of stunning views, exciting activities, and unique attractions. Enjoy the ride!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Regex is a set of characters that define a search pattern. This kind of pattern is usually used by string-searching algorithms to find or replace strings or to validate inputs. Convert the natural english text to regex.\n\nMatch a valid ip address",
+    "output": "\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write an engaging and well-written property listing description for selling a house. Address of the house and some of the details are given to you. Fill in the information gap with hallucinations if needed.\n\nProperty Address: 412 Monterey Ave, Capitola, CA 95010\nParking: 3 cars + a finished single car garage\nDetails:\n- open floorplan\n- window with views to park/mountains\n- Kitchen with shaker cabinetry and white Calcatta quartz counters",
+    "output": "Welcome to 412 Monterey Ave, a spacious and well-maintained home located in the desirable city of Capitola, CA. This wonderful property features an open floorplan and a window with stunning views of the park and mountains beyond. The kitchen has been updated with shaker cabinetry and white Calcatta quartz counters, adding a modern touch to the home. Enjoy the convenience of a finished single car garage and extra parking for up to three cars in the driveway. Don't miss this opportunity to make this house your perfect home!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Given a real estate listing description, extract the information and details of the property from the text. The details consist of address, basic house attributes, etc.\n\nWALK TO THE BEACH FROM CAPITOLA KNOLLS! Single-level upstairs condo with your own large private deck overlooking nature. Adorable home that is move-in ready and waiting for you to put your own personal touches on. Gorgeous and well-maintained landscaped park-like setting with lush green grasses with a community pool and spa to enjoy. Desirable location...walk to Capitola Village, Gayle's Bakery, restaurants, shopping, schools or jump on Hwy 1 right around the corner.",
+    "output": "Property Details: \nAddress: Capitol Knolls\nType: Single-level upstairs condo\nAmenities: Large private deck, community pool and spa\nLocation: Close to Capitola Village, Gayle's Bakery, restaurants, shopping, schools, and Hwy 1",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Review the property description and tell us what is good and what is bad about it and list its key takeaways.\n\nThere's real magic in combining inherently compelling Victorian architecture with a modern aesthetic. Add in an extraordinary multi-level garden & the result is the undeniable elegance of 444 29th St. The front of the home is light-filled w/ a seamless connection between living, dining & kitchen. Newly updated kitchen w/ quartz counters & upgraded appliances. A lg dining rm has a bay of windows &, when paired w/ the adjacent living rm, provides an ideal space to entertain. 2 lg bdrms on this level are at the rear. Both w/ lg closets & walk out to the garden. Stylishly remodeled full bath on this level. 3rd bdrm/2nd full bath are located on the ground floor - perfect as a guest rm, home office, fitness area, etc. The enormous garden occupies an extra deep lot & is beautifully landscaped & terraced. Laundry/storage rm, 1-car garage pkg, Tesla solar panels. Prime, flat part of Noe Valley - short walk to all that Noe has to offer. Steps from the J-Church & convenient to shuttles/freeways.",
+    "output": "Good:\n- Combines Victorian architecture with modern aesthetic\n- Light-filled front with seamless connection between living, dining & kitchen\n- Newly updated kitchen with quartz counters & upgraded appliances\n- Large dining room with bay of windows\n- Two large bedrooms with large closets & walk out to garden\n- Stylishly remodeled full bath\n- Third bedroom/second full bath on ground floor\n- Enormous garden on extra deep lot\n- Beautifully landscaped & terraced\n- Laundry/storage room & 1-car garage parking\n- Tesla solar panels\n- Prime, flat part of Noe Valley\n- Short walk to all that Noe has to offer\n- Steps from the J-Church & convenient to shuttles/freeways\n\nBad:\n- None\n\nKey Takeaways:\n- Combines Victorian architecture with modern aesthetic\n- Newly updated kitchen with quartz counters & upgraded appliances\n- Two large bedrooms with large closets & walk out to garden\n- Third bedroom/second full bath on ground floor\n- Enormous garden on extra deep lot\n- Laundry/storage room & 1-car garage parking\n- Tesla solar panels\n- Prime, flat part of Noe Valley\n- Steps from the J-Church & convenient to shuttles/freeways",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "List some of the top real estate marketing words to add value to the listing and engage more potential buyers.",
+    "output": "1. Bright\n2. Spacious\n3. Luxury\n4. Stunning\n5. Prime location\n6. Move-in ready\n7. Modern\n8. Renovated\n9. Open concept\n10. Views",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Suggest some product bundles that are often purchased with a given product.\n\nMacBook Air",
+    "output": "1. Portable External Hard Drive\n2. Wireless Mouse\n3. USB-C Hub\n4. Laptop Bag\n5. External Monitor\n6. Printer\n7. Headphones\n8. Memory Card\n9. Wireless Keyboard\n10. Anti-Virus Software",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Create a template in markdown to create scope for Jira tickets. Members should use this template as a checklist to ensure they have included all the necessary information when creating a ticket.",
+    "output": "# Ticket Scope\n\n## Objectives\n\n- [ ] Provide a clear and concise description of the purpose of the ticket\n\n- [ ] List the expected outcomes and deliverables of the ticket\n\n- [ ] Identify any risks, constraints, and dependencies related to the ticket\n\n## Details\n\n- [ ] Provide a detailed description of the task and any additional information that will help the ticket owner understand the scope of the ticket\n\n- [ ] List any specific requirements for the ticket\n\n- [ ] Identify any stakeholders who need to be informed of the progress of the ticket\n\n- [ ] Define any timeline or budget constraints for the ticket\n\n## Acceptance Criteria\n\n- [ ] List the criteria that must be met in order for the ticket to be considered complete\n\n- [ ] Identify any tests that must be performed in order to validate the ticket is complete\n\n- [ ] Describe any additional documentation that will be necessary to confirm the ticket is complete",
+    "generator": "text_davinci_003"
+  }
+]

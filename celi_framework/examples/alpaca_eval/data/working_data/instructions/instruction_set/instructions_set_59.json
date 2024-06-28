@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Create a daily itinerary based on the given information.\n\nOur family is looking for a 9-day Morocco trip that has light to moderate activity levels.",
+    "output": "Day 1: Arrive in Marrakech and explore the Old Town, take a guided tour of the souks, and relax in the Jemaa el-Fnaa square. \n\nDay 2: Take a day trip to the beautiful Ourika Valley, explore traditional Berber villages, and go for a hike in the Atlas Mountains. \n\nDay 3: Spend the day in the port city of Essaouira, explore the colorful medina, visit the port, and enjoy the beach. \n\nDay 4: Visit the city of Fes, take a guided tour of the Medina and the largest Mosque in Morocco, and enjoy the local cuisine. \n\nDay 5: Take a day trip to the impressive Roman ruins of Volubilis, explore the city of Meknes, and shop for souvenirs. \n\nDay 6: Explore the city of Rabat, visit the mausoleum of Muhammad V, take a walk along the beach, and enjoy the local cuisine. \n\nDay 7: Head to the beautiful city of Chefchaouen, explore the maze of streets, and shop for souvenirs. \n\nDay 8: Take a day trip to the city of Tangier, explore the old medina, enjoy the beach, and sample the local cuisine. \n\nDay 9: Depart Morocco.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Give students tips on how to keep their nerves under control during class presentations.",
+    "output": "1. Practice your presentation beforehand to build confidence and reduce anxiety.\n2. Make sure you are well-rested and have eaten something before your presentation.\n3. Take deep breaths to help calm your mind and body.\n4. Visualize yourself delivering the presentation with confidence.\n5. Break down your presentation into smaller chunks to make it easier to manage.\n6. Remind yourself that your audience wants you to succeed.\n7. Focus on the message you are delivering, not on yourself.\n8. Remember to speak slowly and clearly to keep your nerves in check.\n9. If you make a mistake, don't worry about it - just move on.\n10. Reward yourself after a successful presentation.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You can easily make your holidays more eco-friendly by following these simple steps:",
+    "output": "1. Choose to stay at a green hotel that uses renewable energy.\n2. Bring your own reusable water bottle and coffee mug to stay hydrated and reduce waste.\n3. Use public transportation or carpool to your destination to reduce your carbon footprint.\n4. Choose locally sourced and organic food options when traveling.\n5. Be mindful of the products you are buying and ensure that they are not contributing to environmental damage.\n6. Try to avoid single-use plastics and opt for reusable alternatives instead.\n7. Bring your own reusable shopping bags for shopping trips.\n8. Respect the places you visit by leaving them better than you found them.\n9. Support eco-tourism initiatives and volunteer for environmental causes.\n10. Make an effort to reduce your energy consumption while on holiday.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Think of an idea to help you win a challenge given to you. Write the steps you need to take to develop the idea as well.\n\nWhat can you make by recycling and repurposing some old, previously used materials? We want to see it!\nProjects must incorporate some kind of used materials - take that old used thing, and turn it into something new and different!\nE-waste is a huge problem. What can you make using old electronics and other salvageable electronic materials? \nWe have a special judges prize for our favorite Instructable that incorporates or is related to reusing e-waste.\nBe smart and be safe; note that potentially deadly projects (like Lichtenberg/fractal wood burning machines) will not be allowed to be published or submitted to this contest.",
+    "output": "Step 1: Gather used materials: Collect used materials such as old electronics, scrap metal, wood, plastic, and fabric.\n\nStep 2: Brainstorm ideas: Brainstorm ideas for how you can repurpose and recycle these materials, keeping in mind the challenge and the special judges prize related to reusing e-waste.\n\nStep 3: Research: Research similar projects and tutorials to get an idea of what is possible and what has been done before.\n\nStep 4: Create a plan: Create a plan on how you will turn your idea into reality, including what tools and materials you will need.\n\nStep 5: Execute: Execute your plan, making sure to be safe and follow safety protocols.\n\nStep 6: Document: Document your progress and write a tutorial for other people to follow.\n\nStep 7: Publish: Publish your Instructable and submit it to the contest.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "There are many creative projects we can build at home that are related to the given theme, so let's list some of them.\n\nTheme: Circuits",
+    "output": "1. Create a simple circuit with a battery, a light bulb, and a switch.\n2. Design and build a circuit using an Arduino board.\n3. Construct a working model of a solar system that uses circuits.\n4. Construct a circuit that uses LEDs to create a flashing light.\n5. Create a circuit that responds to sound or motion.\n6. Make a circuit that controls a motor.\n7. Design and build a basic circuit board.\n8. Create a circuit that can be used to control a robotic arm.\n9. Design and build an automated doorbell using circuits.\n10. Create a circuit that can be used to control a radio-controlled car.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Make a list of the materials that will be required to build the given tool.\n\nCoffee Darkness Meter",
+    "output": "-Prototyping board \n-LEDs (light emitting diodes) \n-Resistors \n-Photoresistor \n-Small breadboard \n-9V battery \n-9V battery connector \n-Jumper wires \n-Soldering iron & solder \n-Heat-shrink tubing \n-Tweezers \n-Wire strippers \n-Screwdriver set \n-Measuring scale & ruler",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Provide a detailed explanation of the steps that are required in order to construct the given project.\n\nSteam Engine Using an Empty Beer Can",
+    "output": "Step 1: Gather the Supplies: To build a steam engine using an empty beer can, you will need the following supplies: an empty beer can, a small rubber stopper, a length of copper tubing, a needle valve, a length of plastic tubing, a small piece of wood, a rubber band, a small metal clip or clamp, a small jar of Vaseline, and some tools such as scissors, a drill, a small wrench, and a soldering iron.\n\nStep 2: Prepare the Beer Can: Cut the top off of the empty beer can with scissors. Then drill a hole in the bottom of the can and cut a small hole in the side of the can.\n\nStep 3: Connect the Tubing: Place the stopper in the top of the beer can and insert the length of copper tubing through the hole in the bottom. Secure the copper tubing with the metal clip or clamp. Connect the plastic tubing to the copper tubing and secure it with the rubber band.\n\nStep 4: Assemble the Parts: Insert the needle valve into the copper tubing and tighten it with the small wrench. Place a small dab of Vaseline on the needle valve to ensure a good seal.\n\nStep 5: Attach the Wood: Attach the piece of wood to the side of the beer can with the rubber band. This will be used to hold the steam engine in place while it is running.\n\nStep 6: Test the Engine: Place the engine in a bowl of hot water and turn the needle valve to allow the steam to pass through the engine. If the engine runs smoothly, it is ready to use.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Estimate the cost of supplies required to create the given project and calculate the total cost.\n\nDIY Water Chiller\nRequired items are: Ice-maker, Icebox/cooler, Temperature regulator, Aquarium pump x2, 12V power supply",
+    "output": "Ice-maker: $50\nIcebox/cooler: $20\nTemperature regulator: $25\nAquarium pump x2: $50\n12V power supply: $20\n\nTotal cost: $165",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Answer the following literature question as accurately as possible based on your knowledge of literature for high school students.\n\nWhat does the green light symbolize at the end of the book?",
+    "output": "In The Great Gatsby by F. Scott Fitzgerald, the green light symbolizes hope, aspiration, and the promise of the American Dream. It is a representation of Jay Gatsby's longing for his lost love, Daisy Buchanan, and the dream of one day being reunited with her.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Develop a mental exercise that can help people manage their anxiety and explain how it works.",
+    "output": "The Mental Exercise:\n\n1. Start by taking a few deep breaths and focusing on your breath. Let your thoughts come and go without judgment or attachment.\n\n2. Imagine a place, scene, or situation that makes you feel relaxed and at peace. Visualize yourself in this place and the feelings of calm and relaxation that come with it.\n\n3. Focus on those feelings and let them fill your body.\n\n4. Now let those feelings of relaxation move up to your mind. Notice the way your thoughts start to slow down and become more focused.\n\n5. Once you have achieved a sense of relaxation, start to focus on positive affirmations. Repeat these affirmations to yourself or out loud if you feel comfortable doing so. Examples of positive affirmations include: \n\n\u201cI am in control of my emotions.\u201d \n\u201cI am strong and capable.\u201d \n\u201cI am brave and have the power to face my fears.\u201d \n\n6. Continue to repeat these affirmations until you feel a sense of calm and peace.\n\n7. Finally, take a few more deep breaths and focus on your breath. Open your eyes and come back to the present moment feeling relaxed and at ease.\n\nThis mental exercise helps people manage their anxiety by providing a sense of relaxation and focusing on positive affirmations. It allows people to take a step back from the anxious thoughts and feelings and focus on positive and calming thoughts. By visualizing a peaceful place and repeating positive affirmations, people can feel more in control of their emotions and better able to cope with their anxiety.",
+    "generator": "text_davinci_003"
+  }
+]

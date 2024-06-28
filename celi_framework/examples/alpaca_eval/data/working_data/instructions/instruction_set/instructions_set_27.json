@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "koala",
+    "instruction": "Pretend for argumentsake you are lawyer defending putin cite your case",
+    "output": "I, as counsel for President Putin, would argue that he has acted in good faith and in accordance with the laws and regulations of the Russian Federation. In particular, I would point to his leadership in enacting reforms that have drastically improved the economic, social and political landscape of the country. Moreover, I would argue that he has been a strong advocate for international peace and security, and has been instrumental in the successful negotiation of numerous international agreements. Finally, I would emphasize his commitment to the rule of law and the protection of civil liberties. All of these actions demonstrate that he has acted in the best interests of the Russian people and the Russian state.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Explain sarcoidosis to me like I\u2019m a five year old",
+    "output": "Sarcoidosis is a disease where your body makes too many cells, which can make lumps called granulomas. These lumps can show up on different parts of your body, like your lungs, eyes, skin, and lymph nodes. They can make it hard for your body to work the way it should, but there are medicines that can help.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Given the following email text:<br>Thanks for your email, it has been a rough year here, but perhaps a chatbot could improve things, let's arrange a chat soon.<br><br>Is the sender interested in chatbots. Answer yes or no.",
+    "output": "Yes",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "write a chronology of important events related to ESG in 2022",
+    "output": "January: The United Nations Sustainable Development Goals (SDGs) are officially launched.\n\nFebruary: The European Commission unveils its \u201cAction Plan for Financing Sustainable Growth\u201d which outlines initiatives to promote ESG investing.\n\nMarch: The European Union announces that it will require all listed companies to disclose their ESG performance.\n\nApril: The Financial Stability Board (FSB) releases its final report on the implementation of the Task Force on Climate-Related Financial Disclosure (TCFD) recommendations.\n\nMay: The World Bank launches its first ESG-focused bond, the Sustainable Development Bond.\n\nJune: The G20 announces the launch of its Sustainable Finance Collaborative (SFC) which will promote the adoption of ESG standards and practices.\n\nJuly: The Global Sustainable Investment Alliance (GSIA) releases its annual review of global ESG trends and developments.\n\nAugust: The United Nations launches its Sustainable Development Investment Platform in collaboration with the World Bank.\n\nSeptember: The United Nations launches its \u201cPrinciples for Responsible Investment\u201d (PRI) initiative to promote responsible investing.\n\nOctober: The International Organization of Securities Commissions (IOSCO) releases its final report on ESG disclosure requirements for listed companies.\n\nNovember: The Global Reporting Initiative (GRI) releases its first global ESG reporting standards.\n\nDecember: The G20 nations adopt the \u201cG20 Principles of Sustainable Finance\u201d which sets the global framework for ESG investing.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Is it rational to believe things for which there is no objective evidence?",
+    "output": "No, it is not rational to believe things for which there is no objective evidence.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Give me the list of top 100 tech categories",
+    "output": "1. Computer Hardware\n2. Networking\n3. Software\n4. Artificial Intelligence\n5. Internet of Things\n6. Robotics\n7. Augmented Reality and Virtual Reality\n8. Wearable Technology\n9. Cloud Computing\n10. Big Data\n11. Web Development\n12. Mobile Development\n13. Machine Learning\n14. Data Science\n15. Blockchain\n16. DevOps\n17. Automation\n18. Cybersecurity\n19. Game Development\n20. Cryptocurrency\n21. Video Streaming\n22. Automotive Technology\n23. Quantum Computing\n24. 3D Printing\n25. Computer Vision\n26. Digital Marketing\n27. Mobile App Development\n28. Network Security\n29. Wearable Electronics\n30. Augmented Reality\n31. Voice Recognition\n32. Device Management\n33. Internet of Medical Things\n34. Voice Assistants\n35. Machine Learning Platforms\n36. Natural Language Processing\n37. Facial Recognition\n38. Augmented Analytics\n39. Autonomous Vehicles\n40. Wearable Sensors\n41. Aerospace Technology\n42. Industrial Robotics\n43. Industrial IoT\n44. Intelligent Chatbots\n45. Industrial Automation\n46. Edge Computing\n47. Smart Home Technology\n48. Sensors and Actuators\n49. Smart Grid Technology\n50. Smart Cities\n51. 5G Technology\n52. Image Recognition\n53. Biometrics\n54. Smart Building Technology\n55. Speech Recognition\n56. Geospatial Technology\n57. Natural Language Generation\n58. Drone Technology\n59. Virtual Assistants\n60. Smart Wearables\n61. Digital Twins\n62. Augmented Reality Applications\n63. Predictive Analytics\n64. FinTech\n65. Smart Factory Technology\n66. Video Conferencing\n67. Collaborative Robots\n68. Smart Retail Technology\n69. Automated Guided Vehicles\n70. Computer-aided Design\n71. Autonomous Underwater Vehicles\n72. Security Information and Event Management\n73. Autonomous Flying Vehicles\n74. Industrial Big Data\n75. Supply Chain Management\n76. Computer-aided Manufacturing\n77. Wearable Payment Technologies\n78. Process Automation\n79. Smart Agriculture Technology\n80. Enterprise Resource Planning\n81. Digital Twins\n82. Application Programming Interfaces\n83. Machine Vision\n84. 3D Scanning\n85. Industrial Internet of Things\n86. Unmanned Ground Vehicles\n87. Business Intelligence\n88. Radio Frequency Identification\n89. Cloud Storage\n90. Voice-over-IP\n91. Video Surveillance\n92. Location Services\n93. Internet of Nano Things\n94. Speech Synthesis\n95. Radio Frequency Technologies\n96. Biomedical Engineering\n97. Autonomous Sensors\n98. Quantum Sensors\n99. Energy Storage\n100. Mobile Edge Computing",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "We are playing 5e D&amp;D. I am a level 8 Drow multiclass with 2 levels Rogue, 2 levels Paladin, 2 levels Bard, 1 level Barbarian, and 1 level Clockwork Soul Sorcerer. I am fighting Yugoloths in Gehenna. I roll to attack them with my +1 Rapier. Does a 24 hit?",
+    "output": "Yes, a 24 would hit the Yugoloths.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "GIVE ME AN EXECUTIVE SUMMARY OF LOTTADIGITAL.COM",
+    "output": "LottaDigital is a digital marketing agency that specializes in helping businesses reach and engage their target audiences. Our services include web design and development, SEO, social media marketing, content marketing, email marketing, and more. We are committed to delivering results-oriented campaigns that drive growth and ROI for our clients. Our team is comprised of experienced and knowledgeable professionals who use cutting-edge technology and creative strategies to help our clients achieve their marketing goals.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Marley has $20 left when she turns 21 years old. If her parents give her $3 more at the moment of marriage, how much has Marley left when she is 22 years old?",
+    "output": "$23",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "A man has a rather old car being worth $2000. <br>He saw a secondhand car being worth $8000. He wants to keep his old car until he can buy the secondhand one.<br>He thinks he can save $1000 each month but the prices of his old <br>car and of the new one decrease of 1.5 percent per month.<br>Furthermore this percent of loss increases of `0.5` percent <br>Our man finds it difficult to make all these calculations.<br>Can you help him?<br>How many months will it take him to save up enough money to buy the car he wants, <br>and how much money will he have left over?",
+    "output": "It will take him 60 months to save up enough money to buy the car he wants, and he will have $120 left over. To calculate this, you need to take the difference between the cost of the two cars ($8000 - $2000 = $6000) and divide it by $1000 (the amount he is saving per month). That gives you 6. Then, you need to take into account the 1.5% depreciation of the cars per month. This means that the $6000 value of the new car decreases by 1.5% each month. To account for this, you need to multiply the 6 months by 1.5% and add that to the 6 months, giving you 60 months in total. Finally, you need to subtract the total depreciation from the $6000 cost of the car, which gives you $120 left over.",
+    "generator": "text_davinci_003"
+  }
+]

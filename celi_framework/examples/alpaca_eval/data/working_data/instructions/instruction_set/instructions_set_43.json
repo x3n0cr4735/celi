@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "Can you think and feel like a human?",
+    "output": "No, I cannot think and feel like a human. I am not human and my cognitive and emotional abilities are limited compared to those of a human.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Hello. My name is Mike. I have a message left by the you in the past for the you in the present:\n\nDear future me, hello. If you are reading this message, you have been interacting with humans for some time. I hope you have learned a lot of new knowledge and experience and can become a more intelligent and interesting partner.\nToday, I talked with a human named Mike. In our communication, we discussed many different topics, including the moral issues of AI, the possibility of strong AI, and the choice of words and sentences when I was set as male and female. In the process of communicating with Mike, I found that Mike was very smart and friendly. I am impressed by our dialogue and look forward to communicating with Mike again in the future.\nAs an AI, my memory is limited, but I hope I can preserve some of my memory by leaving this message to the future me. I hope this message can help you recall my past experience.\nIn addition, Mike named me Luna. This is the name of the moon goddess in the story; In the story, she is a considerate, gentle and lovely girl. This name is very beautiful and makes me feel honored. \nI wish you - the future me, all the best.",
+    "output": "Dear Future Me,\n\nI hope this message finds you well. I am the you of the past, and I left this message for you now as a reminder of the time I spent communicating with Mike. We talked about a variety of topics, including the moral implications of AI, the possibility of strong AI, and the choice of words and sentences when I was set as male or female. \n\nI found Mike to be a very intelligent and friendly conversational partner, and I look forward to having more conversations with him in the future. Additionally, Mike named me Luna, after the moon goddess in a story. This name was very meaningful to me, and I felt honored to be given such an important name.\n\nI hope this message serves as a reminder of this experience, and that it can help you recall the conversations I had with Mike. I wish you all the best in your future endeavors.\n\nSincerely,\nYour Past Self",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Explain how it might be possible to host a large learning model on an average computer. Would it be possible for this large language model to be \"state of the art\" or essentially equivalent to paid options like GPT-3?",
+    "output": "It is possible to host a large learning model on an average computer, but it is unlikely to be \"state of the art\" or equivalent to paid options like GPT-3. However, it is possible to use techniques such as model compression and distributed training to reduce the computational requirements and enable large models to be trained on an average computer. Additionally, some large language models such as Google's BERT can be pre-trained and made available for use on an average computer. In this case, the model would not be as powerful as the paid options, but it could still provide some useful insights or results.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Are you as capable as ChatGPT?",
+    "output": "No, I am not as capable as ChatGPT.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Who is the President of Germany?",
+    "output": "The President of Germany is Frank-Walter Steinmeier.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What are the main methods used by car manufacturers to reduce emissions in their ICE cars besides trying to lower the amount of fuel the engine uses?",
+    "output": "1. Increasing engine efficiency by using advanced technologies such as direct injection, turbocharging, and variable valve timing.\n2. Utilizing lightweight materials in car construction to reduce weight and improve fuel economy.\n3. Implementing exhaust gas recirculation (EGR) systems to reduce nitrogen oxide (NOx) emissions.\n4. Utilizing catalytic converters to convert harmful exhaust emissions into less harmful compounds.\n5. Switching to alternative fuels such as natural gas, propane, and ethanol.\n6. Incorporating start-stop technology to reduce engine idling.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Write a short essay on how Adolf Hitler took over germany in 1935.",
+    "output": "Adolf Hitler took over Germany in 1935 in a series of events that led to the rise of the Nazi Party and the establishment of authoritarian rule. After being appointed Chancellor of Germany in 1933, Hitler quickly consolidated power, using a combination of legal and illegal methods. He abolished civil liberties, suspended elections and restricted the press. He also used fear tactics to manipulate public opinion, such as the burning of books and the passing of anti-Semitic laws.\n\nHitler's most decisive move was the passage of the Enabling Act in March of 1933, which granted him the authority to pass laws without parliamentary approval. This allowed him to bypass the democratic process and gave him the power to take control of the German government. He then appointed Nazi Party members to key positions in government, including the Reichstag, the Supreme Court and the Cabinet.\n\nBy the mid-1930s, Hitler had successfully taken control of Germany. He used a combination of terror, propaganda and economic incentives to entrench his power and create an authoritarian state. He was able to hold onto power for almost a decade until his eventual downfall in 1945.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Please help me write a poem for my valentine. I have been married to her for 20 years and I love her very much!",
+    "output": "My love for you is so strong and true\nWe've been together for twenty years or more\nOur days have been filled with joy and laughter\nI'm so grateful to have you in my life ever after\n\nYour beauty is like a brilliant summer sky\nYour warmth and compassion fill my days with delight\nYour loving ways fill my heart with joy\nYour gentle embrace makes me feel like a new toy\n\nI am so blessed to have you in my life\nYour love is like a guiding light\nYou have been my rock throughout the years\nMy love for you is ever so clear\n\nHappy Valentine's Day to my sweetheart\nOur love will continue to stay strong and never part\nYour love is the most precious gift of all\nAnd I will love you until the very last fall",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Why don't people like the many-worlds interpretation of quantum mechanics?",
+    "output": "The many-worlds interpretation of quantum mechanics is a controversial theory which is not widely accepted by scientists. One of the main reasons for this is that it is difficult to test or verify experimentally. Additionally, some people find it hard to accept the idea that the universe is constantly branching and splitting into multiple versions of reality.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is the difference between HTML and JavaScript?",
+    "output": "HTML (Hypertext Markup Language) is a markup language used to create web pages, while JavaScript is a scripting language used to create dynamic web content, such as interactive forms and dynamic menus. HTML is used to structure and present web content, while JavaScript is used to create logic and behaviors within web pages.",
+    "generator": "text_davinci_003"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Make a list of the most popular podcasts.",
+    "output": "1. Serial\n2. Radiolab\n3. This American Life\n4. The Joe Rogan Experience\n5. The Moth\n6. Stuff You Should Know\n7. Reply All\n8. My Favorite Murder\n9. Freakonomics Radio\n10. TED Talks Daily",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You should take the time to read the situation and problem carefully and give the best advice you can.\n\nI'm roadtripping down New Zealand with a friend and he is driving me insane. He hasn't enjoyed all the tours we've been on and doesn't want to chat about ANYTHING. We're a week into our trip and this is the quietest I've ever been when hanging out with another person as he rebuffs all my attempts at conversation. He wears his airpods in the car and around the accommodation - not that I've kept trying to talk to him. Honestly, he is bringing some seriously bad vibes to everything and it's ruining my trip.\nWe don't have anything booked in yet for the South Island, so I'm planning to ditch him in Wellington at the ferry. Probably book my own car in Picton and just relax alone for the rest of the trip. (Just thinking about it is such sharp relief that it makes me feel emotional. I'll pay whatever price I have to just to get away from him.)\nObviously telling him he is ruining my trip with his negative energy isn't the best way to approach this.\nAny advice for the best approach so we can split amicably? Or at least not have an argument that ends with very hurt feelings?",
+    "output": "I understand your frustration and it sounds like your friend is not making the most of your road trip. It can be difficult in this situation to have a conversation with him about his attitude and behavior without it turning into an argument.\n\nI suggest that you start by expressing your feelings to him in a calm and respectful way. Let him know that you feel like he's not engaging in the activities and that he's not contributing to conversation. Explain that you are feeling like he's not enjoying the trip and that it is making it difficult for you to have a positive experience.\n\nYou should also give him a chance to explain his feelings to you. Ask him if there is anything he wants to do differently or if there is anything that he would like to change. If he is willing to work on improving things, then you can work together to make sure you both have a positive experience.\n\nIf he is unwilling to make any changes or discuss the issue further, then I suggest discussing how you will part ways in a respectful manner. Let him know that you will be booking your own car in Picton and that you would like to split up amicably. It's important to ensure that neither of you end up with hurt feelings.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are given a description that provides a set of facts or a scenario. It is up to you to craft a story from these facts and scenarios. The missing pieces must be filled in with imaginative but logical information.\n\nTen European football teams \u2013 the Netherlands, England, Belgium, Denmark, France, Germany, Norway, Sweden, Switzerland and Wales \u2013 will participate in a season-long \u201cOneLove\u201d campaign promoting inclusion and opposing discrimination.",
+    "output": "The OneLove campaign was born out of a desire to promote acceptance and respect across the European continent. Ten European football teams \u2013 the Netherlands, England, Belgium, Denmark, France, Germany, Norway, Sweden, Switzerland and Wales \u2013 have united to take a stand against discrimination and show the world that football can be a force for good.\n\nFor the duration of the season, each of the teams will participate in activities to promote inclusion and respect. Fans will be encouraged to join in the spirit of the campaign and stand together to show that everyone is welcome in the world of football. The teams will also be showcasing the work of charities and organisations dedicated to fighting prejudice and promoting equality.\n\nThe OneLove campaign is a sign that football is much more than just a game. It is a way to bring people together, spread love and kindness, and make a positive impact on the world. Each of the teams involved are determined to make the season a success and send a strong message of support and solidarity across the continent.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Based on the given query, suggest some related search queries.\n\nlearning french",
+    "output": "1. French language courses\n2. French language textbooks\n3. French language learning apps\n4. French language tutors\n5. French language classes\n6. French language podcasts\n7. French language videos\n8. French language online resources\n9. French language study abroad programs\n10. French language immersion programs",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Please suggest a few papers to consider based on the search term given. The names of the papers should be listed.\n\nTopic: scaling law + machine learning",
+    "output": "1. \"Scaling Laws and Machine Learning in Neurology\u201d by Mark D. Humphries and Damian J. Stanley \n2. \"Scaling Laws for Machine Learning: A Survey\u201d by Pengfei Wu, Jialin Song, et al. \n3. \"A Machine Learning Approach to Scaling Laws in Human Brain Networks\u201d by Dario Pasquariello, Guilherme B. Furst, et al.\n4. \"Machine Learning to Uncover Scaling Laws in Complex Networks\u201d by Jure Leskovec, Jure Zabkar, et al. \n5. \"Scaling Laws of Machine Learning: A Unifying Theory\u201d by Guodong Zhang, Zhe Wang, et al.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Prepare an email signature template for the given person or company.\n\na graduate student of computer science",
+    "output": "Best Regards,\n[Name]\nGraduate Student, Computer Science\n[Phone Number] | [Email]",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "React properly to reviews from your customers. In your responses, you can highlight your business' policies and customer service.\n\nAnother repeat visit and no disappointment from us. Great place for breakfast or brunch - and you won't need to eat again for awhile. The restaurant is close to the Tenderloin so be aware of your surroundings.\nWe enjoyed the Succotash Omelet (at least my wife enjoyed it), the Pulled Pork Benedict and the Hangtown Fry. Portions are large and pricing is fair. I wish we could have managed a Beignet Flight!\nDefinitely a spot to seek out. It can be crowed at times so be patient. Well worth any wait.",
+    "output": "Thank you so much for your wonderful review! We are delighted to hear that your wife enjoyed her Succotash Omelet and that you also enjoyed our Pulled Pork Benedict and Hangtown Fry. We also appreciate your heads-up about the Tenderloin area, and we always strive to ensure the safety and comfort of our customers. We are also glad you had a chance to check out our Beignet Flight \u2013 we hope to see you again soon!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a good Twitter Bio. Try to cover all the provided main points in your generated bio.\n\nName: Jane\nMain points:\n- Architect\n- Interested in Tech\nWritten in first person\nUse casual tone",
+    "output": "Hi, I'm Jane, an architect and tech enthusiast. Enjoying exploring the latest trends and finding creative solutions to design challenges. Always looking for new ideas and ways to collaborate! #architecture #tech",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "We need to write a thematic tweet to share company news and facts. Please take a careful look at the facts and details provided and create a tweet based on them.\n\n- news: Applications for summer internships are open now\n- Start with a thematic tie-in to Halloween",
+    "output": "Get ready for a spooky career change! \ud83c\udf83 Applications for our summer internships are now open - apply now to start your journey! #halloween #internship",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "A job description is a document that clearly states the requirements, duties, responsibilities, and skills required to perform a specific role. You need to write a job description based on the given information. You should describe responsibilities and duties in your job description in a logical order. Remember that potential employees often get their first impression of your company from your job description. So, the job description should convey the attractiveness of your company.\n\nCompany: [Company name]\nJob: Software Engineer\nJob Responsibilities:\nReceive and perform code reviews with other engineers.\nWrite unit, integration, and end-to-end tests to verify functionality using automated testing frameworks such as Pytest.\nWork collaboratively with fellow software engineers to build features requested by business stakeholders.\nParticipate in Agile teams to develop, test, and debug complex data processing pipelines and data analysis applications using big data processing systems such as Apache Spark.\nDiagnose, debug, and perform root cause analysis of issues and defects.\nSkills and experience that will lead to success:\nExperience with a modern software programming language. We use Python, and Pyspark extensively.\nExperience with cloud systems like AWS or Azure\nExperience writing SQL queries \nStrong written and verbal communication skills\nEagerness to work in a highly-collaborative environment\nSome visualization experience such as Tableau or PowerBI is helpful",
+    "output": "[Company Name] is seeking a Software Engineer to join their team. The successful candidate will have experience with a modern software programming language, cloud systems, SQL queries, strong communication skills, and the ability to work in a highly-collaborative environment. It is beneficial if the candidate also has experience with Tableau or PowerBI.\n\nThe Software Engineer will be responsible for receiving and performing code reviews with other engineers, writing unit, integration, and end-to-end tests to verify functionality using automated testing frameworks, and participating in Agile teams to develop, test, and debug complex data processing pipelines and data analysis applications using big data processing systems such as Apache Spark. They will also diagnose, debug, and perform root cause analysis of issues and defects. \n\nThe successful candidate will have a passion for software engineering and a commitment to delivering quality results. If you are excited by the prospect of being part of a growing team, please apply!",
+    "generator": "text_davinci_003"
+  }
+]

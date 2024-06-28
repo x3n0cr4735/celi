@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Give a brief description of the book that you are given.\n\nMatilda",
+    "output": "Matilda is a fantasy novel by Roald Dahl about an intelligent young girl with magical powers. Matilda uses her abilities to outwit her cruel parents and school principal, Miss Trunchbull. Through her courage and cleverness, Matilda is able to overcome the obstacles in her life and find happiness.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "In the event that a person enjoyed the book that was given, please suggest other books that they might also like.\n\nThe Great Gatsby",
+    "output": "Other books that readers who enjoyed The Great Gatsby might like include: The Catcher in the Rye by J. D. Salinger, To Kill a Mockingbird by Harper Lee, The Sun Also Rises by Ernest Hemingway, The Adventures of Huckleberry Finn by Mark Twain, The Grapes of Wrath by John Steinbeck, and Brave New World by Aldous Huxley.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Indicate the genre of the book to which it belongs.\n\nLove in the Time of Cholera",
+    "output": "Romance novel",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Solve this equation.\n\nx^3 - 4x^2 + 6x - 24 = 0",
+    "output": "x = 2, 4, or -3",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Prove the given statement using your information.\n\n\"If x is a positive integer or a solution to x+3>4, then x>0 and x>12.\"",
+    "output": "Since x is a positive integer, it follows that x>0. Additionally, since x+3>4, then x>1. These two conditions together imply that x>12. Therefore, the statement is true.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Based on the facts that have been provided, prove the following statement.\n\nStatement: \"For every integer k, k^2 + 2k + 1 \u2265 0\"\nFact: The square of any real number is non-negative.",
+    "output": "Proof:\nLet k be an integer. Since the square of any real number is non-negative, k^2 \u2265 0. Therefore,\n\nk^2 + 2k + 1 \u2265 0\n\nLet k = 0. Then,\n\n0 + 0 + 1 \u2265 0\n\nwhich is true.\n\nNow let k be an integer such that k \u2260 0. Then,\n\nk^2 + 2k + 1 \u2265 0\n\nThis is true because the sum of the non-negative number k^2 and the non-negative number 2k is always non-negative.\n\nTherefore, for every integer k, k^2 + 2k + 1 \u2265 0.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Verify the correctness of the given statement.\n\n\"For all integers j and k, if j and k are odd, then jk is odd.\"",
+    "output": "True",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Provide a formula for computing the nth term in the given sequence\n\n5, 14, 23, 32, 41, ...",
+    "output": "a_n = a_1 + (n - 1) * 9, where a_1 = 5",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Create a table listing all games that meet the specified criteria in the National Football League. Use the season, local time, game, and score as columns of the table.\n\nRavens home games in 2011",
+    "output": "Season | Local Time | Game | Score\n---------------------------------\n2011  |   1:00 PM  | Ravens vs. Bengals | 34-3\n2011  |   8:20 PM  | Ravens vs. Steelers | 35-7\n2011  |   1:00 PM  | Ravens vs. Titans | 37-7\n2011  |   1:00 PM  | Ravens vs. Texans | 29-14\n2011  |   1:00 PM  | Ravens vs. Jaguars | 12-7\n2011  |   4:15 PM  | Ravens vs. Browns | 24-10\n2011  |   4:15 PM  | Ravens vs. Cardinals | 30-27\n2011  |   8:20 PM  | Ravens vs. 49ers | 16-6",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Using a table, compare the career overviews of the given players in Major League Baseball. Use \"|\" for separating the columns in the table.\n\nDerek Jeter, Albert Pujols",
+    "output": "Player | Career Overview\n------------------------------\nDerek Jeter | 20 seasons with the New York Yankees, 5-time World Series champion, 14-time All-Star, 2000 World Series MVP\nAlbert Pujols | 20 seasons in the MLB, 3-time World Series champion, 10-time All-Star, 2-time National League MVP",
+    "generator": "text_davinci_003"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "koala",
+    "instruction": "Can a qualifying manager work remotely abroad for US employer for an year be eligible for Eb1-C while on h1-b",
+    "output": "Yes, a qualifying manager can work remotely abroad for a US employer for an year and be eligible for Eb1-C while on h1-b. However, the employer must demonstrate that the managerial position is a critical role in the company and that the manager is essential for the success of the organization.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "I have competencies in remote sensing, machine learning, and water resource knowledge, what are the possible jobs I can occupy? What are the possible projects I can do? What companies I can work at?",
+    "output": "Possible Jobs: Remote Sensing Analyst, Machine Learning Engineer, Water Resources Engineer, Data Scientist, Geospatial Analyst.\n\nPossible Projects: Designing and implementing machine learning algorithms for remote sensing data analytics, developing new water resource management strategies, developing predictive models for water resources forecasting, developing algorithms for image classification and object detection in satellite imagery.\n\nCompanies: Google, Apple, Microsoft, IBM, Amazon, Esri, Lockheed Martin, Northrop Grumman, Raytheon, Planet Labs, DigitalGlobe, GeoEye, and other tech companies focusing on satellite imagery and remote sensing.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Write a funny, interesting, inspiring poem for Women's Day.",
+    "output": "Oh women of the world you shine so bright,\nYour beauty and courage shines day and night,\nYour strength and spirit will never die,\nYour voice is heard loud and high.\n\nYou have faced oppression and never gave in,\nYour resilience is what makes you win,\nYour determination is so strong,\nYour courage will never be gone.\n\nYou have fought for so many years,\nYour fight will never end in tears,\nYou have achieved so much success,\nYour future is sure to be the best.\n\nSo on this special day we celebrate,\nThe strength of all the women who are great,\nYour courage and strength is what will make,\nOur future brighter and something to take.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "To increase the energy efficiency of windows, additional glass pane is added. In countries with a warm climate, windows with one glass pane are replaced with windows with two glass panes. Where there is a cold winter, windows with two panes are replaced with windows with three panes. Qestions: can a double pane window be more efficient than a triple pane window? Can a single pane window be more efficient than a double pane window? If yes, what is needed for this? Support your answer with appropriate calculations.\n",
+    "output": "Yes, a double pane window can be more efficient than a triple pane window, depending on certain conditions. In order to be more efficient, the double pane window would need to have higher quality glass, a low-emissivity coating, and an inert gas between the panes. This combination of features can provide more insulation than a triple pane window. Calculations can be used to determine how much more energy efficient the double pane window is compared to the triple pane window. The difference in the R-values (a measure of insulation) of the two windows can be used to calculate the maximum energy savings achievable with the double pane window. For example, if the R-value of a double pane window is 6.0 and the R-value of a triple pane window is 5.0, then the double pane window is 1.0 more efficient than the triple pane window. \n\nA single pane window can be more efficient than a double pane window, although it is unlikely. The single pane window would need to have higher quality glass, a low-emissivity coating, and an inert gas between the panes in order to be more efficient than the double pane window. This combination of features can provide more insulation than the double pane window, although it is not as common. Calculations can be used to determine how much more energy efficient the single pane window is compared to the double pane window. The difference in the R-values (a measure of insulation) of the two windows can be used to calculate the maximum energy savings achievable with the single pane window.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Write a detailed patent writing for an innovative and novel way of issuing community tax certificates and other relevant permits and clearances as a digital certificates,  that is non-obvious using verifiable credentials, digital wallet on a blockchain as payment provision, and machine learning. Include claims on detailed processes involved, system architecture and algorithms",
+    "output": "Patent Writing\n\n1.0  Title of Invention:\n\nDigital Community Tax Certificates and Permits with Blockchain Payment Provision, Verifiable Credentials and Machine Learning\n\n2.0  Background of the Invention:\n\nThe current method of issuing community tax certificates and other relevant permits and clearances is an inefficient process that involves manual labor, long wait times and a high risk of fraud or error. This invention seeks to provide a more secure and efficient digital method of issuing these documents.\n\n3.0 Summary of the Invention:\n\nThe invention provides a novel and innovative way of issuing community tax certificates and other relevant permits and clearances as digital certificates using verifiable credentials, a digital wallet on a blockchain as payment provision, and machine learning.\n\n4.0 Detailed Description of the Invention:\n\nThe invention is comprised of four components: \n\nA. Verifiable Credentials: Verifiable credentials are used to securely store and transmit sensitive information such as personal data, financial information, and/or documents. Verifiable credentials are cryptographically signed by a trusted third-party (such as a government or bank) and can be used to authenticate the identity of the user.\n\nB. The Digital Wallet: The digital wallet is a secure and encrypted storage system that is used to store the digital certificates and payment information. The digital wallet is hosted on a blockchain and is accessible to authorized users.\n\nC. Machine Learning: Machine learning is used to analyze the data and documents stored in the digital wallet and to detect fraudulent activity.\n\nD. Payment Provision: Payment is provided through the digital wallet using a secure and encrypted system.\n\n5.0 Claims:\n\nA system for issuing digital community tax certificates and other relevant permits and clearances, comprising:\n \nA. Verifiable credentials stored on a digital wallet, \nB. Payment provision through a blockchain, \nC. Machine learning algorithms to detect fraudulent activity, and \nD. A secure and encrypted system for storing and transmitting documents.\n\nA method for issuing digital community tax certificates and other relevant permits and clearances, comprising the steps of: \n\nA. Verifying a user's identity using verifiable credentials, \nB. Storing the digital certificates and payment information in a digital wallet, \nC. Analyzing the data and documents stored in the digital wallet using machine learning algorithms, \nD. Providing payment through a secure and encrypted system on a blockchain, and \nE. Issuing the digital community tax certificates and other relevant permits and clearances.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What do you think about ChatGPT?",
+    "output": "I think ChatGPT is a great tool for natural language processing. It can help generate meaningful conversations from text input and can be used in a variety of applications.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Can you please provide me the names of the two players in the atomic bomb game (in go)? \n\nIf you can get me the referee's name as well, that's even better!",
+    "output": "The two players in the atomic bomb game (in go) are Black and White. The referee of the game is usually a professional go player.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How would the Future of AI in 10 Years look?",
+    "output": "In 10 years, AI will become increasingly sophisticated and integrated into our lives. AI-infused technologies will be embedded in everyday objects and devices, making them smarter, more efficient, and more intuitive. AI will be used in a wide range of industries, from healthcare to transportation to finance, to provide powerful insights and enable companies to make better decisions. AI will also be used to automate mundane tasks and to create new products and services. Additionally, AI will be used to improve customer experience, providing more personalized services, conversational interfaces, and intelligent recommendations. Finally, AI will be used to help us better understand and predict the future, allowing us to make better decisions and plan ahead.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How can L\u2019Hopital\u2019s Rule be used in day to day life?",
+    "output": "L'Hopital's Rule can be used to help calculate limits on functions when the original expression is not in the form of a fraction. In everyday life, this can be useful when dealing with financial calculations, such as calculating interest rates, calculating the present value of future cash flows, or calculating depreciation of an asset. It can also be used to analyze the behavior of a function as its input approaches a certain value, which can be beneficial for making decisions in a variety of contexts.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How do I build a PC?",
+    "output": "1. Gather the necessary components. You will need a motherboard, a processor, a CPU cooler, RAM, a power supply, storage, a case, and a graphics card (optional).\n2. Install the processor and CPU cooler. Place the processor into the motherboard, then attach the CPU cooler.\n3. Install the RAM. Line up the RAM slots on the motherboard with the RAM sticks, then insert and secure the RAM.\n4. Install the power supply. Place the power supply into the back of the computer case, then connect the necessary cables to the motherboard.\n5. Install the storage. Securely attach the hard drive and/or SSD to the case.\n6. Install the graphics card (optional). Insert the graphics card into the appropriate slot on the motherboard, then connect the power cables to it.\n7. Connect all of the cables. Connect the power button, USB, audio, and video cables to the motherboard.\n8. Close the case. Secure the case and plug in all of the necessary cables.\n9. Boot up the system. Turn on the system and follow the instructions to install the operating system on the storage device.",
+    "generator": "text_davinci_003"
+  }
+]

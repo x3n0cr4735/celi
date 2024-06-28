@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Recommend some helpful activities or conversation starters to use at meetups to break the ice.",
+    "output": "1. Introduce Yourself - Have each person in the group introduce themselves and share one interesting fact about themselves.\n2. Two Truths & a Lie - Have each person share two truths and one lie about themselves, and let the others guess which one is the lie.\n3. Group Brainstorm - Ask a thought-provoking question and have the group brainstorm together.\n4. Name Game - Have everyone go around the room saying their name and something they like or something funny.\n5. Guessing Game - Have everyone write down three objects and ask the others to guess what they are.\n6. Picture Description - Have everyone draw a picture and have the others describe it.\n7. Charades - Have each person act out a movie, book, or song and have the others guess what it is.\n8. Icebreaker Questions - Ask the group some fun icebreaker questions such as \u201cIf you could be any animal, what would you be?\u201d or \u201cWhat is the strangest thing you have ever eaten?\u201d",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Convert the given HTML into Markdown format.\n\n<code>Use `code` in your Markdown file.</code>",
+    "output": "`Use `code` in your Markdown file.`",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Extract the method that has been used in the research from the abstract of the paper. Give the exact sentences from the abstract that discuss the method.\n\nWe present a state-of-the-art speech recognition system developed using end-to-end deep learning. Our architecture is significantly simpler than traditional speech systems, which rely on laboriously engineered processing pipelines; these traditional systems also tend to perform poorly when used in noisy environments. In contrast, our system does not need hand-designed components to model background noise, reverberation, or speaker variation, but instead directly learns a function that is robust to such effects. We do not need a phoneme dictionary, nor even the concept of a \"phoneme.\" Key to our approach is a well-optimized RNN training system that uses multiple GPUs, as well as a set of novel data synthesis techniques that allow us to efficiently obtain a large amount of varied data for training. Our system, called Deep Speech, outperforms previously published results on the widely studied Switchboard Hub5'00, achieving 16.0% error on the full test set. Deep Speech also handles challenging noisy environments better than widely used, state-of-the-art commercial speech systems.Collapse",
+    "output": "\"Our architecture is significantly simpler than traditional speech systems, which rely on laboriously engineered processing pipelines; these traditional systems also tend to perform poorly when used in noisy environments. In contrast, our system does not need hand-designed components to model background noise, reverberation, or speaker variation, but instead directly learns a function that is robust to such effects. Key to our approach is a well-optimized RNN training system that uses multiple GPUs, as well as a set of novel data synthesis techniques that allow us to efficiently obtain a large amount of varied data for training.\"",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You need to come up with the names of some of the papers that relate to the paper you are given.\n\nRoMQA: A Benchmark for Robust, Multi-evidence, Multi-answer Question Answering",
+    "output": "1. Neural Network-Based Multi-Evidence Question Answering\n2. Robust Question Answering with Multi-evidence Fusion\n3. Multi-evidence Knowledge Fusion for Robust Question Answering\n4. Multi-evidence Question Answering: A Survey\n5. Multi-evidence Question Answering with Deep Reinforcement Learning\n6. Robust Multi-evidence Question Answering: A Comprehensive Review\n7. Analyzing and Scaling Robust Multi-evidence Question Answering\n8. Multi-evidence Question Answering with Graph Neural Networks",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Create a short, concise summary of the paper based on its abstract.\n\nFew-shot learning (FSL) is one of the key future steps in machine learning and raises a lot of attention. In this paper, we focus on the FSL problem of dialogue understanding, which contains two closely related tasks: intent detection and slot filling. Dialogue understanding has been proven to benefit a lot from jointly learning the two sub-tasks. However, such joint learning becomes challenging in the few-shot scenarios: on the one hand, the sparsity of samples greatly magnifies the difficulty of modeling the connection between the two tasks; on the other hand, how to jointly learn multiple tasks in the few-shot setting is still less investigated. In response to this, we introduce FewJoint, the first FSL benchmark for joint dialogue understanding. FewJoint provides a new corpus with 59 different dialogue domains from real industrial API and a code platform to ease FSL experiment set-up, which are expected to advance the research of this field. Further, we find that insufficient performance of the few-shot setting often leads to noisy sharing between two sub-task and disturbs joint learning. To tackle this, we guide slot with explicit intent information and propose a novel trust gating mechanism that blocks low-confidence intent information to ensure high quality sharing. Besides, we introduce a Reptile-based meta-learning strategy to achieve better generalization in unseen few-shot domains. In the experiments, the proposed method brings significant improvements on two datasets and achieve new state-of-the-art performance.",
+    "output": "This paper introduces FewJoint, a benchmark for the FSL problem of dialogue understanding composed of two tasks: intent detection and slot filling. The paper also introduces a trust gating mechanism and a Reptile-based meta-learning strategy to improve performance. Experiments show that these strategies lead to state-of-the-art performance.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You will need to compose the ABC notation for a given song.\n\nThe South Wind",
+    "output": "X:1\nT:The South Wind\nM:4/4\nK:D\nD2A2|D6|D2A2|D2F2|D4E2|D6|D2F2|D2A2|D6|D2A2|D2F2|D4E2|D4||D2D2|D6|D2D2|D2F2|D4E2|D6|D2F2|D2A2|D6|D2A2|D2F2|D4E2|D4||",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Categorize the given magazine based on its content into one of the categories: Politics, Entertainment News, Tech News, Business News, Parenting & Kids, Health & Healing, Cooking, Food & Wine, and Arts & Literature,\n\nInc.",
+    "output": "Business News",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Decide if the given email belongs to the Promotions or Social category.\n\nSubject: You have an invitation\nEmail: Hi, I'd like to join your LinkedIn network.",
+    "output": "Social",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "The story of a movie has been described using many emojis. You need to guess the name of the movie based on the emojis.\n\n\ud83e\uddd9\u200d\u2642\ufe0f\ud83d\udeaa\ud83d\udcda\ud83e\udd85\u26a1",
+    "output": "Harry Potter and the Philosopher's Stone",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Come up with an interesting idea for a new movie plot. Your plot should be described with a title and a summary.",
+    "output": "Title: The King's Rival \nSummary: After a long period of peace and prosperity, a powerful kingdom is thrown into disarray when a mysterious figure appears and challenges the king for the throne. The figure is none other than the king's long-lost twin brother, who had been presumed dead. As the king and his brother battle for control of the kingdom, they must also confront their shared past and the secrets that have kept them apart for so long. In the end, only one can emerge triumphant.",
+    "generator": "text_davinci_003"
+  }
+]

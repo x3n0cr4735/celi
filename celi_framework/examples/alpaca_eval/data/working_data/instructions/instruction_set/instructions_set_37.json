@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "How to start learning guitar and become a master at it?",
+    "output": "1. Start by purchasing a guitar and the necessary accessories, such as a guitar strap, picks, and a tuner.\n2. Learn the basics of guitar anatomy, including the different parts of the guitar, how to tune it, and how to adjust the strings.\n3. Learn the basics of guitar playing, such as the names of the strings, chords, scales, and techniques.\n4. Find a mentor or instructor to help guide you in learning guitar and provide feedback on your progress.\n5. Practice regularly, focusing on the basics and gradually adding more complex techniques.\n6. Listen to guitarists you admire and learn from their techniques.\n7. Find a style of guitar playing that you enjoy and focus on mastering it.\n8. Play with other guitarists and interact with the music community.\n9. Set goals for yourself and strive to achieve them.\n10. Most importantly, enjoy the process!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How to code the snake game in C that will be smooth and it will use images to animate whole level.",
+    "output": "1. Create a game window and set it up for the snake game. This includes setting up the background, colors, and other graphical elements.\n\n2. Create a two-dimensional array to store the game board. This array will store the position of the snake, the food, and any obstacles.\n\n3. Create the game's logic. This includes functions to move the snake based on user input, to check for collisions with walls or obstacles, and to spawn food and obstacles.\n\n4. Create the animation loop. This loop will update the game board based on the logic created in the previous step. It will also draw the game board with images for the snake, food, and obstacles.\n\n5. Create a main function to set up the game window and start the animation loop.\n\n6. Test the game and make any necessary changes.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Bob has two sons. John and Jay. Jay has one brother and father. The father has two sons.\nJay's brother has a brother and a father. Who is Jay's brother.",
+    "output": "John",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "write a eulogy for my 100 year old grandma who was married twice, has over 30 grandkids. she used to foster babies, many of them. she liked humming birds and traveling. she was from south dakota and she helped raised me, her first great grand child",
+    "output": "Today, we are here to celebrate the life of an incredible woman, my 100 year old grandma. She was an amazing mother, grandmother, foster mom, and great-grandmother. Her two marriages brought her 30 grandkids and many more foster children who she cared for as if they were her own.\n\nGrandma was a lover of nature, especially hummingbirds, and was always eager to explore and travel. She was born and raised in South Dakota, but she never hesitated to take a road trip or board a plane to experience new places. Her adventurous spirit was infectious and we all remember fondly the trips she took us on.\n\nGrandma was especially fond of me, her first great grandchild. She was instrumental in raising me and I will always remember her warm hugs, contagious laughter, and the wisdom she imparted on me.\n\nGrandma\u2019s life was full of love, joy, and adventure. We will all miss her dearly, but are grateful and blessed to have had her in our lives. Let us remember her with love and cherish the memories we have of her.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Is there a true, most ethical response to the Trolley Problem, in which a person can either sacrifice the lives of 5 people, by not pulling a lever, or sacrifice the life of 1 person, but have to pull the lever themselves, thus directly causing that death by action, rather than causing 5 deaths, but by inaction?",
+    "output": "No, there is no true, most ethical response to the Trolley Problem. Different people may have different ethical perspectives on this dilemma, so there is no single, universal answer that is considered the most ethical.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How do I normalize a vector?",
+    "output": "To normalize a vector, first calculate the magnitude (length) of the vector, then divide each of the vector's components by the magnitude. The result will be a unit vector (a vector with a magnitude of 1) that points in the same direction as the original vector.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Make ASCII art of a cat",
+    "output": "/\\_/\\\n( o.o )\n > ^ <",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "explain what the theory of sexual selection is and give an example.",
+    "output": "The theory of sexual selection is the idea that certain traits have evolved in order to make an individual more attractive to potential mates. This can be through visual or vocal signals, as well as physical attributes. An example of this is the peacock's tail, which has grown longer and more colorful over time in order to attract mates.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is a Dyson Sphere?",
+    "output": "A Dyson Sphere is a hypothetical megastructure that completely encompasses a star and captures most or all of its power output. The concept was first described by physicist Freeman Dyson in 1959. The structure would consist of a vast shell of solar panels orbiting a star, collecting its energy and redistributing it for use by an advanced civilization.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Write a whitepaper for our Decentralized hedge fund - Kunji",
+    "output": "Kunji: A Decentralized Hedge Fund\n\nKunji is a decentralized hedge fund that is designed to provide users with a secure, automated, and efficient way to invest in digital assets. Our platform is built on blockchain technology with a focus on providing a secure, transparent, and reliable way to invest in the digital asset markets.\n\nKunji is designed to provide users with a secure platform that allows them to invest in digital assets without the risk associated with centralized exchanges, such as hacker attacks and thefts. Our platform is powered by smart contracts, allowing users to trust that their investments are secure and protected.\n\nKunji also provides users with the ability to invest in a variety of digital assets, such as cryptocurrency, tokens, and other digital assets. We have developed a user-friendly platform that allows users to easily and quickly select the assets they wish to invest in and begin trading. Our platform also provides users with a wide range of tools to manage their investments, such as portfolio tracking and risk management.\n\nKunji is designed to be a secure and reliable platform for digital asset investment. We have implemented the highest levels of security to ensure that users\u2019 investments are secure and protected. Our platform also features a built-in system of checks and balances that provides users with the assurance that their investments are safe and secure.\n\nKunji is the perfect solution for those looking to invest in digital assets without the risks associated with centralized exchanges. Our platform is designed to provide users with a secure and reliable way to invest in digital assets and manage their investments. We invite you to join us and experience the power of Kunji.",
+    "generator": "text_davinci_003"
+  }
+]

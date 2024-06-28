@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You will be asked to answer the following question as part of the LinkedIn Skill assessments.\n\nYou find that your project has a tag and branch both named push-notifications, which causes confusion when trying to print out given reference. How can you specify which branch you want to look at?",
+    "output": "To specify which branch you want to look at, you can use the Git command \"git checkout <branch-name>\". This command will change the active branch to the one specified in the command. Additionally, you can use the Git command \"git branch -v\" to list the branches and their corresponding commit references.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Take the title of the product and extract its attributes. The attributes in this case refer to the characteristics of the products, such as their brand and color. Your answer must a list following the format of \"attribute: value\".\n\nSAMSUNG 980 PRO SSD 2TB PCIe NVMe Gen 4 Gaming M.2 Internal Solid State Hard Drive Memory Card, Maximum Speed, Thermal Control, MZ-V8P2T0B",
+    "output": "Brand: Samsung \nCapacity: 2TB \nInterface: PCIe NVMe Gen 4 \nForm Factor: M.2 Internal \nType: Solid State Hard Drive \nTechnology: Maximum Speed, Thermal Control \nModel: MZ-V8P2T0B",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You should write a Product Description that will persuade the buyer that the product is beneficial.\n\nFlipslide Game, Electronic Handheld Game | Flip, Slide, and Match the Colors to Beat the Clock - 4 Game Modes - Multiplayer Fun",
+    "output": "Welcome to the Flipslide Game, an electronic handheld game that will keep you in the game with hours of entertainment! With 4 exciting game modes and multiplayer fun, you can challenge yourself and your friends to see who can beat the clock. Flip, slide, and match the colors as you tap and slide your way to victory. Sharpen your skills and strategize your moves to be the best. This game is perfect for adults and children alike, so get ready to have a blast with the Flipslide Game!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "What other Amazon products might interest someone who visited the given product?\n\nZeroll Zerolon Hardcoat Anodized Commercial Ice Cream Scoop with Unique Liquid Filled Heat Conductive Handle Easy Release Made in USA, 1.5-Ounce, Black",
+    "output": "Other Amazon products that might interest someone who visited the given product include: ice cream makers, ice cream containers, ice cream sundae dishes, ice cream spoons, ice cream toppings, and ice cream scoop holders.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Compare the given item with similar products based on its properties such as price, rating, etc. For product comparison, use a table and separate the columns with \"|\".\n\nItem: iBayam Journal Planner Pens Colored Pens Fine Point Markers Fine Tip Drawing Pens Porous Fineliner Pen for Journaling Writing Note Taking Calendar Coloring Art Office Back to School Supplies, 18 Color",
+    "output": "| Item | Price | Rating |\n| --- | --- | --- |\n| iBayam Journal Planner Pens Colored Pens Fine Point Markers Fine Tip Drawing Pens Porous Fineliner Pen for Journaling Writing Note Taking Calendar Coloring Art Office Back to School Supplies, 18 Color | $15.99 | 4.7/5 |\n| Shuttle Art Dual Tip Art Markers, 60 Colors Fine Point and Chisel Tip Marker Pens | $17.99 | 4.7/5 |\n| Pentel Arts Color Pen Set with Brush, Fine and Chisel Tip Markers, 18 Colors | $14.99 | 4.5/5 |\n| Crayola Super Tips Washable Markers, 100 Count | $15.99 | 4.8/5 |",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a  review based on the given information.\n\n- Product: Persil Discs Laundry Detergent Pacs, Original Scent, High Efficiency (HE) Compatible, Laundry Soap, 62 Count\n- Sentiment: Positive",
+    "output": "I recently tried the Persil Discs Laundry Detergent Pacs and I am so glad I did! The original scent is delightful and I love how it works in HE compatible machines. My clothes come out looking and smelling great! I highly recommend this laundry soap for anyone who wants a high-quality detergent that gets the job done.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a short description about the given movie or series.\n\nThe Witcher (2019)",
+    "output": "The Witcher (2019) is a dark fantasy drama series based on the best-selling book series of the same name. It stars Henry Cavill as Geralt of Rivia, an enhanced monster hunter with supernatural powers. It follows Geralt's journeys and adventures as he searches for his destiny in a world filled with magical creatures, dangerous foes, and powerful allies. The series also stars Freya Allan, Anya Chalotra, Jodhi May, and Bj\u00f6rn Hlynur Haraldsson.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Think of some series or movies that would be enjoyable for someone who liked the given series.\n\nSquid Game",
+    "output": "- Splatoon\n- Ocean's 11\n- Spongebob Squarepants\n- Moby Dick\n- Finding Nemo\n- The Little Mermaid\n- The Incredibles\n- Mission: Impossible\n- The Avengers\n- Jaws",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Give examples of popular shows and movies in the genre.\n\nGenre: Crime TV Shows",
+    "output": "1. Breaking Bad\n2. Narcos\n3. The Wire\n4. CSI\n5. Law & Order\n6. Dexter\n7. Homeland\n8. Boardwalk Empire\n9. The Sopranos\n10. True Detective",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "In what genres does the given movie or series fall?\n\nManifest",
+    "output": "Drama, Mystery, Thriller",
+    "generator": "text_davinci_003"
+  }
+]

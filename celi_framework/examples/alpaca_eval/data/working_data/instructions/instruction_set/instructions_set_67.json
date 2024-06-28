@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Change the first person to the third person in the given sentence. The meaning should be kept, but you can paraphrase it or expand it in order to have a better pose.\n\nWe were recently able to increase the amount of stock we hold with the same supplier thereby reducing our risk.",
+    "output": "They were recently able to increase the amount of stock held with the same supplier, thus decreasing their risk.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You should capitalize the sentence according to the guide.\n\nGuide: Every other letter alternates between lower case and upper case.\nSentence: A giant spider blocks your path.",
+    "output": "aGiaNt SpIdEr BlOcKs YoUr PaTh.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Create alliterations by finding synonyms for words in the given sentence.\n\nDavid wears a hat everyday.",
+    "output": "David dons a dome daily.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Convert the given description to a bash command.\n\nread the first 10 lines from f",
+    "output": "head -n 10 f",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Please prepare a table containing a summary of the information of the participants at the conference.\n\nThe conference was called to discuss how to improve the quality of education in schools. The main speaker was Professor Crew Purdie (cpurdie@email.com), who spoke about the importance of setting high standards for students and teachers. He said that schools should be places where students can learn and be challenged. Other speakers included Teacher Oliver Malachi (oliver@email.com) and Parent Kolby Reese (kolbyreese82@email.com). The teacher talked about the need for teachers to be well-prepared and to have high expectations for their students. The parent spoke about the need for parents to be involved in their children's education. There was also a discussion about the importance of funding for schools.",
+    "output": "Participants at the Conference \n\nName \t\t\t\t\t\tEmail Address \t\t\t\t\tTopic Discussed \nProfessor Crew Purdie \tcpurdie@email.com \t\t\tSetting high standards for students and teachers \nTeacher Oliver Malachi\toliver@email.com \t\t\tNeed for teachers to be well-prepared and have high expectations \nParent Kolby Reese \t\tkolbyreese82@email.com \tNeed for parents to be involved in their children's education \nDiscussion \t\t\t\t\t\t\t\t\t\t\t\tImportance of funding for schools",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "List the concepts that should be learned before approaching the given complex concept.\n\nDeep Learning",
+    "output": "1. Machine Learning\n2. Artificial Intelligence\n3. Neural Networks\n4. Supervised and Unsupervised Learning\n5. Statistics\n6. Probability\n7. Linear Algebra\n8. Data Structures\n9. Optimization Algorithms\n10. Programming Languages (Python, R, etc.)",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Given a sentence that may be ambiguous, rewrite the sentence using less ambiguous words.\n\nThe chicken is ready to eat.",
+    "output": "The chicken is cooked and ready to be served.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Assess the sentiment of the given tweet and categorize it as Positive, Negative, or Neutral.\n\n\"This is the best cheat-sheet paper that I've found in a LONG time.\"",
+    "output": "Positive",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are given a Python command and are required to convert it into Ruby.\n\nprint(\"Hello World!\")",
+    "output": "puts(\"Hello World!\")",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are given a sentence in first-order logic. Translate it into natural language.\n\n\u2203x\u2200y(soldier(x)\u2192general(x,y))",
+    "output": "There exists an x such that for all y, if x is a soldier then x is a general of y.",
+    "generator": "text_davinci_003"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Give me an idea of the mental exercises you do to inspire yourself.",
+    "output": "I like to start my day by visualizing my goals and writing down my intentions for the day. I also practice positive self-talk and affirmations to remind myself of what I am capable of and to stay motivated. I also like to read inspiring books, listen to motivational podcasts, and practice mindfulness and meditation to stay focused and energized.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Make a list of outdoor activities that are suitable for the given weather condition.\n\nTemperature: 57 F, Showers",
+    "output": "1. Hiking (if trails are not too muddy)\n2. Camping\n3. Fishing\n4. Canoeing/Kayaking\n5. Bird watching\n6. Mountain biking (if trails are not too muddy)\n7. Nature photography\n8. Horseback riding (if trails are not too muddy)\n9. Geocaching\n10. Stargazing",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Please provide us with a list of the best conservation starter questions related to the weather.",
+    "output": "1. What are the current global weather patterns?\n2. What are the expected impacts of climate change on weather patterns?\n3. How can we reduce our impact on the weather?\n4. What actions can we take to mitigate the effects of climate change on weather patterns?\n5. What are the most effective strategies for conserving resources related to weather?\n6. How can we better prepare for extreme weather events?\n7. How can we reduce our energy consumption in order to reduce the effects of climate change?\n8. What are the most effective methods for conserving water during periods of drought?\n9. What are the potential risks associated with extreme weather events?\n10. How can we reduce air pollution in order to improve air quality and prevent air-related health issues?",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "In relation to the given weather scenario, give some tips on how to adjust the travel plans with it.\n\na sudden temperature change",
+    "output": "1. Check the forecast for the area to be visited and plan accordingly.\n2. Pack extra layers of clothing in case of sudden temperature changes.\n3. Wear appropriate clothing for the weather and temperature.\n4. Carry an umbrella or raincoat if rain is forecasted.\n5. Plan activities indoors in case of rainy or cold weather.\n6. Plan for flexible outdoor activities that can be done regardless of the weather.\n7. Check the local news for weather updates and adjust plans accordingly.\n8. Make sure to stay hydrated and drink plenty of fluids.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a to-do list based on the given information.\n\nDaily tasks in the pharmacy",
+    "output": "1. Greet customers\n2. Restock shelves\n3. Answer customers' questions\n4. Maintain pharmacy records\n5. Prepare prescriptions\n6. Receive and process payments\n7. Follow safety precautions\n8. Monitor inventory levels\n9. Ensure compliance with regulations\n10. Dispose of expired medication",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Design a template table for keeping track of all subscriptions.",
+    "output": "Subscription Name | Cost | Payment Method | Renewal Date | Cancellation Date\n------------------|------|---------------|--------------|------------------\n  |  |  |  |",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Plan an agenda for the daily standup meetings. Assign a time duration to each topic on the agenda.",
+    "output": "Daily Standup Meeting Agenda:\n\n1. Check-in (5 minutes): Each team member will provide a brief update on their progress since the last standup.\n\n2. Highlight any blockers (5 minutes): Team members can discuss any impediments or challenges they are facing.\n\n3. Set goals for the day (5 minutes): Team members will set individual goals for the current day and discuss any team goals.\n\n4. Celebrate successes (3 minutes): Team members can celebrate any successes they have achieved since the last standup. \n\n5. Wrap up (2 minutes): The team leader will review the agenda and provide a summary of the meeting.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Answer the following question.\n\nHow do you say \"good evening\" in French.",
+    "output": "Bonsoir.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "What sound does this make?\n\n\u597d",
+    "output": "This sound is a Chinese/Mandarin character that is pronounced \"hao\".",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Give a grammar tip on how to end a German verb.",
+    "output": "German verbs are usually ended with \"-en\" in the infinitive form. For example, \"spielen\" (to play) or \"essen\" (to eat).",
+    "generator": "text_davinci_003"
+  }
+]

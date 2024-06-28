@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "helpful_base",
+    "instruction": "What year was the Yamato Battleship built?",
+    "output": "The Yamato Battleship was built in 1941.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Did they ever announce the release date for the new elder scrolls game?",
+    "output": "No, Bethesda has not announced the release date for the new Elder Scrolls game.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Danish dishes. Can you give me a recipe for Fl\u00e6skesteg?",
+    "output": "Ingredients:\n-4 pounds pork shoulder roast\n-3 tablespoons salt\n-3 tablespoons freshly ground pepper\n-3 tablespoons caraway seeds\n-Optional: 8 slices of bacon\n\nInstructions:\n1. Preheat oven to 375 degrees F (190 degrees C).\n2. Place pork shoulder roast in a roasting pan.\n3. Rub salt, pepper, and caraway seeds all over the pork roast.\n4. If desired, lay bacon slices over the top of the roast.\n5. Roast in preheated oven for 1 hour and 15 minutes, or until an instant-read thermometer inserted into the center of the roast reads 145 degrees F (63 degrees C).\n6. Allow roast to rest for 10 minutes before slicing and serving. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Please tell me about the romantic relationship between Julius Caesar and Cleopatra.",
+    "output": "Julius Caesar and Cleopatra had a passionate and complex romantic relationship. The two first became acquainted when Julius Caesar visited Egypt in 48 BC when Cleopatra was only 18. It is said that Cleopatra was so captivating that Julius instantly fell in love with her. After their first meeting, Caesar and Cleopatra became inseparable. They shared a deep bond, with Caesar taking Cleopatra as his mistress and visiting her often. Caesar even went so far as to have a palace built for Cleopatra, the Caesarion, in Alexandria. The two had a son together, Caesarion, in 47 BC, and Caesar celebrated this with a triumphal procession in Rome. Their relationship continued until Caesar's assassination in 44 BC, when Cleopatra was forced to flee Egypt.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Hi, I'm in the mood for a Bloody Mary. Can you give me a recipe for making one?",
+    "output": "Ingredients:\n- 4 ounces tomato juice\n- 1 ounce vodka\n- 2 dashes Worcestershire sauce\n- 2 dashes hot sauce\n- 1/4 teaspoon horseradish\n- 1/4 teaspoon celery salt\n- 1/4 teaspoon ground black pepper\n- 1/2 lemon, juiced\n- Garnish of celery stalk and lemon wedge\n\nInstructions:\n1. Fill a highball glass with ice.\n2. Pour in the tomato juice, vodka, Worcestershire sauce, hot sauce, horseradish, celery salt, and pepper.\n3. Stir to combine.\n4. Squeeze in the lemon juice.\n5. Garnish with a celery stalk and a lemon wedge.\n6. Enjoy your Bloody Mary!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What are some famous world music artists?",
+    "output": "1. Ravi Shankar\n2. Yo-Yo Ma\n3. Youssou N'Dour\n4. Cesaria Evora\n5. Buena Vista Social Club\n6. R. Carlos Nakai\n7. Ali Farka Toure\n8. Amadou & Mariam\n9. Los Lobos\n10. Tinariwen",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "what are some good ways to spread ashes?",
+    "output": "1. Bury the ashes in a cemetery or memorial park.\n2. Scatter the ashes in a meaningful location, such as a favorite spot of the deceased or a place they loved to visit.\n3. Place the ashes in a biodegradable urn and float them on a body of water.\n4. Place the ashes in an urn and bury them at sea.\n5. Place the ashes in an artificial reef and drop them into the ocean.\n6. Create a memorial diamond or glass sculpture with the ashes.\n7. Place the ashes in a special keepsake such as a locket or pendant.\n8. Create a living memorial by planting a tree with the ashes.\n9. Place the ashes in fireworks and scatter them into the sky.\n10. Create a memorial piece of artwork with the ashes.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Ukrainian dishes. Can you give me a recipe for Okroshka?",
+    "output": "Okroshka Recipe:\nIngredients:\n-2 eggs\n-1 medium cucumber, diced\n-1/2 medium onion, diced\n-1/2 cup diced cooked potatoes\n-1/2 cup diced cooked carrots\n-1/2 cup diced cooked beets\n-1/2 cup diced cooked ham\n-1/2 cup diced cooked sausage\n-1/4 cup diced dill pickle\n-1/2 cup kefir or sour cream\n-2 tablespoons prepared mustard\n-Salt and pepper to taste\n\nInstructions:\n1. Boil the eggs until hard-boiled and let cool. Peel and chop into cubes.\n2. Mix together the cucumber, onion, potatoes, carrots, beets, ham, sausage, and pickle in a large bowl.\n3. In a separate bowl, whisk together the kefir or sour cream, mustard, salt, and pepper.\n4. Pour the kefir mixture slowly over the vegetables and mix until everything is evenly coated.\n5. Gently fold in the chopped eggs.\n6. Serve cold. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Danish dishes. Can you give me a recipe for Koldsk\u00e5l?",
+    "output": "Ingredients:\n- 4 cups of cold buttermilk \n- 2 tablespoons of sugar \n- 1 teaspoon of ground cinnamon \n- 2 tablespoons of chopped almonds \n- 2 tablespoons of raisins \n- 3 tablespoons of diced apple \n\nInstructions:\n1. In a large bowl, mix together the buttermilk and sugar until blended.\n2. Add the ground cinnamon, almonds, raisins, and diced apple. Stir until all ingredients are combined.\n3. Chill the mixture for at least 1 hour before serving.\n4. Serve the Koldsk\u00e5l in individual glasses or bowls. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I've read the book \"The Twelve Caesars\" by Suetonius, a few times. I'm curious about the context, of when he wrote.",
+    "output": "Suetonius wrote The Twelve Caesars during the early 2nd century AD. It is a biographical work that details the lives and reigns of the first twelve Roman emperors, from Julius Caesar to Domitian. The work was initially published in 121 AD, though it was probably written between 110 and 130 AD.",
+    "generator": "text_davinci_003"
+  }
+]

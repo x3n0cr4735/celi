@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "How do I check my system drive for errors on Windows?",
+    "output": "1. Open File Explorer.\n2. Right-click on the system drive (usually labeled as \"C:\").\n3. Select Properties.\n4. Select the Tools tab.\n5. Click the Check button under Error checking.\n6. Select the Scan and repair drive option.\n7. Click Scan.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Can I compile python code to make it faster?",
+    "output": "Yes, you can compile Python code to make it faster. Python code can be compiled using various tools like Nuitka, PyPy, and Cython. These tools can be used to optimize the performance of Python code by compiling it into a language that can be executed more efficiently.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Given two matrices A and B which you can multiply together, does (A B)^T = A^T B^T or B^T A^T?",
+    "output": "B^T A^T",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is the meaning of life?",
+    "output": "The meaning of life is a philosophical question that has been debated for centuries without a definitive answer. Different people may have different interpretations, but some common themes include finding inner peace and fulfillment, living with purpose and intention, and finding joy in everyday experiences.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "what is the color of mars",
+    "output": "The color of Mars is red.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Write me a function in JavaScript that takes an array of 5 numbers as input and checks if any of the numbers is a valid prime number, if it is print the number to the console.",
+    "output": "function isPrimeNumber(arr) {\n  for(let i = 0; i < arr.length; i++) {\n    let num = arr[i];\n    let isPrime = true;\n\n    // Check if num is divisible by any number from 2 to num - 1\n    for(let j = 2; j < num; j++) {\n      if(num % j === 0) {\n        isPrime = false;\n        break;\n      }\n    }\n    // If num is prime, print it to the console\n    if(isPrime) {\n      console.log(num);\n    }\n  }\n}",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "write me script that shows the saves a dictionnary in json format in a file in python",
+    "output": "import json\n\n# create a dictionary\ndata = {\n    \"name\": \"John Doe\",\n    \"age\": 28,\n    \"city\": \"New York\"\n}\n\n# save the dictionary into a json file\nwith open('data.json', 'w') as outfile:\n    json.dump(data, outfile)\n\nprint(\"Data is saved in file successfully\")",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is the james webb telescope",
+    "output": "The James Webb Space Telescope (JWST) is a space telescope set to launch in 2021 that will be the successor to the Hubble Space Telescope. It is designed to observe the infrared universe and will have a 6.5-meter primary mirror, making it the largest and most powerful space telescope ever built. The telescope is named after James E. Webb, the second administrator of NASA.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "can you write code?",
+    "output": "Yes, I can write code! Here is an example of a basic \"Hello, World!\" program written in Python:\n\nprint(\"Hello, World!\")",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What are the lyrics to the third verse of Rick Astley's Never Gonna Give You Up?",
+    "output": "\"But you show me a smile and then\nI'm gonna know for a while\nWe're gonna be alright now\nAnd now I'm gonna take a chance\nCause this romantic adventure\nIs gonna be the sweetest thing I've ever known\"",
+    "generator": "text_davinci_003"
+  }
+]

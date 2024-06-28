@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "How does metabolism work?",
+    "output": "Metabolism is the process by which the body converts food into energy. It involves a series of chemical reactions that break down carbohydrates, fats, and proteins in the food and convert them into energy that the cells can use. The energy is then used for activities such as growth, repair, and movement.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Explain the difference between sets and lists in Python.",
+    "output": "Sets and lists are both data structures in Python, but they have some key differences. Sets are unordered collections of unique elements, meaning that they cannot contain duplicate elements and elements cannot be accessed by their index. This means that sets are ideal for operations such as membership testing, and removing duplicate elements. Lists, on the other hand, are ordered collections of elements which can contain duplicate elements. Elements in a list can be accessed by their index, and lists are ideal for operations such as iteration and slicing.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "List the pieces of a reinforcement learning system that can learn how to play Atari games.",
+    "output": "1. Reward function: A function that rewards the agent for performing desired actions in the environment.\n2. Environment: The environment in which the agent operates, such as an Atari game.\n3. State space: The set of all possible states in the environment.\n4. Action space: The set of all possible actions the agent can take in the environment.\n5. Policy: A mapping from the state space to the action space.\n6. Model: A model of the environment that the agent can use to predict the effects of its actions.\n7. Value function: A function that estimates the long-term reward of the agent in each state.\n8. Optimization algorithm: An algorithm that adjusts the policy, model, and value function to maximize the long-term reward.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Why can time seem to slow down in dangerous situations?",
+    "output": "When we are in a dangerous situation, our body releases adrenaline and cortisol. These hormones trigger a \"fight-or-flight\" response in our bodies, which can cause our heart rate to increase and our senses to become heightened. This heightened state of awareness can make time seem to slow down as we focus on the details of our environment in order to assess the danger. This phenomenon is often referred to as \"temporal distortion\" and can give us the extra time we need to react to the situation.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "I have a project due in 2 weeks, that will determine if I get my diploma. And I'm nowhere near the end of it. However I just spent an entire afternoon labelling prompts on Open Assistant. Am I going in the right direction?",
+    "output": "No, unfortunately labelling prompts on Open Assistant is not the right direction for completing your project in two weeks. You should focus on completing the actual project itself, and make sure you have enough time to do a thorough job. Try breaking the project down into smaller tasks and setting yourself a timeline to complete each one. Don't forget to give yourself breaks and take care of yourself during this time. Good luck!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What type of Rifle is an AK47?",
+    "output": "An AK47 is an assault rifle.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What are some words to express love and affection in Tolkien's Quenya?",
+    "output": "In Quenya, some words to express love and affection include:\n\n-Aiya - 'dear'\n-Elen s\u00edla l\u00famenn' omentielvo - 'a star shines on the hour of our meeting'\n-Eru - 'divine'\n-Ilta - 'beloved'\n-Manen - 'in my heart'\n-Nai - 'yes'\n-N\u00e9 - 'mine'\n-Nyelle - 'my soul'\n-R\u00e1 - 'beloved'\n-\u00dava - 'desire'\n-Vanya - 'beautiful'",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "why the sky is blue?",
+    "output": "The sky is blue because of the way that the Earth's atmosphere scatters sunlight. When sunlight hits the atmosphere, blue light is scattered in all directions more than other colors. This is why we see a blue sky most of the time.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Should I use the boiling water method or Ammonia fermentation to make dye out of mixed Hypogymnia lichen?",
+    "output": "You should use the boiling water method to make dye out of mixed Hypogymnia lichen.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Hello there Obi One Kenobi",
+    "output": "Hello there, Obi-One Kenobi.",
+    "generator": "text_davinci_003"
+  }
+]

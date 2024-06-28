@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Give a brief description of the given category of movies and shows.\n\nPeriod Dramas",
+    "output": "Period Dramas are films and television shows that are set in a past era. They typically depict a historical or fictionalized account of the time period they are set in, and usually contain elements of romance, drama, and adventure. These stories often explore themes such as power, loyalty, and social norms.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Provide an example of how a table of contents can be generated automatically in a LATEX document. Make sure your example contains the necessary commands.",
+    "output": "\\documentclass{article}\n\\usepackage{tocloft}\n\n\\begin{document}\n\\tableofcontents\n\n\\cftsetindents{section}{0em}{2.3em}\n\\cftsetindents{subsection}{2.3em}{3.0em}\n\\cftsetindents{subsubsection}{4.6em}{3.6em}\n\n\\section{Introduction}\n\\subsection{Overview}\n\\subsubsection{Motivation}\n\\subsubsection{Goals}\n\n\\section{Methods}\n\\subsection{Data Collection}\n\\subsection{Analysis}\n\\subsubsection{Descriptive Statistics}\n\\subsubsection{Regression}\n\n\\section{Results}\n\\subsection{Descriptive Statistics}\n\\subsection{Regression Analysis}\n\n\\section{Conclusion}\n\\end{document}",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Imagine you have a FEN notation of a chessboard. How can you draw a board to show this state of the chessboard in LATEX? Create a LATEX code that includes all the required commands and packages.",
+    "output": "\\documentclass{article}\n\\usepackage{chessboard}\n\\begin{document}\n\\setchessboard{maxfields=8, maxrank=8, labelleft=false, labelbottom=false}\n\\chessboard[normalboard,\nsetblackpieces={Kd4,Qe2,Ra5,Ne3,Pf4,Pg5},\nsetwhitepieces={Ka6,Qb6,Rc7,Nf6,Pe7,Pf3}]\n\\end{document}",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "What is the output of the given LATEX code?\n\n\\documentclass{article}\n\\begin{document}\nFirst document. This is a simple example, with no \nextra parameters or packages included.\n\\end{document}",
+    "output": "A PDF document with the text \"First document. This is a simple example, with no extra parameters or packages included.\"",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You should find a few LATEX templates appropriate for the task at hand and list the links to them.\n\nHomework Assignment",
+    "output": "1. https://www.overleaf.com/latex/templates/homework-assignment-template/bpmptjvzfqcq\n\n2. https://www.overleaf.com/latex/templates/homework-assignment-template-2/kdvhfsydzsyt\n\n3. https://www.overleaf.com/latex/templates/homework-assignment-template-3/ppbxjvqmqycp",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a simple guide for uploading the bibliography database\n on Overleaf.",
+    "output": "1. Firstly, go to the Overleaf website and log in using your credentials.\n\n2. After logging in, create or open a project where you want to upload the bibliography.\n\n3. Now, click on the \u2018New File\u2019 icon at the top of the page and select \u2018Bibliography Database\u2019.\n\n4. Then click on the \u2018Choose File\u2019 button and select the bibliography database file from your computer.\n\n5. Finally, click on the \u2018Upload\u2019 button to upload the file.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Choose Spotify playlists that match the given mood. Provide a link to these playlists for easy access.\n\nFeeling Good",
+    "output": "https://open.spotify.com/playlist/37i9dQZF1DXdPec7aLTmlC?si=fU8v-zcXRhe6vVh2Qe6OQQ",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Curate a Spotify playlist based on the vibe. Publish this playlist as a song list.\n\nVibe: coding on weekend",
+    "output": "1. \"Focus\" by Hocus Pocus\n2. \"Coding All Night\" by Kid Koala\n3. \"Weekend\" by Mac Miller\n4. \"Coding in the Dark\" by The Glitch Mob\n5. \"Work It Harder\" by Daft Punk\n6. \"Computer Love\" by Kraftwerk\n7. \"Geeks Who Drink\" by The Flobots\n8. \"Code Monkey\" by Jonathan Coulton\n9. \"Coding Is Fun\" by The White Stripes\n10. \"Technologic\" by Daft Punk\n11. \"Programming\" by The Roots\n12. \"Code of Silence\" by Rush\n13. \"Everybody's Working for the Weekend\" by Loverboy\n14. \"Code Of The Streets\" by Guru\n15. \"Programming the Psycho-Rhythm\" by The Chemical Brothers",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "How would you describe the meaning of this lyrics? Describe some of the metaphors.\n\nMy lover\u2019s got humor\nShe\u2019s the giggle at a funeral\nKnows everybody\u2019s disapproval\nI should\u2019ve worshipped her sooner",
+    "output": "This lyrics is describing a lover with a great sense of humor and a zest for life. They are a source of light in dark situations, and the speaker regrets not appreciating them sooner. The metaphor of them being \"the giggle at a funeral\" is a vivid way of conveying how their presence can make even the most somber of times feel brighter.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Suggest some Audiobooks for First-Time Listeners. You can attract them by choosing popular works.",
+    "output": "1. Harry Potter and the Sorcerer's Stone by J.K. Rowling\n2. The Catcher in the Rye by J.D. Salinger\n3. To Kill a Mockingbird by Harper Lee\n4. The Great Gatsby by F. Scott Fitzgerald\n5. 1984 by George Orwell\n6. Pride and Prejudice by Jane Austen\n7. The Lord of the Rings by J.R.R. Tolkien\n8. The Hitchhiker's Guide to the Galaxy by Douglas Adams\n9. The Hunger Games by Suzanne Collins\n10. The Chronicles of Narnia by C.S. Lewis",
+    "generator": "text_davinci_003"
+  }
+]

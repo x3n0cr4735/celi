@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "koala",
+    "instruction": "explain The Death of Ivan Ilych",
+    "output": "The Death of Ivan Ilych is a novella written by Leo Tolstoy in 1886. It tells the story of a middle-class lawyer in St. Petersburg, Russia, whose comfortable life and sudden death via a terminal illness serves as the catalyst for a spiritual awakening. Ivan Ilych spends the last few weeks of his life reflecting on his wasted life and trying to find meaning in it. His death serves as a stark reminder to the reader of the fleeting nature of life and the importance of living a meaningful and purposeful life.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Why is it that only proteins, carbohydrates and fats are deemed to have caloric value?<br>Just to clarify - consider the hypothetical situation below:<br>100g of 'carbohydrates' = 400kCal<br>100g of 'protein' = 400kCal<br>100g of 'fat' = 900kCal<br>100g of 'vitamins, minerals and/or other electrolytes' = ?",
+    "output": "The caloric value of vitamins, minerals and/or other electrolytes is unknown because these nutrients are not sources of energy in the same way that proteins, carbohydrates, and fats are. Proteins, carbohydrates, and fats are macronutrients that provide the body with energy and are the only nutrients that contain calories. Vitamins, minerals, and other electrolytes are micronutrients that are essential for many bodily functions, but do not provide the body with energy.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Navina has $30 more to her weekly budget than her younger sister and can afford to get one of the many online credit cards she likes. What do they each have to spend?",
+    "output": "Navina has $60 to spend and her younger sister has $30 to spend.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "rank the following companies by how pro-consumer they are:\nMicrosoft, Google, Nintendo, Sony, EA.",
+    "output": "Google, Microsoft, Nintendo, Sony, EA.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Anytown Bank obtaining and using consumer reports in connection with any credit or insurance transaction that is not initiated by the consumer in order to make firm offers of credit or insurance is known as:\n\nA. Approving\nB. Counteroffering\nC. Endorsing\nD. Prescreening\nE. None of the above",
+    "output": "D. Prescreening",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "I\u2019m planning to visit Okinawa Japan from April 7th to April 10th. Do you have any recommendation on what to do while I\u2019m there?",
+    "output": "There are plenty of things to do in Okinawa Japan! Here are some of the top attractions that you should visit while you're there: \n\n-Visit the Churaumi Aquarium, one of the largest aquariums in the world. \n-Explore the Nakijin Castle Ruins, a UNESCO World Heritage Site. \n-Experience the traditional culture at the Okinawa World theme park. \n-Relax on the serene beaches of Nago City. \n-Go snorkeling or scuba diving in the crystal clear waters of Okinawa. \n-Visit the Okinawa Peace Memorial Park to learn more about the island's history. \n-Take a car tour around Okinawa's stunning natural beauty. \n-Explore the Shurijo Castle for an authentic Okinawa experience. \n-Go shopping at the Makishi Public Market for souvenirs and local produce. \n-Experience the nightlife of Okinawa and visit some of the local bars and clubs. \nEnjoy your time in Okinawa!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "I have this text: <br><br>We use professional processes. Use the photo delivery system, check the quality and send it to the customer immediately. We started editing digital photos from the first wave of 2000. Started with editing personal photos, and then spread our passion by editing wedding photos or restoring old photos for loved ones, friends and family. friends and customers. 2005 started a local photo shop and started commercial photo editing, product photography for manufacturers. 2007 implemented online projects on freelancer platforms.<br><br>Rewrite it in professional style to tell a touching story",
+    "output": "In 2000, we began our journey as digital photo editors, dedicating our time and energy to editing personal photos for friends and family. Our passion for photo editing only grew as we started to restore old photos for those we love and edit wedding photos for our customers. \n\nIn 2005, we opened our own local photo shop, providing professional services such as commercial photo editing and product photography for manufacturers. \n\nBy 2007, we had expanded our services to include online projects on freelancer platforms. With our professional processes and efficient photo delivery system, we were able to ensure quality and send photos to our customers in a timely manner. \n\nIt has been a long and rewarding journey, and we are grateful for the opportunity to share our passion with the world.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "define a new language that contains words that are with numbers and letters such as 'IL9op'",
+    "output": "I propose a new language called DigiLingual which combines words that contain both numbers and letters. DigiLingual is a language that is designed to combine the ease of communication that comes with spoken languages with the efficiency of computer languages. Words in DigiLingual are made up of both numbers and letters and can be used to represent ideas, objects, and actions. For example, IL9op could represent the action of opening a door.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Write me a 2000 word essay on a water safety engineering project.",
+    "output": "Water safety engineering is a highly important field of engineering that focuses on the safety of water resources and the protection of water quality. Projects related to water safety engineering can range from analyzing the potential for water contamination due to agricultural runoff, to designing and constructing water treatment plants, to developing methods of controlling water levels in reservoirs and rivers. Water safety engineering projects can also involve the development of new technologies to reduce the risk of waterborne diseases, as well as the development of technologies to improve the efficiency of water distribution systems.\n\nThe purpose of this essay is to discuss a water safety engineering project. Specifically, the project will focus on the development of a water purification system that will be used in a rural village in India. The system will be designed to provide clean drinking water to the village's population of approximately 500 people. \n\nThe project will begin by carrying out an initial assessment of the water needs of the village. This assessment will involve the collection of information about the existing water supply in the village, as well as the quality of the water. The assessment will also include the collection of information about the water sources that are available to the village, such as rivers, lakes, and groundwater sources. This information will be used to determine the quantity and quality of water that is available to the village, as well as the types of water treatment technologies that will be required to provide clean drinking water.\n\nThe next step of the project will involve the selection of a suitable water treatment technology. This will involve researching and evaluating various water treatment technologies, such as filtration, reverse osmosis, and ultraviolet light disinfection. The selection of the most appropriate water treatment technology will depend on a number of factors, such as the availability of suitable raw materials, the cost of the technology, and the efficiency of the technology.\n\nOnce a suitable water treatment technology has been selected, the project will involve the design and construction of the water purification system. This will involve the selection and installation of suitable pumps, filters, and other components. The design of the system will also involve the selection of appropriate materials for the construction of the system, such as PVC pipes, stainless steel tanks, and other components. \n\nThe next step of the project will involve the installation and commissioning of the water purification system. This will involve testing the system to ensure that it is operating correctly and that it is producing clean drinking water. The system will also need to be tested to ensure that it meets the requirements of the local regulatory bodies.\n\nThe final step of the project will involve the monitoring and maintenance of the system. This will involve regular testing of the water to ensure that it is safe for drinking, as well as the regular maintenance of the system components. Additionally, the project will involve the implementation of a water management plan to ensure that the water is used efficiently and that it is not wasted.\n\nIn conclusion, this essay has discussed a water safety engineering project that will involve the development of a water purification system for a rural village in India. The project will involve the collection of information about the existing water supply in the village, the selection of a suitable water treatment technology, the design and construction of the water purification system, the installation and commissioning of the system, and the monitoring and maintenance of the system. With the successful completion of this project, the villagers will be provided with clean drinking water, thus improving their quality of life.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Marie is at the music store for a store day. She bought two $50 combos. Then, for $25 she bought two t-shirts for $5 each and five hoodies for $2 each. Then, she bought sneakers for $8 each. How much did she spend total?",
+    "output": "Marie spent a total of $147.",
+    "generator": "text_davinci_003"
+  }
+]

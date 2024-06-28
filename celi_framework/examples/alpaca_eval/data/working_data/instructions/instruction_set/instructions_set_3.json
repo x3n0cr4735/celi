@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "helpful_base",
+    "instruction": "Help me find a good rated electric saw.",
+    "output": "You can check out the DEWALT 20V MAX 7-1/4-Inch Miter Saw. It is highly rated and has many positive reviews.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What are some artists I might like if I like Billy Joel?",
+    "output": "If you like Billy Joel, you might like Elton John, John Mayer, Carole King, Bruce Springsteen, James Taylor, Billy Idol, Neil Diamond, Paul McCartney, and Sting.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What type of soil is suitable for cactus?",
+    "output": "Cactus plants require a well-drained, sandy soil with a neutral to slightly acidic pH level. A good soil mix for cactus plants contains equal parts of potting soil, coarse sand, and perlite or coarse gravel.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How do you become an author?",
+    "output": "1. Develop your writing skills. Read books, take writing classes, and practice your skills regularly.\n2. Generate ideas for stories, poems, or other works. Think about topics you are passionate about and consider how to use them in your writing.\n3. Outline your story or work, then begin writing. Use the outline as a guide and flesh out the details as you go.\n4. Edit your work. Read through your work and make corrections and edits to improve it.\n5. Seek feedback from others. Ask family, friends, or writing peers to review your work and provide feedback.\n6. Publish your work. Consider submitting your work to literary agents or publishers, or self-publish your work online.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What breed dog is smallest?",
+    "output": "The Chihuahua is the smallest breed of dog.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What are some species of bears that are now extinct?",
+    "output": "Some species of bears that are now extinct include Cave bears (Ursus spelaeus), Atlas bears (Ursus crowtheri), Florida spectacled bears (Tremarctos floridanus), and Giant short-faced bears (Arctodus simus).",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What causes the northern lights?",
+    "output": "The northern lights, also known as the aurora borealis, are caused by charged particles from the sun interacting with the Earth's magnetic field and atmosphere.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What are some good foods to eat when you are sick? I am looking for something to make my girlfriend to eat.",
+    "output": "Some good foods to eat when you are sick include:\n- Broth-based soups\n- Toast with butter or jam\n- Oatmeal or porridge\n- Bananas\n- Rice\n- Boiled potatoes\n- Boiled eggs\n- Plain yogurt\n- Applesauce\n- Smoothies\n- Toast with peanut butter\n- Vegetable juice\n- Baked chicken\n- Salmon\n- Avocado\n- Ginger tea",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Why is kobe beef so damn expensive?",
+    "output": "Kobe beef is expensive because it is a high-quality, rare breed of beef from the Japanese Wagyu cattle. The cattle are raised in a special way that produces a unique flavor and texture, making it a much sought-after delicacy. Additionally, the process of raising and aging the beef is very labor intensive, and the beef is only available in limited supply.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How do I clean my armpits?",
+    "output": "1. Wet a washcloth or loofah with warm water.\n2. Apply a small amount of mild soap or body wash to the cloth or loofah.\n3. Gently scrub your armpits with the cloth or loofah.\n4. Rinse with warm water and gently pat dry with a towel.\n5. Apply an antiperspirant or deodorant to reduce odor and sweat.",
+    "generator": "text_davinci_003"
+  }
+]

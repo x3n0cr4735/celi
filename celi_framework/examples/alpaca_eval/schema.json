@@ -8,5 +8,47 @@
       "instruction": "question2",
       "output": "answer2",
       "generator": "text_davinci_003"
-    }
+    },
+    "3" : {  "dataset": "helpful_base",
+    "instruction": "question1",
+    "output": "answer1",
+    "generator": "text_davinci_003"
+  },
+  "4" : {  "dataset": "helpful_base",
+  "instruction": "question2",
+  "output": "answer2",
+  "generator": "text_davinci_003"
+},
+"5" : {  "dataset": "helpful_base",
+"instruction": "question1",
+"output": "answer1",
+"generator": "text_davinci_003"
+},
+"6" : {  "dataset": "helpful_base",
+"instruction": "question2",
+"output": "answer2",
+"generator": "text_davinci_003"
+},
+"7" : {  "dataset": "helpful_base",
+"instruction": "question1",
+"output": "answer1",
+"generator": "text_davinci_003"
+},
+"8" : {  "dataset": "helpful_base",
+"instruction": "question2",
+"output": "answer2",
+"generator": "text_davinci_003"
+},
+"9" : {  "dataset": "helpful_base",
+"instruction": "question1",
+"output": "answer1",
+"generator": "text_davinci_003"
+},
+"10" : {  "dataset": "helpful_base",
+"instruction": "question1",
+"output": "answer1",
+"generator": "text_davinci_003"
+}
+
+
 }

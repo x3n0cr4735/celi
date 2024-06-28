@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Choose an appealing title for your post.\n\nThe typical avocado is over 300 calories from the oil in it. That\u2019s the amount of calories in a large candy bar. If you get enough exercise to eat a large candy bar every day without gaining weight, it wouldn\u2019t be a problem to eat an avocado every day. Other wise you should probably eat them sparingly.",
+    "output": "A Calorie-Conscious Avocado Eater's Guide",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Give some examples of what people usually say in the given social situation.\n\nwhen someone arrives safely",
+    "output": "1. \"Glad you made it here safe and sound!\"\n2. \"Thank goodness you arrived safely!\"\n3. \"I'm so relieved you arrived safely!\"\n4. \"It's great to see you arrived safely!\"\n5. \"I'm glad you're here and safe!\"",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You will be required to write a few questions from the given company's interview section.\n\nKohl's",
+    "output": "1. What experience do you bring to the Kohl's team?\n2. How would you handle a difficult customer situation?\n3. What strategies do you have for increasing customer loyalty?\n4. How do you prioritize competing tasks and deadlines?\n5. How would you motivate a team to reach goals?\n6. Describe a time when you successfully overcame a challenge.\n7. What do you think sets Kohl's apart from other department stores?\n8. How do you stay organized and manage multiple projects?\n9. How do you handle constructive feedback?\n10. What strategies do you have for addressing customer complaints?",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Based on the information provided, you need to estimate the average summary for the given job.\n\nData entry clerk in United States",
+    "output": "Average salary for a Data Entry Clerk in the United States is approximately $30,000 per year.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Describe the responsibilities of the given job.\n\nSecurity Officer",
+    "output": "The responsibilities of a Security Officer include ensuring the safety and security of people and property, patrolling assigned areas, observing for signs of criminal activity, responding to alarms and investigating disturbances, writing reports, and apprehending suspects. They may also be responsible for operating security control room equipment, inspecting buildings for safety and security issues, providing escorts, and enforcing laws and regulations.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Provide a list of the skills that may help you find the job.\n\nCrew Members",
+    "output": "\u2022 Excellent customer service skills\n\u2022 Ability to take initiative and work independently\n\u2022 Ability to work in a fast-paced environment\n\u2022 Ability to multi-task\n\u2022 Ability to follow directions and take direction\n\u2022 Knowledge of food safety guidelines\n\u2022 Strong communication and interpersonal skills\n\u2022 Detail-oriented\n\u2022 Ability to work in a team environment\n\u2022 Flexibility to work late and/or on weekends\n\u2022 Basic math skills\n\u2022 Cash handling and register experience\n\u2022 Previous experience in restaurant/food service industry",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Schedule the meetings based on the given informqation.\n\nPerson1: available from 9-11 am, meeting duration: 30 min \nPerson2: available from 1-3 pm, meeting duration: 90 min\nPerson3: available from 2-3:30 pm, meeting duration: 60 min",
+    "output": "Person1: 9-9:30 am\nPerson2: 1-2:30 pm\nPerson3: 2:30-3:30 pm",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Find the directions between the given locations.\n\nFrom: Rowan Avenue Elementary School, 600 S Rowan Ave, Los Angeles, CA 90023, United States\nTo: Calvary Cemetery and Mortuary, 4201 Whittier Blvd, Los Angeles, CA 90023, United States",
+    "output": "1. Head southeast on S Rowan Ave toward Avenue 50\n2. Turn right onto Avenue 50\n3. Turn left onto Whittier Blvd\n4. Turn right onto Calvary St\n5. Turn left onto Lexington Ave\n6. Turn right onto Calvary Drive\n7. Turn left onto Whittier Blvd\n8. Destination will be on the left",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Give a brief explanation of the requested part of the paper.\n\nPaper: The dominant sequence transduction models are based on complex recurrent or convolutional neural networks that include an encoder and a decoder. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train. Our model achieves 28.4 BLEU on the WMT 2014 English-to-German translation task, improving over the existing best results, including ensembles, by over 2 BLEU. On the WMT 2014 English-to-French translation task, our model establishes a new single-model state-of-the-art BLEU score of 41.8 after training for 3.5 days on eight GPUs, a small fraction of the training costs of the best models from the literature. We show that the Transformer generalizes well to other tasks by applying it successfully to English constituency parsing both with large and limited training data.\nExplain: The dominant sequence transduction models",
+    "output": "The dominant sequence transduction models are models that are used to convert sequences of data, such as natural language, from one form to another. They are typically based on complex recurrent or convolutional neural networks that include an encoder and a decoder, with an attention mechanism connecting the two. The Transformer is a new simple architecture based solely on attention mechanisms that has been shown to perform better and require less time to train. Experiments have shown the Transformer to be successful for tasks such as machine translation and English constituency parsing.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Answer the question about the paper after reading it carefully.\n\nTo evaluate if the Transformer can generalize to other tasks we performed experiments on English constituency parsing. This task presents specific challenges: the output is subject to strong structural constraints and is significantly longer than the input. Furthermore, RNN sequence-to-sequence models have not been able to attain state-of-the-art results in small-data regimes.\nQuestion: What is English constituency parsing?",
+    "output": "English constituency parsing is a task that involves analyzing the structure of a sentence to identify the phrase structure of the sentence. It involves determining the constituents of a sentence, such as noun phrases, verb phrases, and other phrases, and then assigning labels to them.",
+    "generator": "text_davinci_003"
+  }
+]

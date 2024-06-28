@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "vicuna",
+    "instruction": "What if Alan Turing had not cracked the Enigma code during World War II?",
+    "output": "If Alan Turing had not cracked the Enigma code during World War II, the outcome of the war could have been drastically different. The Allies would have been at a serious disadvantage without being able to decipher the German messages and would have been unable to anticipate their plans. Furthermore, the development of computers and other computing technology may have been delayed as a result, given that Turing's groundbreaking work in cryptography and computing laid the foundation for many of the advances we enjoy today.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "What if the Suez Canal had never been constructed?",
+    "output": "If the Suez Canal had never been constructed, trade between Europe and Asia would have been much more difficult and costly. Ships would have had to travel an extra 6,000 miles to go around the African continent, adding significantly to the time and cost of goods. Additionally, the Middle East would not have become a major strategic and trading hub, leading to a different geopolitical landscape.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "What if the Maya civilization had never mysteriously collapsed?",
+    "output": "If the Maya civilization had never mysteriously collapsed, their culture and legacy would have continued to thrive and develop. They would have likely advanced in technology, art, mathematics, and astronomy. Their complex cities and monuments would have continued to be built and admired. Their writing system would have been preserved, allowing us to better understand the history and achievements of this ancient civilization.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "What if Christopher Columbus had not discovered the Americas?",
+    "output": "If Christopher Columbus had not discovered the Americas, Europeans would not have colonized the region and the Americas would have likely developed differently. Indigenous peoples would have likely continued to inhabit the region and likely developed more advanced civilizations. The Atlantic slave trade would not have occurred and there would have been no mass immigration of Europeans to the region.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "What if Vincent van Gogh had been a successful artist during his lifetime?",
+    "output": "If Vincent van Gogh had been a successful artist during his lifetime, he would have likely been celebrated as one of the greatest painters of all time. He would have been able to support himself financially through his artwork and would have had a much longer, more fulfilling life. His works would have been more widely recognized and his legacy would have been much more secure.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Develop a C++ program that reads a text file line by line and counts the number of occurrences of a specific word in the file.",
+    "output": "#include <iostream>\n#include <fstream>\n#include <string>\n\nusing namespace std;\n\nint main()\n{\n    string word;\n    string line;\n    int count = 0;\n    ifstream myfile;\n\n    cout << \"Enter word to count: \";\n    cin >> word;\n\n    myfile.open(\"file.txt\");  // open the text file\n\n    if (myfile.is_open())\n    {\n        while (getline(myfile, line))\n        {\n            if (line.find(word) != string::npos)  // check if the line contains the word\n            {\n                count++;\n            }\n        }\n        myfile.close();\n    }\n    else\n    {\n        cout << \"Unable to open file\";\n    }\n\n    cout << \"Number of occurrences of \" << word << \": \" << count << endl;\n\n    return 0;\n}",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Implement a Python function to find the longest common subsequence of two input strings using dynamic programming.",
+    "output": "def longestCommonSubsequence(s1, s2): \n    # Get lengths of both strings \n    m = len(s1) \n    n = len(s2) \n  \n    # Create a matrix to store results \n    # of subproblems \n    L = [[None]*(n+1) for i in range(m+1)] \n  \n    \"\"\"Following steps build L[m+1][n+1]  \n    in bottom up fashion. Note that L[i][j]  \n    contains length of LCS of s1[0..i-1] \n    and s2[0..j-1]\"\"\"\n    for i in range(m+1): \n        for j in range(n+1): \n            if i == 0 or j == 0 : \n                L[i][j] = 0\n            elif s1[i-1] == s2[j-1]: \n                L[i][j] = L[i-1][j-1]+1\n            else: \n                L[i][j] = max(L[i-1][j] , L[i][j-1]) \n  \n    # L[m][n] contains the length of LCS of s1[0..n-1] & s2[0..m-1] \n    return L[m][n]",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Implement a regular expression in Python to validate an email address.",
+    "output": "import re\n\nregex = '^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$'\n\nemail = input(\"Please enter your email address: \")\n\nif(re.search(regex,email)):  \n  print(\"Valid Email\")  \nelse:  \n  print(\"Invalid Email\")",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Write a program to find the nth Fibonacci number using dynamic programming.",
+    "output": "#include <iostream>\n#include <vector>\n\nusing namespace std;\n\n// Function to calculate and return nth Fibonacci number using Dynamic Programming \nint fibonacci(int n) \n{ \n    // Create an array to store Fibonacci numbers \n    vector<int> f(n + 1); \n  \n    // 0th and 1st number of the series are 0 and 1 \n    f[0] = 0; \n    f[1] = 1; \n  \n    // Add the previous 2 numbers in the series and store it \n    for (int i = 2; i <= n; i++) \n        f[i] = f[i - 1] + f[i - 2]; \n  \n    return f[n]; \n} \n\nint main() \n{ \n    int n;\n\t\n    // Get the nth number\n\tcout << \"Enter the nth number: \";\n\tcin >> n;\n\t\n\t// Display the result \n    cout << \"The nth Fibonacci number is: \" << fibonacci(n); \n\t\n    return 0; \n}",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Implement a binary search algorithm to find a specific element in a sorted array.",
+    "output": "function binarySearch(arr, target) {\n  // Set initial values for min and max\n  let min = 0; \n  let max = arr.length - 1;\n\n  // Set initial midpoint\n  let mid = Math.floor((min + max) / 2);\n\n  // While min is less than or equal to max\n  while(min <= max) {\n    // If the element at mid is equal to the target\n    if(arr[mid] === target) {\n      // Return mid\n      return mid;\n    }\n    // Else if the element at mid is less than the target\n    else if(arr[mid] < target) {\n      // Set min to mid + 1\n      min = mid + 1;\n    }\n    // Else if the element at mid is greater than the target\n    else if(arr[mid] > target) {\n      // Set max to mid - 1\n      max = mid - 1;\n    }\n\n    // Recalculate mid\n    mid = Math.floor((min + max) / 2);\n  }\n\n  // If the target is not found, return -1\n  return -1;\n}",
+    "generator": "text_davinci_003"
+  }
+]

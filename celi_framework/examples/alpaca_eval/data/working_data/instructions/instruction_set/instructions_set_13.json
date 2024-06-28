@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "helpful_base",
+    "instruction": "what is the name of chris tucker first movie",
+    "output": "Chris Tucker's first movie was \"Friday\", released in 1995.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How long does it take our eyes to fully adapt to darkness?",
+    "output": "It typically takes 30 minutes for your eyes to fully adapt to darkness.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Has there been any news regarding a potential release date for Starcraft 3?",
+    "output": "No, there has not been any official news regarding a potential release date for Starcraft 3.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How is oil turned into gasoline?",
+    "output": "Oil is turned into gasoline through a process called fractional distillation. In this process, crude oil is heated to very high temperatures and the resulting vapors are separated into different fractions. These fractions are then mixed together to create gasoline.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Can you give any tips on how to cook a juicy, medium-rare steak?",
+    "output": "1. Start with a high-quality cut of steak.\n2. Let the steak come to room temperature before cooking.\n3. Use a cast-iron skillet or grill to heat the steak.\n4. Generously season the steak with salt and pepper.\n5. Cook the steak for 3 minutes on each side for medium-rare.\n6. Remove the steak from the pan and let it rest for 5 minutes before serving.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "When was hip hop invented?",
+    "output": "Hip hop was invented in the 1970s in the South Bronx, New York City.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Hi, I recently inherited a S&W 1006 and I don't even know how to load it. Can you tell me what kind of ammunition it takes, and how to get that ammo into the gun?",
+    "output": "The S&W 1006 is a 10mm semi-automatic pistol. It takes 10mm Auto ammunition, and you can load it by inserting a fresh magazine into the grip of the gun, pushing down on the magazine release button, and then pushing the magazine in until it clicks into place. Then, pull back the slide to chamber a round. Finally, release the slide to load the round.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "My friend's dog just died and they're really sad. How do I comfort them?",
+    "output": "I am so sorry for your loss. It is normal to feel overwhelmed with grief when we lose a beloved pet. Let them know that you are there for them and listen to them without judgment. Offer a hug or a shoulder to cry on if they desire. Offer to help them remember the good times they had with their pet. Suggest that they talk to other pet owners who have gone through the same experience.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Is the US border open to Canada?",
+    "output": "No, the US border is currently closed to non-essential travel from Canada due to the COVID-19 pandemic.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Can you list the top 20 films or movies between 1930 and 1940 that are in English and in the US public domain?",
+    "output": "1. King Kong (1933)\n2. Snow White and the Seven Dwarfs (1937)\n3. Frankenstein (1931)\n4. The Wizard of Oz (1939)\n5. Dracula (1931)\n6. The Bride of Frankenstein (1935)\n7. The Invisible Man (1933)\n8. It Happened One Night (1934)\n9. Mutiny on the Bounty (1935)\n10. The Public Enemy (1931)\n11. The Adventures of Robin Hood (1938)\n12. Gone with the Wind (1939)\n13. Mr. Smith Goes to Washington (1939)\n14. The Grapes of Wrath (1940)\n15. Stagecoach (1939)\n16. Bringing Up Baby (1938)\n17. The Hunchback of Notre Dame (1939)\n18. Young Frankenstein (1935)\n19. The Women (1939)\n20. Rebecca (1940)",
+    "generator": "text_davinci_003"
+  }
+]

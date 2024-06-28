@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Make a list of the top places in the U.S. to visit at the given time.\n\nNovember",
+    "output": "1. Asheville, North Carolina\n2. Yellowstone National Park, Wyoming\n3. New York City, New York\n4. Macy\u2019s Thanksgiving Day Parade, New York\n5. Nashville, Tennessee\n6. Philadelphia, Pennsylvania\n7. The National Thanksgiving Turkey Pardoning, Washington DC\n8. Miami, Florida\n9. San Francisco, California\n10. Chicago, Illinois",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Name the top cities in France that should not be missed. Include the best aspects of each place as well.",
+    "output": "1. Paris: This iconic city is known for its grandiose monuments like the Eiffel Tower, Notre Dame Cathedral, and the Louvre Museum. It is also home to a vibrant culinary and cultural scene, with plenty of restaurants, cafes, and museums to explore.\n\n2. Marseille: This bustling port city is the oldest city in France and is home to some stunning architecture and a rich history. Explore the Old Port, check out the Basilica of Notre Dame de la Garde, and take in the views from the Calanques cliffs.\n\n3. Nice: This beautiful city on the French Riviera is a great spot for beach-goers and those looking to explore some of the French Riviera's best-known attractions. Enjoy the Promenade des Anglais, the Cours Saleya market, and the numerous art galleries.\n\n4. Lyon: This city is known as the gastronomic capital of France and is home to some of the country's best restaurants. Take in the stunning architecture and explore the many historic buildings like the Cathedral of St. John, the Basilica of Notre-Dame de Fourvi\u00e8re, and the Museum of Fine Arts.\n\n5. Bordeaux: This city is famous for its wine and is host to some of the best vineyards in France. Take in the city's historic architecture, explore the city's many wine cellars, and enjoy the vibrant nightlife.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Answer the following question.\n\nHow do I compare strings in Java?\nI've been using the == operator in my program to compare all my strings so far. However, I ran into a bug, changed one of them into .equals() instead, and it fixed the bug.\nIs == bad? When should it and should it not be used? What's the difference?",
+    "output": "Using the == operator to compare strings in Java is not recommended. The == operator checks for object identity, not the contents of the strings. The .equals() method should be used to compare the contents of two strings instead. This method will return true if the two strings are equal in terms of the characters they contain.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are given a question and two possible answers. The task is to evaluate each answer and determine if it is correct. If incorrect, explain why.\n\nIs there a way of reading one single character from the user input? For instance, they press one key at the terminal and it is returned (sort of like getch()). I know there's a function in Windows for it, but I'd like something that is cross-platform.\nAnswer 1: Here's a link to the ActiveState Recipes site that says how you can read a single character in Windows, Linux and OSX :\nhttps://code.activestate.com/recipes/134892/\nAnswer 2: if you just want to hold the screen so you can see the result on the terminal just write `input()` at the end of the code and it will hold the screen",
+    "output": "Answer 1: Correct \nAnswer 2: Incorrect. The input() function will prompt the user to enter a string of characters, not just a single character.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are given two questions. Check if they are duplicates.\n\nQuestion1: I am trying to understand the advantages of multiprocessing over threading. I know that multiprocessing gets around the Global Interpreter Lock, but what other advantages are there, and can threading not do the same thing?\nQuestion2: I am learning how to use the threading and the multiprocessing modules in Python to run certain operations in parallel and speed up my code.\nI am finding this hard (maybe because I don't have any theoretical background about it) to understand what the difference is between a threading.Thread() object and a multiprocessing.Process() one.\nAlso, it is not entirely clear to me how to instantiate a queue of jobs and having only 4 (for example) of them running in parallel, while the other wait for resources to free before being executed.\nI find the examples in the documentation clear, but not very exhaustive; as soon as I try to complicate things a bit, I receive a lot of weird errors (like a method that can't be pickled, and so on).\nSo, when should I use the threading and multiprocessing modules?\nCan you link me to some resources that explain the concepts behind these two modules and how to use them properly for complex tasks?",
+    "output": "Not a duplicate",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Design a programming problem related to the subject that has been given to you. Use some examples and constraints to improve your question.\n\nDynamic Programming",
+    "output": "Given a set of numbers, find the largest sum that can be obtained by adding up any subset of the numbers\nConstraints: \n- The set of numbers must contain at least two elements\n- The solution should not contain duplicate numbers\n- The sum should be the largest possible\n\nExamples: \nGiven the set of numbers {3, 7, 4, 8, 2}, the largest sum that can be obtained is 16 (3 + 7 + 6).",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Provide a Java solution to the following problem.\n\nGiven an integer n, return true if it is a power of three. Otherwise, return false.\nAn integer n is a power of three, if there exists an integer x such that n == 3^x.\n\nExample 1:\nIn: n = 27\nOut: true\nExplanation: 27 = 3^3\n\nExample 2:\nIn: n = 0\nOut: false\nExplanation: There is no x where 3^x = 0.\n\nExample 3:\nIn: n = -1\nOut: false\nExplanation: There is no x where 3x = (-1).\n \nConstraints:\n-231 <= n <= 231 - 1\nFollow up: Could you solve it without loops/recursion?",
+    "output": "true or false\n\nSolution:\npublic boolean isPowerOfThree(int n) {\n    if (n == 0) return false;\n    while (n % 3 == 0) {\n        n /= 3;\n    }\n    return n == 1;\n}",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Think of topics that are most common in classic interview questions for a job in computer science.",
+    "output": "1. Programming skills \n2. Problem-solving abilities \n3. Knowledge of algorithms \n4. Database management \n5. Experience with software development \n6. Understanding of computer networks \n7. Knowledge of operating systems \n8. Technical aptitude \n9. Experience with system design \n10. Understanding of software engineering principles",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You will need to guide this person through the scenario they have described for the interview.\n\nFinally! After a while of shooting in the dark and frantically fiddling with sample inputs on the whiteboard, you've came up with an algorithm for solving the coding question your interviewer gave you.\nWhew. Such a relief to have a clear path forward. To not be flailing anymore.\nNow you're cruising, getting ready to code up your solution.\nWhen suddenly, your interviewer throws you a curve ball.\n\"What if we thought of the problem this way?\"\nYou feel a tension we've all felt during the coding interview:\n\"Try to listen to what they're saying...but don't lose your train of thought...ugh, I can't do both!\"",
+    "output": "It's understandable to feel a bit overwhelmed when your interviewer suddenly changes direction. No need to panic though, just take a few deep breaths and focus on the problem they are presenting. It's okay to take a few moments to pause and process what they have said. Then, you can ask clarifying questions to ensure you understand the new viewpoint. After that, you can shift your algorithm accordingly and come up with a new solution. This way, you can demonstrate your ability to think on your feet and adjust your strategy if needed.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are given a programming problem and its implementation. Analyze the problem and implementation and explain the algorithm and approach used to solve the problem.\n\nTable: Person\n| Column Name | Type     |\n| personId          | int         |\n| lastName         | varchar |\n| firstName         | varchar |\npersonId is the primary key column for this table.\nThis table contains information about the ID of some persons and their first and last names.\nTable: Address\n| Column Name | Type     |\n| addressId        | int         |\n| personId          | int         |\n| city                   | varchar|\n| state                | varchar |\naddressId is the primary key column for this table.\nEach row of this table contains information about the city and state of one person with ID = PersonId.\nWrite an SQL query to report the first name, last name, city, and state of each person in the Person table. If the address of a personId is not present in the Address table, report null instead.\nReturn the result table in any order.\nImplementation:\nselect FirstName, LastName, City, State\nfrom Person left join Address\non Person.PersonId = Address.PersonId\n;",
+    "output": "FirstName  LastName   City    State\nJohn   Smith   Miami   FL\nJane   Doe     NULL    NULL\n\nAlgorithm:\nThe algorithm used to solve this problem is a left join operation on the Person and Address tables. The left join operation allows us to combine the two tables and retrieve all the data from the Person table, even if there is no corresponding data in the Address table. This allows us to report the first name, last name, city, and state of each person in the Person table, and report null if a personId is not present in the Address table.",
+    "generator": "text_davinci_003"
+  }
+]

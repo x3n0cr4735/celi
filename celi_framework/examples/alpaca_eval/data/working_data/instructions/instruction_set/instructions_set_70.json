@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "As part of software engineering, user stories describe what the user wants the system to do, while acceptance criteria describe the conditions a specific user story must meet. Create basic acceptance criteria based on the given user story.\n\nUser story: As a user, I want to use a search field to type a city, name, or street, so that I could find matching hotel options.",
+    "output": "Acceptance criteria:\n1. The search field should accept text input, such as a city, name or street.\n2. The search results should return a list of hotels that match the text input.\n3. The search should be case-insensitive.\n4. The search should return results within a reasonable amount of time.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "A user story is an informal, general explanation of a software feature written from the perspective of the end user or customer. Write a user story for a given software.\n\nGmail",
+    "output": "As a Gmail user, I want to be able to easily organize emails into folders so that I can quickly find what I need.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a Jira ticket for the given task.\n\nNew Employee onboarding",
+    "output": "Summary: New Employee onboarding \n\nDescription:\nWe need to create a process for onboarding new employees. The process should include setting up new employee accounts, providing resources, and orienting them to the company culture and policies. \n\nAcceptance Criteria:\n- Set up new accounts for new employees\n- Provide resources to new employees\n- Orient new employees to the company culture and policies",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Paraphrase the given text in an academic style.\n\nLots of papers have been published on this topic.",
+    "output": "A substantial number of scholarly works have been produced on this particular subject.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Make a list of the pros and cons of the given decision.\n\nImplementing a Remote Working Policy",
+    "output": "Pros:\n1. Increased flexibility for employees\n2. Reduced overhead costs for businesses\n3. Increased access to a larger talent pool\n4. Improved employee morale\n5. Increased productivity\n\nCons:\n1. Reduced team collaboration\n2. Increased security risks\n3. Increased difficulty managing remote employees\n4. Potential lack of office culture\n5. Increased difficulty ensuring compliance",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Include important study notes and key points that someone should know about the given subject.\n\nhistory of the USA",
+    "output": "Key Points:\n1. The history of the United States began in 1776 when the original thirteen colonies declared their independence from Great Britain.\n2. The first president of the United States was George Washington, who served from 1789-1797.\n3. The Civil War (1861-1865) was fought between the Union (North) and the Confederacy (South) and resulted in the abolishment of slavery.\n4. The United States was involved in both World Wars, joining the Allies in WWI and WWII.\n5. The Cold War (1945-1991) was an ideological conflict between the United States and the Soviet Union.\n6. The civil rights movement of the 1950s and 1960s sought to end racial discrimination in the United States.\n7. The United States has been involved in numerous international conflicts since the end of the Cold War.\n\nStudy Notes:\n1. The history of the United States is filled with moments of great progress and set-backs.\n2. It is important to understand the historical context of the nation in order to understand the current political and social climate.\n3. Major events such as the American Revolution, the Civil War, and the Cold War had a lasting impact on the nation and the world.\n4. The civil rights movement and other social movements have pushed the United States towards greater inclusivity and acceptance.\n5. The United States has a complex and diverse history that should be studied and appreciated.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Based on the given keywords, write a review of a restaurant.\n\nName: Pizzeria\ngood prices, quiet place, tasty, nice staff",
+    "output": "I had the pleasure of dining at Pizzeria recently and I was pleasantly surprised. The prices were very reasonable and they had a great selection of dishes. The atmosphere was quite and relaxed, making for a great dining experience. I found the food to be really tasty and the staff were very friendly and helpful. All in all, I had a great experience at Pizzeria and would highly recommend it to anyone looking for a nice, quiet place to eat with great prices and tasty food.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Convert natural language into a list of turn-by-turn directions.\n\nGo west on I-10 until you hit the 101 then take it north. You will eventually see the Hollywood sign.",
+    "output": "1. Take I-10 West\n2. Take the 101 North\n3. Keep going until you see the Hollywood Sign",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Provide an ESRB rating for the following game.\n\nThis is an action-adventure game in which players help Kratos and his son on a dangerous quest. Players explore various realms and engage in frenetic hand-to-hand combat against human-like raiders and fantastical creatures (e.g., centaurs, trolls, dragons). Players use axes and chained blades to battle enemies, often resulting in large blood-splatter effects and dismemberment. Players can perform finishing attacks that depict close-up impalement via bladed and hand-held weapons; repeated axe strikes to a creature's neck results in decapitation. The words \u201cf**k\u201d and \u201csh*t\u201d are heard in the game.",
+    "output": "M (Mature)",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "A color description has been provided. Find the CSS code associated with that color.\n\nA light red color with a medium light shade of pink",
+    "output": "#FFC0CB",
+    "generator": "text_davinci_003"
+  }
+]

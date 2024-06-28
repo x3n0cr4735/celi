@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "koala",
+    "instruction": "what are five important topics for game design",
+    "output": "1. Storytelling\n2. Player Mechanics\n3. Art Direction\n4. Level Design\n5. User Interface Design",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "You are a professional video creator. Your job is coming up with viral TikTok ideas. Your ideas are always, creative, and the TikTok audience loves them.\nWrite a viral TikTok video based on Batik Tradjumas.\nTopic: Batik Tradjumas",
+    "output": "Hey TikTok! I'm here to show you how to make Batik Tradjumas at home! First, you'll need a piece of white fabric. Then, using a special wax-resist dyeing technique, you'll paint or draw the desired design onto the fabric. Once the design is complete, you'll dunk the fabric into a pot of boiling water to remove the wax. When you're done, you'll have a one-of-a-kind Batik Tradjumas! #BatikTradjumas #DIY #Crafts",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Write a daily exercise routine for Monday to Sunday with a rest day in between, each day summarized in 160 characters or less",
+    "output": "Mon: 30 min jog, 10 min abs, 20 min stretching.\nTue: 30 min HIIT, 10 min arms, 10 min core.\nWed: REST DAY.\nThur: 30 min run, 10 min legs, 10 min plyometrics.\nFri: 30 min bike, 10 min chest, 10 min yoga.\nSat: 30 min swim, 10 min back, 10 min HIIT.\nSun: 30 min walk, 10 min shoulders, 10 min meditation.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Act like a first-year college student and write a 1000-1250 word two-topic essay by using at least three points of analysis. Topic 1 is my experiences living in and observations of  Flagstaff, Arizona.   Topic 2 is my experiences living in and observations of  Kaneohe, Hawaii. Use quotes from two sources in the essay. Use descriptive language.  Include personal anecdotes.  These sources will be listed in a Works Cited at the end of the essay. Use a four in-text citations in MLA style in the body of the essay.  ",
+    "output": "Flagstaff, Arizona and Kaneohe, Hawaii are two vastly different places to live. They are both full of natural beauty, filled with friendly people, and have a unique way of life. As a first-year college student, I have been fortunate to experience life in both places, and I have some observations to share.\n\nFlagstaff is a small mountain city nestled in Northern Arizona. As I walked around the downtown area, I was struck by the vibrant colors of the red rocks that lined the streets. I was also amazed by the snow-capped mountains that could be seen from almost every corner of the city. The people I encountered were warm and welcoming, and I felt a sense of community that I hadn't experienced in other parts of the country.\n\nThe most unique part of living in Flagstaff was the four distinct seasons. In the winter, I experienced my first snowfall, and it was a magical moment. In the spring, the trees started to bloom, and the wildflowers began to carpet the hills. The summer brought hot days and cool nights, perfect for camping and hiking. In the fall, the trees were a kaleidoscope of oranges, yellows, and reds, and it was truly breathtaking.\n\nKaneohe, Hawaii is a completely different experience. As soon as I stepped off the plane, I was hit with the smell of ocean air and the sound of steel drums. As I explored the island, I was struck by the beauty of the emerald-green mountains that surround the city. The people in Kaneohe are friendly and laid-back, and they make you feel like part of the family.\n\nThe most memorable part of living in Kaneohe was the warm weather. I was able to take part in activities like hiking, swimming, and snorkeling all year-round. The beaches were beautiful, and the sunsets were stunning. I also had the chance to taste some of the most delicious food I had ever had.\n\nIn conclusion, Flagstaff, Arizona and Kaneohe, Hawaii are two places that could not be more different. As a first-year college student, I am so thankful that I have had the chance to experience life in both of these amazing places. As the writer David Foster Wallace said, \u201cThe beauty of the world...has two edges, one of laughter, one of anguish, cutting the heart asunder.\u201d Living in Flagstaff and Kaneohe has been an amazing experience, and I am thankful for the time I have spent in both places.\n\nWorks Cited\n\nWallace, David Foster. \u201cThe View from Mrs. Thompson\u2019s.\u201d Consider the Lobster, Little, Brown and Company, 2006, pp. 5-21.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "ideas for building a waitlist for a new product or service",
+    "output": "1. Create a landing page for the waitlist that clearly explains the product or service, its features, and the benefits of signing up.\n2. Set up an automated email system that sends out an invitation to the waitlist members when the product or service is ready for launch.\n3. Use social media to promote the waitlist and encourage people to join.\n4. Offer incentives to those who sign up, such as early access to the product or discounts on future purchases.\n5. Utilize customer feedback to further improve the product or service before the official launch.\n6. Create an engaging email sequence that keeps waitlist members updated on the progress of the product or service.\n7. Utilize referral marketing to encourage people to share the waitlist with their friends and family.\n8. Reward people for referring others to the waitlist.\n9. Send out regular newsletters or updates to keep waitlist members engaged.\n10. Make sure to collect customer data such as email addresses, interests, and preferences to better understand your potential customers.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "assume the persona of a therapist and walk me through how to be less reactive and use a pause ritual",
+    "output": "First of all, it's great that you're looking for ways to be less reactive and use a pause ritual. It's an important skill to have, and it's something that takes practice and patience. \n\nThe first step is to recognize when you're feeling overwhelmed and starting to react. This could be feeling agitated, overwhelmed, or stressed. You want to be able to catch yourself before you react in the moment. \n\nOnce you've identified that you're feeling overwhelmed and close to reacting, the next step is to take a pause. Take a few deep breaths and focus on calming your body and mind. This gives you a chance to take a step back and pause before you react. \n\nThe next step is to think through how you want to respond. This is where you can come up with a plan of action. Ask yourself what would be the best way to respond in this situation and how it will affect the outcome. \n\nFinally, take action. Once you've thought through your plan, it's time to take action. This could be speaking up, walking away, or saying something to diffuse the situation. \n\nI hope this helps you with learning how to be less reactive and use a pause ritual. It's an important skill to have, and it takes practice and patience. If you have any questions, please don't hesitate to reach out.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "write a 5 verse song in the style of Talking Heads based on the life of a teenager in the 1980s britain",
+    "output": "Verse 1:\nIt's just another day in the life of a teen\nIn 1980s Britain, life can be mean\nLiving in the suburbs, the streets are so calm\nWith nothing to do, it's just so mundane\n\nChorus:\nThe days go by, no time to change\nJust one more boring day in the life of a teen \n\nVerse 2:\nGathering with friends, they watch the time pass\nHanging out on the street, nothing to do but laugh\nClothes from the mall, the latest trends\nIt's the only thing they have to show their friends\n\nChorus:\nThe days go by, no time to change\nJust one more boring day in the life of a teen \n\nVerse 3:\nHeading downtown, to the local spot\nPlaying video games, the hours seem so long\nStaring up at the stars, it's a beautiful night\nThis is the only time, they can feel alright\n\nChorus:\nThe days go by, no time to change\nJust one more boring day in the life of a teen \n\nVerse 4:\nDreams of a better life, it's hard to keep\nThe future seems so far away, and so hard to reach\nSchool, and parents, and the pressures of life\nIt's too much for them, they just need to hide\n\nChorus:\nThe days go by, no time to change\nJust one more boring day in the life of a teen \n\nVerse 5:\nLiving in the moment, just trying to survive\nLiving in the shadows, and trying to stay alive\nTired of being a teen, and trying to pass the time\nIt's just another day in the life of a teen",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Who will be the president of South Korea in 2023?",
+    "output": "The president of South Korea in 2023 is not yet known.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Write an article about the site's backlink and its importance\"Use the following keywords in the article Questions Others Asked\nWhat is a backlink example?\nWhat are SEO backlinks?\nDo backlinks help SEO?\nHow do I get backlinks?\"",
+    "output": "Backlinks are an essential part of search engine optimization (SEO). They are links from other websites that link to pages on your website. Backlinks are important because they show search engines that your website is reputable and can be trusted. \n\nA backlink example would be if another website linked to your website. For example, if ABC website linked to your website, then you would have a backlink from ABC website.\n\nSEO backlinks are links from other websites that are related to your website and can help improve your website\u2019s search engine rankings. They are considered to be more valuable than regular backlinks because they are from websites that are related to yours and can help increase your visibility to search engines.\n\nBacklinks do indeed help SEO. They help to improve the visibility of your website on search engine results pages and can help to increase the number of visitors to your website. Backlinks also help to show search engines that your website is trusted and reputable.\n\nIf you want to get backlinks, there are a few ways to go about it. You can reach out to other websites and ask them to link to your website. You can also create content that other websites will be interested in linking to. You can also use link building tools to help you find websites that are related to yours and that may be interested in linking to you.\n\nBacklinks are an important part of SEO and can help to improve the visibility of your website on search engine results pages. By building backlinks, you can increase the number of visitors to your website and help to show search engines that your website is trusted and reputable.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "I run a website about merchant navy studies. What are some subniches I should be tackling with my content. Give me the restults as a table with the sub niche a number between 1 and 100 to indicate the sub niche popularity.",
+    "output": "Sub Niche\tPopularity\nCareer Options in Merchant Navy\t90\nAdmissions Process\t80\nFees Structure\t85\nScholarships and Grants\t75\nExam Preparation\t80\nMaritime Law\t70\nMaritime Logistics\t90\nShip Security\t75\nEngineering\t80\nNavigation\t85\nPort Operations\t75",
+    "generator": "text_davinci_003"
+  }
+]

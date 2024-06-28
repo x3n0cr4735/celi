@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "Who wears short shorts?",
+    "output": "Teenagers typically wear short shorts.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Famously, some spy-satellites from the KeyHole series developed and operated by the US National Reconnaissance Office, where similar in capabilities to the Hubble Space Telescope, but then pointed at the earth rather than out into the universe. What can you tell me about these satellites? What era were they developed? Are they still active, and what are their approximate capabilities thought to be?",
+    "output": "The KeyHole series of spy satellites were developed and operated by the US National Reconnaissance Office beginning in the 1970s. They were designed to provide high-resolution surveillance and intelligence gathering capabilities from space. These satellites were particularly beneficial in providing intelligence during the Cold War era, but have continued to be used in more recent operations. It is believed that the satellites are still active, and they are thought to have a resolution of up to 0.3 meters.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Is the ATF a violation in of itself against the American people?",
+    "output": "No, the ATF is not a violation in of itself against the American people. It is a federal law enforcement agency that works to protect the public from dangerous criminals and illegal firearms.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Can you list the issues with using a symmetric probability distribution when modelling problems?",
+    "output": "1. Symmetric probability distributions can lead to unrealistic results, as they assume that outcomes are equally likely.\n2. Symmetric probability distributions cannot accurately predict the probability of rare or extreme events, as they assume all outcomes are equally likely.\n3. Symmetric probability distributions are not well suited for modelling problems with non-uniform distributions, as they assume that all outcomes are equally likely.\n4. Symmetric probability distributions are not suitable for modelling problems with asymmetric distributions, as they assume that all outcomes are equally likely.\n5. Symmetric probability distributions are not able to accurately capture the correlations between variables, as they assume that all outcomes are equally likely.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What are some of the well known hiking trails in Colorado? Can you provide a short description of each?",
+    "output": "1. Colorado Trail: This trail spans over 500 miles across Colorado, from Denver to Durango. It offers breathtaking views of mountains, forests, and meadows, as well as plenty of opportunities for camping. \n2. Maroon Bells-Snowmass Trail: This trail is located near Aspen and is one of the most popular hikes in the state. The trail offers stunning views of the iconic Maroon Bells, as well as alpine meadows, waterfalls, and wildlife. \n3. Chautauqua Trail: This trail is located in Boulder and is a popular option for hikers. The trail passes through open fields, forests, and sandstone formations. \n4. Four Pass Loop: This loop takes you through four mountain passes in the Maroon Bells-Snowmass Wilderness. The route offers stunning views of the mountains and valleys, as well as plenty of opportunities for camping and wildlife spotting. \n5. Mesa Verde: This trail takes hikers through the ancient cliff dwellings of Mesa Verde National Park. The trail passes through lush forests and offers stunning views of the canyons.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "I am making mayonnaise, it was starting to thicken but now it has become runny and liquid again, is there any way to salvage it?",
+    "output": "Yes, there is a way to salvage it. To thicken the mayonnaise, you can place the bowl containing the mayonnaise in a bowl of ice water and continue to whisk it. This will help cool the mixture and add extra air, which will thicken the mayonnaise. Additionally, you can try adding a teaspoon of mustard to the mayonnaise, as this will help to thicken and stabilize it.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Why does the second batch of pancakes brown much faster?",
+    "output": "The second batch of pancakes browns faster because the pan has already been heated up from the first batch. The pan retains the heat from the first batch, so the second batch will cook faster.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Provide me with a list of 10 names from various cultures that mean love, care, and/or empathy.",
+    "output": "1. Agapi (Greek)\n2. Amor (Latin)\n3. Prema (Sanskrit)\n4. Riko (Japanese)\n5. Asha (Hebrew)\n6. Bahiya (Arabic)\n7. Sehnsucht (German)\n8. Uyiosa (African)\n9. Pyar (Hindi)\n10. Chikondi (Chichewa)",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Write a C++ function that takes a reference to a std::string containing markdown formatted text and returns a std::string containing html formatted text.",
+    "output": "#include <string>\n\nstd::string markdownToHTML(std::string &markdown) {\n    std::string html = \"\";\n\n    // Loop through the characters in the markdown string\n    for (int i = 0; i < markdown.length(); i++) {\n        // Check for bold\n        if (markdown[i] == '*') {\n            // Determine if it is the beginning or end of a bold tag\n            if (markdown[i+1] == '*') {\n                html += \"</strong>\";\n            } else {\n                html += \"<strong>\";\n            }\n            // Skip the next character\n            i++;\n        }\n        // Check for italic\n        else if (markdown[i] == '_') {\n            // Determine if it is the beginning or end of an italic tag\n            if (markdown[i+1] == '_') {\n                html += \"</em>\";\n            } else {\n                html += \"<em>\";\n            }\n            // Skip the next character\n            i++;\n        }\n        // Check for headers\n        else if (markdown[i] == '#') {\n            // Count the number of '#' characters\n            int headerCount = 0;\n            while (markdown[i] == '#') {\n                headerCount++;\n                i++;\n            }\n            // Add the appropriate header tag\n            html += \"<h\" + std::to_string(headerCount) + \">\";\n        }\n        // Check for list items\n        else if (markdown[i] == '-') {\n            html += \"<li>\";\n        }\n        // Otherwise, add the character to the html string\n        else {\n            html += markdown[i];\n        }\n    }\n\n    return html;\n}",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "if it takes 8 hours to fly to Singapore, stop over for an hour and a half and then fly 14 hours to London then what is the total travel time if the plane is delayed in Singapore",
+    "output": "23.5 hours",
+    "generator": "text_davinci_003"
+  }
+]

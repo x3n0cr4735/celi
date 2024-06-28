@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "This is a test for the reading ability of French. Read the given story carefully, and then answer the question in the end.\n\nLucie est \u00e0 la maison avec sa petite-fille, Lin.\nLucie: Oh, non! Nous n'avons pas de pain!\nLin: Ah! Tu vas au supermarch\u00e9?\nLucie: Oui, je veux une baguette pour mon sandwich.\nDo Lin and Lucie have a lot of bread?",
+    "output": "No, they do not have a lot of bread.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Come up with healthy and easy dinner ideas for weeknights.",
+    "output": "1. Veggie stir-fry with brown rice or quinoa\n2. Baked salmon with roasted vegetables\n3. Noodle-less zucchini lasagna\n4. Turkey and black bean tacos\n5. Vegetable soup with whole-wheat bread\n6. Lentil curry with brown rice\n7. Veggie burgers with sweet potato fries\n8. Whole-wheat pasta with roasted tomatoes and vegetables\n9. Baked chicken thighs with steamed broccoli\n10. Grilled vegetable and hummus wrap",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Provide a cooking hack for improving the flavor of the given food.\n\npopcorn",
+    "output": "To improve the flavor of popcorn, try adding a combination of melted butter, garlic powder, and grated Parmesan cheese. Sprinkle this mixture over the popcorn before serving.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Make a list of snacks and foods to serve as party snacks on a game day!",
+    "output": "1. Popcorn\n2. Potato chips\n3. Pretzels\n4. Nachos\n5. Sliders\n6. Veggie platter\n7. Pizza\n8. Wings\n9. Tacos\n10. Chili",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Describe how to prepare the given food in your own words. Note down the ingredients you will need and the steps you will take to prepare them.\n\nChewy Chocolate Chip Cookies",
+    "output": "Ingredients: \n- 2 \u00bd cups all-purpose flour\n- 1 teaspoon baking soda\n- 1 teaspoon salt\n- 2 sticks (1 cup) butter, softened\n- 1 cup granulated sugar\n- 1 cup packed light brown sugar\n- 2 teaspoons pure vanilla extract\n- 2 large eggs\n- 2 cups semisweet chocolate chips\n\nSteps:\n1. Preheat oven to 375\u00b0F. Line two baking sheets with parchment paper.\n2. In a medium bowl, whisk together the flour, baking soda, and salt.\n3. In a large bowl, use a hand mixer to cream together the butter, granulated sugar, and brown sugar until light and fluffy.\n4. Add the vanilla and eggs to the butter mixture and beat until combined.\n5. Add the flour mixture to the butter mixture and mix until just combined.\n6. Add the chocolate chips and stir until evenly distributed.\n7. Using a cookie scoop, scoop the dough onto the prepared baking sheets, about 2 inches apart.\n8. Bake for 10-12 minutes until the edges are golden brown.\n9. Let cool on the baking sheets for 10 minutes before transferring to a wire rack to cool completely. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Suggest a recipe for a vegan dessert.",
+    "output": "Vegan Chocolate Fudge Cake\nIngredients: \n- 1 cup all-purpose flour \n- 1/2 cup cocoa powder \n- 1 teaspoon baking powder \n- 1/4 teaspoon salt \n- 1/2 cup vegan butter \n- 1 cup organic sugar \n- 1/2 cup non-dairy milk \n- 1 teaspoon apple cider vinegar \n- 1 teaspoon pure vanilla extract \n- 1/2 cup vegan semi-sweet chocolate chips \n- 1/4 cup vegan dark chocolate chips \nInstructions: \n1. Preheat oven to 350\u00b0F. Grease and flour a 9-inch cake pan. \n2. In a medium bowl, whisk together the flour, cocoa powder, baking powder, and salt. \n3. In a large bowl, beat together the vegan butter and sugar until light and fluffy. \n4. Add the non-dairy milk, apple cider vinegar, and vanilla extract and mix until combined. \n5. Slowly add the dry ingredients to the wet ingredients and mix until just combined. \n6. Fold in the vegan chocolate chips. \n7. Pour the batter into the prepared cake pan and spread evenly. \n8. Bake for 25-30 minutes or until a toothpick inserted into the center of the cake comes out clean. \n9. Cool completely before slicing and serving.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Design a medium-level sudoku puzzle.",
+    "output": "2   6   7\n9   4   1\n3   5   8\n\n1   8   3\n4   2   6\n7   9   5\n\n8   7   5\n6   3   4\n9   1   2\n\n5   1   6\n2   8   9\n4   7   3",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Solve the given Sudoku puzzle.\n\nThe Sudoku puzzle is:\n|1|  |5|  |  |  |  |8|  |\n|  |  |  |  |  |3|  |6|4|\n|8|3|4|6|7|  |9|  |  |\n|2|9|1|  |  |8|3|7|6|\n|  |  |6|  |  |9|8|1|  |\n|  |  |  |  |  |2|  |  |  |\n|  |2|  |  |9|7|6|  |  |\n|5|4|  |  |  |  |  |9|8|\n|6|1|  |  |  |5|4|3|7|",
+    "output": "|1|7|5|2|4|6|9|8|3|\n|9|2|8|5|1|3|7|6|4|\n|8|3|4|6|7|1|9|5|2|\n|2|9|1|4|5|8|3|7|6|\n|4|5|6|7|3|9|8|1|2|\n|7|8|3|1|6|2|5|4|9|\n|3|2|9|8|9|7|6|1|5|\n|5|4|7|3|2|1|2|9|8|\n|6|1|2|9|8|5|4|3|7|",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Think of a motivational quote that you have read in a book. Try to keep it positive and sweet.",
+    "output": "\"You are capable of more than you know. Believe in yourself.\"",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Choose the best books from the given genre.\n\nCrime & Mystery",
+    "output": "1.The Girl with the Dragon Tattoo by Stieg Larsson\n2.The Da Vinci Code by Dan Brown\n3.Mystic River by Dennis Lehane\n4.Gone Girl by Gillian Flynn\n5.The Silence of the Lambs by Thomas Harris\n6.The Catcher in the Rye by J.D. Salinger\n7.The Hound of the Baskervilles by Arthur Conan Doyle\n8.Murder on the Orient Express by Agatha Christie\n9.The Name of the Rose by Umberto Eco\n10.And Then There Were None by Agatha Christie",
+    "generator": "text_davinci_003"
+  }
+]

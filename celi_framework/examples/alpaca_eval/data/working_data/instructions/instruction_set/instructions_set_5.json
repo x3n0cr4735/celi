@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "helpful_base",
+    "instruction": "When was Canada colonized?",
+    "output": "Canada was colonized in the late 15th century by the French and the British.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How can I  use my phone less?",
+    "output": "1. Set a specific time for phone use: Decide when you will allow yourself to use your phone and stick to that schedule. \n2. Make it harder to access: Move your phone out of arm's reach or turn off notifications to reduce the temptation to check it.\n3. Replace your phone time with other activities: Read a book, take a walk, or start a hobby to occupy your time.\n4. Cut back on social media: Delete social media apps from your phone or limit the amount of time you spend on them.\n5. Turn off background data: Disable background data to prevent apps from running and consuming data in the background.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How did mankind discover that the earth was spherical, and why did they initially believe it to be flat?",
+    "output": "Mankind discovered that the Earth was spherical in the 6th century BC when Pythagoras and his followers first proposed that the Earth was a sphere. This was largely based on observations of the stars and constellations, which appeared to change shape as the Earth moved around the sun. Prior to this, it was widely believed that the Earth was flat due to traditional religious beliefs and the lack of scientific evidence to the contrary.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What is Gremolata?",
+    "output": "Gremolata is an Italian condiment typically made with lemon zest, parsley, and garlic. It is used to add flavor and texture to dishes such as fish, poultry, and vegetables.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Why did humans evolve to believe in God?",
+    "output": "Humans evolved the belief in a higher power or God for a variety of reasons. This belief may have provided comfort and hope in difficult times, motivated people to act ethically, and provided a sense of purpose and order in the universe. It may also have helped humans to make sense of the unknown and to cope with death and suffering.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "what should i build a cabin out of?",
+    "output": "You can build a cabin out of wood, logs, bricks, stone, or metal. Depending on the type of cabin you are looking to build, some materials may be better suited than others. For instance, wood and logs may be best for a rustic cabin, while stone or metal may be better for a more modern cabin.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Why do a lot of Scientists not believe in God or Satan?",
+    "output": "Many scientists base their beliefs on evidence and scientific research, which often does not provide evidence for the existence of God or Satan. Additionally, scientific theories often conflict with religious teachings, leading some scientists to reject the notion of a higher power. Additionally, many scientists believe that religious beliefs should be a matter of personal faith rather than a matter of scientific fact.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Mauritian dishes. Can you give me a recipe for Mine Frite?",
+    "output": "Ingredients:\n- 2 cups vegetable oil\n- 3 medium potatoes, peeled and cut into 1/2 inch thick wedges\n- 1 teaspoon garlic powder\n- 1 teaspoon cumin powder\n- 1 teaspoon turmeric powder\n- Salt to taste\n\nInstructions:\n\n1. Heat the oil in a large pot over medium heat.\n\n2. Add the potatoes to the hot oil and cook for about 10 minutes, stirring occasionally.\n\n3. In a small bowl, mix together the garlic powder, cumin powder, turmeric powder, and salt.\n\n4. Sprinkle the spice mixture over the potatoes and stir to coat them evenly.\n\n5. Continue to cook the potatoes for an additional 10 minutes or until they are golden brown and crispy.\n\n6. Serve the Mine Frite hot. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Why can I see the moon during the day?",
+    "output": "The moon is visible during the day because it reflects the sun's light, which makes it bright enough to be seen even during the day.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How do I take care of a wooden table?",
+    "output": "1. Wipe the surface of the table with a clean, damp cloth regularly to remove dust and debris.\n2. Apply a coat of wood wax or wood polish to the table as needed to keep the surface looking shiny and new.\n3. Avoid placing hot items directly on the table as they may cause damage to the finish.\n4. Place a coaster or mat underneath any items that may leak or spill to prevent staining.\n5. Place furniture pads or felt pads on the bottom of the table legs to prevent scratches on the floor.\n6. Use a wood cleaner and polish to clean more stubborn stains and marks.",
+    "generator": "text_davinci_003"
+  }
+]

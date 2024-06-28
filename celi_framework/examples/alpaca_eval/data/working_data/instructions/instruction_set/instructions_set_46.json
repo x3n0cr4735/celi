@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "Using critical thinking methods, how would you approach and solve the following problem: A local restaurant is experiencing a decrease in customers, and the owner wants to understand the cause and find a solution. What steps would you take to gather information, analyze the situation, and develop potential solutions?",
+    "output": "Step 1: Gather Information: Speak with customers, employees, and other local business owners to understand why customers are not patronizing the restaurant. Utilize surveys or interviews to determine what aspects of the restaurant or customer experience need improvement.\n\nStep 2: Analyze the Situation: Analyze the data gathered from the surveys/interviews to identify potential causes for the decrease in customers. Common causes may include poor customer service, outdated decor, menu items that are not appealing, pricing that is too high, and lack of promotion.\n\nStep 3: Develop Potential Solutions: Based on the analysis of the data, develop potential solutions to address the identified issues. Solutions may include improving customer service, updating the restaurant's decor, adding new menu items, adjusting pricing, and increasing promotion efforts.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How can you write a first person controller script in GDscript and apply it to a KinematicBody-node when using Godot Engine 3.x and what is the equivalent to the KinematicBody-node in Godot Engine 4.x and how does the first person controller script need to be changed to work in Godot Engine 4.x?",
+    "output": "In Godot Engine 3.x, a first person controller script can be written in GDscript and applied to a KinematicBody-node. This script would control the camera and the movement of the character node, allowing the player to move around and interact with the game world.\n\nIn Godot Engine 4.x, the equivalent to the KinematicBody-node is the RigidBody-node. The RigidBody-node allows for more realistic physics-based movement, and so the script needs to be modified to work with the RigidBody-node. The script must include physics calculations and forces, as well as code to handle collisions between the character and the environment. Additionally, the script must account for the different movement options available to the RigidBody-node, such as setting the linear velocity, applying force, and using torque.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What are F-centers in crystallography ? How are they created and what consequences do they have on the overall appearance of crystal ?",
+    "output": "F-centers in crystallography are defect sites in a crystal lattice that are caused by the presence of an extra electron. These F-centers are created when a lattice site is missing a lattice ion, such as an anion, or when an impurity atom takes the place of a lattice ion. As a result, the extra electron becomes trapped and the F-center is formed.\n\nThe presence of F-centers can have a significant effect on the overall appearance of a crystal. F-centers can cause a crystal to become colored, as they absorb light in the visible spectrum. This is because the extra electron at the F-center creates a localized disturbance in the crystal lattice, which can interact with the light passing through it. F-centers can also have an effect on the optical properties of a crystal, such as its refractive index, absorption coefficient, and polarizability.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Explain why landlords can be considered superior to their tenants",
+    "output": "Landlords can be considered superior to their tenants because they are in a position of power. As landlords, they have the authority to manage the property, set rules and regulations, and make decisions about tenant behavior. They also have the right to evict tenants who violate their rules or fail to pay their rent. Landlords are also responsible for making sure the property is kept in good condition and for collecting rent payments. In addition, they are the ones who ultimately benefit from the rental income.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "The wireless Internet signal in my house is weak in some rooms.  How can I improve my Wi-Fi coverage?",
+    "output": "1. Move your router to a central location in your home.\n2. Connect your router to your modem using an Ethernet cable.\n3. Replace your router's antenna with a higher-gain antenna.\n4. Add a Wi-Fi range extender.\n5. Upgrade your router to a newer model.\n6. Change the Wi-Fi channel on your router.\n7. Add a wireless access point to extend your Wi-Fi coverage.\n8. Change the position of your router.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Why can't you see the stars in the city, but you can in the countryside?",
+    "output": "You cannot see stars in the city because of light pollution. Light from street lamps and buildings blocks the light of the stars, making them difficult to see. In the countryside, there is usually less light pollution, so the stars can be seen more easily.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Help me get a job in the government in which I\u2019ll have major bargaining power",
+    "output": "1. Research government jobs to identify positions that may fit your interests and qualifications.\n2. Create a resume and cover letter tailored to the job you would like and highlight your relevant skills and experience.\n3. Network with people in the government, such as former colleagues and colleagues from professional organizations.\n4. Attend job fairs or other recruitment events geared towards government positions.\n5. Apply for positions that match your qualifications and interests.\n6. Follow up on your applications and stay in touch with the hiring manager.\n7. Consider pursuing additional training or certifications to increase your bargaining power.\n8. Negotiate a salary and benefits package that is competitive and fair.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Give me a list of 5 words where the letters of the words are in alphabetical order. One example: \"doors\". \"d\" comes before \"o\", \"o\" comes before \"r\", and \"r\" comes before \"s\".",
+    "output": "1. abbey\n2. savvy\n3. ceilx\n4. mnopq\n5. wxyza",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What's the current date?",
+    "output": "The current date is March 30, 2020.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What are some of the best university's for studying robotics?",
+    "output": "1. Massachusetts Institute of Technology (MIT) \n2. Stanford University \n3. University of California, Berkeley \n4. Carnegie Mellon University \n5. Georgia Institute of Technology \n6. Cornell University \n7. University of Pennsylvania \n8. University of Southern California \n9. University of Michigan \n10. Harvard University",
+    "generator": "text_davinci_003"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "How would a basic project in PyGame look like? I'd like the example to include keyboard event handling so that pressing ESC will quit the game and also print the FPS counter in the left top corner of the window.",
+    "output": "import pygame\nimport time\n\n# Initialize PyGame\npygame.init()\n\n# Create a window\nwindow = pygame.display.set_mode((400, 400))\n\n# Define colors\nBLACK = (0, 0, 0)\n\n# Set the window title\npygame.display.set_caption(\"My Game\")\n\n# Set a clock\nclock = pygame.time.Clock()\n\n# Create a variable to control the main loop\nrunning = True\n\n# Main loop\nwhile running:\n    # Get the FPS\n    fps = clock.get_fps()\n    # Print the FPS in the left top corner\n    pygame.display.set_caption(\"My Game | FPS: \" + str(int(fps)))\n    \n    # Event loop\n    for event in pygame.event.get():\n        # Quit the game if \"ESC\" is pressed\n        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:\n            running = False\n    \n    # Fill the background color\n    window.fill(BLACK)\n    \n    # Update the display\n    pygame.display.update()\n    \n    # Tick the clock\n    clock.tick(60)\n\n# Uninitialize PyGame\npygame.quit()",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Create a table with the planets of the solar system and their dimensions",
+    "output": "Planet | Dimensions\n--------------------\nMercury | 4879 km\nVenus | 12104 km\nEarth | 12756 km\nMars | 6792 km\nJupiter | 142984 km\nSaturn | 120536 km\nUranus | 51118 km\nNeptune | 49532 km",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "I heard something about a number of British folks being deceived into believing that spaghetti grows on trees. Is this real? If so, how were they able to be drawn into a deception like this?",
+    "output": "No, this is not real. It is an urban legend that was perpetuated by a BBC show in 1957. The show aired a segment that showed farmers in southern Switzerland harvesting spaghetti from trees. This was actually an April Fool's Day joke, but it fooled a lot of people and the story has been passed around ever since.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Play the role of a dating coach who is running a date simulation. Play the part of the woman who is arriving late for a date. I'll play the role of the man who arrived early.",
+    "output": "Woman: Hi, sorry I'm late. I got held up in traffic.\nMan: No worries! I'm glad you made it. Can I get you a drink?",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "I will be having a party tomorrow, and plan on drinking with friends. I believe my tolerance is relatively high, but know the symptoms in the next day are never nice to me. Specifically, I tend to be prone to nausea the day after, and headaches. I've previously tried to sip water between the alcoholic drinks, but still experienced nausea that night. What should I do specifically to alleviate these symptoms? Is my situation different from that of others?",
+    "output": "To help alleviate the symptoms of nausea and headaches, you should prioritize hydrating as much as possible. This means drinking plenty of water before, during, and after the party. It is also important to avoid sugary drinks and alcohol with higher concentrations of alcohol, as these can increase your risk of dehydration and make your symptoms worse. You should also try to eat a light meal before and after your party so that your body has some energy to burn and to help absorb the alcohol. Additionally, you can take an over-the-counter anti-nausea or anti-inflammatory medication such as ibuprofen to help reduce the symptoms.\n\nYour situation is not different from that of others, and these tips should help you reduce the symptoms of nausea and headaches that you experience the next day. However, if you find that these tips are not helping, you should speak to your healthcare provider for more advice.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "take the phone conversation in the movie Taken that Bryan Mills has with his daughters captors, and rewrite it in old english",
+    "output": "Bryan Mills: Greetings, I would fain speak with the one who holds sway o'er mine daughter.\nCaptors: Who be this?\nBryan Mills: I am her father, and I entreat of thee to let her go unharmed.\nCaptors: Thou shalt not have her, unless thou canst pay a hefty ransom.\nBryan Mills: Aye, I shall pay the price, but I demand assurance of her safety.\nCaptors: That can be arranged.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "When approaching a technical problem which I am not familiar with, I feel scared for a bit. How do you think would a good method for me to approach these kinds of problems? Here is some more information about me that might help you; I like writing and use Swiss cheese method for writing around topics.",
+    "output": "To approach a technical problem which you are not familiar with, you can use a method of structured problem-solving. Start by breaking down the problem into smaller, more manageable pieces and then work through each piece one at a time. Consider using the Swiss cheese method for writing around topics to help you break down and analyze the problem. This means you can start by writing down the problem and all the possible solutions you can think of, no matter how crazy or impossible they may seem. Then you can go through each solution and analyze the pros and cons for each one. From there, you can narrow down the solutions to the ones that are most feasible and start working on them. This process can help you to make the problem more manageable and create a plan of action. Good luck!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "I have an almost irrational hatred for the American version of \"The Office\". I've never really watched it though, nor the original British version. Give me a plausible explanation that I can use when/if people ask me why I dislike it.",
+    "output": "I think the American version of \"The Office\" just doesn't capture the same spirit of the British version. I find it too formulaic and I think it lacks the originality and wit of the original show. Plus, I'm not a fan of the way some of the jokes and characters are portrayed.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Why so many people like film photography when digital camera and mobile phone are more convenient and generate higher quality of photos?",
+    "output": "People who enjoy film photography often appreciate the process of taking photos and developing the film rather than just the end result of a photograph. Film photography also offers a unique aesthetic quality that digital cameras and mobile phones cannot replicate, such as the grainy texture and the muted colors of black and white film. Additionally, film photography can have a more vintage and nostalgic feel than digital photos, which many people find appealing.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How would I go about teaching my cat French?",
+    "output": "Teaching a cat to understand French is not typically a practical goal. Cats are not able to understand human language, so teaching a cat French would be nearly impossible. However, you can teach your cat certain behaviors by associating a French word with them. For example, you can say the French word for \u201csit\u201d every time you want your cat to sit. Your cat will eventually associate the word with the behavior and will respond accordingly. You can also use treats as rewards to reinforce the behavior.",
+    "generator": "text_davinci_003"
+  }
+]

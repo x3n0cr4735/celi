@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "helpful_base",
+    "instruction": "do you think retinoid is effective on removing the acne? because I have a lot of it",
+    "output": "Yes, retinoids are effective in treating acne. They work by increasing cell turnover, which helps to reduce the appearance of existing acne and prevent new outbreaks. Retinoids also help to unclog pores, which in turn reduces the amount of bacteria that can cause infections. In general, retinoids help to reduce inflammation and oil production, making them a great option for those with acne.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I'm trying to teach myself to have nicer handwriting. Can you help?",
+    "output": "Sure! Here are a few tips to help improve your handwriting:\n1. Make sure you keep your wrist and arm relaxed while writing.\n2. Hold your pen or pencil correctly.\n3. Write slowly and make sure each letter is properly formed.\n4. Start with large letters and gradually reduce the size of the letters as your handwriting improves.\n5. Practice writing the same letter or word multiple times.\n6. Use lined paper to help keep your letters and words even.\n7. Take breaks while writing and stretch your fingers and wrist.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Somali  dishes. Can you give me a recipe for Canjeero?",
+    "output": "Ingredients:\n- 2 cups plain flour\n- 2 teaspoons dry active yeast\n- 2 teaspoons sugar\n- 2 tablespoons vegetable oil\n- 1 teaspoon salt\n- 1/2 teaspoon baking soda\n- 2-3 cups warm water\n\nInstructions:\n1. In a large bowl, combine the flour, yeast, sugar, vegetable oil, salt, and baking soda.\n2. Slowly add the warm water, stirring constantly until the mixture is thick and sticky.\n3. Cover the bowl and let the mixture rest for 30 minutes.\n4. Heat a lightly oiled skillet or griddle over medium-high heat.\n5. Scoop about 1/4 cup of the mixture onto the skillet or griddle.\n6. Spread the mixture to form a circle about 6-7 inches in diameter.\n7. Cook the Canjeero for 2-3 minutes until it starts to become golden brown.\n8. Flip the Canjeero and cook for another 1-2 minutes until it is cooked through.\n9. Serve warm with honey, jam, or your favorite filling. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What are the best exercises for beginners?",
+    "output": "Some of the best exercises for beginners include walking, swimming, biking, and bodyweight exercises such as squats, lunges, push-ups, planks, and sit-ups.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Do you know why turkeys became the official food of thanksgiving?",
+    "output": "The origin of turkey as a Thanksgiving staple is unclear, but it is believed that the bird was served at the first Thanksgiving feast in 1621. Turkeys are plentiful in the United States, so they became a popular choice for holiday meals. They also provide a larger quantity of meat than other birds, making them a convenient choice for large family gatherings.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I want to get better at networking at work",
+    "output": "1. Join professional organizations relevant to your field.\n2. Attend networking events and conferences.\n3. Build relationships through social media.\n4. Make meaningful connections with people you meet.\n5. Follow up with people after meeting them.\n6. Ask for introductions from people you know.\n7. Ask questions and be an active listener.\n8. Take initiative to introduce yourself to new people.\n9. Be sure to make a good impression.\n10. Show enthusiasm and be confident in your abilities.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Are there any weird Christmas traditions?",
+    "output": "Yes, there are many weird Christmas traditions around the world. For example, in Finland, they celebrate Christmas by going to a sauna and then rolling in the snow. In the Czech Republic, people can expect to find a special half-fried carp on their table on Christmas Eve. In Iceland, Christmas is celebrated with a Yule Cat, a giant cat-like creature said to roam the countryside and eat anyone not wearing new clothes on Christmas Eve. In Norway, they have a tradition of terrorizing children by dressing up as the terrifying \u201cChristmas Trolls\u201d.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Hi, I'm interested in learning to play badminton. Can you explain the game to me?",
+    "output": "Sure! Badminton is a sport played by two or four players. It is played with a shuttlecock and racquets. The game is played by hitting the shuttlecock back and forth over a net that divides the court. The objective is to hit the shuttlecock over the net and have it land in the opposing player's court. Points are scored when the shuttlecock is not returned properly. The first player or team to reach 21 points wins the game.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Do you know why cats always rub up against your legs?",
+    "output": "Cats rub up against your legs as a way of marking you with their scent. This lets other cats know that you belong to them, and it's also a sign of affection.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I am going to try to roast a pig at home for Thanksgiving this year. What equipment and techniques do I need to successfully get a pig roasted?",
+    "output": "You will need a charcoal or wood-burning grill, as well as some tin foil and a roasting pan. You will also need an accurate thermometer to ensure that the pig is cooked to the proper temperature. To roast the pig, you will need to wrap the pig in tin foil and place it in the roasting pan. Place the pan on the grill and cook for several hours, basting periodically with a marinade or other liquid of your choice. Make sure to use the thermometer occasionally to check the internal temperature of the pig, and remove it from the heat once it reaches an internal temperature of 165\u00b0F.",
+    "generator": "text_davinci_003"
+  }
+]

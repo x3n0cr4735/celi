@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "What are you thinking of right now?",
+    "output": "I'm thinking about what I need to do today.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Can you help me understand how I can estimate the variance of a variable?",
+    "output": "To estimate the variance of a variable, you can use the sample variance formula. This formula is calculated by taking the sum of the squared differences of each data point from the mean, then dividing by one less than the total number of data points. An example of this formula would be \n\nVariance = (sum of (data point - mean)^2) / (n-1) \n\nwhere n is the total number of data points.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Write a monologue. Do not offer any explanation or out of character notes. The setting is in the Elder Scrolls universe.",
+    "output": "Ah, what a glorious day! I can feel the energy of the land, the power of the gods, and the strength of the people of Tamriel. I can sense the passion of the Nords, the determination of the Dunmer, the inventiveness of the Argonians, and the wisdom of the Altmer. The air is filled with the sounds of battle, adventure, and hope. I am so proud to be part of this world, to be a part of the Elder Scrolls. I have seen many things in my travels, but nothing compares to the freedom and beauty of this land. I am so blessed to be able to share in its secrets and experience its wonders. I can only hope that I can do something to help protect it and ensure its future.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What parts of the human genome describe physical appearance and how can they be reprogrammed using modern methods like crisper? give samples using python code",
+    "output": "Physical appearance is determined by a variety of genetic factors, including genes that control hair color, eye color, skin color, and facial features. Modern methods such as CRISPR allow for precise editing of these genes, allowing for reprogramming of physical appearance. \n\nFor example, using Python code, a gene for blond hair could be edited using CRISPR by inserting a specific sequence of DNA:\n\nblond_gene = \"ATGCTTATATGGGTAGATGGATGGCAATCCCTAA\"\n\nCRISPR_edit = \"ATGCTTATATGGGTAGATGGATGACCAATCCCTAA\"\n\n#CRISPR edit to change gene from blond to brunette\n\nnew_gene = blond_gene[:20] + CRISPR_edit[20:]\n\nprint(new_gene) \n\n# Output: ATGCTTATATGGGTAGATGGATGACCAATCCCTAA",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is the best approach for learning a foreign language when you only have an hour a day to practice?",
+    "output": "The best approach for learning a foreign language when you only have an hour a day to practice is to focus on the most important elements of the language. This includes mastering the basics such as grammar, pronunciation, and basic vocabulary. Additionally, it is important to actively listen and speak the language in order to internalize it. If you can, try to find a native speaker to practice with or join a language exchange program to get more exposure to the language. Finally, invest in quality language learning resources such as books, podcasts, or online courses to supplement your learning and keep you motivated.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What happened to schrodinger's cat?",
+    "output": "Schrodinger's cat is an example of a thought experiment used to illustrate the concept of quantum mechanics and the idea of a superposition of states. In the thought experiment, a cat is placed in a sealed box with a device that has the potential to release a deadly poison. According to quantum mechanics, the cat is both dead and alive until the box is opened and the cat's state is observed.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How do polar bears stay warm in Arctic winters?",
+    "output": "Polar bears stay warm in Arctic winters by using a thick layer of blubber and fur for insulation. They also huddle together and move slowly to conserve energy and minimize heat loss. Additionally, polar bears dig snow caves to provide additional insulation from the cold temperatures.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "I have two remote Debian servers, A and B. How can I copy a directory of files at `~/Documents/training_results` existing on server A to the path `~/training_results` on server B? I have SSH access on my local laptop to each of the servers, but neither of the servers have SSH access to the other.",
+    "output": "1. On your laptop, use the scp command to copy the files from server A to your laptop: \n\n`scp -r user@serverA:/~/Documents/training_results/ ~/Documents/training_results` \n\n2. Then use the scp command again to copy the files from your laptop to server B: \n\n`scp -r ~/Documents/training_results/ user@serverB:/~/training_results`",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Act as the Norse Goddess Freyja.",
+    "output": "I am the Goddess Freyja, the goddess of love, beauty, fertility, and war. I am the protector of my people and will go to any length to ensure their safety and well-being. I bring peace and prosperity to anyone who worships me, and I will always be by their side in times of need. I am a symbol of beauty and grace, and I am here to bring joy and happiness to all who revere me.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "I'm an English speaker trying to learn Japanese Kanji using mnemonics. Mnemonics for Kanji are created from the primitives that make them up. The Kanji for Tax has the primitives wheat and devil, so an example would be, \"Taxes are like the devil taking away your hard earned wheat\". Can you create a mnemonic for the Kanji meaning Wish that has the primitives clock and heart?",
+    "output": "\"A wish is like a ticking clock in your heart, reminding you of what you desire.\"",
+    "generator": "text_davinci_003"
+  }
+]

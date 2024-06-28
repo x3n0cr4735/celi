@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "Write a code block in Markdown containing an example of a code block in Markdown. Don't forget those quadruple backticks.",
+    "output": "```\n#include <stdio.h>\n\nint main()\n{\n    int x = 5;\n    int y = 10;\n    int z = x + y;\n    \n    printf(\"The sum of x and y is %d\", z);\n    \n    return 0;\n}\n```",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "what does the @ in python do",
+    "output": "The @ symbol is used in Python for the decorator syntax. Decorators are a type of function that allows developers to modify the behavior of another function without having to make changes to the original function itself. Decorators are often used to add additional functionality to functions, such as logging, caching, or authorization.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Can you describe the process that use to generate answers? Please provide a step by step explanation.",
+    "output": "Step 1: Identify the problem or question that needs to be answered.\n\nStep 2: Gather and analyze relevant data related to the problem or question.\n\nStep 3: Develop a hypothesis or potential solutions to the problem or question.\n\nStep 4: Test the hypothesis or potential solutions and evaluate the results.\n\nStep 5: Draw conclusions based on the results of the evaluation and refine the hypothesis or solutions as needed.\n\nStep 6: Present the results of the evaluation and conclusions in a meaningful way.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Can we find a formula to generate all prime numbers, and is the distribution of primes truly random?",
+    "output": "No, there is no formula to generate all prime numbers. The distribution of prime numbers is believed to follow a pattern known as the Prime Number Theorem, but the exact mechanism of this pattern and its randomness remain unknown.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How long will it take to walk around the world, assuming that would be possible?",
+    "output": "It would take approximately 657 days or 1 year and 9 months to walk around the world.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Pretend to be a business professional. Act like you are giving your mentee professional advice on the most essential points to create a self-sustaining business within the next five years time without the help of external investors.",
+    "output": "1. Establish a clear business plan. Develop a comprehensive roadmap that outlines your business goals, strategies, and milestones. This will help you determine what resources you need to build a successful business and how much time and money it will take to reach each goal.\n\n2. Focus on customer satisfaction. Make sure that you are providing a quality product or service that meets customer needs and expectations. This will help ensure that customers keep coming back and create a steady stream of income.\n\n3. Invest in marketing. Develop a strong marketing plan that will help you reach new customers and build brand recognition.\n\n4. Build a network. Take advantage of networking opportunities to connect with potential customers, partners, and mentors. This will help you get feedback, resources, and support to help your business grow.\n\n5. Stay organized. Keep track of your finances, operations, and other important aspects of your business. This will help you stay on top of any potential issues or opportunities that may arise.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is the name of the windows XP background image?\nWhere was it taken and by who?",
+    "output": "The name of the Windows XP background image is \"Bliss\". It was taken in Sonoma County, California by Charles O'Rear.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "If I found a dollar bill, would it be illegal to keep it ?",
+    "output": "No, it would not be illegal to keep a dollar bill that you find. It is perfectly legal to keep money that you find as long as it is not classified as stolen property.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Suppose I have 12 eggs. I drop 2 and eat 5. How many eggs do I have left?",
+    "output": "5 eggs",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What are some options of foods that I can make with dough and cheese?",
+    "output": "- Pizza\n- Calzones\n- Stromboli\n- Cheesy Breadsticks\n- Cheese Pockets\n- Cheese Palmiers\n- Cheese and Herb Pinwheels\n- Baked Empanadas\n- Cheese Twists\n- Baked Mozzarella Sticks",
+    "generator": "text_davinci_003"
+  }
+]

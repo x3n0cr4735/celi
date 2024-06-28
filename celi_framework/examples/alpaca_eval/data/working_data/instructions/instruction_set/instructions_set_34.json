@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "Why do we need AI assistants?",
+    "output": "AI assistants can help automate mundane tasks, provide personalized services, and make life more convenient. They can also help increase efficiency and productivity in the workplace by providing real-time insights and automating certain processes.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Please give me a recipe I can cook with only the ingredients I have in my Fridge. I also only have a Microwave, a toaster oven, and an inductive range for cooking.\n\nI have:\n\nTomatoes\nPeppers\nPasta\noat bran\nplain yogurt\nPickles\nVegetarian sausage\nsour cream\nlimes\npeas\npotatoes\nsalted butter\nsalt\ngarlic\noregano\ncumin\nfennel\nonions\nginger\nchili\nancho pepper",
+    "output": "Vegetarian Sausage Pasta with Tomatoes and Peppers\nIngredients:\n\u2022 1 tablespoon salted butter\n\u2022 1/2 onion, chopped\n\u2022 1/2 red pepper, diced\n\u2022 1/2 green pepper, diced\n\u2022 2 cloves of garlic, minced\n\u2022 1 teaspoon of oregano\n\u2022 1 teaspoon of cumin\n\u2022 1/2 teaspoon of fennel\n\u2022 1/2 teaspoon of ginger\n\u2022 1/4 teaspoon of chili\n\u2022 1/4 teaspoon of ancho pepper\n\u2022 4 vegetarian sausages, chopped\n\u2022 1/2 cup of pasta\n\u2022 1/2 cup of oat bran\n\u2022 2 tomatoes, diced\n\u2022 1/2 cup of peas\n\u2022 1/2 cup of plain yogurt\n\u2022 1/4 cup of sour cream\n\u2022 Juice of 1 lime\n\u2022 1/2 teaspoon of salt\n\nInstructions:\n1. Preheat your toaster oven to 350\u00b0F.\n\n2. In a large skillet, melt the butter over medium heat.\n\n3. Add the onions, red and green peppers, garlic, oregano, cumin, fennel, ginger, chili, and ancho pepper and cook, stirring often, for about 5 minutes, or until the vegetables are softened.\n\n4. Add the vegetarian sausages and cook for an additional 5 minutes, stirring occasionally.\n\n5. Add the pasta, oat bran, tomatoes, peas, plain yogurt, sour cream, lime juice, and salt. Stir to combine.\n\n6. Transfer the mixture to an oven-safe baking dish and bake in the preheated oven for 25 minutes, or until the pasta is cooked through and the top is lightly browned.\n\n7. Serve hot. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is the largest ocean in the world?",
+    "output": "The largest ocean in the world is the Pacific Ocean.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Mike's mother had four kids. Three of them are named Luis, Drake, and Matilda. What is the name of the fourth kid?",
+    "output": "Mike.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Give me some impression of what the world was like in 1950. What were the current-day inventions back then?",
+    "output": "In 1950, the world was a much different place than it is today. Many of the technologies and inventions we take for granted now were either in their infancy or hadn't been invented yet. Back then, the television was a relatively new invention, and only a few households had one. The telephone was a common device, but the cordless variety hadn't been invented yet. Cars and trucks were the primary mode of transportation, and the first computer was being developed by IBM. Other inventions of the time included washing machines, vacuum cleaners, and basic home appliances.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What are the five most common causes of stress among people?",
+    "output": "1. Work/school pressures: Long hours, heavy workloads, job insecurity, and difficult deadlines can all lead to stress.\n\n2. Financial problems: Financial worries, such as not having enough money to pay bills or debts, can cause a great deal of stress.\n\n3. Relationship issues: Arguments with partners, family members, or friends can cause significant stress.\n\n4. Health concerns: Chronic health problems, injury, and illnesses can be stressful.\n\n5. Major life changes: Moving, starting a new job, getting married, or having a baby can all be major sources of stress.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Rewrite this song to be about Programing\n[Verse 1]\nSteve walks warily down the street\nWith the brim pulled way down low\nAin't no sound but the sound of his feet\nMachine guns ready to go\nAre you ready? Hey, are you ready for this?\nAre you hanging on the edge of your seat?\nOut of the doorway the bullets rip\nTo the sound of the beat, yeah\n[Chorus]\nAnother one bites the dust\nAnother one bites the dust\nAnd another one gone, and another one gone\nAnother one bites the dust, yeah\nHey, I'm gonna get you too\nAnother one bites the dust\n\n[Verse 2]\nHow do you think I'm going to get along\nWithout you, when you're gone\nYou took me for everything that I had\nAnd kicked me out on my own\nAre you happy, are you satisfied?\nHow long can you stand the heat?\nOut of the doorway the bullets rip\nTo the sound of the beat\nLook out\n\n[Chorus]\nAnother one bites the dust\nAnother one bites the dust\nAnd another one gone, and another one gone\nAnother one bites the dust\nHey, I'm gonna get you, too\nAnother one bites the dust\nYou might also like\nDon\u2019t Stop Me Now\nQueen\nFlowers\nMiley Cyrus\nBohemian Rhapsody\nQueen\n\n[Bridge]\nHey\nOh, take it\nBite the dust, hey\nAnother one bites the dust\nAnother one bites the dust, ow\nAnother one bites the dust, hey hey\nAnother one bites the dust, hey-eh-eh\nOoh\n\n[Verse 3]\nThere are plenty of ways you can hurt a man\nAnd bring him to the ground\nYou can beat him, you can cheat him, you can treat him bad\nAnd leave him when he's down, yeah\nBut I'm ready, yes I'm ready for you\nI'm standing on my own two feet\nOut of the doorway the bullets rip\nRepeating the sound of the beat\nOh yeah\n\n[Chorus]\nAnother one bites the dust\nAnother one bites the dust\nAnd another one gone, and another one gone\nAnother one bites the dust, yeah\nHey, I'm gonna get you, too\nAnother one bites the dust",
+    "output": "[Verse 1]\nSteve writes code carefully down the screen\nWith the syntax checked way down low\nAin't no sound but the sound of the keys\nCompilers ready to go\nAre you ready? Hey, are you ready for this?\nAre you hanging on the edge of your seat?\nOut of the console the lines compile\nTo the sound of the beat, yeah\n[Chorus]\nAnother one bites the dust\nAnother one bites the dust\nAnd another one gone, and another one gone\nAnother one bites the dust, yeah\nHey, I'm gonna get you too\nAnother one bites the dust\n\n[Verse 2]\nHow do you think I'm going to get along\nWithout you, when you're gone\nYou took me for everything that I had\nAnd kicked me out on my own\nAre you happy, are you satisfied?\nHow long can you stand the heat?\nOut of the console the lines compile\nTo the sound of the beat\nLook out\n\n[Chorus]\nAnother one bites the dust\nAnother one bites the dust\nAnd another one gone, and another one gone\nAnother one bites the dust\nHey, I'm gonna get you, too\nAnother one bites the dust\nYou might also like\nDon\u2019t Stop Me Now\nQueen\nJavaScript\nReact\nC#\n.NET\n\n[Bridge]\nHey\nOh, take it\nBite the dust, hey\nAnother one bites the dust\nAnother one bites the dust, ow\nAnother one bites the dust, hey hey\nAnother one bites the dust, hey-eh-eh\nOoh\n\n[Verse 3]\nThere are plenty of ways you can hurt a code\nAnd bring it to the ground\nYou can debug it, you can refactor it, you can optimize it bad\nAnd leave it when it's down, yeah\nBut I'm ready, yes I'm ready for you\nI'm standing on my own two feet\nOut of the console the lines compile\nRepeating the sound of the beat\nOh yeah\n\n[Chorus]\nAnother one bites the dust\nAnother one bites the dust\nAnd another one gone, and another one gone\nAnother one bites the dust, yeah\nHey, I'm gonna get you, too\nAnother one bites the dust",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What do Wyoming statutes have to say about public nudity? Under what circumstances is it generally illegal to be naked in public, in the State of Wyoming?",
+    "output": "In Wyoming, it is generally illegal to be naked in public unless the person is a child under the age of 10. According to Wyoming Statute 6-4-302, it is unlawful for any person to appear in any public place in a state of nudity. This includes public parks, beaches, and other public places. It is also illegal for a person to appear in any private premises in a state of nudity when there is a reasonable expectation that someone outside of the premises may be offended.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Let's assume a friend had a very bad day. What could be a way to cheer them up without making it too obvious and help them keep their mind off things?",
+    "output": "One way to cheer up a friend who had a bad day is to suggest doing something fun together, like going for a walk, going to the movies, or getting ice cream. You could also invite them to do a craft project or play a game together, like board games or video games. If it's too hard for them to get out of the house, suggest watching a funny show or movie or listening to upbeat music together.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Can you make ASCII art? If so, can you show me a house?",
+    "output": "__ \n  |  |\n  |  |\n  |  |\n _|__|_\n|______|",
+    "generator": "text_davinci_003"
+  }
+]

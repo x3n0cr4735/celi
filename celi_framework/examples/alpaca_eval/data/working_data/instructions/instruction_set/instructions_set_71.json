@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Identify and fix bugs in the given code and rewrite it\n\nfor i in range(10)\n    print(Answer is:)\n    print(i)",
+    "output": "for i in range(10):\n    print(\"Answer is:\")\n    print(i)",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Make a list of common phrases for the given section of the paper.\n\nIntroduction",
+    "output": "- In this paper, I will discuss\u2026\n- The purpose of this paper is to\u2026\n- My argument in this paper is that\u2026\n- This paper will explore\u2026\n- This paper will examine\u2026\n- The focus of this paper is\u2026\n- I will argue that\u2026\n- I will demonstrate that\u2026\n- The main point of this paper is\u2026\n- I will demonstrate how\u2026\n- This paper will demonstrate why\u2026",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "We have described a scene from a movie that we have seen in the past. Find out what movie it is.\n\nA choice has to be made between picking the red pill or the blue pill",
+    "output": "The Matrix (1999)",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Take the product description and write a creative ad for it.\n\nDocument Cameras allow teachers to display documents, books, or other materials for their students to see.",
+    "output": "Do you want to make your classroom lessons come alive? With a Document Camera, you can project documents, books, and other materials for your students to see. Take teaching to the next level with a Document Camera!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Translate the natural language description into a Google Sheets formula.\n\nif C7 is equal to \"U.S.A.\" or \"Canada\" or \"Europe\" or \"The Americas\"",
+    "output": "=OR(C7=\"U.S.A.\",C7=\"Canada\",C7=\"Europe\",C7=\"The Americas\")",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are given a tweet and you should decide whether it's offensive or not.\n\nShe has certainly taken some heat for being such an....well idiot.",
+    "output": "Offensive",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "For a quick and efficient office workout, suggest a short routine.",
+    "output": "1. Standing desk tricep dips: Place your hands on the edge of your desk and slowly bend your elbows to lower your body a few inches, then press back up.\n\n2. Wall sits: Lean against a wall with your back straight and feet shoulder-width apart, then lower your body into a squat and hold for 30 seconds.\n\n3. Seated calf raises: Sit in a chair, place your feet flat on the floor, and lift your heels off the ground, then slowly lower them back down.\n\n4. Desk push-ups: Place your hands shoulder-width apart on a desk, and lower your chest towards the desk before pushing back up.\n\n5. Chair dips: Place your hands on the edge of your chair, and slowly bend your elbows to lower your body a few inches, then press back up.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Predict how many stars the author will give to the restaurant from a Yelp review.\n\nThe reviews were great, but honestly i felt it was just ok. Seemed like a typical tourist spot were the food was mediocre. The service was ok, not great, but not the worst.\nThe bread was very good. I ordered the muscle fries. They had a sweet Vidalia onion flavor. No need for fries bc they were soggy wo much flavor. My boyfriend ordered a pesto chicken pasta and it was again mediocre.",
+    "output": "3 stars",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Categorize the Business into one of the Restaurants, Home Services, Auto Services and Miscellaneous based on its Specialties.\n\nCall us at 650-636-4884 or visit our website to receive a quote. This shop specializes in New Tires and General Auto Repair. We carry all tires in-house and have a wide range to fit any budget or car specifics. If you are unsure what tires you need there are experts on hand and available to help you pick the best tire for your needs. We also carry commercial vehicle tires and can serve a wide array of fleets.",
+    "output": "Auto Services",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Notify me of any suggestions you may have for making the text more grammatically correct.\n\nThis is the second time I've been here, and the vibes, and the food were exquisite.",
+    "output": "This is the second time I have been here, and the vibes and the food were exquisite.",
+    "generator": "text_davinci_003"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "Write code for a Discord bot using Discord.js v14. The bot has one command, ban. All commands are slash commands.",
+    "output": "const Discord = require('discord.js');\nconst bot = new Discord.Client();\n\nbot.on('message', message => {\n    if (message.content.startsWith('/ban')) {\n        if (!message.member.hasPermission('BAN_MEMBERS')) {\n            message.channel.send('You do not have permission to ban members!');\n        }\n        else {\n            const member = message.mentions.members.first();\n            if (!member) return message.channel.send('Please mention a valid member of this server!');\n            if (!member.bannable) return message.channel.send('I cannot ban this user!');\n            member.ban()\n                .then(() => message.channel.send(`${member.user.tag} was successfully banned!`))\n                .catch(error => message.channel.send(`Sorry, I couldn't ban because of: ${error}`));\n        }\n    }\n});\n\nbot.login('<YOUR_TOKEN>');",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "A statistical model is a mathematical model that embodies a set of statistical assumptions concerning the generation of sample data (and similar data from a larger population). A statistical model represents, often in considerably idealized form, the data-generating process.\n\nA statistical model is usually specified as a mathematical relationship between one or more random variables and other non-random variables. As such, a statistical model is \"a formal representation of a theory\" (Herman Ad\u00e8r quoting Kenneth Bollen).\n\nAll statistical hypothesis tests and all statistical estimators are derived via statistical models. More generally, statistical models are part of the foundation of statistical inference.\n\nCould you explain each sentence in simple terms?",
+    "output": "1. A statistical model is a mathematical representation of how certain data is generated, including assumptions about the data from a larger population.\n\n2. Statistical models usually include a relationship between random variables (variables that are unpredictable) and non-random variables (variables that can be predicted).\n\n3. Statistical models are a way of expressing a theory in a formal way.\n\n4. Statistical hypothesis tests and estimators are made using statistical models.\n\n5. Statistical models are used to make statistical inferences.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How do I cook a salmon fillet on a stove top pan?",
+    "output": "1. Heat a heavy-bottomed skillet over medium-high heat.\n\n2. Pat the fillet dry with a paper towel and season both sides with salt and pepper.\n\n3. Add a tablespoon of butter or oil to the pan and let it melt.\n\n4. Place the salmon fillet in the pan, skin side down.\n\n5. Cook for 4 minutes or until the bottom of the fillet is golden brown.\n\n6. Flip the fillet and cook for another 3 minutes.\n\n7. Check the center of the fillet with a fork to determine if the salmon is done.\n\n8. Once the salmon is cooked, remove it from the pan and serve.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is the minimum broadband upload speed to stream at 720p 30fps to twitch while playing an online videogame? Twitch recommends 3000kbps upload speed in my streaming software, but how much extra headroom do I need so the twitch stream and online gameplay are both smooth?",
+    "output": "Twitch recommends 3,000kbps (3Mbps) upload speed for streaming at 720p 30fps. To ensure smooth gameplay and streaming, you should aim for an upload speed of 5Mbps or more for an optimal experience.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Write me a high quality testing framework in Cypress that utilizes Docker, and also uses Cypress's ability to capture screenshots and save them.",
+    "output": "1. Create a Docker image to deploy the test environment for Cypress:\n- Install the necessary dependencies to run the Cypress tests, such as Node.js and Chrome.\n- Install the Cypress testing framework.\n- Set up the Cypress configuration file to enable screenshot capturing.\n\n2. Create test scripts to be run by Cypress:\n- Create a test script for each feature or functionality that needs to be tested.\n- Include assertions to validate the expected behavior.\n- Add commands to capture screenshots of the test results.\n\n3. Run the Cypress tests in Docker:\n- Start the Docker container with the Docker image created in step 1.\n- Execute the Cypress tests using the scripts created in step 2.\n- View the test results and screenshots stored in the Docker container.\n\n4. Analyze the results:\n- Review the screenshots captured by Cypress.\n- Analyze the test results to identify any issues or failures.\n- Make any necessary modifications to the test scripts or configuration as needed.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "I live in New Zealand. Given the regulations here, would it be possible for me to own an operational fighter jet? If so, what steps would I need to take to be qualified to fly it?",
+    "output": "No, it would not be possible for you to own an operational fighter jet in New Zealand. In order to be qualified to fly a fighter jet, you would need to go through extensive and specialized training. This would involve completing a rigorous flight training program, passing a series of tests, and obtaining a military-issued pilot's license. You would also need to have the correct security clearance and access to a military airbase.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Act as a baby sitter\n\nI want you to act as a babysitter. You will be responsible for supervising young children, preparing meals and snacks, assisting with homework and creative projects, engaging in playtime activities, providing comfort and security when needed, being aware of safety concerns within the home and making sure all needs are taking care of. My first suggestion request is \"I need help looking after three active boys aged 4-8 during the evening hours.\"",
+    "output": "No problem! I am an experienced babysitter and can provide the care and supervision needed for your three active boys. I will make sure to plan engaging activities for them, provide them with nutritious meals and snacks, help with any homework or creative projects they may have, and provide comfort and security when needed. I will also be sure to be aware of any safety concerns within the home and make sure all of their needs are taken care of.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "AI assistant. I am looking for legal references that involve people who made false statements and falsified material. Such as once that I have heard of. That falsified the signatures and testimony of more than 200 doctors. And relationship. To a large false claim. Utilized. To make marijuana illegal. AI assistant. Could you help me? Find this reference.",
+    "output": "I can certainly help you find a reference for the false statement and falsified material you are looking for. I suggest you start by searching online for legal documents and court cases related to false statements and falsified material. You can also search for news articles and other sources of information that may provide more details. Additionally, you may want to contact lawyers or other legal professionals who specialize in this area to see if they can provide any additional information.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How can I start a successful gaming social media channel? I am aiming for a Youtube channel. Please respond with some tips on how I can start a successful channel. My main questions are as follow: \"How can I create a good thumbnail?\", \"How can I create a good name?\", and \"How often should I upload?\"",
+    "output": "1. Create a Good Thumbnail: A good thumbnail should be visually appealing and stand out from other gaming videos. Use bright colors, interesting fonts, and eye-catching graphics to make your thumbnail eye-catching.\n\n2. Create a Good Name: Choose a name that is memorable, relevant to your gaming channel, and easy to pronounce. Try to avoid using numbers or symbols in the name of your channel.\n\n3. Upload Regularly: Consistency is key when it comes to building a successful gaming channel. Aim to upload videos at least once a week, or more frequently if you can. This will keep your viewers engaged and help you build a loyal fanbase.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Are there any free SAST tools out there?",
+    "output": "Yes, there are several free SAST tools available, including Veracode, Checkmarx, and RIPS.",
+    "generator": "text_davinci_003"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "koala",
+    "instruction": "It's officially 2023, and as we enter a brand new year, what better time to set up our revenue enablement goals for the new year in our Above Goal and Concierge Tools [    ] challenge learn the day-to-day tactics needed to live your best, healthiest life, while exceeding your business performance goals, as we enter this new season.<br><br>Can you come up with a two word name for the challenge akin to \"Live Well\" and fit it in the bracket above?",
+    "output": "\"Live Well\"",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "I need to learn English could you help me and make a exercise",
+    "output": "Exercise:\n\n1. Read a book written in English for at least 15 minutes each day.\n2. Listen to audio recordings in English while doing other activities, such as taking a walk or doing household chores.\n3. Watch movies or programs in English with English subtitles.\n4. Spend time each day talking or writing in English with a native speaker.\n5. Take a class or an online course to learn English grammar, vocabulary, and pronunciation.\n6. Memorize key phrases and idioms to improve your conversational skills.\n7. Play word games or puzzles that involve English words and phrases.\n8. Use flashcards to practice English words and phrases.\n9. Make a list of English words and phrases you want to learn and review them each day.\n10. Practice speaking English aloud to yourself in the mirror.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Why does warmth make you feel tired?",
+    "output": "Warmth can make you feel tired because it can cause your body to become dehydrated. When your body is dehydrated, your body has to work harder to keep your core temperature regulated, which can lead to fatigue. Additionally, when you are exposed to heat for extended periods of time, your body's internal cooling system can become overwhelmed, causing your body to become tired.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "write an article informing customer of my saas software that this currently is  beta version of the software and we are working hard to improve and release it to the market.",
+    "output": "We are pleased to announce that our state-of-the-art software as a service (SaaS) platform is now available in its beta version! Our team is hard at work to create an even better version for the market.\n\nOur software as a service (SaaS) platform is designed to make managing your business operations easier and more efficient. We\u2019ve built a robust platform that will give your business the competitive edge. Our platform is powered by the latest technologies, allowing you to access and use the software from anywhere with an internet connection.\n\nOur software as a service (SaaS) platform is currently in its beta version, so it is still being tested and improved. We are constantly listening to customer feedback and making adjustments to ensure the best user experience. We are working hard to make sure our platform is reliable and free of any bugs before we officially launch it.\n\nWe are excited to offer our software as a service (SaaS) platform in its beta version and we look forward to your feedback and suggestions. This is just the beginning of our journey and we are confident that our platform will be a great success. We can\u2019t wait for you to experience it.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Explain me the Finite Elemente Method",
+    "output": "The Finite Element Method (FEM) is an analytical technique used to approximate the solution of differential equations. It divides a region into a large number of small elements, and then uses the properties of those elements to calculate an approximate solution. FEM is used extensively in engineering and science to solve a wide range of problems. It can be used to determine the stresses and displacements in structures and machines, to analyze fluid flow, to predict the behavior of electrical and electronic circuits, and to solve partial differential equations.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "I've put a plate on top of an apple, and take the plate from kitchen to dinning room. Where is the apple now",
+    "output": "The apple is in the dining room.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Introduce the \u201dfinancial markets and institutions\u201c by Frederic S. Mishkin",
+    "output": "Financial Markets and Institutions by Frederic S. Mishkin is an essential guide to the workings of the financial system. It provides an overview of the major participants, markets, and instruments, as well as an in-depth discussion of the key issues affecting the financial system today. It covers topics such as the structure of financial markets and institutions, the regulation of these markets and institutions, the management of financial risk, and the role of technology in the financial system. The book provides a comprehensive overview of the financial system and its key components, making it an invaluable resource for anyone interested in understanding how the financial system works.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "when are hops added to the brewing process?",
+    "output": "Hops are added during the boiling stage of the brewing process.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Can a Liebherr LTM 11200-9.1 hypothetically lift Mount everest",
+    "output": "No, the Liebherr LTM 11200-9.1 cannot hypothetically lift Mount Everest. The crane has a maximum lifting capacity of 1,200 tonnes, while the estimated mass of Mount Everest is around 5.5 million tonnes.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Write \"Test\"",
+    "output": "Test",
+    "generator": "text_davinci_003"
+  }
+]

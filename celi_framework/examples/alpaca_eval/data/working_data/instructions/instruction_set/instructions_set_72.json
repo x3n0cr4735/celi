@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Using the ingredients that are available, create a dinner recipe.\n\nKale + almond butter + apple cider vinegar + agave nectar + tamari",
+    "output": "Kale with Almond Butter Sauce\n\nIngredients:\n- 2 bunches of kale, washed and stemmed\n- 2 tablespoons almond butter\n- 1 tablespoon apple cider vinegar\n- 2 tablespoons agave nectar\n- 1 tablespoon tamari\n\nInstructions:\n1. Heat a large saut\u00e9 pan over medium-high heat.\n2. Add the kale to the pan and stir until it begins to wilt, about 5 minutes.\n3. Meanwhile, in a small bowl, combine the almond butter, apple cider vinegar, agave nectar, and tamari.\n4. Once the kale is wilted, reduce the heat to low and add the almond butter mixture to the pan.\n5. Stir to coat the kale evenly with the mixture.\n6. Cook for an additional 3 minutes, stirring often.\n7. Serve warm. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Categorize the given product into one of Electronics, Computers, Smart Home, or Arts & Crafts departments.\n\nGoogle Nest Learning Thermostat",
+    "output": "Smart Home",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Provide instructions for the given exercise.\n\nLeg Raises",
+    "output": "1. Lie flat on your back on the floor with your legs extended and your arms at your sides.\n\n2. Engage your core muscles and raise both legs until they are perpendicular to the floor. \n\n3. Hold the position for a moment, then slowly lower your legs back to the starting position.\n\n4. Repeat the exercise for 10-15 repetitions.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Rewrite the text and correct the spelling errors.\n\nIt solves problems comon and uniqe to every team.",
+    "output": "It solves problems common and unique to every team.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write down antonyms for the given word.\n\nlaureating",
+    "output": "belittling",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write the HTML syntax for the required action.\n\nadding an image to the page",
+    "output": "<img src=\"image.jpg\" alt=\"image\">",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Identify the programming language used to write the given code.\n\nif (20 > 18) {\n  printf(\"20 is greater than 18\");\n}",
+    "output": "C",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Decide which part of speech the underlined word belongs to.\n\nschool will _keep through the winter",
+    "output": "keep - verb",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Define what the underlined word means for kids.\n\n_keep a promise",
+    "output": "Keeping a promise means to do something that you said you would do. It is important to keep your promises because it shows that you can be trusted.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Expand the given sentence and give it more details and depth.\n\nIt changed my life.",
+    "output": "The event that occurred was truly life altering; it changed my life in a way that I had never anticipated. It was a moment of clarity that opened my eyes to a new perspective and gave me the motivation to pursue my dreams. It gave me a newfound sense of self-confidence and courage to take risks and invest in my future. It was a pivotal moment that shifted my life in an entirely new direction.",
+    "generator": "text_davinci_003"
+  }
+]

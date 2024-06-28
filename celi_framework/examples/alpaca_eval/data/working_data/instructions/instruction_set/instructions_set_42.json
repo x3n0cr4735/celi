@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "write code that imitates a fake chatbot using a modal where it shows the human users previously typedmesages and the ai chat bots messages all within html. Create the modal fake chathistory having 4 overall messages. With 2 messages from the bot and 2 messages from the human .",
+    "output": "<div class=\"modal\">\n  <div class=\"modal-header\">\n    <h2>Fake Chatbot History</h2>\n  </div>\n  <div class=\"modal-body\">\n    <div class=\"bot-message\">\n      <p>Hi, I'm the chatbot. How can I help you?</p>\n    </div>\n    <div class=\"human-message\">\n      <p>Hello there, I'm looking for some help with a technical issue.</p>\n    </div>\n    <div class=\"bot-message\">\n      <p>No problem. Can you please explain the issue in detail?</p>\n    </div>\n    <div class=\"human-message\">\n      <p>Yes, I'm having trouble loading a certain webpage.</p>\n    </div>\n  </div>\n</div>",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Hi, my cat just chewed on a small weed outside that looked like hairy bittercress.\nCould you check if this is toxic for cats?\nPlease also look for plants from the same family, as I'm not 100% sure I identified it correctly.",
+    "output": "I recommend that you contact your veterinarian immediately. Hairy bittercress (Cardamine hirsuta) is not known to be toxic to cats, but it's always best to be safe and have a professional take a look. For future reference, other plants in the Cardamine family include common cress (Lepidium sativum), shepherd's cress (Teesdalia nudicaulis), and winter cress (Barbarea vulgaris).",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Write me a poem in the style of neruda",
+    "output": "The moon hangs in the sky like a pearl\nIn a sea of stars so bright and twirl\nIts beauty is like a dream come true\nA sight so magical for me and you\n\nThe night can be so dark and still\nBut when the moon appears all is thrill\nThe shadows vanish and the night is no more\nAs the light of the moon shines through the door\n\nThe moon is a reminder of the beauty we can find\nIn the darkness of the night, we can be so kind\nIt's a beacon of hope, a reminder of peace\nA symbol of love, that will never cease",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "In minecraft, what are the best ways to farm experience quickly? Name pros and cons",
+    "output": "Pros:\n-Using an XP farm to generate experience orbs from mobs, which can be collected using a hopper system.\n-Killing mobs multiple times in the same area by using an iron golem farm.\n-Killing Ender Dragons and Withers for large amounts of experience.\n\nCons:\n- XP farms require significant setup and resources.\n- Iron golem farms require a lot of space and use up valuable resources such as iron and pumpkins.\n- Killing Ender Dragons and Withers can be difficult and time consuming.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Write me a Graphic Novel plot in the style of Neil Stephenson.",
+    "output": "The year is 2052 and the world has become a strange and dangerous place. Technology has advanced beyond anything imaginable, giving rise to a new era of cyborgs and augmented humans.\n\nIn the heart of this technological revolution is a lone man called John. He is a brilliant hacker and tech genius, yet his motivations remain unknown.\n\nJohn has stumbled upon a powerful secret that could bring about the downfall of the all-powerful cyborgs and their stranglehold on the world. He must use his skills to uncover the truth and bring freedom to people everywhere.\n\nWith the help of his friends, a rag-tag group of hackers and tech-savvy rebels, John embarks on a dangerous mission to uncover the truth and bring justice to the oppressed. Along the way, they will face off against powerful enemies, uncover secrets about the origins of the cyborgs, and find out who or what is really controlling the world.\n\nWill they be able to succeed in their mission or will the evil forces of the cyborgs prove too strong to overcome? Find out in this thrilling graphic novel, where freedom hangs in the balance.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Can you give an example of a complex project you've worked on that involved multiple teams and stakeholders? How did you collaborate with them to ensure its success?",
+    "output": "I recently worked on a complex project involving multiple teams and stakeholders. The project was to develop a new online platform for a large corporation. I collaborated with the various teams, such as marketing, design, and programming, to ensure that all the different aspects of the project were completed successfully. I also worked closely with the stakeholders to ensure that their expectations were met and that the project was completed on time and within budget. Additionally, I facilitated regular meetings with all the teams and stakeholders to ensure that everyone was on the same page and that all the tasks and deadlines were met. Through effective communication and collaboration, we were able to successfully complete the project.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Are there any AI tools out there for 2D animation?",
+    "output": "Yes, there are a number of AI tools available for 2D animation. These include Adobe Character Animator, Flipbook, Toon Boom Harmony, and Moho.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "In TypeScript, how can I tell the type system \"I know that in theory this value may have these multiple types, but in practice I know it will only have this one\"",
+    "output": "You can use the keyword \"asserts\" to tell the type system that a value will only have one type. For example:\n\nlet x: string | number;\nasserts(typeof x === 'string');\nx = 'hello';",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What's the furthest back we can prove human existence? Is there good reason to believe it goes further then this point?",
+    "output": "The earliest evidence of human existence is found in the form of fossils, tools, and other archaeological remains dating back around 2.5 million years. This is the furthest back we can currently prove human existence. It is possible that human existence may go further back in time, but there is currently no evidence to support this.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "is javascript back end or front end language?",
+    "output": "Front end.",
+    "generator": "text_davinci_003"
+  }
+]

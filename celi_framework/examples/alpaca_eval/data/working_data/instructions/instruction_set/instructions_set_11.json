@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Indonesian dishes. Can you give me a recipe for Tahu Gejrot Cirebon?",
+    "output": "Ingredients: \n- 2 tablespoons of sweet soy sauce \n- 2 tablespoons of chili sauce \n- 2 tablespoons of vinegar \n- 2 tablespoons of sugar \n- 1 tablespoon of ground ginger \n- 2 tablespoons of vegetable oil \n- 2 cloves of garlic, minced \n- 1/4 teaspoon of ground pepper \n- 1/2 teaspoon of ground cumin \n- 1/4 teaspoon of ground nutmeg \n- 2 tablespoons of tomato paste \n- 2 packages of firm tofu, cut into cubes \n- 2 tablespoons of chopped shallots\n- 2 tablespoons of chopped scallions\n- 2 tablespoons of chopped celery\n- 2 tablespoons of chopped chilies\n\nInstructions:\n1. In a medium bowl, mix together the sweet soy sauce, chili sauce, vinegar, sugar, ground ginger, vegetable oil, garlic, ground pepper, ground cumin, and ground nutmeg. \n2. Heat the tomato paste in a large skillet over medium-high heat. \n3. Add the tofu to the skillet and stir to coat. \n4. Pour the sauce mixture over the tofu and stir to coat. \n5. Add the shallots, scallions, celery, and chilies and stir to combine. \n6. Cook until the tofu is golden brown and crispy, about 10 minutes. \n7. Serve hot with steamed white rice or freshly cooked noodles. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What is a scary Halloween costume idea?",
+    "output": "A zombie costume.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Whats the largest star in our galaxy?",
+    "output": "The largest star in our galaxy is UY Scuti, a hypergiant located in the constellation Scutum. It has an estimated radius of 1,708 times that of the Sun's.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I'm trying to draw out a hopscotch game on my driveway. Can you walk me through how to do that?",
+    "output": "1. Start by drawing a square with chalk. Make sure it's big enough for the game. \n2. Divide the square into nine equal sections. \n3. Make two parallel lines in the middle of the square and draw a circle in the center. \n4. Number the nine sections, starting from the top left corner and going around clockwise. \n5. Draw a start line outside the left side of the square and a finish line outside the right side. \n6. Draw diagonal lines connecting the first and fourth squares, and the fourth and seventh squares. \n7. Draw a series of small squares around the outside of the game, connected to one another. \n8. Draw four short lines between the fifth and eighth squares. \n9. Draw two short lines in the middle of the square. \n10. Draw two small circles in the center of the square. \n11. Finally, draw two arrows pointing to the start and finish lines.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Can you tell me how to make chocolate chip cookies?",
+    "output": "1. Preheat oven to 375 degrees F (190 degrees C).\n2. In a large bowl, cream together the butter, white sugar, and brown sugar until smooth.\n3. Beat in the eggs, one at a time, then stir in the vanilla.\n4. In a separate bowl, sift together the flour, baking soda, and salt; stir into the creamed mixture.\n5. Finally, stir in the chocolate chips.\n6. Drop cookie dough by rounded spoonfuls onto ungreased baking sheets.\n7. Bake for 8 to 10 minutes in the preheated oven, or until the edges are golden brown. Allow cookies to cool on baking sheet for 5 minutes before transferring to a wire rack to cool completely.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Where is Indonesia?",
+    "output": "Indonesia is located in Southeast Asia.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Hi, I need to find the area of a 20 sided die for my math homework. Can you help me do that?",
+    "output": "Sure, I can help! The area of a 20-sided die is calculated by taking the surface area of a regular 20-sided polygon and dividing it by 2. The surface area of a regular 20-sided polygon is equal to 20 times the apothem times the perimeter of the polygon. The apothem of a regular 20-sided polygon is equal to the radius of the circumscribed circle divided by the cosine of 180 degrees divided by the number of sides. The radius of the circumscribed circle is equal to the side length of the die divided by 2 times the sine of 180 degrees divided by the number of sides. \n\nTherefore, the area of a 20-sided die is equal to (20 * (side length/2 * sine(180/20)) * (side length/2 * cosine(180/20))) / 2.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I'm trying to learn how to install window blinds.",
+    "output": "1. Gather the necessary tools: a drill, a level, a pencil, a screwdriver, and a tape measure.\n2. Measure the width and height of the window frame.\n3. Select the right size of window blinds for the window frame.\n4. Mark the window frame where the window blinds will be installed.\n5. Install the mounting brackets onto the window frame with the drill.\n6. Place the window blinds onto the mounting brackets.\n7. Use a screwdriver to secure the window blinds to the mounting brackets.\n8. Adjust the window blinds to the desired length and angle.\n9. Enjoy your new window blinds!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I want to learn more about becoming a CPA. How long does it take to become a CPA?",
+    "output": "Generally, it takes between 150 to 180 credit hours to become a Certified Public Accountant (CPA). Most states require at least 150 credit hours, and some require up to 180 credit hours. Depending on the state, you may also need to complete additional educational courses or internships. Additionally, all states require CPA candidates to pass the Uniform CPA Exam. The exam is a four-part exam, and most people take between six months to two years to pass all four parts.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I want to talk about \"Smooth\",  a song by Rob Thomas.",
+    "output": "\"Smooth\" is a song by Rob Thomas, released as the third single from his 1999 solo debut album, \"Something to Be\". The song features a duet with singer Santana and reached the top of the Billboard Hot 100 chart in 1999, staying there for twelve weeks. The song won three Grammy Awards: Record of the Year, Song of the Year, and Best Pop Collaboration with Vocals. The song has been covered by many artists, including Glee, Bruno Mars, and even a cappella group Pentatonix. The song has become a classic, with its catchy chorus and unforgettable guitar solo.",
+    "generator": "text_davinci_003"
+  }
+]

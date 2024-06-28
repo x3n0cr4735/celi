@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "vicuna",
+    "instruction": "Implement a queue data structure using two stacks in Python.",
+    "output": "class Queue:\n    def __init__(self):\n        self.stack1 = []\n        self.stack2 = []\n \n    def enqueue(self, data):\n        self.stack1.append(data)\n \n    def dequeue(self):\n        if len(self.stack2) == 0:\n            if len(self.stack1) == 0:\n                return None\n            while len(self.stack1) > 0:\n                temp = self.stack1.pop()\n                self.stack2.append(temp)\n        return self.stack2.pop()",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Implement a program to find the common elements in two arrays without using any extra data structures.",
+    "output": "#include <stdio.h>\n\nint main() \n{ \n    int arr1[] = {1, 2, 3, 4, 5}; \n    int arr2[] = {4, 5, 6, 7, 8}; \n    int i, j; \n  \n    // Printing elements of first array \n    printf(\"Array 1: \"); \n    for (i = 0; i < 5; i++) \n        printf(\"%d \", arr1[i]); \n    printf(\"\\n\"); \n  \n    // Printing elements of second array \n    printf(\"Array 2: \"); \n    for (i = 0; i < 5; i++) \n        printf(\"%d \", arr2[i]); \n    printf(\"\\n\"); \n  \n    // Finding common elements \n    printf(\"Common elements: \"); \n    for (i = 0; i < 5; i++) { \n        for (j = 0; j < 5; j++) { \n            if (arr1[i] == arr2[j]) \n                printf(\"%d \", arr1[i]); \n        } \n    } \n  \n    return 0; \n} \n\nSample Output:\nArray 1: 1 2 3 4 5 \nArray 2: 4 5 6 7 8 \nCommon elements: 4 5",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Given that f(x) = 5x^3 - 2x + 3, find the value of f(2).",
+    "output": "43",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Solve for x in the equation 3x + 10 = 5(x - 2).",
+    "output": "x = 8",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "If the endpoints of a line segment are (2, -2) and (10, 4), what is the length of the segment?",
+    "output": "The length of the line segment is 12 units.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Can you help me write a formal email to a potential business partner proposing a joint venture?",
+    "output": "Subject: Proposal for Joint Venture\n\nDear [Name],\n\nI hope this message finds you well. I am writing to you today to discuss the possibility of a joint venture between our two organizations.\n\nOur [Organization] is a [briefly describe company] that is passionate about [goals and mission] and we believe that a joint venture with your company could be extremely beneficial for both of us. We would be able to leverage our respective strengths to create a powerful collaboration that would be mutually beneficial.\n\nI would love to hear more about what you think about this proposal. I am available to answer any questions you may have and would be happy to discuss the potential for our joint venture further.\n\nThank you for your time and consideration.\n\nSincerely,\n[Your Name]",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Can you help me write a resignation letter to my current employer, while leaving on good terms and expressing gratitude for the opportunities provided?",
+    "output": "Dear [Employer],\n\nI am writing to inform you of my intention to resign from my current position at [company name], effective [date]. \n\nI would like to express my sincere gratitude for the opportunities and experiences I have had while working with [company name]. During my time here, I have grown professionally and have had the opportunity to work with some of the most talented and dedicated people in the industry. I am proud of the contributions I have made to the success of the company and am thankful for the mentorship I have received along the way. \n\nI am grateful for the faith that [company name] has placed in me throughout the course of my employment, and I will strive to continue to uphold the high standards of excellence for which the company is known.\n\nI wish [company name] all the best in its future endeavors. \n\nSincerely,\n[Your Name]",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Use an appropriate format to structure a formal letter of recommendation for a student applying to a prestigious graduate program in computer science.",
+    "output": "Dear Admissions Committee,\n\nI am writing to recommend [Name], an outstanding student in the field of computer science, for admission to your prestigious graduate program.\n\n[Name] has been a student of mine for the past three years, and I have watched them grow into a highly capable and driven individual. [Name] excels not only in their studies but also in their ability to think outside the box and come up with creative solutions to complex problems.\n\nIn my experience, [Name] has consistently demonstrated excellent technical abilities, an impressive work ethic, and a strong interest in computer science. They have presented their research at numerous conferences and have published several papers in peer-reviewed journals. [Name] has also been actively involved in the student-run computer science organization, where they have served as the president for the past two years.\n\nI am confident that [Name] will be an asset to your program and will excel in their studies. I highly recommend [Name] for admission to your program, and I believe that they will make a great contribution to the field of computer science.\n\nSincerely,\n\n[Signature]\n[Name]",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Write a compelling product launch announcement email to inform our customers of our new software solution.",
+    "output": "Dear Valued Customers,\n\nWe are thrilled to announce the launch of our newest software solution \u2013 a powerful and intuitive product designed to help you take your business to the next level.\n\nOur software is packed with the latest features and tools that will help you streamline your processes and maximize efficiency. It's designed to make managing your business easier and more efficient than ever before.\n\nWe understand the importance of staying ahead of the curve and keeping up with the latest technology. That's why we developed our software to be highly customizable and user-friendly, so you can quickly and easily tailor it to meet your unique needs.\n\nWe understand the value of your time and money, which is why we have created a product that is both cost-effective and time-saving. With our software, you will save time and money while getting the most out of your business.\n\nWe are confident that you will be thrilled with the results our software will bring to your business. To learn more about how our software can help you, please visit our website or contact us for a free demo today.\n\nSincerely,\n\n[Your Company]",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "vicuna",
+    "instruction": "Draft an apology email to a customer who experienced a delay in their order, and provide reassurance that the issue has been resolved.",
+    "output": "Dear [Name],\n\nWe apologize for the delay in your order. We understand how frustrating this can be and we are sorry for any inconvenience caused.\n\nWe have identified the issue and have taken steps to ensure that this does not happen in the future. Your order has now been processed and shipped. You should receive your package within the next few days.\n\nWe value your business and would like to apologize again for any trouble this has caused. If you have any further questions or concerns, please do not hesitate to contact us.\n\nSincerely,\n[Your Name]",
+    "generator": "text_davinci_003"
+  }
+]

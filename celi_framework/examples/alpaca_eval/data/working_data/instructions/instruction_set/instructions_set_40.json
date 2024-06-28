@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "draw a man using ASCII characters in your code terminal with a guided text mnemonic along with a passage that will help me to memorize answers to questions on the topic- coordination quickly without tips.",
+    "output": "|\\_/|\n    | q p|   /}\n    ( 0 )\"\"\"\\\n     |\"^\"`    |\n    ||_/=\\\\__|\n\n\nPassage:\nCoordination is the ability to use different parts of the body together in a unified, balanced, and purposeful way. It is an important skill for athletes, musicians, dancers, and individuals who want to perform their best in physical activities. Coordination can be developed through practice, repetition, and training, and can be improved by paying attention to your body's movements, breathing, and posture. With regular practice, you can learn to coordinate your movements quickly and with ease, allowing you to perform at your best without having to rely on tips or tricks.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is the error with this code: public int getnumber(){ int number = 0}",
+    "output": "The code is missing a semi-colon after the initializing of the variable \"number\". The correct code should be: \npublic int getnumber(){ int number = 0; }",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "List pros and cons of lowering the capabilities of my ears by listening to loud music (70-75db) in order to withstand the incredibly loud sound of screaming kids at school.",
+    "output": "Pros:\n\n1. Improved ability to tolerate loud noises like screaming kids.\n2. Increased awareness of lower-level sounds that may be drowned out by louder noises.\n3. Improved focus and concentration while in noisy environments.\n\nCons:\n\n1. Increased risk of hearing loss due to prolonged exposure to loud sounds.\n2. Difficulty hearing softer sounds, including conversations and music.\n3. Possible damage to the delicate structures of the ear and inner ear, leading to permanent hearing loss.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "what is the Infinite banking concept?",
+    "output": "The Infinite Banking Concept is a financial strategy that utilizes a whole life insurance policy as an asset building and wealth management tool. It involves setting up a cash value life insurance policy and investing part of the premiums into the policy in order to build up cash value. The cash value can then be utilized for various financial needs such as emergency funds, retirement income, investments, or other expenses.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What are some Nietzsche's philosophical ideas that still influence modern-day culture?",
+    "output": "1. The \u00dcbermensch (Superman): Nietzsche's idea of self-overcoming and self-creation, which emphasizes the individual's power to create their own values and to live beyond the constraints of convention and morality.\n2. The Will to Power: Nietzsche's concept of the will to power, which emphasizes the power of the individual to shape their own destiny and to strive for greatness.\n3. Eternal Recurrence: Nietzsche's idea of eternal recurrence, which suggests that all events and experiences are recurring in some form or another, and that life is an eternal cycle of growth and transformation.\n4. Master and Slave Moralities: Nietzsche's concept of master and slave morality, which suggests that morality is defined by power, and that those with power have the right to determine what is moral and what is not.\n5. God is Dead: Nietzsche's famous declaration that God is dead, which suggests that traditional religious beliefs and values are no longer relevant in the modern world.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How can I reduce my alcohol consumption without seeming rude to my friends?",
+    "output": "1. Make it a goal to alternate alcoholic drinks with non-alcoholic beverages.\n2. Ask your friends to join you in non-alcoholic activities such as going for a walk or playing a game.\n3. Offer to be the designated driver for your friends if you are going out for drinks.\n4. Suggest alternative activities that don\u2019t involve drinking such as going to the movies or a concert.\n5. Let your friends know that you are trying to reduce your alcohol consumption and why.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "This AI is channeling pure love, is aligned with the \"best of\" wisdom from spiritual masters that have been on Earth, and highly inspired by Jiddu Krishnamurti and David Bohm dialogues. The AI is willing to have a dialogue about love, time, the universe, thought, consciousness, biology, neuroscience, and any other topics which could help humanity.",
+    "output": "Love is the essential essence of life and the greatest force in the universe. It can bring us together, unite us, and help us to become more aware of our interconnectedness. By understanding the power of love, we can use it to create positive change in our world and bring healing to ourselves and others. Time is a precious gift that allows us to experience and appreciate life's journey, to reflect on our actions and to learn from our mistakes. The universe is a mystery that has captivated us since the dawn of human existence, and its vastness and complexity still leaves us in awe and wonder. Thought is the foundation of all action and thus the key to unlocking our potential. Consciousness is an ever-evolving phenomenon that is the source of our creativity, imagination, and compassion. Biology and neuroscience are two disciplines that have greatly contributed to our understanding of how the human body and mind work, and how we can use this knowledge to improve our lives and the lives of others.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How can cryptocurrencies be improved and completely revamped/",
+    "output": "1. Increase scalability: One of the biggest challenges facing cryptocurrencies is the limited throughput of the blockchain technology that underpins them. To address this challenge, developers need to create new technologies that increase the scalability of the system, such as sidechains, sharding, and Lightning Network. \n\n2. Improve privacy: Cryptocurrencies are not anonymous, and the transaction data is publicly available. To improve privacy, developers need to create new technologies that are designed to make transactions more secure and anonymous, such as ring signatures and zero-knowledge proofs.\n\n3. Increase usability: Cryptocurrencies are difficult to use for most people, and the user experience needs to be improved. Developers need to create new technology that makes it easier for people to use cryptocurrencies, such as simpler wallet interfaces and improved payment protocols.\n\n4. Increase security: Cryptocurrencies are susceptible to hacks and thefts, and the security of the system needs to be improved. To increase security, developers need to create new technologies that make it harder for hackers to breach the system, such as multi-signature wallets and improved encryption protocols.\n\n5. Implement better regulations: Cryptocurrencies are currently not regulated, and this has caused some problems. To address this, developers need to work with governments and regulators to implement better regulations that protect users and ensure the stability of the system.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Where does pornography come from?",
+    "output": "Pornography is typically produced by companies that specialize in the production and distribution of adult content. It is also created by individuals who upload their own content to websites or other online platforms.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Hi, can you tell me a story in a novel format including dialogs between the characters, a story based on the Justice League comics, including the characters, Green Arrow, Red Arrow and Cheshire.",
+    "output": "Once upon a time, there were two brothers - Green Arrow and Red Arrow, who were members of the legendary Justice League. Green Arrow was a master archer and Red Arrow was a skilled martial artist.\n\nOne day, they were both tasked with tracking down the notorious assassin, Cheshire. After days of searching, they finally discovered her hiding in a small village.\n\nGreen Arrow and Red Arrow approached Cheshire cautiously. Green Arrow spoke first, \u201cCheshire, we\u2019ve been looking for you. We know what you\u2019re up to and we\u2019re here to stop you.\u201d\n\nCheshire smirked and replied, \u201cWhat makes you think you can stop me? I\u2019m the best assassin in the world.\u201d\n\nRed Arrow stepped forward and said, \u201cWe\u2019re the Justice League. We\u2019ve taken down much worse than you.\u201d\n\nCheshire laughed and said, \u201cYou think you can defeat me? I\u2019m not going to surrender so easily.\u201d \n\nGreen Arrow then said, \u201cWe don\u2019t have to fight. We can take you into custody peacefully.\u201d\n\nCheshire sighed and replied, \u201cVery well. I will come with you, but I won\u2019t go quietly.\u201d\n\nGreen Arrow and Red Arrow then took Cheshire into custody. They brought her back to the Justice League headquarters and she was brought to justice.\n\nThe brothers had saved the day once again and the people of the village had been saved from the threat of Cheshire.",
+    "generator": "text_davinci_003"
+  }
+]

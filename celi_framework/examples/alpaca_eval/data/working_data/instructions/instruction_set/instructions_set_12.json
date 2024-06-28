@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "helpful_base",
+    "instruction": "I'd like you to write me a story in the style of Don Delillo, about a bunch of immortal cats living in a New York high-rise co-op.  Go ahead and start a draft!",
+    "output": "The cats were an eternal presence in the New York high-rise co-op. They prowled the hallways and stairwells like cats of the night, silent and mysterious. They were a constant reminder of the city's ever-changing nature, of lives that were lived and forgotten. \n\nNo one knew the cats' origins, or how long they'd been there. But it was clear they'd been around for a while, and that they had a life of their own. They had their own language, a strange and subtle communication that seemed to have been passed down through generations. \n\nThe cats' territory was the entire high-rise, from the roof to the basement. They were a silent reminder of the city's ever-changing nature, and the secrets that lay beneath the surface.\n\nThe cats were a source of fascination for the residents of the high-rise. They were curious creatures, and their presence had become something of a legend. People would tell stories of the cats, of their strange behavior and mysterious ways. Some thought they were the ghosts of past residents, while others believed they were magical creatures, living out a secret life in the shadows.\n\nWhatever the truth was, the cats were a constant reminder of the city's past, of lives that were lived and forgotten. They were a reminder that some things never change, and that the city's secrets will always remain hidden.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Bolivian dishes. Can you give me a recipe for Chola Sandwich?",
+    "output": "Ingredients:\n- 2 slices of crusty white bread\n- 2 tablespoons of mayonnaise\n- 2 slices of ham\n- 2 slices of thick cut bacon\n- 1/4 cup of Bolivian chola (a type of pickled onion)\n- 2 slices of tomato\n- 2 slices of cheese (your choice)\n- Salt and pepper (to taste)\n\nInstructions:\n1. Toast the bread slices in a toaster or in a skillet.\n2. Spread one side of each slice of bread with mayonnaise.\n3. Layer the ham, bacon, chola, tomato, and cheese on one of the slices of bread.\n4. Sprinkle with salt and pepper.\n5. Top with the other slice of bread.\n6. Grill the sandwich in a skillet or in a sandwich maker.\n7. Serve hot. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Is it true that the native Australians were really prisoners of England?",
+    "output": "No, it is not true that the native Australians were prisoners of England. The native Australians were not held captive by the British, but were subject to the British government's colonial policies.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What color is the sky",
+    "output": "Blue",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Is there a meaning for Christmas wreaths?",
+    "output": "Yes, Christmas wreaths have several meanings. In Christianity, the circular shape of the wreath is meant to represent eternity and the holly and other festive greens are meant to symbolize everlasting life. For some, the wreath is a reminder of the gifts of the holiday season, such as joy, peace, and love.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Lativian  dishes. Can you give me a recipe for Frikade\u013cu zupa?",
+    "output": "Ingredients:\n- 2 tablespoons butter\n- 2 tablespoons all-purpose flour\n- 1 onion, finely chopped\n- 2 cloves garlic, minced\n- 2 cups vegetable broth\n- 2 cups water\n- 4 potatoes, peeled and diced\n- 2 carrots, peeled and diced\n- 2 celery stalks, finely chopped\n- 2 tablespoons tomato paste\n- 1 teaspoon dried oregano\n- 1 bay leaf\n- 1 teaspoon salt\n- 1/4 teaspoon black pepper\n- 1/4 teaspoon paprika\n- 1/4 teaspoon caraway seeds\n- 1/8 teaspoon ground cumin\n- 1/2 pound lean ground beef\n- 1/2 cup frozen green peas\n- 2 tablespoons chopped fresh parsley\n\nInstructions:\n\n1. Heat the butter in a large pot over medium heat. Add the onion and garlic and cook until the onion is softened, about 5 minutes.\n\n2. Stir in the flour and cook for 1 minute.\n\n3. Slowly add the broth and water, stirring constantly to avoid lumps.\n\n4. Add the potatoes, carrots, celery, tomato paste, oregano, bay leaf, salt, pepper, paprika, caraway seeds, and cumin.\n\n5. Bring to a boil, reduce heat, and simmer for 10 minutes.\n\n6. Add the ground beef and peas and cook for 5 more minutes.\n\n7. Remove from heat and stir in the parsley.\n\n8. Serve hot. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Hi, I'd like to make my own peanut brittle. Can you give me a recipe and cooking instructions for that?",
+    "output": "Peanut Brittle Recipe\nIngredients:\n- 2 cups sugar\n- 1 cup light corn syrup\n- 2 tablespoons butter\n- 1 teaspoon baking soda\n- 2 cups roasted, salted peanuts\n\nInstructions:\n1. Grease a large baking sheet with butter.\n2. In a large saucepan, combine the sugar, corn syrup, and butter.\n3. Heat the mixture over medium heat, stirring constantly until the sugar is dissolved.\n4. Increase the heat and bring to a boil. Boil for 5 minutes, stirring constantly.\n5. Remove the pan from the heat and stir in the baking soda and peanuts.\n6. Pour the mixture onto the greased baking sheet and spread it into an even layer.\n7. Allow the brittle to cool completely before breaking it into pieces. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I'm trying to stop my neighbour's cat from coming in to my garden and fighting with my cat. Any suggestions on how to do that?",
+    "output": "1. Install a motion-sensor sprinkler in your garden to deter the neighbor's cat from entering.\n2. Put a fence or barrier around your garden to block the neighbor's cat from entering.\n3. Try using a motion-activated deterrent such as a sonic device or a water sprayer.\n4. Try talking to your neighbor about the issue and ask them to keep their cat away from your garden.\n5. Install a cat door that only your cat can access.\n6. Place plants that cats don't like around the perimeter of your garden, such as lavender, rue, and lemon balm.\n7. Put a bird feeder in your garden to attract birds that will scare away cats.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "does the dinosaurs really exist?",
+    "output": "No, dinosaurs are extinct.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "what are some big cat hybrids?",
+    "output": "-Liger\n-Tigron\n-Leopon\n-Jaglion\n-Savannah Cat\n-Chausie\n-Safari Cat",
+    "generator": "text_davinci_003"
+  }
+]

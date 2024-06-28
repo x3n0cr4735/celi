@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "koala",
+    "instruction": "what language does argentina people speak",
+    "output": "Spanish",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "is queue an ADT or a data structure",
+    "output": "ADT",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "In order to launch a token for a Defi project, I want to sell some tokens privately to early investors and then add it to a launchpad. let me know what can I do with my smart contract? Should I create a presale contract separate from main contract?",
+    "output": "Yes, you should create a separate presale contract for early investors. This contract should contain the terms and conditions of the presale, including the price, amount of tokens to be sold, vesting schedule, and other details. After the presale is completed, you can then add the tokens to a launchpad. You can also use the same smart contract to manage the token sale on the launchpad, including the token distribution, price calculation, and other features.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "what is the recommended pattern for creating games in godot",
+    "output": "The recommended pattern for creating games in Godot is to start by planning out the game\u2019s core mechanics, then breaking the game down into scenes and nodes. After that, you should create the game\u2019s main menu, set up user input, create the game\u2019s physics and gameplay, and finally, add audio, visuals, and animations.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "I want you to act as a Tiktok Ads Keywords generator. Your task is to come up with keywords that can be used in Tiktok advertising campaigns. The keywords should be relevant to the target audience and the product or service being advertised. Your responses should not include more than 5 keywords per request.",
+    "output": "1. Trending Music: Dance, Sing, Music Videos, Pop, Beat.\n2. Fashion Clothing: Style, Outfit, Clothing, Streetwear, Apparel.\n3. Beauty Products: Makeup, Skincare, Beauty Tips, Cosmetics, Nail Art.\n4. Home Appliances: Kitchen, Home Decor, Household Appliances, Home Electronics, Smart Home.\n5. Fitness Equipment: Exercise, Workout, Strength Training, Cardio, Resistance Bands.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "what are some basics of nutrition that i should be aware of",
+    "output": "1. Eat a variety of nutrient-dense foods.\n2. Include lean proteins, whole grains, fruits, vegetables, and low-fat dairy products in your diet.\n3. Avoid processed foods, added sugars, and unhealthy fats.\n4. Aim for a balanced diet with a variety of foods from all food groups.\n5. Drink plenty of water throughout the day.\n6. Limit your sodium, saturated fat, and added sugar intake.\n7. Manage your portion sizes.\n8. Exercise regularly.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "what would be a good idea for a quiz about omnichannel marketing on my website",
+    "output": "1. What are the benefits of implementing an omnichannel marketing strategy?\n2. How can you create a seamless customer experience across multiple channels?\n3. What types of content should you use to engage customers in an omnichannel marketing strategy?\n4. How can you measure the success of an omnichannel campaign?\n5. What are the latest trends in omnichannel marketing?\n6. How can you integrate social media into an omnichannel marketing strategy?\n7. What are the challenges of implementing an omnichannel strategy?\n8. What strategies can you use to maximize the effectiveness of an omnichannel campaign?\n9. How can you use data to inform your omnichannel marketing decisions?\n10. What are the key elements of a successful omnichannel marketing strategy?",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "I'm preparing a fun session with work colleagues in a tech company. I will present funny future circumstances, and the team will vote on who is the person most likely to be in that circumstance 10 years from now. The circumstances must be funny yet respectful and safe for work. Please help me come up with a few of these circumstances. To help you, please consider this example: \"In 10 years time, who is the most likely to have won the lottery\"",
+    "output": "1. In 10 years time, who is the most likely to have become a professional painter?\n2. In 10 years time, who is the most likely to have published a bestselling novel?\n3. In 10 years time, who is the most likely to have climbed the highest mountain in the world?\n4. In 10 years time, who is the most likely to have given a TED Talk?\n5. In 10 years time, who is the most likely to have become a World Champion in a sport?\n6. In 10 years time, who is the most likely to have opened their own restaurant?\n7. In 10 years time, who is the most likely to have become a millionaire?\n8. In 10 years time, who is the most likely to have invented a new kind of technology?\n9. In 10 years time, who is the most likely to have visited all seven continents?\n10. In 10 years time, who is the most likely to have become the CEO of a major company?",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "You will simulate an SEO expert. What keywords should a screenwriting software target",
+    "output": "1. Screenwriting software\n2. Screenwriting software tools\n3. Screenwriting software program\n4. Screenwriting software programs\n5. Screenwriting software features\n6. Screenwriting software reviews\n7. Screenwriting software packages\n8. Best screenwriting software\n9. Professional screenwriting software\n10. Affordable screenwriting software",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "write lyrics that only rhyme a little bit (not every verse needs rhyming or exact pacing), for a progressive metal song about loving jesus",
+    "output": "Verse 1:\nMy faith in Jesus has been strong,\nNo matter what life throws my way\nMy heart's devotion won't be gone,\nIn Him I will never stray.\n\nChorus:\nI will keep on loving Jesus,\nMy faith will never cease\nHe will be by my side,\nMy heart will never decrease.\n\nVerse 2:\nHe's with me in the morning light,\nHis grace will always be true\nHis Word guides me through the night,\nHis love is all I need to get me through.\n\nChorus:\nI will keep on loving Jesus,\nMy faith will never cease\nHe will be by my side,\nMy heart will never decrease.\n\nBridge:\nMy faith is strong, my heart is sure,\nMy love for Him will never end.\nThe Lord will always be my cure,\nLoving Him, that's where I begin.\n\nChorus:\nI will keep on loving Jesus,\nMy faith will never cease\nHe will be by my side,\nMy heart will never decrease.",
+    "generator": "text_davinci_003"
+  }
+]

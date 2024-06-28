@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Considering the reason for the rejection, write a polite rejection letter for rejecting a candidate.\n\nReason: You came in second",
+    "output": "Dear [Name],\n\nThank you for your interest in our [position]. After a thorough review of your qualifications, we have decided to go with another candidate who had a better fit with the role.\n\nWe appreciate your efforts and interest.\n\nSincerely,\n[Name]",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "We've already decided on the title and topic for our blog post. I would appreciate it if you wrote an introduction paragraph to attract the readers' attention.\n\nBlog title: Healthy Apple Muffins\nBlog Topic: recipe and tips for cooking a good apple muffin",
+    "output": "Do you love the smell of freshly-baked muffins in the morning? If so, you\u2019re in for a treat! Let us introduce you to the ultimate healthy apple muffin recipe, all made with simple and natural ingredients. Not only does it taste delicious, but it\u2019s also a great way to start your day with a nutritious and balanced breakfast. With our helpful tips, you can create the perfect apple muffin in no time. So get your oven preheated and let\u2019s get baking!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Design an outline for a blog post based on the given information and list the sections accordingly.\n\nThis blog post is going to about making a list of last-minute gift ideas. Also, the tone of the post is going to be relaxed and casual.",
+    "output": "I. Introduction \nA. Purpose of the post \nB. Tone of the post \n\nII. Last-Minute Gift Ideas \nA. Gift Certificates \nB. Subscriptions \nC. Digital Gifts \nD. Customizable Gifts \n\nIII. Conclusion \nA. Summary of Ideas \nB. Final Thoughts",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a section for a blog post and try to cover all of the provided information about this section in your text.\n\nBlog Topic: 7 Fall Fashion Trends Worth Taking on Your Trip\nSection Title: Trusty Jeans\nMain point of the section: jeans can be worn all year and look good with everything .",
+    "output": "No matter what the season, jeans are always a great option for fashion-savvy travelers. Jeans are versatile, comfortable, and can be dressed up or down to suit any occasion. This fall, trusty jeans are an absolute must-have for jet-setting style.\n\nJeans are an incredibly versatile wardrobe staple that look great with everything. Add a cozy sweater and some boots for a casual, yet stylish look that\u2019s perfect for exploring new cities. Or, style them with a crisp white shirt and heels for a night out on the town. You can never go wrong with a classic pair of jeans.\n\nPlus, jeans are incredibly comfortable and can be worn all year. From chilly autumn days to balmy summer nights, jeans can be dressed up or down to suit any climate. And, if you\u2019re packing light, they\u2019re the perfect item for making multiple outfits out of the same pieces.\n\nSo, when you\u2019re planning your fall wardrobe for your next vacation, make sure you don\u2019t forget a trusty pair of jeans. With their timeless style and endless versatility, they\u2019ll have you looking chic no matter where your travels take you.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Create a detailed caption for an Instagram post about a discount. A proper caption should explain the product, offer the discount, and tell the user how to claim it.\n\nProduct: Golang course\nProduct description: teaching the foundational skills for building cloud services, web applications, DevOps tools, and backend development\nDiscount: 50%\nHow to claim: Use the coupon code: GOLANG",
+    "output": "Take your coding skills to the next level with our Golang course! Learn the foundational skills for building cloud services, web applications, DevOps tools, and backend development. For a limited time, get 50% off when you use the coupon code GOLANG at checkout. Don't miss out! #Golang #Discount #Coding",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Create a captivating Instagram caption based on the provided details. Try to think of as many captions as you can.\n\nI am sharing images of the first snow of the year taken from a window in an office",
+    "output": "1. There's nothing like the first snow of the year! \ud83c\udf28\ufe0f #firstsnow #snowfall #winterwonderland \n2. Nothing beats the beauty of the first snowfall of the season! \ud83d\udc99 #firstsnow #snowfall #winterdreams \n3. Look at that magical view from the office window! \ud83e\udd29 #firstsnow #snowfall #wintervibes \n4. Snowflakes falling from the sky - an incredible sight to behold! \ud83d\udcab #firstsnow #snowfall #wintermagic \n5. Cozied up inside with a view of the first snow! \u2744\ufe0f #firstsnow #snowfall #wintertime",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are given a topic for an Instagram post. Help the post reach a broader audience by suggesting hashtags related to the post.\n\nAnother episode of women in science is out now",
+    "output": "#WomenInScience #STEM #ScienceMatters #ScienceEducation #WomenEmpowerment #ScienceIsCool #WomenInSTEM #WomenInTech #WomenInInnovation #WomenInResearch #WomenLeaders #ScienceCommunication #WomenInSTEMM",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Use appropriate emojis to convey the meaning in the given text.\n\nCute cat\nplayful\nSoft",
+    "output": "\ud83d\udc31\ud83d\ude0a\ud83d\udc95",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "The topic of a YouTube post has been described and based on the information, you need to write a hook for starting the post. A catchy hook will keep your readers interested so they keep reading. It would be great if you could come up with as many hooks as you can.\n\nA video showing how to make a tasty cup of coffee",
+    "output": "1. Do you want to make coffee like a barista? \n2. Learn the secrets to brewing a delicious cup of coffee! \n3. Get ready to make the most amazing cup of coffee you\u2019ve ever tasted! \n4. Don't settle for sub-par coffee - make your own! \n5. Forget Starbucks - you can make coffee like a pro! \n6. Step up your coffee game with this easy tutorial! \n7. Don't buy expensive coffee - make it yourself! \n8. Become a master barista with this easy-to-follow guide! \n9. Get your daily caffeine fix with this simple tutorial! \n10. Wake up and smell the coffee with this amazing tutorial!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Using the provided topic as a starting point, brainstorm ideas for videos that can be made about it on YouTube.\n\nIn spite of the fact that procrastination feels bad to you, why do you do it?",
+    "output": "1. Proven Strategies for Overcoming Procrastination \n2. A Procrastinator's Guide to Time Management \n3. How to Recognize and Avoid Procrastination Traps \n4. A Procrastinators Guide to Setting Realistic Goals \n5. How to Stay Focused and Avoid Procrastination \n6. The Benefits of Breaking Your Procrastination Habits \n7. Tips for Making the Most of Your Time \n8. The Psychological Reasons Behind Procrastination \n9. How Procrastination Can Lead to Unhappiness \n10. How to Create a Procrastination Free Environment",
+    "generator": "text_davinci_003"
+  }
+]

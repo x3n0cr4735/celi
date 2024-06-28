@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "koala",
+    "instruction": "there used to be a program for winmx called mcma, what does mcma stand for and what does the program do?",
+    "output": "MCMA stands for Multi-Connection Media Accelerator. The program was designed to help optimize and speed up media downloads on WinMX by utilizing multiple connections simultaneously.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "What are the USP for a saas survey tool",
+    "output": "1. Easy to use: The SaaS survey tool should be easy to use and should not require any technical skills to operate. \n\n2. Cost efficient: The SaaS survey tool should be cost efficient and should not require any large upfront costs.\n\n3. Flexibility: The SaaS survey tool should offer flexibility and allow users to customize the survey to fit their specific needs. \n\n4. Data Security: The SaaS survey tool should have strong data security measures in place to protect user data. \n\n5. Automation: The SaaS survey tool should offer automation features to streamline workflows and save time.\n\n6. Analytical Insights: The SaaS survey tool should provide users with analytical insights to help them make better decisions.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "is a bannana a fruit or a herb",
+    "output": "Fruit",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Why did the building of a pipeline have to be voted on by the government(USA)? Doesn't this infringe on government interfering with private corporations?<br>",
+    "output": "The building of a pipeline in the United States requires government approval because it involves the construction of a major infrastructure project on public land. This approval is needed because it ensures that the pipeline is built in a way that is safe and protects the environment. The government also works to ensure that the pipeline is built in a way that is beneficial to the public and not just to the private corporation building it. This includes making sure that the company is not taking advantage of the government's resources or unfairly profiting from the construction.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Simplify \"Most of the basic functions of current virtualization software are inherited from this early VM OS. The virtualization software is now represented with the term hypervisor. Hardware virtualization is used to share the resources of the cloud providers effectively with the customers by generating an illusion of dedicated computing, storage, and networking on a computing infrastructure.<br><br>The concept of virtualization is physically implemented using the hypervisor modules, and the operation and processing of hypervisors are materialized by the OSS. In other words, hypervisor modules are installed on top of OSS, which act as an interface between hardware units and hypervisor packages.\"",
+    "output": "Virtualization software is represented by the term hypervisor. Hypervisors are installed on top of OSS to create an interface between hardware units and hypervisor packages, allowing for the sharing of cloud provider resources with customers.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "i assume you are familiar with the Drake equation. Can you give estimates and error margins for each of its parameters, then calculate the result including error bounds.",
+    "output": "Estimates and Error Margins:\n\u2022\tR* (Rate of star formation in our galaxy): 7.5 per year, with an error margin of +/- 5\n\u2022\tfp (Fraction of stars with planets): 0.7, with an error margin of +/- 0.2\n\u2022\tne (Average number of planets per star capable of supporting life): 1.5, with an error margin of +/- 0.5\n\u2022\tfl (Fraction of planets with life): 0.2, with an error margin of +/- 0.1\n\u2022\tfi (Fraction of planets with intelligent life): 0.1, with an error margin of +/- 0.05\n\u2022\tfc (Fraction of planets capable of communicating): 0.1, with an error margin of +/- 0.05\n\u2022\tL (Lifespan of communicating civilizations): 10,000 years, with an error margin of +/- 5,000\n\nCalculation and Error Bounds:\n\nUsing the Drake equation and the given parameters and error margins, the estimated number of communicating civilizations in our galaxy is 675 +/- 325.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "what are african governments doing to improve air traffic connectivity",
+    "output": "African governments are taking a number of steps to improve air traffic connectivity. These include creating more efficient air traffic control systems, modernizing airports, investing in infrastructure to support air traffic, and developing more efficient airline routes. Additionally, various countries are forming regional air transport agreements to facilitate the free movement of people and goods across borders. African governments are also making efforts to reduce airfares and expand air services to underserved areas.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Write a pitch for a horror movie that plays on the island Sylt in northern germany in the 19th century. Include fishermen and a sinister force that drives the inhabitants insane.",
+    "output": "Welcome to Sylt Island, a seemingly idyllic fishing village off the northern coast of Germany. But beneath the serene surface lies an ominous force, one that has been slowly driving the inhabitants of the village insane. As the days grow darker and the nights colder, the village fishermen report strange occurrences on the sea and terrifying dreams that haunt their sleep. With the sinister force threatening to consume the entire island, the villagers must find a way to save themselves, or risk succumbing to the madness forever. Join us in this 19th century horror adventure, as we uncover the secrets of Sylt Island and fight to keep its inhabitants from succumbing to the terror that lies beneath.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "I want to open the developler tools in chrome with ctrl + shift + i on this website: https://mnsw.pro/\nIt doesnt work. works on other websites. even here. what is wrong?",
+    "output": "It is possible that the website you are trying to open the developer tools on has disabled the shortcut. You can try right-clicking anywhere on the webpage and selecting the \"Inspect\" option to open the developer tools instead.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Consider this situation. Customer is ready to pay $13 for my product but we are not able to raise invoice for less than $20. So in this situation, act like a top sales person &amp; closing expert &amp; give me an email copy to upsell this customer with another $13 product so that it can create a win win situation.",
+    "output": "Dear Customer,\n\nThank you for your interest in our product. We understand that you are looking to purchase the product for $13. Unfortunately, we are unable to raise an invoice for less than $20. However, we don\u2019t want to leave you disappointed.\n\nWould you be interested in purchasing another product from our range for $13, in order to make up the difference? This way, you get two products for the same price as one. We believe this would be a great deal for you, as you can get two products for the same price.\n\nWe look forward to hearing from you soon.\n\nKind regards,\n[Your Name]",
+    "generator": "text_davinci_003"
+  }
+]

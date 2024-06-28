@@ -1,3 +1,4 @@
-python dataset_split.py
+python instruction_split.py
 python eval_convert.py
 alpaca_eval --model_outputs 'output/gpt/alpaca_eval_auto_output_list.json' --annotators_config 'weighted_alpaca_eval_gpt4_turbo'
+for individual set : alpaca_eval --model_outputs 'output/gpt/alpaca_output_1/output_set_1.json' --annotators_config 'weighted_alpaca_eval_gpt4_turbo' --name "celi" --is_overwrite_leaderboard True

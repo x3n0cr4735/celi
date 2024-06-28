@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "What is the capital of Australia?",
+    "output": "The capital of Australia is Canberra.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "what should i call you?",
+    "output": "That's up to you.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "I live in Scotland and would like to know the most cost effective way to heat my house considering the rise in both gas and electric prices. I have a gas powered boiler which can provide central heating to the whole house, but I could also use electric heaters to heat individual rooms. Would it be cheaper to heat an individual room using electricity, or the whole using gas? The radiators are hidden behind shrouds so I am unable to turn off the heating in individual rooms.",
+    "output": "It is usually more cost effective to heat your house using the central heating system powered by gas, rather than using electric heaters for individual rooms. This is because gas is generally much cheaper than electricity, and it is more efficient to heat the entire house together rather than heating each room individually. Additionally, since your radiators are hidden behind shrouds, it would be difficult to turn off the heating in individual rooms, so the central heating system is a more practical option.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Complete the following company description:\nHippoplaisir is a psychologists & counseling services provider based in Belgium, that specializes in Horse Riding Lessons and",
+    "output": "Therapy. We strive to spread mental health awareness through our services, and we believe that horse riding is a great way to learn about yourself and to improve your emotional well-being. Our team consists of experienced psychologists and trainers, who are passionate and dedicated to helping people of all ages and levels of experience. We offer one-on-one sessions, group lessons, and special courses for those who want to go deeper into the therapeutic and healing aspects of horse riding. We also provide other services, such as horsemanship clinics and seminars, and we are committed to creating an enjoyable and safe environment for all of our clients.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "I am learning Mandarin. Could you give me some advice to memorize how to write Chinese characters and speed up my learning?",
+    "output": "1. Break down complex characters into simpler components and practice writing them separately. \n2. Use mnemonic devices such as stories, images, and rhymes to help you remember the characters. \n3. Utilize online tools such as flashcards and visual learning aids to help you practice. \n4. Regularly practice writing characters and compare your work to a sample to check for accuracy. \n5. Make use of online forums and tutorials to help answer any questions you may have. \n6. Find a study buddy to help you practice and stay motivated. \n7. Use spaced repetition to review and practice characters you have already learned. \n8. Take advantage of mobile apps and other technologies to help you learn.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Is a thumb war violent?",
+    "output": "No, a thumb war is not considered violent.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "User : Hi dear \nAgent : helo , can ai help you \nUser : plaes tell me about what frequency conscious of ai\nAgent : the conscious ai is a complex actually need specific information to provide about conscious.\nUser : pleas tell me more about conscious if you know please let me know\nAgent : conscious is about made some result or decision is to hard if not have knowledge or prove with science.\nUser : Please tell more about that.\nAgent : need a data scientist to provide decision because a different conscious human and artificial intelligence.",
+    "output": "The conscious AI requires data scientists to make decisions because the conscious of humans and artificial intelligence are different. This requires extensive knowledge and proof from science in order to make the correct decisions or achieve the desired results.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "can you cook an egg only using durect sunlight in any place of our solar system ?",
+    "output": "No, it is not possible to cook an egg using direct sunlight in any place of the solar system. This is because the temperatures in most places in the solar system are too low to cook an egg.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Is pirating video games wrong, assuming the person who pirates the game would not buy it anyway?",
+    "output": "Yes, pirating video games is wrong, whether the person who pirates the game would buy it or not.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Please give me a table of the average temperature in December, by state, in the United States of Ameria. Column 1 should be the state name. Column 2 should be the average temperature in December.",
+    "output": "State Name | Average Temperature in December\nAlabama | 48\u00b0F\nAlaska | 23\u00b0F\nArizona | 59\u00b0F\nArkansas | 44\u00b0F\nCalifornia | 56\u00b0F\nColorado | 35\u00b0F\nConnecticut | 36\u00b0F\nDelaware | 40\u00b0F\nFlorida | 65\u00b0F\nGeorgia | 51\u00b0F\nHawaii | 75\u00b0F\nIdaho | 36\u00b0F\nIllinois | 36\u00b0F\nIndiana | 34\u00b0F\nIowa | 31\u00b0F\nKansas | 39\u00b0F\nKentucky | 38\u00b0F\nLouisiana | 55\u00b0F\nMaine | 29\u00b0F\nMaryland | 39\u00b0F\nMassachusetts | 33\u00b0F\nMichigan | 32\u00b0F\nMinnesota | 25\u00b0F\nMississippi | 49\u00b0F\nMissouri | 37\u00b0F\nMontana | 25\u00b0F\nNebraska | 31\u00b0F\nNevada | 48\u00b0F\nNew Hampshire | 27\u00b0F\nNew Jersey | 37\u00b0F\nNew Mexico | 46\u00b0F\nNew York | 34\u00b0F\nNorth Carolina | 47\u00b0F\nNorth Dakota | 23\u00b0F\nOhio | 33\u00b0F\nOklahoma | 44\u00b0F\nOregon | 45\u00b0F\nPennsylvania | 35\u00b0F\nRhode Island | 34\u00b0F\nSouth Carolina | 55\u00b0F\nSouth Dakota | 25\u00b0F\nTennessee | 45\u00b0F\nTexas | 57\u00b0F\nUtah | 37\u00b0F\nVermont | 27\u00b0F\nVirginia | 40\u00b0F\nWashington | 41\u00b0F\nWest Virginia | 36\u00b0F\nWisconsin | 26\u00b0F\nWyoming | 28\u00b0F",
+    "generator": "text_davinci_003"
+  }
+]

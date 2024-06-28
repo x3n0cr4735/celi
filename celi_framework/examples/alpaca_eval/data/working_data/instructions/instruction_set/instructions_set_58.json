@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "The given article should be checked for any scientific errors and corrected if necessary.\n\nZinc is an essential mineral that is required for good health. It is involved in many biochemical processes in the body and is necessary for the proper functioning of the immune system. Excess zink is not harmful as it is excreted in the urine.",
+    "output": "Zinc is an essential mineral that is required for good health. It is involved in many biochemical processes in the body and is necessary for the proper functioning of the immune system. Excess zinc is not harmful as it is excreted in the urine.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Summarize the article you have been given in a brief manner.\n\nMathematics and art are related in a variety of ways. Mathematics has itself been described as an art motivated by beauty. Mathematics can be discerned in arts such as music, dance, painting, architecture, sculpture, and textiles. This article focuses, however, on mathematics in the visual arts.\nMathematics and art have a long historical relationship. Artists have used mathematics since the 4th century BC when the Greek sculptor Polykleitos wrote his Canon, prescribing proportions conjectured to have been based on the ratio 1:\u221a2 for the ideal male nude. Persistent popular claims have been made for the use of the golden ratio in ancient art and architecture, without reliable evidence. In the Italian Renaissance, Luca Pacioli wrote the influential treatise De divina proportione (1509), illustrated with woodcuts by Leonardo da Vinci, on the use of the golden ratio in art. Another Italian painter, Piero della Francesca, developed Euclid's ideas on perspective in treatises such as De Prospectiva Pingendi, and in his paintings. The engraver Albrecht D\u00fcrer made many references to mathematics in his work Melencolia I. In modern times, the graphic artist M. C. Escher made intensive use of tessellation and hyperbolic geometry, with the help of the mathematician H. S. M. Coxeter, while the De Stijl movement led by Theo van Doesburg and Piet Mondrian explicitly embraced geometrical forms. Mathematics has inspired textile arts such as quilting, knitting, cross-stitch, crochet, embroidery, weaving, Turkish and other carpet-making, as well as kilim. In Islamic art, symmetries are evident in forms as varied as Persian girih and Moroccan zellige tilework, Mughal jali pierced stone screens, and widespread muqarnas vaulting.",
+    "output": "Mathematics and art have a long history of being intertwined, with mathematical principles having been used in the visual arts since the 4th century BC. This article looks at the use of mathematics in the visual arts, such as painting, sculpture, and architecture, as well as textile arts such as quilting, knitting, and weaving. Examples of this can be found in the works of Polykleitos, Luca Pacioli, Piero della Francesca, Albrecht D\u00fcrer, M. C. Escher, and Theo van Doesburg and Piet Mondrian. Islamic art also contains many symmetrical forms, such as Persian girih and Moroccan zellige tilework, Mughal jali pierced stone screens, and muqarnas vaulting.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Improve the article using your knowledge of the topic in order to make it more informative.\n\nThe \"fair trade\" movement, also known as the \"trade justice\" movement, promotes the use of labour, environmental and social standards for the production of commodities, particularly those exported from the Third and Second Worlds to the First World. Such ideas have also sparked a debate on whether trade itself should be codified as a human right.",
+    "output": "The \"fair trade\" movement, also known as the \"trade justice\" movement, is a global campaign which seeks to ensure that international trading practices are just, sustainable, and equitable. The movement works to build a world in which producers and consumers work together to ensure that all workers receive fair wages and are provided with safe working conditions. It strives to ensure that the environment is protected through sustainable and responsible production methods. The movement also seeks to ensure that producers in developing countries are able to access international markets and earn a living wage. The principles of fair trade have also sparked a debate on whether trade itself should be codified as a human right. Fair trade provides a solution to many of the issues surrounding global trade, including exploitation, poverty, and inequality. It seeks to empower producers and consumers to create a more equitable and just global economy.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Make the article available in a second language by translating it into it.\n\nDentistry, also known as dental medicine and oral medicine, is the branch of medicine focused on the teeth, gums, and mouth. It consists of the study, diagnosis, prevention, management, and treatment of diseases, disorders, and conditions of the mouth, most commonly focused on dentition (the development and arrangement of teeth) as well as the oral mucosa. Dentistry may also encompass other aspects of the craniofacial complex including the temporomandibular joint. The practitioner is called a dentist.\nTranslate to French:",
+    "output": "Dentisterie, \u00e9galement connue sous le nom de m\u00e9decine dentaire et m\u00e9decine bucco-dentaire, est la branche de la m\u00e9decine ax\u00e9e sur les dents, les gencives et la bouche. Il consiste \u00e0 \u00e9tudier, diagnostiquer, pr\u00e9venir, g\u00e9rer et traiter les maladies, les troubles et les conditions de la bouche, le plus souvent ax\u00e9s sur la dentition (le d\u00e9veloppement et l'agencement des dents) ainsi que sur la muqueuse buccale. La dentisterie peut \u00e9galement englober d'autres aspects du complexe cr\u00e2nio-facial, y compris l'articulation temporo-mandibulaire. Le praticien s'appelle un dentiste.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "An evaluation of the article's quality should be carried out. In order to do so, you should review the quality of the writing and the explanation of the topic.\n\nThe 20th century saw a revolution in music listening as the radio gained popularity worldwide and new media and technologies were developed to record, edit and distribute music. Music performances became increasingly visual with the broadcast and recording of performances.\n20th-century music brought new freedom and wide experimentation with new musical styles and forms that challenged the accepted rules of music of earlier periods. The invention of musical amplification and electronic instruments, especially the synthesizer, in the mid-20th century revolutionized classical and popular music, and accelerated the development of new forms of music.",
+    "output": "The article provides a comprehensive overview of the development of 20th-century music and the various changes that it underwent during this period. The writing is clear and easy to understand, and the explanations of the various topics are comprehensive and well-researched. The article also provides a good overview of the various new technologies and forms of music that emerged during the 20th century. Overall, the article provides a high-quality overview of the history and evolution of 20th-century music.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Please answer the following question based on the information provided in the article.\n\nDevelopment studies is an interdisciplinary branch of social science. Development studies is offered as a specialized master's degree in a number of reputed universities around the world. It has grown in popularity as a subject of study since the early 1990s, and has been most widely taught and researched in developing countries and countries with a colonial history, such as the UK, where the discipline originated.  Students of development studies often choose careers in international organisations such as the United Nations, World Bank, non-governmental organisations (NGOs), media and journalism houses, private sector development consultancy firms, corporate social responsibility (CSR) bodies and research centers.\nWhat are some popular careers for students of development studies?",
+    "output": "Popular careers for students of development studies include working in international organisations such as the United Nations, World Bank, non-governmental organisations (NGOs), media and journalism houses, private sector development consultancy firms, corporate social responsibility (CSR) bodies and research centers.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Design a syllabus for the given course. Students should be given a list of the chapters with brief explanations of each chapter's purpose.\n\nProgramming for Everybody (Getting Started with Python)",
+    "output": "Course Syllabus\n\n1. Introduction to Programming: This chapter will cover the basics of programming, including the fundamentals of programming syntax and logic.\n\n2. Variables and Data Types: This chapter will cover the different types of variables and data types available in Python and how to use them.\n\n3. Using Functions in Python: This chapter will cover how to use functions and modules in Python, as well as how to create and use user-defined functions.\n\n4. Control Flow and Iteration: This chapter will cover the concepts of control flow and iteration, such as if statements, for loops, and while loops.\n\n5. Working with Files in Python: This chapter will cover how to read, write, and manipulate files in Python.\n\n6. Object-Oriented Programming: This chapter will cover the basics of object-oriented programming, including classes and objects.\n\n7. Debugging and Error Handling: This chapter will cover how to debug and handle errors in Python.\n\n8. Working with Modules and Libraries: This chapter will cover how to use modules and libraries in Python, as well as how to create custom modules.\n\n9. Working with Databases: This chapter will cover how to access and use databases in Python.\n\n10. Web Programming with Python: This chapter will cover how to use Python to create web applications.\n\n11. Final Project: This chapter will cover the final project, which will involve creating a complete Python application.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "List the personality traits that are required to be successful in the given job.\n\nSocial Media Marketer",
+    "output": "1. Excellent communication and interpersonal skills\n2. Highly organized and detail-oriented\n3. Ability to multitask and manage multiple projects\n4. Creative and innovative thinking\n5. Knowledge of current trends and best practices in social media\n6. Knowledge of SEO and SEM principles\n7. Ability to research and analyze data\n8. Proficiency in content management systems\n9. Strong writing and editing skills\n10. Strategic and analytical mindset",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Please list the courses that someone interested in the first course might like.\n\nBitcoin and Cryptocurrency Technologies",
+    "output": "1. Ethereum Blockchain Development\n2. Blockchain Applications\n3. Smart Contracts\n4. Cryptocurrency Investing\n5. Cryptography\n6. Financial Technology\n7. Computer Networks\n8. Applied Cryptography\n9. Internet Security\n10. Data Structures and Algorithms",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Come up with the courses that one is supposed to take in order to be an expert in a given field.\n\nGraphic Design",
+    "output": "1. Design Principles \n2. Color Theory \n3. Typography \n4. Digital Illustration \n5. Digital Image Editing \n6. User Interface Design \n7. Logo Design \n8. Brand Identity Design \n9. Web Design \n10. Animation \n11. Motion Graphics \n12. Print Design \n13. Photography \n14. Video Production \n15. 3D Modeling \n16. Augmented Reality \n17. Interactive Media \n18. Packaging Design.",
+    "generator": "text_davinci_003"
+  }
+]

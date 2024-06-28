@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are given a search query and a document. Classify whether the document is relevant to the search query or not relevant.\n\nSearch: why sky is blue\nDocument: The Short Answer: Sunlight reaches Earth's atmosphere and is scattered in all directions by all the gases and particles in the air. Blue light is scattered more than the other colors because it travels as shorter, smaller waves. This is why we see a blue sky most of the time.",
+    "output": "Relevant",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Create a list of subtopics for the given topic.\n\nMusic theory",
+    "output": "1. Notation\n2. Scales\n3. Chords\n4. Music composition\n5. Harmony\n6. Music improvisation\n7. Music genres\n8. Music analysis \n9. Transposition\n10. Musical instruments",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Summarize the movie in a snarky way. Try to explain the movie in just one sentence.\n\nThe Shining",
+    "output": "A family's attempt at a cozy vacation turns into a blood-soaked nightmare when they stay in a haunted hotel.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Enter the words that satisfy the given condition.\n\n5 Countries that Start with S",
+    "output": "1. Saudi Arabia\n2. Somalia\n3. Spain\n4. Sweden\n5. Switzerland",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Provide a name for the dish given the ingredients and instructions.\n\nINGREDIENTS:\n2 (5 oz) cans Bumble Bee\u00ae Solid White Albacore Tuna, drained\n1 avocado\n2 Tbsp Sriracha\n1 Tbsp Dijon mustard\n2 to 3 Tbsp celery, chopped\n2 Tbsp red onion, chopped\n2 green onions, chopped\n1 Tbsp fresh cilantro, chopped\nSalt and pepper, to taste\n2 heaping cups leafy green lettuce\n1 cup matchstick carrots\n4 (10 inch) whole wheat tortillas\nINSTRUCTIONS:\nIn a medium bowl, mash together tuna and avocado until combined. Add in the rest of the ingredients through the salt and pepper, mixing well.\nTo assemble, top each tortilla with a 1/2 cup leafy greens, 1/4 cup matchstick carrots and divide the tuna mixture evenly among the wraps. Tightly roll up the tortilla, slice and enjoy!",
+    "output": "Tuna Avocado Wraps with Sriracha and Mustard",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Summarize a meeting from the given list of bullet points. Be sure to convert shorthand into a first-hand account.\n\nRose: Analyze data and presents findings\nJohn: propose new idea\nJane: appointed to head project\nTom: need more time to fix software bug",
+    "output": "At the meeting, Rose presented her analysis of the data and findings. John then proposed a new idea. Jane was appointed to head the project, and Tom mentioned that they would need more time to fix the software bug.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "List a few popular songs from the given album.\n\nBack To Black",
+    "output": "1. \"Rehab\"\n2. \"You Know I'm No Good\"\n3. \"Back to Black\"\n4. \"Love Is a Losing Game\"\n5. \"Me & Mr Jones\"\n6. \"Just Friends\"\n7. \"Tears Dry on Their Own\"\n8. \"Wake Up Alone\"\n9. \"Some Unholy War\"\n10. \"He Can Only Hold Her\"",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Invent a new word based on a description of the word.\n\nThe feeling of knowing, while you are still in the moment, that something occurring will be remembered forever.",
+    "output": "Memoravision",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Given a programming language and the name of a function, write a command to show how to use the function.\n\nLanguage: Python\nFunction: input",
+    "output": "print(\"Enter your input:\") input_value = input() print(\"Your input:\", input_value)",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Provide a pleasant compliment based on the quality you have been given.\n\nTruthfulness",
+    "output": "\"I really appreciate your honesty. It's a trait that is so valuable and I admire it.\"",
+    "generator": "text_davinci_003"
+  }
+]

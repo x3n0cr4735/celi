@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "koala",
+    "instruction": "Take MLK speech \"I had a dream\" but turn it into a top 100 rap song",
+    "output": "Verse 1:\nDreamin' 'bout a brighter day, I had a dream\nThat one day we'd be united in harmony\nA world of peace and love, a place where we can be free\nA chance for all of us to be accepted, truly\n\nChorus:\nI had a dream, I had a dream\nThat we can rise above and break these chains\nFightin' 'til we can live in unity\nCause I had a dream, I had a dream\n\nVerse 2:\nA land of true equality, I had a dream\nWhere bigotry and hatred would never be seen\nA chance to break down these walls, to tear down these fences\nLet's make a start, and find a new existence\n\nChorus:\nI had a dream, I had a dream\nThat we can rise above and break these chains\nFightin' 'til we can live in unity\nCause I had a dream, I had a dream\n\nVerse 3:\nA hope for a better tomorrow, I had a dream\nWhere the color of our skin wouldn't matter it seems\nWhere everyone's respected, no matter the hue\nWhere all creeds and colors are welcomed, too\n\nChorus:\nI had a dream, I had a dream\nThat we can rise above and break these chains\nFightin' 'til we can live in unity\nCause I had a dream, I had a dream\n\nOutro:\nI had a dream, a vision of a better future we can build\nRise up and make it true, there's still so much to do\nLet's keep the faith and never give up hope\nWe'll make this dream a reality, for us to cope",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "List the layers of the TCP/IP model and for each layer identify one protocol.",
+    "output": "1. Application Layer - HTTP, FTP\n2. Transport Layer - TCP, UDP\n3. Internet Layer - IP, ICMP\n4. Network Access Layer - Ethernet, WiFi",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Why can't bank use cash as capital as a buffer for potential losses?",
+    "output": "Banks cannot use cash as capital as a buffer for potential losses because cash has no intrinsic value. While cash can be used to purchase assets, it does not generate any income or return on investment. As such, it is not an effective buffer against potential losses since it does not provide any cushion against losses.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "convert December 21 \u00b7 1:00 \u2013 1:50pm pacific to asia/taipei time",
+    "output": "December 21 \u00b7 10:00pm - 10:50pm (Asia/Taipei Time)",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Can you tell my a story about nuclear physics like dr Seuss?",
+    "output": "Once there was a curious kangaroo,\nWho wanted to learn 'bout nuclear physics too.\nSo she jumped on her rocket and flew far away,\nTo visit a scientist at the LHC.\n\nThe scientist showed her the collider's great power,\nWhere particles collide and new ones devour.\nShe watched as protons crashed into each other,\nAnd particles merged into something much better.\n\nThen the scientist taught her the basics of fission,\nWhere neutrons split atoms in a great collision.\nThe energy released can be used to create heat,\nTo power cities and homes with such great feat.\n\nThen the scientist taught her the principles of fusion,\nWhere atoms collide and release huge amounts of energy in emission.\nThe power created here can be used to create light,\nAnd the kangaroo was amazed at this sight.\n\nThe kangaroo thanked the scientist with glee,\nAnd she hopped back on her rocket with newfound knowledge of nuclear physics to see.\nShe felt proud and thankful for the lesson she'd learned,\nAnd this story of nuclear physics she gladly returned.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Message to client for accepting offer for summary video",
+    "output": "Dear Client, \n\nWe are delighted to accept your offer for a summary video. We look forward to working with you to create a quality video that meets your expectations. Please let us know if you have any questions or require any additional information. \n\nThank you for choosing us and we look forward to a successful collaboration. \n\nSincerely, \n[Your Company]",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Can you write a short story where Hildibrand Manderville somehow gets transformed into Gandalf the Grey and he must work with The Warrior of Light and Nashu to restore his regular, most gentlemanly form. ",
+    "output": "Hildibrand Manderville had a knack for getting himself into the most peculiar of situations. And his latest escapade was no exception. While traveling through the lands of Eorzea, Hildibrand stumbled upon an ancient stone tablet inscribed with mysterious symbols. Despite his better judgement, Hildibrand decided to take the tablet with him and keep it as a souvenir.\n\nLittle did Hildibrand know, this tablet contained a powerful magical spell. Unbeknownst to him, the spell was triggered when he touched the tablet and suddenly, Hildibrand was transformed into Gandalf the Grey. \n\nGandalf was a mysterious wizard with powerful magical abilities, and his transformation into Gandalf left Hildibrand in a state of shock. He had no idea what had happened to him and was desperate to find a way back to his original form. \n\nFortunately, Hildibrand was not alone in this predicament. He was soon joined by two unlikely allies: the Warrior of Light and Nashu, a young female mage. Together, the trio set out to undo the spell and restore Hildibrand to his regular, most gentlemanly form.\n\nTheir journey would prove to be a difficult one, as they faced many obstacles along the way. But luckily, their combined courage and magical prowess were enough to overcome any challenge. \n\nFinally, after a long and arduous quest, the trio succeeded in breaking the spell and Hildibrand was restored to his original form. \n\nNow, Hildibrand and his two unlikely friends go down in history as the heroes who saved the gentlemanly Manderville from a magical transformation.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "I'm currently studying Bioengineering in Argentina, focusing on computational neuroscience. I'll be graduating in May, and planning to apply to PhD programs in the US at the end of the year in order to start August 2024. I'm thinking of what to do/study during this year until my program starts. Could you give me ideas? Feel free to ask me for questions which would help you give me better suggestions.",
+    "output": "One idea is to apply for internships or research positions in computational neuroscience labs in the US. This can give you valuable experience and help you get to know the research environment in the US. You can also look into taking courses related to your field that are offered online or through university programs. This can help you stay up to date with the latest research and technology developments. Additionally, you can consider taking part in competitions or hackathons related to your area of interest. This can help you gain skills and make connections with people in the same field. Finally, you can look into networking with professionals in the field to get advice and build relationships.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Write an interview between a Female Film director and a journalist. Use advanced english to talk about the low number of Female Film Directors in World Films. Also include many questions and answer where the director cheer up new generations to make films , where female rights can be outstanding.",
+    "output": "Journalist: Good morning, Director. It's an honour to have you here today. \n\nFemale Film Director: Thank you, I'm glad to be here.\n\nJournalist: As we all know, there is a low number of female film directors in the world. What do you think is the reason behind this?\n\nFemale Film Director: I think there are a number of factors that contribute to this. I think that there is still a lot of gender inequality in the world today, and this is reflected in the film industry. Women are often paid less than men, they are not given equal opportunities, and there is a lot of sexism and discrimination.\n\nJournalist: How can we change this situation and encourage more female directors to pursue a career in film?\n\nFemale Film Director: I think the best way to start is by creating more opportunities for women in the industry. We need to make sure that women have access to the same resources, training, and support that men have. We also need to raise awareness about the importance of gender equality and show that women can be just as capable and successful as men in the film industry. Finally, we need to actively promote more female directors and provide support to those who are just starting out. \n\nJournalist: Do you have any advice for young female directors who are just starting out in the film industry?\n\nFemale Film Director: My advice would be to stay true to yourself and be unafraid of taking risks. Don't be afraid to be different and don't be discouraged if you don't get the results you want immediately. Persevere, stay focused, and keep learning. Most importantly, remember that you have the power to make a difference in the industry and in the world.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Give me a sample 5 day itienary for a switzerland holiday, starting from Basel",
+    "output": "Day 1: Basel\nStart your day in Basel by exploring the city\u2019s old town and the many local attractions. Visit the Munster Cathedral, the Tinguely Museum, the Kunstmuseum and the historic Marktplatz.\n\nDay 2: Rhine Falls\nTravel to Schaffhausen to explore the majestic Rhine Falls. Go on a boat tour to get a closer view of the falls or take a hike on the nearby hiking trails for some breathtaking views.\n\nDay 3: Lucerne\nHead to Lucerne, one of Switzerland's most picturesque towns. Explore the old town, visit the Chapel Bridge and go on a boat tour of Lake Lucerne.\n\nDay 4: Jungfrau Region\nTake a day trip to the Jungfrau Region to explore the stunning mountain scenery. Take the Jungfrau Railway up to the highest railway station in Europe.\n\nDay 5: Basel\nReturn to Basel and explore the many shops and restaurants. Visit the Basel Zoo and enjoy a leisurely stroll along the Rhine.",
+    "generator": "text_davinci_003"
+  }
+]

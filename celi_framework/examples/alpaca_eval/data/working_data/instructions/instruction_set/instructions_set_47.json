@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "oasst",
+    "instruction": "Can you tell me how to format an url in rst?",
+    "output": "To format an URL in reStructuredText (rst), enclose the URL in angle brackets (<>) and add the text description for the URL after it. For example:\n\n`<https://www.example.com/> This is an example website.`",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How many days is it until Christmas?",
+    "output": "It is 247 days until Christmas.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Do you know how to speak German?",
+    "output": "Nein, ich spreche kein Deutsch.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "how does two factor authentication work?",
+    "output": "Two-factor authentication (2FA) is an authentication method that requires the user to provide two different authentication factors to gain access to a resource. The two factors can be something the user knows (such as a password), something the user has (such as a physical token or key), or something the user is (such as a fingerprint). By requiring two steps, 2FA provides an extra layer of security that makes it more difficult for an unauthorized user to gain access to the resource.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "How do I initialize a Typescript project using npm and git?",
+    "output": "1. Create a new folder for your project and open a command prompt in that folder.\n\n2. Initialize a new npm project by running the command \"npm init\".\n\n3. Install TypeScript globally by running the command \"npm install -g typescript\".\n\n4. Create a tsconfig.json file by running the command \"tsc --init\".\n\n5. Install the necessary Node modules by running the command \"npm install\".\n\n6. Initialize a new git repository by running the command \"git init\".\n\n7. Add all files to the repository by running the command \"git add .\".\n\n8. Commit the changes to the repository by running the command \"git commit -m 'Initial commit'\".\n\n9. Your Typescript project is now initialized and ready to go!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is the Balfour Declaration?",
+    "output": "The Balfour Declaration was a public statement issued by the British government in 1917 during World War I. The statement declared the British government's support for the establishment of a \"national home for the Jewish people\" in Palestine, then an Ottoman region with a minority Jewish population.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Write me a SPL (Shakespeare Programming Language) program that takes 2 numbers from the user and outputs the product of the two numbers.",
+    "output": "GIVETH two numbers\nLET USER_NUM1 BE THINE FIRST NUMBER\nLET USER_NUM2 BE THINE SECOND NUMBER\n\nPRINT \"The product of USER_NUM1 and USER_NUM2 is: \"\nPRINT USER_NUM1 * USER_NUM2",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "What is the best way to form a new habit?",
+    "output": "The best way to form a new habit is to start small. Pick one habit and focus on it for a few weeks until it becomes a part of your daily routine. Break down the habit into small, manageable chunks and set realistic goals. Additionally, track your progress to help keep yourself motivated and accountable. Finally, be consistent and patient; forming a new habit takes time and it's important to be kind to yourself throughout the process.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Hi. I want to make an embossed picture for my blind girlfriend. There is a Braille printer at my university that I can use. I just need a sequence of letters that would result in some simple embossed picture, like a dog, cat, umbrella, etc. Can you give me a such text?",
+    "output": "The following text sequence will result in a simple embossed image of a dog:\n\nDOOG OOGG OEHH OGGG OOGG OEHH OGGG OOGG OEHH OGGG OOGG OEHH OGGG OOGG OEHH OOGG OOGG OEHH OOGG OOGG OEHH OGGG OOGG OEHH OOGG OOGG OEHH OGGG OOGG OEHH OGGG OOGG OEHH OGGG OOGG OEHH OGGG OOGG OEHH OGGG",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "oasst",
+    "instruction": "Write a announcement tweet for medium.com readers about the new blogpost on \"Open Assistant is open source ChatGPT that you don't wanna miss out\"",
+    "output": "Check out the new blog post on #OpenAssistant - an open source #ChatGPT that you don't want to miss out! Visit Medium.com now and learn more! #AI #chatbot #opensource",
+    "generator": "text_davinci_003"
+  }
+]

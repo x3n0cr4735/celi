@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You will be tested on your knowledge of classic witticisms and aphorisms by completing the given aphorism. Write the original quote as the answer.\n\ntwo things are infinite",
+    "output": "\"The universe and human stupidity, and I'm not sure about the former.\" - Albert Einstein",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "A list of all movies that meet the criteria given should be compiled.\n\nmovies directed by Spike Lee by release date",
+    "output": "1. She's Gotta Have It (1986)\n2. School Daze (1988)\n3. Do the Right Thing (1989)\n4. Mo' Better Blues (1990)\n5. Jungle Fever (1991)\n6. Malcolm X (1992)\n7. Crooklyn (1994)\n8. Clockers (1995)\n9. Girl 6 (1996)\n10. He Got Game (1998)\n11. Summer of Sam (1999)\n12. Bamboozled (2000)\n13. 25th Hour (2002)\n14. She Hate Me (2004)\n15. Inside Man (2006)\n16. Miracle at St. Anna (2008)\n17. Red Hook Summer (2012)\n18. Da Sweet Blood of Jesus (2014)\n19. Chi-Raq (2015)\n20. BlacKkKlansman (2018)",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Using a given amount, determine an appropriate tip.\n\n14% tip on $47.50",
+    "output": "$6.65",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Identify all words that match the pattern given.\n\nH_AR_",
+    "output": "HARD, HARM, HARE, HARK",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Come up with words that rhyme with the given word.\n\ninstruct",
+    "output": "conduct, construct, destruct, induct, deduct, intersect, inject, abstract, deflect, suspect, infect, collect, reject, select, elect, inspect, protect, disconnect.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Look for poems that mention the given object or character. The names of the poems and their poets should be written.\n\nsanta claus",
+    "output": "\"A Visit From St. Nicholas\" by Clement Clarke Moore \n\"Santa Claus Doesn't Like Me\" by Valarie Davies \n\"A Letter to Santa\" by John Donne \n\"Santa Claus\" by John Updike",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Respond to the last text in the chat using the correct emojis to convey your feelings.\n\n+ Hey, how did your exams go?\n- They were alright. I'm just glad they're over.\n+ Yeah, I know how you feel. I'm just glad I don't have to worry about them anymore.",
+    "output": "\ud83d\ude0c\ud83d\ude0a",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "For answering the chat, think of a funny response you can use.\n\n+ how are you?",
+    "output": "Just great! Life is full of surprises!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "The last message in the chat is a partial response. You should complete and rewrite it.\n\n+ What are going to do now?\n- I don't know. I had to give up my dream of being a mathematician.\n+ Why",
+    "output": "Why did you have to give up your dream of being a mathematician?",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Change the response to have a more empathic tone in the chat.\n\n+ How are you doing?\n- Fine, I had a bunch of problems today.\n+ What kind of problems?",
+    "output": "I'm sorry to hear that. What kind of problems have you been facing?",
+    "generator": "text_davinci_003"
+  }
+]

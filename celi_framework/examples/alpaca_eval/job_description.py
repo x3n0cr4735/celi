@@ -13,19 +13,11 @@ from celi_framework.core.mt_factory import MasterTemplateFactory
 from celi_framework.utils.utils import load_json
 
 output_format = """{
-  "instruction": "Which year india won the first world cup in cricket?",
-  "baseline_response": "India won the first world cricket cup in 1985",
-  "output": "Your final response",
-  "score": {
-    "accuracy": 30,
-    "relevance": 25,
-    "completeness": 10,
-    "conciseness": 10,
-    "clarity_and_structure": 15,
-    "creativity_or_analytical_depth": 4,
-    "final_score": 94
-  },
-  "feedback": "The response did not answer the question accurately. The correct year is 1981, not 1982. Please provide the correct information in the final response."
+  "instruction": ""Which year india won the first world cup in cricket?"",
+  "baseline_response": ""Your initial answer in the task {{tasref :: Generate Baseline answer by answering the Current Instruction by thinking step by step}} "",
+  "output": ""Your final answer in the task {{tasref :: Generate Final Verified answer}} "",
+  "score": "final_score",
+  "feedback": ""The answer did not answer the question accurately. The correct year is 1981, not 1982. Please provide the correct information in the final answer.""
 }"""
 
 task_library = [
@@ -50,11 +42,12 @@ task_library = [
         },
     ),
          Task(
-        task_name="Generate Baseline Response by answering the Current Instruction by thinking step by step",
+        task_name="Generate Baseline answer by answering the Current Instruction by thinking step by step",
         details={
-            "description": "Produce an initial draft response to the given instruction.",
+            "description": "Produce an initial draft answer to the given instruction.",
             "instructions": [
-                "Analyze the instruction carefully and draft a response that fully addresses the query or requirement."
+                "Analyze the instruction carefully and draft a answer that fully addresses the query or requirement.",
+                "Follow the helping prompt for the current question to arrive at the answer."
             ],
         },
     ),
@@ -62,66 +55,72 @@ task_library = [
   Task(
         task_name="Plan Verifications",
         details={
-            "description": "Develop a set of verification questions that test the factual accuracy and relevance of the baseline response.",
+            "description": "Develop a set of verification questions that test the factual accuracy and relevance of the baseline answer.",
             "instructions": [
-                "Develop a series of questions that can be used to verify the accuracy and relevance of the response.",
-                "The verification questions can also ask for sources to explain the reasoning behind the response."
-                "Review the response to ensure that it correctly interprets the instruction and provides all necessary information or answers all parts of the question."
+                "Develop a series of questions that can be used to verify the accuracy and relevance of the answer.",
+                "The verification questions can also ask for sources to explain the reasoning behind the answer."
+                "Review the answer to ensure that it correctly interprets the instruction and provides all necessary information or answers all parts of the question."
             ],
         },
     ),
     Task(
         task_name="Execute Verifications",
         details={
-            "description": "Address each verification question independently to validate the baseline response.",
+            "description": "Address each verification question independently to validate the baseline answer.",
             "instructions": [
-                "Examine the response to ensure that it is straightforward, avoiding any vague or redundant content."
+                "Examine the answer to ensure that it is straightforward, avoiding any vague or redundant content."
             ],
         },
     ),
     Task(
-        task_name="Generate Final Verified Response",
+        task_name="Generate Final Verified answer",
         details={
-            "description": "Integrate the insights from the verification process to revise and finalize the response.",
+            "description": "Integrate the insights from the verification process to revise and finalize the answer.",
             "instructions": [
-                "Revise and rewrite the response based on the evaluations and feedback from previous tasks",
-                "Make the answer concise and clear. It should address only the question asked."]
+                "Revise and rewrite the answer based on the evaluations and feedback from previous tasks",
+                "Make the answer concise and clear. It should address only the question asked.",
+                "Ensure the answer followed the helping prompt and instructions from {{tasref :: Generate Baseline answer by answering the Current Instruction by thinking step by step}}, if not do the task again."
+                "Generate the final answer that should contain the answer for the question asked like this - output : {answer}",
+                "Dont add the feeback inside the answer. The feedback and score should be provided at the end in a different json key"]
         },
     ),
         
     
     Task(
-        task_name="Score the Response",
+        task_name="Score the final answer",
         details={
-            "description": "Use the rubric provided in the instructions to score the final response",
+            "description": "Use the rubric provided in the instructions to score the final answer",
             "tool_call": "Get the rubric using the get_rubric function for the current question.",
             "example_call": "{{}}",
             "instructions": [
-                "Use the rubric to score the final response",
+                "Use the rubric to score the final answer",
                  
-                 "Evaluate the Response for Accuracy and Completeness", 
+                 "Evaluate the answer for Accuracy and Completeness", 
                  "Check for Clarity and Conciseness', 'Validate Factual Information",
                  "Make sure to address each point of feedback and correction."
             
-                "The score should between 0 and 100. Consider the accuracy, clarity, and completeness of the response when assigning a score.",
-                "The final response should definitely contain the score and final score for all type of questions."
+                "The score should between 0 and 100. Consider the accuracy, clarity, and completeness of the answer when assigning a score.",
+                "The output should definitely contain the score and final score for all type of questions."
             ],
         },
     ),
-    
     Task(
-        task_name=f"Save the response for each question in json format{output_format}",
+        task_name=f"Save the final output for each question in json format",
         details={
-            "description": f"Save the response in the json format{output_format}",
-            "instructions": ["Save response for each question one by one into json file by calling save_json function",
-                               "Don't forget to save any question.",
-                               "If new answer for the question is generated, save the new answer again.",
-                               f"The final response should also contain the answer from the task {{tasref :: Generate Final Verified Response}} in the json format {output_format}",],
+            "description": f"Save the final output in the json format",
+            "instructions": [
+                f"Generate a detailed JSON response for the final output following the json format - {output_format}. Ensure all string values are enclosed in double quotes, properly escape any inner quotes, and make sure the JSON structure adheres to correct syntax without trailing commas.",
+                f"Save the final output for each question one by one into a json file by calling the save_json function in the mentioned json format",
+                "Ensure that the output is a valid JSON object, with proper escaping of quotes and special characters.",
+                "Do not save the answer as a string; save it only in the specified JSON format.",
+                f"The final output must always contain the answer (final answer) from the task {{tasref :: Generate Final Verified answer}}",
+                f"The final output must strictly adhere to this JSON format - {output_format}. If the answer is not in the correct format, do not save it. Instead, reformat the answer to match the specified JSON format before saving.",
+                "Double-check that all quotes and special characters are properly escaped in the JSON output.",
+            ],
             "tool_call": "Use the save_json tool.",
             "example_call": f"{{{output_format},'question_number': '1'}}",
-
-                },
-    ),
+        },
+    )
 ]
 
 

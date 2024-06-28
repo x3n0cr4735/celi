@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "koala",
+    "instruction": "Write a list of measures and ideas how  the Sophia Jewish can foster more Shabbat celebration and observance at home and in synagogue",
+    "output": "1. Encourage members of the community to host weekly Shabbat dinners.\n2. Establish a Shabbat mentorship program for families and individuals who are looking to learn more about Shabbat observance.\n3. Offer classes on the laws and customs of Shabbat.\n4. Create a Shabbat-friendly environment in the synagogue by having designated areas for prayer and study.\n5. Offer special programs and activities for children and families on Shabbat.\n6. Hold a monthly Shabbat celebration with special readings and activities.\n7. Create a Shabbat observance guide that outlines the rules and customs of Shabbat.\n8. Invite guest speakers to present lectures on the importance of Shabbat.\n9. Provide resources for families to help them create their own Shabbat rituals and observances.\n10. Launch a Shabbat outreach program to engage the wider community in the beauty of Shabbat.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "can you generate a data model for a test automation tool considering organizations, users, projects, goals (under projects), tests (under goals) and executions (of test cases). Each execution has a date and a passed or failed status.",
+    "output": "Organizations:\n- organization_id (INTEGER)\n- organization_name (TEXT)\n- organization_address (TEXT)\n\nUsers:\n- user_id (INTEGER)\n- user_name (TEXT)\n- user_email (TEXT)\n- organization_id (INTEGER)\n\nProjects:\n- project_id (INTEGER)\n- project_name (TEXT)\n- organization_id (INTEGER)\n\nGoals:\n- goal_id (INTEGER)\n- goal_name (TEXT)\n- project_id (INTEGER)\n\nTests:\n- test_id (INTEGER)\n- test_name (TEXT)\n- goal_id (INTEGER)\n\nExecutions:\n- execution_id (INTEGER)\n- test_id (INTEGER)\n- user_id (INTEGER)\n- execution_date (DATE)\n- execution_status (TEXT)",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "How can I calculate the amount of variations on a 3x4 table?",
+    "output": "The amount of variations on a 3x4 table is 3x4x3x4 = 144.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Give me a brief scenario of a persona that would search this information and find this content helpful: {NSW Residential Building Contract for Small Works over $20,000 Designed for residential building work which is not complex over $20,000. Suitable for smaller alteration and renovation projects. Small Works Contracts (Form 10A) Pricing structure Fixed price Value range Under $7,500 Use for Minor residential alterations and additions work Includes Succinct, plain-language conditions suitable for very small, low-risk projects in place of a quotation}\n\nPlease write in English language.",
+    "output": "John is a retired 55-year-old man who recently bought a house in New South Wales. He wants to do some minor renovations and additions to his house, and he estimates that the cost will be under $7,500. He has looked up NSW Residential Building Contract for Small Works over $20,000 online and finds the Succinct, plain-language conditions suitable for his project. He decides to use the Form 10A Pricing structure to ensure that the work is completed professionally and within his budget.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Write a poem about a family sailing vacation in Bora Bora in the style of Robert Frost",
+    "output": "To sail upon the sea in Bora Bora,\nA family vacation we must explore-a.\nThe sun, the sand, and water glistening,\nWe'll make a trip of days of blissful living.\n\nTo cast our anchor in a tranquil bay,\nTo spend each day in a peaceful way.\nWe'll explore the depths of sapphire blue,\nDiscovering what the island has in view.\n\nEach morning, sunrise, we'll watch with awe,\nSeagulls, pelicans, and dolphins all in awe.\nThe beauty of the Polynesian sky,\nWill give us joy and make us cry.\n\nWe'll spend our days in blissful bliss,\nAs we sail the waters of the abyss.\nWe'll make memories to last a lifetime,\nOn our sailing vacation in Bora Bora sublime.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Create 10 marketing punch lines for the new year house hold sale",
+    "output": "1. Start the new year with a bang and shop at our house hold sale!\n2. Make your new year special with our house hold sale!\n3. Get the best deals of the year at our house hold sale!\n4. Upgrade your house hold items for the new year!\n5. New year, new deals at our house hold sale!\n6. Get the most out of your new year with our house hold sale!\n7. Welcome 2021 with the best house hold sale around!\n8. Refresh your home for the new year with our house hold sale!\n9. Start the year off right with our house hold sale!\n10. Shop smart and save big at our house hold sale!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Write me the first act of a play in Shakespearian style about a porcupine named Prickles who wants to be a seamstress",
+    "output": "Act I\n\nScene I\n\n[An open field, with trees and grass strewn across the landscape. Prickles the Porcupine is perched atop a large rock, admiring the scenery around him.]\n\nPrickles: Ah, what a beautiful day! The wind is blowing lightly, and the birds are singing in the trees. I could stay here forever, if I could only find something to do with my life.\n\n[Enter two of Prickles' closest friends, a squirrel and a rabbit.]\n\nSquirrel: Prickles! We've been looking all over for you!\n\nRabbit: We've got an idea for you!\n\nPrickles: What is it?\n\nSquirrel: We think you should become a seamstress!\n\nPrickles: A seamstress? Why would I want to do that?\n\nRabbit: Think about it! You could make the most beautiful clothes for everyone in the forest!\n\nPrickles: That does sound quite appealing. But how do I even begin?\n\nSquirrel: We've been talking to some of the local tailors. They're willing to teach you the basics if you're willing to learn!\n\nPrickles: That's wonderful news! I think I'll take them up on their offer. Thank you both so much!\n\n[The squirrel and rabbit smile and bow their heads in respect before exiting the stage. Prickles looks off into the distance, his mind full of possibilities.]\n\nPrickles: I think I'm ready to start my new life as a seamstress.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Given the following implementation, please tell me what are the technologies involved in the process and present the relevant keywords in a suitable format. The implementation: In an app for an online fast fashion e-commerce platform, the user uploads a video in which the whole body of the user is within frame and the user turns 360 degree. Using the data from the video, the app reconstructs a 3d avatar which is shaped accurately by the measurements of the user. The avatar has almost the same face and hairstyle as the user. In the app there are also 3D clothes that can be 'tried on' by the avatar, and the avatar can also do different poses. Suitable outfits are recommended based on the measurements of the avatar (e.g. height, length of limbs). Similar items from different fashion brands are suggested to the user based on their previous choice of fashion items.",
+    "output": "Technologies Involved: 3D Reconstruction, Virtual Reality, Artificial Intelligence, Video Analysis, Computer Vision. \nKeywords: 3D Reconstruction, VR, AI, Video Analysis, Computer Vision, Online Fast Fashion, 3D Avatar, 3D Clothes, Virtual Try-Ons, Outfit Recommendations.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "can you list in bullet points for the role of digital health in preventing the diseases",
+    "output": "\u2022 Digital health can be used to monitor and track health trends, such as changes in blood pressure, cholesterol levels, or blood glucose.\n\u2022 Digital health can help to identify risk factors associated with certain diseases and provide personalized advice on how to reduce those risks.\n\u2022 It can also be used to monitor and manage chronic diseases, such as diabetes, asthma, and heart disease.\n\u2022 Digital health can provide access to reliable health information and resources to help people make informed decisions about their health.\n\u2022 Digital health can help to connect patients with health care providers and specialists when needed.\n\u2022 Digital health can also be used to detect early warning signs of diseases and provide timely interventions.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Write 50 short stories under ten words in a creative and new way",
+    "output": "1. Forgotten, he returned home alone. \n2. Silently, he wept in the night. \n3. Abandoned, she searched for love. \n4. Unexpectedly, he found a new path. \n5. Mistakenly, she trusted the wrong person. \n6. Joyfully, they danced in the rain. \n7. Discouraged, he gave up hope. \n8. Accidentally, she stumbled upon a secret. \n9. Bravely, he faced his fears. \n10. Unknowingly, she made a mistake. \n11. Miraculously, he survived the storm. \n12. Nervously, she awaited her fate. \n13. Faithfully, she followed her heart. \n14. Hopelessly, he looked for an answer. \n15. Unwillingly, she accepted the truth. \n16. Optimistically, he kept going forward. \n17. Daringly, she challenged the odds. \n18. Desperately, he sought a solution. \n19. Wearily, she faced the darkness. \n20. Cautiously, he watched his steps. \n21. Reluctantly, she opened the door. \n22. Eagerly, they explored the unknown. \n23. Secretly, she hid her identity. \n24. Comfortably, he found a home. \n25. Fearfully, she ventured beyond. \n26. Carefully, he crafted his plan. \n27. Recklessly, she threw caution away. \n28. Sadly, he said goodbye forever. \n29. Regretfully, she looked back one last time. \n30. Determinedly, he pursued his dream. \n31. Unintentionally, she hurt someone. \n32. Boldly, he stood up for justice. \n33. Searchingly, she asked the questions. \n34. Wearily, he stumbled down the path. \n35. Courageously, she fought for her rights. \n36. Hesitantly, he took the first step. \n37. Humbly, she accepted her mistakes. \n38. Surprised, he discovered a new world. \n39. Unwittingly, she crossed enemy lines. \n40. Gently, he whispered a goodbye. \n41. Angrily, she shouted her demands. \n42. Faithlessly, he doubted his purpose. \n43. Patiently, she waited for change. \n44. Resignedly, he accepted his fate. \n45. Bravely, she faced her fears. \n46. Powerfully, he confronted his demons. \n47. Exhaustedly, she kept going forward. \n48. Unknowingly, she gained an ally. \n49. Wearily, he set off for home. \n50. Hopefully, they found a new beginning.",
+    "generator": "text_davinci_003"
+  }
+]

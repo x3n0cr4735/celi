@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a social media post about the call for collaboration on a crowdsourcing project in a persuasive way.",
+    "output": "Are you looking for a way to make an impact in your community? Join our crowdsourcing project and help create real, lasting change! Join us today and see the difference you can make! #CrowdsourcingProject #MakeADifference #JoinUs",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "My favorite witty review of The Rings of Power series is this:",
+    "output": "\"The Rings of Power series is like Tolkien's version of a Choose-Your-Own-Adventure book. You can either go down the path of Frodo and defeat the evil Sauron, or you can take the path of Gollum and become corrupted by the Ring.\"",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "A helpful writing exercise is writing a story without using adjectives or adverbs. This will help you learn to use other words and phrases to describe what you are trying to say. Here are some examples:",
+    "output": "The summer sun beat down on the small town, its citizens hustling and bustling in the heat. A young woman crossed the street, her dress billowing in the wind. She stopped in front of a shop, peering through the window at the items on display.\n\nThe door opened and a man stepped out, a wide-brimmed hat perched atop his head. He smiled and waved her inside, gesturing towards the shelves of goods. The woman took her time, examining each item before making her selection.\n\nThe man bagged her purchase and accepted her payment, thanking her for her business. As she walked away, her mind filled with thoughts of what she would make with her new purchase. She glanced over her shoulder as she reached the end of the street, the man still standing in the doorway.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Come up with some search queries on google about coding stuff.",
+    "output": "1. Learn coding basics\n2. Best coding languages for beginners\n3. Coding tutorials for beginners\n4. HTML coding examples\n5. CSS coding tips\n6. JavaScript coding challenges\n7. Python coding projects\n8. Java coding best practices\n9. Coding bootcamp reviews\n10. Computer science careers",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Discover the most relevant StackOverflow questions for your search term. And output a list of their URLs.\n\nremove item in array",
+    "output": "1. https://stackoverflow.com/questions/3954438/how-to-remove-item-from-array-by-value\n2. https://stackoverflow.com/questions/5767325/how-do-i-remove-a-particular-element-from-an-array-in-javascript\n3. https://stackoverflow.com/questions/18909982/remove-item-from-array-by-value\n4. https://stackoverflow.com/questions/281264/remove-empty-elements-from-an-array-in-javascript\n5. https://stackoverflow.com/questions/17883614/javascript-remove-array-element-by-value",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are given an algorithm or a search query about coding. Look for a code snippet related to the search query.\n\nPython loop",
+    "output": "for i in range(10):\n  print(i)",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are provided with a description of the code, specifications, or prompts. Your help is needed in automating code generation to speed up the development process.\n\npython function to determine whether a number is prime.",
+    "output": "A boolean (True or False)\n\ndef is_prime(number):\n    if number < 2:\n        return False\n    if number == 2:\n        return True \n    if number % 2 == 0:\n        return False\n    for divisor in range(3, int(number ** 0.5) + 1, 2):\n        if number % divisor == 0:\n            return False\n    return True",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "When you're stuck on a coding problem, the best place to look for help is in the documentation. Read the docs carefully and see if there's a section that covers your specific issue. Often, the answer will be right there in front of you. If not, try searching for key terms related to your problem. Come up with the useful links about the given search term.\n\nsql find duplicate values",
+    "output": "1. https://www.w3resource.com/sql/sql-server/find-duplicate-values-in-a-table.php\n2. https://www.1keydata.com/sql/sql-duplicate-records.html\n3. https://www.sqlshack.com/how-to-find-duplicate-values-in-a-table-in-sql-server/\n4. https://www.sqlservertutorial.net/sql-server-basics/sql-server-find-duplicate-values/\n5. https://www.mssqltips.com/sqlservertip/1894/find-duplicate-rows-in-a-sql-server-table/",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "We have entered the home supplies budget in the following table. Calculate the last column with the given function and rewrite the completed table.\nNote that, columns in a row are separated using a comma, and rows are separated using a \"|\".\n\nItem, Qty, Price, Subtotal | mango, 5, 500, ? | apple, 4, 150, ? | oil, 2, 1500, ?  \nFunction: column2 * column 3",
+    "output": "Item, Qty, Price, Subtotal | mango, 5, 500, 2500 | apple, 4, 150, 600 | oil, 2, 1500, 3000",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Please write the Excel function name associated with each description.\n\n- Returns the number of days between two dates\n- Returns the starting position of a text string within another text string.\n- Returns the number in the middle of the set of given numbers",
+    "output": "1. DATEDIF\n2. FIND\n3. MEDIAN",
+    "generator": "text_davinci_003"
+  }
+]

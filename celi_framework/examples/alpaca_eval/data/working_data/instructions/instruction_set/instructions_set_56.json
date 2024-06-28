@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a step-by-step guide for resolving GitHub merge conflicts.",
+    "output": "1. Log into your GitHub account.\n\n2. Go to the repository where the conflict is occurring and select the \u201cPull Requests\u201d tab.\n\n3. Find the pull request with the merge conflict and click on it.\n\n4. In the pull request, select the \u201cFiles changed\u201d tab.\n\n5. In the \u201cFiles changed\u201d tab, select the \u201cConversation\u201d tab to view the conflict.\n\n6. In the \u201cConversation\u201d tab, you should see the conflict indicated by a red exclamation mark (!) and a line of code with two conflicting changes.\n\n7. Carefully review the conflicting changes and decide which change you want to keep and which change you want to discard.\n\n8. Once you have decided which change to keep, delete the change you want to discard.\n\n9. Commit your changes and push them to the repository.\n\n10. Once the changes have been pushed, open the pull request again.\n\n11. On the pull request page, select the \u201cMerge pull request\u201d button.\n\n12. If the merge is successful, the merge conflict should be resolved.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "One or more jobs can be run automatically by a workflow. The workflows are defined in the repository as YAML files and will run if an event occurs in the repository, as well as manually, or on a certain schedule.\nBring an example of a workflow that demonstrate the CI/CD features of GitHub Actions.",
+    "output": "name: CI/CD Workflow\n\non:\n  push:\n    branches:\n      - master\n\njobs:\n  build:\n    runs-on: ubuntu-latest\n    steps:\n      - uses: actions/checkout@v2\n      - name: Build\n        run: |\n          npm install\n          npm run build\n      - name: Test\n        run: |\n          npm run test\n      - name: Deploy\n        run: |\n          npm run deploy",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "The movie tagline is the film's advertising slogan, usually printed on posters prior to the official release. It is a short description or comment on a movie to capture the essence of the movie, and ultimately make you watch the movie. Here is an example:\n\nMovie: Joker (2019)",
+    "output": "\"Put on a Happy Face.\"",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You are given some reviews for a movie. Each video might have mentioned some negative or positive points about the movie. Read them carefully and extract the positive and negative points mentioned in all of the reviews. Then, make a list of these points and summarize them as positive points and negative points.\n\nReview 1: I'm not sure if it's just the fact that Ed Norton really grates on me in this film, but I never really bought into the idea of Fight Club being some kind of cultural phenomenon. Yes it's an innovative story, told via a strong script, engaging characters and intense cinematography. But is it really worthy of such high praise? Personally, I find it starts to fall apart halfway through and actually becomes quite tedious towards the end. Everything just becomes a little bit childish and contrived as the story loses touch with its base elements and the rage against the machine vibe takes over. I have huge respect for the way this film was made but, much like The Matrix, I feel like people attach way more importance to this movie than it deserves.\nReview 2: The film tells the story of men who cannot adapt to the social order in today's world, under the leadership of Tyler Durden, to discover their natural instinct, masculinity, and to escape from their unhappy lives.\nReview 3: Despite a good theme, great acting and important messages that this movie convey in an unorthodox way, I think it fails to connect the audience with the storyline and leaves him in a world of confusion. Although, majority of reviews find this movie entertaining and interesting, yet I would choose to be a minority that believes that this movie is extremely overrated.\nReview 4: Is creating chaos, explosions and membership in a militant sect the way to get rid of material shackles ?! The visual effects are fascinating and the story is compelling until the second half. Unfortunately, it doesn't end well.",
+    "output": "Positive Points:\n- Innovative story.\n- Strong script.\n- Engaging characters.\n- Intense cinematography.\n- Discovers natural instinct and masculinity.\n- Conveys important messages in an unorthodox way.\n- Entertaining and interesting.\n- Fascinating visual effects.\n- Compelling story.\n\nNegative Points:\n- Ed Norton grates on viewer.\n- Falls apart halfway through.\n- Becomes quite tedious towards the end.\n- Becomes a bit childish and contrived.\n- People attach more importance to this movie than it deserves.\n- Fails to connect the audience with the storyline.\n- Extremely overrated.\n- Doesn't end well.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Give a brief summary of the movie or series' plot.\n\nBreaking Bad (TV Series 2008\u20132013)",
+    "output": "Breaking Bad follows the journey of Walter White, a high school chemistry teacher who is diagnosed with terminal cancer. Desperate to provide for his family, he turns to a life of crime, producing and selling meth with his former student Jesse Pinkman. Together they face a series of dangerous obstacles and life-threatening situations as they attempt to secure Walter's legacy.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Decide whether children can watch the given movie. Mention what makes it inappropriate if you think they can't.\n\nThe Dark Knight (2008)",
+    "output": "Children should not watch The Dark Knight (2008). The movie contains intense violence, dark and mature themes, and some profanity, making it inappropriate for children.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a short analysis of the cinematography in the movie.\n\nDead Poets Society",
+    "output": "The cinematography in Dead Poets Society is truly remarkable. It captures the beauty of the landscapes, the quaintness of the school campus, and the emotion of the characters. It utilizes the power of the wide-angle lens to create a sense of grandeur and awe as the characters explore their surroundings. The depth of field is also used to great effect, with the camera often focusing on a specific person or object while the background remains blurred. The color palette is warm and inviting, which gives the movie a sense of nostalgia. The lighting is used to great effect to create a moody atmosphere \u2013 it is especially effective in scenes that take place at night or in dimly lit rooms. All in all, the cinematography in Dead Poets Society is effective in creating an engaging and powerful visual experience.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Please let me know your thoughts on the given place and why you think it deserves to be visited.\n\nBarcelona, Spain",
+    "output": "Barcelona, Spain is a truly stunning destination that is well worth a visit. With its vibrant culture, stunning architecture, gorgeous beaches, and endless entertainment options, Barcelona is truly a city like no other. From its Gaudi-designed buildings to its world-class museums, Barcelona has something for everyone. The city is also known for its lively nightlife, with a plethora of bars, restaurants, and clubs to explore. Barcelona is also an excellent shopping destination, with plenty of boutique shops and markets to explore. All in all, Barcelona is a vibrant, exciting city with plenty of activities and attractions to enjoy.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Consider the best time of year to visit the given city, and provide your reasons for choosing that time.\n\nSydney, Australia",
+    "output": "The best time of year to visit Sydney, Australia is during the fall, from March to May. During this time of year, the temperatures are mild and the skies are sunny, making it the perfect time for sightseeing. Additionally, the fall season in Sydney offers many outdoor activities such as whale watching, beach visits, and kayaking. There are also plenty of festivals and events to take part in. Furthermore, the fall season is generally the shoulder season in Sydney, which means there are fewer crowds and better prices for accommodations.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Make a questionnaire to help hotel guests write hotel reviews.",
+    "output": "1. How would you rate your overall experience at our hotel? \n2. How would you rate the quality of the room you stayed in? \n3. How would you rate the cleanliness and maintenance of the room? \n4. How was your experience with the hotel staff? \n5. How was the quality of the food served at the hotel? \n6. How accessible were the amenities and services offered by the hotel? \n7. How would you rate the value for money of your stay? \n8. Were there any particular areas that you were satisfied or dissatisfied with during your stay? \n9. Is there anything you would like us to improve on in the future? \n10. Would you recommend our hotel to other guests?",
+    "generator": "text_davinci_003"
+  }
+]

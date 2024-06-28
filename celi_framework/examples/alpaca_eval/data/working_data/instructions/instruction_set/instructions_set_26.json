@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "koala",
+    "instruction": "Write a poem about Mike and Joe becoming millionaires by leveraging the power of AI to become the greatest Agile coaches in history. Include content from the agile manifesto.",
+    "output": "Mike and Joe, two ambitious men\nSet out to become millionaires in the end\nBut they knew they couldn\u2019t do it alone\nSo they used the power of AI to reach their goal\n\nThey decided to become the greatest Agile coaches\nAnd help people find success in their approaches\nTheir aim was to foster collaboration\nAnd value individuals and interactions\n\nWith the help of AI, their dreams came to life\nAnd soon they were millionaires, with no strife\nThey embraced customer collaboration\nAnd delivered working software with iteration\n\nTheir focus was on responding to change\nBy continuously improving their range\nThey kept their systems simple and easy to use\nSo everyone was able to benefit from the news\n\nMike and Joe had become quite renowned\nFor their success as Agile coaches and their wealth had abounded\nTheir story is still told, even today\nOf how two men leveraged AI to make their way",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Rewrite the given introductory paragraph so that it starts with a pertinent anecdote. Also rewrite the thesis so that it is succinct and concise:    \"Many types of black people have different cultural backgrounds and experiences. For example, African and African American cultures share a common ancestry and history of struggles but have distinct cultural identities. While both groups are considered Black, they have different experiences, records, and cultural practices. As Saint Augustine said, \u201cThe world is a book, and those who do not travel read only a page.\u201d This quote emphasizes the importance of exploring other cultures to understand their experiences better. As I have gotten older, I have come to understand the similarities and differences between these two individuals.\"",
+    "output": "As I have gotten older, I have come to understand the importance of exploring other cultures to better understand their experiences. This was highlighted for me when I learnt of the similarities and differences between African and African American cultures, which share a common ancestry and history of struggles but have distinct cultural identities. Saint Augustine's famous quote, \u201cThe world is a book, and those who do not travel read only a page\u201d, aptly summarizes the need to recognize the varied experiences of different Black people. While both groups are considered Black, they have different records, experiences, and cultural practices. \n\nExploring other cultures is essential to understanding the experiences of different Black people.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "explain TypeScript and Duck Typing",
+    "output": "TypeScript is a programming language developed by Microsoft that is a superset of JavaScript. It is mainly used to create large-scale applications that are easier to maintain and debug. TypeScript adds optional static typing to JavaScript, allowing developers to use type annotations to catch common errors before the code is even run.\n\nDuck Typing is a type system used in statically typed languages, such as TypeScript, that allows objects to be treated as a certain type if they have the same interface as that type. This means that objects do not need to be explicitly defined as a particular type. Instead, it is determined at runtime based on the structure of the object. This allows for greater flexibility and faster development.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "how are carbon fibers used in buildings",
+    "output": "Carbon fibers are increasingly being used in the construction of buildings. They are used to create lightweight construction materials that are stronger and more durable than traditional materials like steel and concrete. Carbon fibers can be used to create stronger, lighter structural elements like beams and columns, and they can also be woven into composites that are used to create lightweight, insulated wall panels. Carbon fibers can also be used to create insulation for roofs and walls, helping to reduce energy costs.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Please summarise in point form \"Challenges for\nAfrican Agriculture\" by Jean-Claude Dev\u00e8ze",
+    "output": "1. Decline in agricultural productivity due to overworked soils \n2. Outdated agricultural practices \n3. Poor access to markets \n4. Lack of agricultural diversification \n5. Poor access to inputs such as fertilizer and modern farming techniques \n6. Poor infrastructure and lack of transport networks \n7. Low levels of investment in agricultural research and development \n8. Natural disasters such as drought and floods \n9. Poor access to credit and financial services",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "When I open Anki browser, It shuts down. how can i fix this?",
+    "output": "There are a few possible solutions you can try to fix this issue. \n\n1. Check for any available software updates for your version of Anki and install them.\n\n2. Try deleting any corrupted or outdated files from the Anki folder.\n\n3. Make sure your computer's graphics card drivers are up to date.\n\n4. Make sure your computer's operating system is up to date.\n\n5. Try reinstalling Anki.\n\n6. Check for any other programs that might be conflicting with Anki and disable or uninstall them.\n\nIf none of these solutions work, then you may need to contact Anki's customer support for further assistance.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "how much of a threat is climate change in the coming years, and what should we do to stop it?",
+    "output": "Climate change is a major threat to the environment, societies, and economies in the coming years. We must take immediate and drastic action to reduce greenhouse gas emissions in order to avoid the worst impacts of climate change. This includes transitioning to renewable energy sources, investing in energy efficiency, reducing consumption and waste, and creating policies to incentivize sustainability. We must also work together to protect and restore ecosystems, which can help reduce the impacts of climate change.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Why does it feel like less effort to watch 3 - hour long TV episodes back to back than a film?",
+    "output": "It is likely due to the way that television episodes are structured. Each episode follows a similar structure and often ends with a cliffhanger, which can make it feel more engaging and easier to keep watching. Additionally, when watching a film, viewers may become more aware of the length of the movie and become fatigued by the end. By contrast, television episodes often feel shorter because of their more predictable structure.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "how do I appear in a video call as if I'd be actively listening while I am actually sleeping?",
+    "output": "1. Set up your video call in a comfortable position where you can lie down and relax.\n2. Ensure that your face is in a position that is visible to the other participants.\n3. Turn the brightness of your screen down to its lowest setting.\n4. Plug in a pair of headphones or earbuds and turn on a relaxing sleep sound or music.\n5. Close your eyes and relax your body and mind.\n6. Set a timer for the duration of the call and try to stay as still as possible.\n7. If you're able to, use a blanket or scarf to cover yourself up to the neck to give the illusion of listening.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "What are the wavelengths of light emitted by metals depending on their temperature?",
+    "output": "The wavelengths of light emitted by metals depend on the temperature of the metal. Hotter metals tend to emit light with shorter wavelengths, while cooler metals emit light with longer wavelengths.",
+    "generator": "text_davinci_003"
+  }
+]

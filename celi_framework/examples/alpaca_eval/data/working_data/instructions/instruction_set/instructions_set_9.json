@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "helpful_base",
+    "instruction": "I have a hard time falling asleep.  Is there any type of music that can help me fall asleep faster?",
+    "output": "Yes, listening to calming music like classical music, nature sounds, or soft instrumental music can help you fall asleep faster. Additionally, consider playing white noise in the background or using a sleep app to help relax your mind and body.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What are places to visit in Montgomery, Alabama?",
+    "output": "1. Alabama State Capitol\n2. Montgomery Museum of Fine Arts\n3. Montgomery Zoo\n4. Dexter Avenue King Memorial Baptist Church\n5. Rosa Parks Library and Museum\n6. Old Alabama Town\n7. Montgomery Riverwalk\n8. Montgomery Biscuits Baseball\n9. Montgomery Performing Arts Centre\n10. Alabama Shakespeare Festival",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Hi, I've decided to keep a rat as a pet. How do I house, feed, and otherwise care for it?",
+    "output": "To house and feed your rat, you'll need to provide a safe, comfortable, and clean environment. You can purchase a rat cage with a secure lid, bedding, and chew toys to keep your rat entertained. Make sure to provide fresh, clean water every day and a balanced diet of high-quality rat food. \n\nIt's also important to handle your rat regularly to help it become socialized and comfortable around people. Pet your rat gently and play with it for a few minutes each day. Additionally, take your rat to the vet once a year for a check-up and to make sure it's healthy. \n\nFinally, make sure to keep your rat's cage and environment clean. Clean the cage once a week and replace the bedding every few weeks. Finally, keep an eye out for signs of illness like sneezing, weight loss, or aggressive behavior.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How do you get water in the desert?",
+    "output": "In the desert, you can get water by collecting dew, harvesting rainwater, using a solar still, or finding a water source such as a spring or oasis.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How do I get better at aiming with my slingshot?",
+    "output": "1. Practice: The best way to improve your aim with a slingshot is to practice. Set up a target such as a box or a piece of paper and practice shooting at it. Try to hit the target from different distances and angles.\n2. Improve your grip: Make sure you have a comfortable and secure grip on the slingshot when shooting. Aim with your dominant hand and keep your non-dominant hand behind the slingshot for stability.\n3. Aim carefully: When aiming, make sure to take your time and line up the shot properly. Use both eyes to aim and be sure to adjust your aim based on the distance and angle of the target.\n4. Adjust the rubber bands: Make sure the rubber bands are adjusted properly for your slingshot. If they are too tight or too loose, they can affect the accuracy of your shots.\n5. Use the right ammo: Choose the right ammo for your slingshot such as marbles or steel balls. This will help you achieve better accuracy and distance with your shots.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Argentinian dishes. Can you give me a recipe for Milanesa de peceto?",
+    "output": "Milanesa de peceto Recipe \nIngredients: \n-1 lb. boneless veal cutlets \n-1 cup all-purpose flour \n-2 large eggs \n-1/4 cup breadcrumbs \n-1 teaspoon salt \n-1 teaspoon black pepper \n-1/4 cup olive oil \n\nInstructions: \n1. Place the veal cutlets between two pieces of wax paper and lightly pound them with a meat mallet to about 1/4 inch thickness. \n\n2. In a shallow bowl, combine the flour, salt, and pepper. \n\n3. In a separate shallow bowl, whisk together the eggs. \n\n4. In a third shallow bowl, mix together the breadcrumbs. \n\n5. Dip the veal cutlets in the flour mixture, then into the eggs, and then into the breadcrumbs. \n\n6. Heat the olive oil in a large skillet over medium heat. \n\n7. Add the veal cutlets to the hot oil. Cook until golden brown and cooked through, about 3-4 minutes per side. \n\n8. Transfer the milanesa de peceto to a plate lined with paper towels to absorb any excess oil. \n\n9. Serve warm with a side of mashed potatoes or a salad. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I have my grandfather's antique fountain pen and a bottle of ink, but have never done this before. Can you tell me how to refill the fountain pen?",
+    "output": "1. Begin by uncapping the fountain pen and removing the ink cartridge.\n2. Fill the ink bottle with a compatible fountain pen ink.\n3. Dip the nib of the fountain pen into the bottle of ink. Make sure that the nib is completely submerged. \n4. Gently roll the nib to remove excess ink.\n5. Reinsert the ink cartridge into the fountain pen and replace the cap.\n6. Test the fountain pen by writing on a piece of paper.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Hi, I'd like to play ice hockey. Can you explain how the game works?",
+    "output": "Sure! Ice hockey is a team sport played on ice. It is usually played between two teams of six players each, but can also be played with fewer players. The objective of the game is to score goals by shooting a hard rubber puck into the opposing team's net. Players attempt to control the puck using a hockey stick and can pass it to teammates or take shots at the goal. The team with the most goals at the end of the game wins.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What is kevlar made out of?",
+    "output": "Kevlar is made out of poly-paraphenylene terephthalamide, a type of synthetic fiber.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Hi, I'd like to learn how to play racquetball. Can you explain the game to me?",
+    "output": "Sure! Racquetball is a sport that is played with four walls, a racquet, and a ball. The object of the game is to hit the ball with your racquet and make it bounce off of the walls without your opponent hitting it back. You can only hit the ball once before your opponent has to hit it back. The first person to reach 11 points wins the game.",
+    "generator": "text_davinci_003"
+  }
+]

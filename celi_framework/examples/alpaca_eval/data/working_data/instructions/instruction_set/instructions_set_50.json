@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "What are the steps to using random (yet coherent) text as filler content within your Word document?",
+    "output": "1. Highlight the area in the document where you want to insert the filler text.\n2. Go to the \u2018Insert\u2019 tab and click \u2018Quick Parts\u2019.\n3. Select \u2018Document Property\u2019 and then \u2018Subject\u2019.\n4. Type in a creative subject, such as \u2018Filler Text\u2019.\n5. Click \u2018OK\u2019.\n6. Go to the \u2018Insert\u2019 tab and select \u2018Text\u2019 and then \u2018Blank Document\u2019.\n7. Type in the desired number of words for the filler text.\n8. Click \u2018OK\u2019.\n9. The random yet coherent text will be inserted into the document.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Design a soothing pastel color palette for your slides. Pastel colors generally come across as pretty and delicate, so you\u2019ll want to make sure your presentation calls for a similar mood. Choose up to five colors or color codes.",
+    "output": "1. #F7F3F2\n2. #F6EAF7 \n3. #D9D3D9 \n4. #C4BEC5\n5. #A8A2A7",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "I bought two shirts from the store and each one cost me $10. I also bought a pair of pants and they cost me $20. Then, I bought a dress and it cost me $30. Also,  I bought a pair of shoes and they cost me $40. Lastly, I bought a jacket and it cost me $50.\n\nMake a table chart showing items, the number, and the price of these items. Separate columns with \"|\".",
+    "output": "Item | Number | Price\nShirts | 2 | $10\nPants | 1 | $20\nDress | 1 | $30\nShoes | 1 | $40\nJacket | 1 | $50",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Find sentences from reliable sources such as the Guardian or Forbes that contain the exact match for the given sentence or phrase. Also, mention the source of each sentence.\n\nThere are great options",
+    "output": "\"There are great options for people who are looking to invest in renewable energy stocks\" - Forbes, https://www.forbes.com/sites/advisor/2020/07/01/how-to-invest-in-renewable-energy-stocks/#7f8c36e51e39",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "During writing, we added an asterisk for the word that did not come to mind. You will need to provide several examples to demonstrate all the words that can be used in the sentence instead of the asterisk.\n\nwe * to know",
+    "output": "We need, we ought, we must, we have, we desire, we wish",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Think of alternatives and paraphrases for the underlined word.\n\nwhat we have _expected",
+    "output": "anticipated, anticipated outcomes, predicted, projected, foreseen, foretasted",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Design a skill assessment\u00a0questioner for R (Programming Language).",
+    "output": "Q1: What is the purpose of the 'function' keyword in R?\nA. To create a new function\nB. To store values\nC. To call an existing function\nD. To define an operator\n\nQ2: What is the correct syntax for creating a vector in R?\nA. vector(2)\nB. vector < 2\nC. c(2)\nD. vector = 2\n\nQ3: How do you print out the contents of a vector in R?\nA. Print(vector)\nB. Print vector\nC. Print.vector\nD. Vector()\n\nQ4: How do you create a matrix in R?\nA. matrix(nrow=2, ncol=2)\nB. matrix = 2\nC. c(2)\nD. matrix < 2",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a template for First-Person LinkedIn profile summary.",
+    "output": "I am a passionate and driven professional with xx years of experience in the xx industry. My expertise lies in xx, xx and xx. I have a track record of achieving success by developing innovative strategies and delivering outstanding results.\n\nI take pride in my ability to build strong relationships with clients, colleagues, and stakeholders. I am a team player who enjoys collaboration and working towards a common goal.\n\nMy personal values are centered around integrity, respect, and hard work. I believe that success is not only measured in profits, but also in the positive impact we make in the world.\n\nI am always looking for new opportunities to grow and develop professionally. I am eager to use my expertise to make a meaningful difference.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write a LinkedIn post to announce that you have accepted a new job offer.",
+    "output": "Today I'm excited to announce that I have accepted a new job offer. I'm looking forward to the new challenges and opportunities that this position will bring. I can't wait to get started and make a positive contribution to the team! #newjob #opportunities #excited",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Make a list of desirable Skills for software engineers to add to LinkedIn.",
+    "output": "1. Object-Oriented Programming\n2. Algorithm Design and Analysis\n3. Web Development\n4. Database Management\n5. Mobile Development\n6. Cloud Computing\n7. Artificial Intelligence\n8. Networking and Security\n9. Data Structures\n10. Quality Assurance and Testing",
+    "generator": "text_davinci_003"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "helpful_base",
+    "instruction": "Please tell me the history of Walt Disney.",
+    "output": "Walt Disney began his career in animation in the early 1920s. He and his brother, Roy, created the Disney Brothers' Studio in 1923, which later became The Walt Disney Company. His first major success was the creation of the character Mickey Mouse in 1928. Throughout the 1930s, Disney produced a number of successful animated films, including Snow White and the Seven Dwarfs, Pinocchio, Dumbo, and Fantasia. \n\nIn the 1940s, Disney began to focus more on live-action films, producing a number of classic films such as Treasure Island and The Three Caballeros. He also created the Disneyland theme park in 1955. In the 1960s, Disney produced a number of live-action films, including The Parent Trap and Mary Poppins. He also began to create the first Disney animated films in color, including The Jungle Book and The Aristocats. \n\nThe 1970s saw the release of a number of Disney classics, including Robin Hood, The Rescuers, and The Fox and the Hound. In the 1980s, Disney released a number of successful animated films, including The Little Mermaid, Beauty and the Beast, and The Lion King. The 1990s were a time of expansion for the company, with the opening of Disney World in Florida and the purchase of a number of major media companies, including ABC and ESPN. \n\nIn the 2000s, Disney continued to produce animated films, such as Lilo & Stitch and Finding Nemo, as well as the first Pirates of the Caribbean movie. The company also expanded its presence in Asia, opening several theme parks in China and Japan. In the 2010s, Disney released a number of successful films, including Frozen, Zootopia, and Moana. The company also acquired a number of major media companies, such as Marvel, Lucasfilm, and 21st Century Fox.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Can you help me figure out how to sew a button on a shirt?",
+    "output": "1. Gather your supplies: a needle, thread, and a button.\n2. Thread your needle, and tie a knot at the end of the thread.\n3. Place the button where it needs to be sewn on the shirt.\n4. Push the needle through the fabric and the buttonhole on the button.\n5. Pull the thread tight to secure the button in place.\n6. Push the needle through the fabric again, but this time a few millimeters away from the first hole.\n7. Repeat steps 4-6 until you have gone around the button a few times.\n8. Tie a knot at the end of the thread to secure the button.\n9. Cut off any extra thread.\n10. Your button is now sewn on the shirt!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How did serial killers get away with murder for so long in the 70s and 80s?",
+    "output": "Serial killers in the 1970s and 1980s were able to get away with murder for a variety of reasons. First, forensic technology and investigative techniques were not as advanced as they are today, making it more difficult to catch criminals. Furthermore, law enforcement agencies were often understaffed and underfunded, resulting in a lack of resources to pursue investigations. Additionally, many serial killers were able to hide in plain sight, blending in with their communities and avoiding suspicion. Finally, serial killers were often geographically mobile, making it difficult for law enforcement to track them down.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How do I make apple juice?",
+    "output": "1. Wash and peel four to five apples.\n2. Cut the apples into small pieces.\n3. Place the apple pieces into a blender or food processor and blend until smooth.\n4. Strain the blended apples through a fine mesh sieve or a cheesecloth to remove the pulp and seeds.\n5. Pour the juice into a pot and heat it over medium-high heat, stirring often.\n6. Once the juice has reached a light simmer, reduce the heat and simmer for an additional 10 minutes.\n7. Allow the juice to cool before serving. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Israeli dishes. Can you give me a recipe Israeli Cheese Bourekas?",
+    "output": "Ingredients:\n-1/2 kg puff pastry\n-2 eggs\n-1/2 cup olive oil\n-1/2 cup chopped parsley\n-1/2 teaspoon black pepper\n-1/4 teaspoon cumin\n-250 grams feta cheese, crumbled\n-250 grams grated cheese\n-2 tablespoons grated onion\n\nInstructions:\n\n1. Preheat oven to 350\u00b0F (175\u00b0C).\n\n2. In a bowl, whisk together eggs, olive oil, parsley, black pepper and cumin.\n\n3. On a floured surface, roll out the puff pastry to a thickness of about 1/8 inch (3 mm).\n\n4. Cut the pastry into circles about 4 inches (10 cm) in diameter.\n\n5. Place a tablespoon of feta cheese and grated cheese in the center of each circle. Top with a tablespoon of the egg mixture and a teaspoon of grated onion.\n\n6. Fold the circles in half and pinch the edges together to seal.\n\n7. Place the bourekas on a baking sheet lined with parchment paper.\n\n8. Brush the top of each boureka with the remaining egg mixture and sprinkle with some extra grated cheese.\n\n9. Bake for 20-25 minutes, until golden brown.\n\n10. Serve warm. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How can I make bubble solution?",
+    "output": "To make bubble solution, you will need the following ingredients: \n\n- 2/3 cup of dish soap \n- 1 gallon of water \n- 4 tablespoons of glycerin \n- Food coloring (optional)\n\nInstructions:\n\n1. In a large bowl, mix together the dish soap, water, and glycerin. Stir until the glycerin is fully incorporated.\n\n2. If desired, add a few drops of food coloring to the mixture and stir again.\n\n3. Pour the bubble solution into a container with a wide opening, such as a pitcher.\n\n4. Dip a bubble wand into the solution and blow bubbles!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How to make frosting with crisco",
+    "output": "Ingredients:\n-1 cup Crisco Shortening\n-3 cups Confectioners' Sugar\n-2 tablespoons Milk\n-1 teaspoon Vanilla Extract\n\nInstructions:\n1. In a large bowl, cream together the Crisco shortening and confectioners' sugar until light and fluffy.\n2. Slowly add the milk and vanilla extract, and beat until smooth and creamy.\n3. Frost your cake or cupcakes as desired. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Tunisian dishes. Can you give me a recipe Tunisian Kammounia?",
+    "output": "Tunisian Kammounia Recipe\nIngredients: \n-1/4 cup olive oil\n-1 onion, chopped\n-2 cloves garlic, minced\n-1 teaspoon ground cumin\n-1 teaspoon ground coriander\n-1 teaspoon sweet paprika\n-1/2 teaspoon ground cinnamon\n-1/4 teaspoon ground allspice\n-1/4 teaspoon cayenne pepper\n-1/3 cup chopped fresh parsley\n-2 tablespoons chopped fresh mint\n-1 (15-ounce) can chickpeas, rinsed and drained\n-1 (14-ounce) can diced tomatoes\n-1/2 cup vegetable broth\n-Salt and freshly ground black pepper, to taste\n-1/2 cup couscous\n-1/4 cup toasted slivered almonds\n\nInstructions:\n\n1. Heat the olive oil in a large skillet over medium heat. Add the onion and cook, stirring occasionally, until softened, about 5 minutes. Add the garlic, cumin, coriander, paprika, cinnamon, allspice, and cayenne pepper and cook, stirring, until fragrant, about 1 minute.\n\n2. Add the parsley, mint, chickpeas, tomatoes, and vegetable broth and season with salt and pepper. Bring to a boil, reduce heat to low, cover, and simmer for 20 minutes.\n\n3. Meanwhile, bring 2 cups of water to a boil in a separate pot. Add the couscous, cover, and turn off the heat. Let sit for 5 minutes.\n\n4. Fluff the couscous with a fork and stir into the stew. Simmer, uncovered, for 5 minutes. Sprinkle with the almonds before serving.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I want to learn more about airplanes. How were they created?",
+    "output": "The invention of the airplane is credited to two brothers, Orville and Wilbur Wright, who are often referred to as the Wright Brothers. The Wright Brothers flew the first powered airplane on December 17, 1903. The plane flew for 12 seconds and covered 120 feet. The brothers used a four-cylinder gasoline engine to power the aircraft. The engine was designed by Charles Taylor, a machinist who worked for the brothers. The Wright brothers continued to make improvements to their design, eventually creating a plane that could fly for more than 30 minutes.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Can you tell me a very easy to way clean a showerhead?",
+    "output": "To clean a showerhead, you can fill a plastic bag with white vinegar and tie it around the showerhead. Leave it overnight and in the morning, remove the bag and rinse the showerhead with warm water.",
+    "generator": "text_davinci_003"
+  }
+]

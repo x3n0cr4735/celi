@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "koala",
+    "instruction": "hat would be the reason for the popularity of youtube compared to other video sharing websites?",
+    "output": "The primary reason for the popularity of YouTube compared to other video sharing websites is its wide range of content, high-quality videos, and appealing user interface. Additionally, YouTube offers a variety of features like live streaming, personalized recommendations, and a comprehensive search engine that make it easier for users to find the content they are looking for. Furthermore, YouTube\u2019s free platform and monetization opportunities for content creators make it an attractive choice for many users.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Tell me something I don\u2019t know",
+    "output": "The shortest war in history lasted only 38 minutes. The Anglo-Zanzibar War of 1896 was fought between the United Kingdom and the Zanzibar Sultanate.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "You are a script-writer. Write a script for the opening scene of a Miami-based dark comedy show which depicts a typical miami beach club called Beefy's Beach Club run buy a british man known by the Alias Beefy, and the pool bar staff are JdeG and a blonde british woman with the Alias SophieSnazz",
+    "output": "[FADE IN: Miami Beach. We see Beefy, a British man, standing in front of a typical Miami beach club, Beefy's Beach Club. He is wearing a white linen suit and a large, bushy mustache. Behind him is a pool bar with JdeG and a blonde British woman with the Alias SophieSnazz working.]\n\nBeefy: Welcome to Beefy's Beach Club! We've got all the finest in entertainment, drinks, and food, all for your pleasure!\n\n[We cut to JdeG and SophieSnazz behind the pool bar. They are both wearing bikinis and are smiling.]\n\nJdeG: Come on in and get your fill of fun!\n\nSophieSnazz: Yeah, let's get this party started!\n\n[We cut back to Beefy, who is now standing in the middle of the club, welcoming guests.]\n\nBeefy: Come on in and enjoy the best time on the beach!\n\n[FADE OUT]",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Do you know something about the book  \uff02the art of thinking clearly\" wrote by Rolf Dobelli?",
+    "output": "Yes, \"The Art of Thinking Clearly\" by Rolf Dobelli is an international bestseller that explains the pitfalls of human thinking in a simple and entertaining way. The book is broken down into 99 short chapters, each one tackling an individual cognitive bias or mistake. The book also teaches readers how to develop a clearer and more rational thought process.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "antennas that transmit an equal amount of energy in the horizontal direction are called",
+    "output": "Omnidirectional antennas",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "write an introduction of a person for resume who worked as an in-house IT for 18 years, managed team of 4 and 9 site and satellite offices with total 200 users. He's familiar with network and system infrastructure, server virtualization, cloud services and the migration.",
+    "output": "With 18 years of experience in IT, I am an experienced professional with a proven track record of success. I have managed a team of four and overseen nine site and satellite offices with a total of 200 users. I am highly knowledgeable in network and system infrastructure, server virtualization, cloud services, and the migration process. My expertise in these areas has enabled me to deliver successful projects and help organizations reach their IT objectives.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Hi, I have a question about MFCC (mel frequency cepstral coefficients). Are they the same thing as a MEL-spectogram, or is there a difference?",
+    "output": "No, MFCCs and MEL-spectograms are two different things. MFCCs are a set of coefficients that represent the spectral content of a signal and are used in many speech recognition and speech synthesis applications. MEL-spectograms are a visual representation of a signal's frequency content over time and can be used to identify patterns and changes in a signal.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "who was the black cabinet member who went on to play an important role in the civil rights movement",
+    "output": "Ralph Bunche was the first African American cabinet member who went on to play an important role in the civil rights movement. He was appointed as an Undersecretary of the United Nations in 1946 and was awarded the Nobel Peace Prize in 1950 for his work in mediating an end to the Arab-Israeli conflict.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "\u201cOne One was a race horse Two Two was one too. One One won one race. Two Two won one too.\u201d How many horses are in this story?",
+    "output": "Two horses: One One and Two Two.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "koala",
+    "instruction": "Over two thousand years, the moon has covered every point on the Earth once. At the most recent time of a moonrise, the moon is going to cover the next point to the north. How far north will it be?",
+    "output": "The exact distance will depend on the location of the point the moon is currently covering and the exact location of the point it is moving to.",
+    "generator": "text_davinci_003"
+  }
+]

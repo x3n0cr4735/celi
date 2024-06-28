@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "helpful_base",
+    "instruction": "Please give me a list of planets in our solar system.  I am going to choose which one I want to know more.",
+    "output": "The planets in our solar system are: Mercury, Venus, Earth, Mars, Jupiter, Saturn, Uranus, and Neptune.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Who was the first lead vocal for the rock band Starship?",
+    "output": "Grace Slick was the first lead vocal for the rock band Starship.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I need to get my nephew a birthday gift. I'm thinking of giving him a game for his Nintendo Switch. Can you give me a few options that came out recently?",
+    "output": "1. Super Mario 3D World + Bowser's Fury \n2. Animal Crossing: New Horizons \n3. The Legend of Zelda: Breath of the Wild \n4. Super Smash Bros. Ultimate \n5. Mario Kart 8 Deluxe \n6. Splatoon 2 \n7. Minecraft \n8. Paper Mario: The Origami King \n9. Astral Chain \n10. Luigi's Mansion 3",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "Best way to defrost a refrigerator freezer?",
+    "output": "The best way to defrost a refrigerator freezer is to first turn off the refrigerator and unplug it. Then take out all the food and store it in a cool place. Next, use a hairdryer or a towel soaked in hot water to heat up and melt the ice. Finally, wipe away the melted ice and dry the area before plugging the refrigerator back in and turning it on.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What are some toys I can buy my kids for imaginative play?",
+    "output": "- building blocks\n- dolls and dollhouses\n- dress-up clothes\n- puppets\n- play kitchen\n- play tools and workbench\n- coloring books and art supplies\n- pretend phones and computers\n- toy cars and trucks\n- action figures\n- stuffed animals\n- board games and puzzles\n- musical instruments\n- a play tent or fort",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How do I know if my house has a water leak?",
+    "output": "To determine if your house has a water leak, look for the following signs: \n1. High water bills \n2. Wet or damp spots on walls, floors or ceilings \n3. Musty odors \n4. Visible signs of water damage, such as peeling paint or wallpaper \n5. Water pooling in your yard or foundation \n6. The sound of running water when all faucets are off \n7. Increased water meter readings when all water sources are off \n8. Mold or mildew growth",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Uruguayan dishes. Can you give me a recipe for Vitel ton\u00e9?",
+    "output": "Vitel Ton\u00e9 Recipe\n\nIngredients:\n- 2 boiled eggs\n- 2 cooked, thinly sliced veal cutlets\n- 1/2 cup of mayonnaise\n- 2 tablespoons of capers\n- 1 tablespoon of Dijon mustard\n- 2 tablespoons of olive oil\n- 1/4 cup of white wine vinegar\n- Salt and pepper to taste\n- 2 tablespoons of chopped parsley\n\nInstructions:\n\n1. Place the sliced veal cutlets in a shallow dish.\n\n2. In a separate bowl, mix the mayonnaise, capers, mustard, olive oil, white wine vinegar, salt and pepper.\n\n3. Spread the mayonnaise mixture over the veal cutlets, making sure each cutlet is well-coated.\n\n4. Place the boiled eggs on top of the veal cutlets, and top with the chopped parsley.\n\n5. Serve chilled, and enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "I like to host guests at my home from time to time, and I am gathering  recipes of different dishes and drinks to keep things interesting. I am interested in trying some Indonesian dishes. Can you give me a recipe for Opor Ayam?",
+    "output": "Opor Ayam Recipe\nIngredients: \n\u2022 1 whole chicken, cut into 8 pieces\n\u2022 5 shallots, finely chopped\n\u2022 2 cloves garlic, peeled and finely chopped\n\u2022 2 stalks lemongrass, finely chopped\n\u2022 2-3 red chillies, finely chopped\n\u2022 2 tablespoons of vegetable oil\n\u2022 2-3 tablespoons of ground coriander\n\u2022 1 teaspoon ground turmeric\n\u2022 1 teaspoon ground cumin\n\u2022 2 tablespoons tamarind concentrate\n\u2022 2 tablespoons palm sugar or brown sugar\n\u2022 Salt to taste\n\u2022 \u00bd cup coconut milk\n\u2022 1 cup water\n\u2022 2 bay leaves\n\u2022 2-3 kaffir lime leaves\n\nInstructions:\n1. Heat the oil in a large pan over medium heat, then add the shallots, garlic and lemongrass. Cook until the shallots are soft and fragrant.\n2. Add the chillies, ground coriander, turmeric and cumin and stir to combine.\n3. Add the chicken and stir to coat with the spices.\n4. Add the tamarind concentrate, palm sugar, salt, coconut milk, water, bay leaves and kaffir lime leaves. Stir to combine.\n5. Bring to a boil, then reduce the heat to low and cover the pan. Simmer for about 20 minutes, until the chicken is cooked through.\n6. Serve the Opor Ayam with steamed white rice. Enjoy!",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "What do the different octane values of gasoline mean?",
+    "output": "Octane values are a measure of the fuel's performance and determine its ability to resist knocking or pinging during combustion. Higher octane fuels have more resistance to knocking or pinging, which allows the engine to run more efficiently and with greater power output. Lower octane fuels burn more quickly, which can cause engine knock or pinging.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "helpful_base",
+    "instruction": "How can I fix a leaking roof?",
+    "output": "1. Inspect the roof for the source of the leak. Look for areas where the shingles or tiles have become loose or displaced and repair any damaged areas.\n2. Patch any holes or cracks in the roof with roofing cement or caulk.\n3. Apply roofing tar to the area around the leak.\n4. Place a piece of sheet metal over the patched area.\n5. Apply roofing cement around the edges of the sheet metal.\n6. Place a layer of roofing felt over the metal.\n7. Apply shingles or tiles on top of the roofing felt.\n8. Seal the edges of the shingles or tiles with roofing cement.\n9. Check the area for any further leaks.",
+    "generator": "text_davinci_003"
+  }
+]

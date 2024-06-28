@@ -1,0 +1,62 @@
+[
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You should choose a YouTube video title based on the video's content. A video's title tells viewers what to expect from it. It should be direct, honest, and clear. The title of the video needs to capture the attention of viewers, so do not use an unclear or ambiguous one.\n\nA research study has been conducted to determine if exercise really can \"boost\" your metabolism.",
+    "output": "\"Does Exercise Really 'Boost' Your Metabolism? A Research Study Reveals the Answer\"",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Choosing a name for your product or business YouTube channel is an important part of the process. Based on the description of the product or business, you should come up with some interesting names. Take some time to brainstorm your ideas.\n\nHere you will find videos and content that will help students prepare for the application process to graduate schools as well as how to apply to graduate schools",
+    "output": "1. GradSuccess\n2. CollegeQuest\n3. GPrepGuide\n4. GradReady\n5. SchoolStrides\n6. ApplyingAces\n7. CollegeEdge\n8. GradAce\n9. AdmissionsAccelerator\n10. GradQuest",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Find the answer that best describes the underlined SAT word. Select the correct option and explain the meaning of the underlined word.\n\nDespite the _cacophony, the student tried to study. \nA. Loud sounds\nB. Difficult subject\nC. Late hour\nD. Low lighting",
+    "output": "A. Loud sounds\n\nCacophony is a noun that describes a loud, unpleasant, and often harsh-sounding mixture of noises.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Find synonyms for the given word. You need to write down how the provided synonyms differ from the original word in terms of meaning, usage, etc.\n\nadversity",
+    "output": "Synonym: misfortune\n\nDifference: Adversity implies a difficult situation or circumstance that is usually caused by bad luck or misfortune. The two words are largely interchangeable, but adversity can also imply a greater degree of difficulty or hardship. For example, while misfortune might be used to describe the loss of a job or a failed relationship, adversity is more likely to describe the struggles of poverty or a life-threatening illness.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Discuss the origins and history of the word that has been given to you.\n\noblique",
+    "output": "The origin of the word oblique dates back to the 15th century. It is derived from the Latin obliquus, meaning \u201cslanting\u201d or \u201cnot perpendicular\u201d. Over time, the term has come to be associated with anything that is angled or slanted in some way.\n\nThe first recorded use of the word oblique in English was in the mid-15th century. It was initially used to describe angles or lines that were not perpendicular, or in other words, slanted. However, it soon began to be used more broadly to describe anything that was not straight or direct. This could include objects, thoughts, or even emotions.\n\nOblique has come to be associated with words like indirect and devious. It is often used to describe people or ideas that are not straightforward or honest. It can also be used to refer to something that is not as it appears, such as an oblique reference or an oblique comment.\n\nIn modern usage, the word oblique is still used to describe anything that is slanted or angled. It is also used to describe people or ideas that are not straightforward or honest.",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Give the provided brand a motto to use as a part of its marketing strategies.\n\nThe Ice cream shop is a small, quaint shop located in the heart of the historic district. They offer a variety of ice cream flavors, as well as Italian ice, gelato, and sorbet. The shop has a few tables and chairs, but most of their business is to-go. They offer a loyalty program where you can get a free scoop of ice cream after 10 purchases.",
+    "output": "\"Scoop up the Sweetness: The Ice Cream Shop!\"",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "A confirmation email should be written appropriately for the situation.\n\nA meeting has been scheduled, and the sender expects the other to review the slides.",
+    "output": "Subject: Meeting Confirmation\n\nDear [Name],\n\nI am writing to confirm our upcoming meeting scheduled for [date] at [time].\n\nI have attached the slides that we will be discussing for your review. Please let me know if you have any questions or need any clarification.\n\nI look forward to seeing you at the meeting.\n\nBest,\n[Your Name]",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "You need to write an email to negotiate your salary.",
+    "output": "Dear [Employer],\n\nI am writing to you regarding my current salary. I am very grateful for the opportunity you have given me and the salary that I am currently receiving. However, I strongly believe that I am capable of contributing more to the team and I am confident that my current salary does not reflect the value of my contributions.\n\nI understand that it is not easy to increase the salary for one employee, but I would like to discuss the possibility of increasing my salary to a more appropriate amount. I can provide you with examples of my achievements and the value I bring to the team.\n\nI hope that you will consider my request and look forward to hearing your thoughts on this matter.\n\nSincerely,\n[Your Name]",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "Write an email to attendees as a reminder that the event is coming up.",
+    "output": "Subject: Reminder: Don't Miss the Event!\n\nDear attendees,\n\nThis is just a friendly reminder that the event is almost here! We hope you are as excited as we are for the upcoming event. \n\nWe have been working hard to make sure everything is in place and we are confident that it will be an amazing experience for everyone. We urge you to arrive on time and be prepared to enjoy the festivities.\n\nWe look forward to seeing you all soon!\n\nBest,\nEvent Team",
+    "generator": "text_davinci_003"
+  },
+  {
+    "dataset": "selfinstruct",
+    "instruction": "It would be helpful if you could suggest an acronym for the repository.\n\nA python framework for creating, editing, and invoking Noisy Intermediate Scale Quantum (NISQ) circuits.",
+    "output": "NISQFECR",
+    "generator": "text_davinci_003"
+  }
+]
