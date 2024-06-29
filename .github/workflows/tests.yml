@@ -1,7 +1,7 @@
 name: Tests
 on:
   push:
-    branches: [main]
+    branches: *
   pull_request:
 
 jobs:
@@ -11,10 +11,10 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/poetry_setup
       - name: Test with pytest
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        # Just run poetry check until OPNENAI_API_KEY is set as a GitHub secret.
-        #run: poetry run pytest
+# If we get an OpenAI API key we can remove skipped tests.
+#        env:
+#          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: poetry run pytest
         run: poetry check
 
 

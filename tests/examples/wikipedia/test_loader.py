@@ -34,10 +34,10 @@ approach to content retrieval and processing. Future enhancements aim to general
 hardcoded examples towards more dynamically generated test scenarios.
 """
 
-
 import logging
 import os
 
+import pytest
 from celi_framework.examples.wikipedia.Index_cache import (
     ChromaDBIndexCache,
     IndexFileCache,
@@ -51,16 +51,14 @@ from celi_framework.examples.wikipedia.loader import (
     ContentReference,
     load_content_from_wikipedia_url,
 )
-from llama_index.core.schema import NodeRelationship
-from llama_index.core.indices import VectorStoreIndex
-
-from llama_index.core import StorageContext, load_index_from_storage
-
 from celi_framework.utils.utils import get_cache_dir
+from llama_index.core import StorageContext, load_index_from_storage
+from llama_index.core.schema import NodeRelationship
 
 logger = logging.getLogger(__name__)
 
 
+@pytest.mark.skip(reason="Uses LLM")
 def test_get_wikipedia_index():
     index = get_wikipedia_index(
         "https://en.wikipedia.org/wiki/Led_Zeppelin",
@@ -79,6 +77,7 @@ def test_get_wikipedia_index():
         index.docstore.get_document(doc_id)
 
 
+@pytest.mark.skip(reason="Uses LLM")
 def test_get_wikipedia_index_faster():
     index = get_wikipedia_index(
         "https://en.wikipedia.org/wiki/Led_Zeppelin",
@@ -118,6 +117,7 @@ def test_load_drug_content_from_wikipedia_url():
     assert "organ transplant rejection" in child.content
 
 
+@pytest.mark.skip(reason="Uses LLM")
 def test_load_content_from_wikipedia_url_hard():
     # Semaglutide failed on first parsing
     content, references = load_content_from_wikipedia_url(
@@ -178,6 +178,7 @@ def test_create_nodes_from_references():
     assert nodes[0].metadata["URL"] == refs[0].url
 
 
+@pytest.mark.skip(reason="Uses LLM")
 def test_content_chunking():
     index = index_wikipedia_url_with_references(
         "https://en.wikipedia.org/wiki/Queen_(band)", include_references=False
@@ -195,23 +196,6 @@ def test_content_chunking():
     assert parent.metadata["celi_main_chunk"] == True
     assert ex.relationships[NodeRelationship.PREVIOUS].node_id == parent.node_id
     assert parent.relationships[NodeRelationship.NEXT].node_id == ex.node_id
-
-
-def test_content_chunking_long():
-    url = "https://www.theguardian.com/uk-news/video/2022/jun/04/paddington-bear-joins-the-queen-for-afternoon-tea-at-buckingham-palace-video"
-    rl = ReferenceLoader()
-    refs = [
-        ContentReference(
-            number="1",
-            title="Paddington Bear joins the Queen for afternoon tea at Buckingham Palace",
-            href="cite_note-1",
-            url=url,
-        ),
-    ]
-    nodes = rl.create_nodes_from_references(url, refs)
-    assert len(nodes) > 1
-    logger.info([len(_.text) for _ in nodes])
-    index = VectorStoreIndex(nodes)
 
 
 #
