@@ -1,7 +1,8 @@
 name: Tests
 on:
   push:
-    branches: *
+    branches:
+      - '*'  # Use quotes to properly interpret the wildcard
   pull_request:
 
 jobs:
@@ -14,7 +15,14 @@ jobs:
 # If we get an OpenAI API key we can remove skipped tests.
 #        env:
 #          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: poetry run pytest
-        run: poetry check
-
+        run: |
+          poetry check
+          poetry run pytest -vvv -s --junitxml=test-results/test-results.xml -p no:warnings
+      - name: Unit Test Report
+        if: success() || failure()
+        uses: dorny/test-reporter@v1.9.0
+        with:
+          name: pytest Tests                  # Name of the check run which will be created
+          path: test-results/test-results.xml  # Path to test results (inside artifact .zip)
+          reporter: java-junit              # Format of test results
 
