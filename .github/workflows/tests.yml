@@ -5,6 +5,12 @@ on:
       - '*'  # Use quotes to properly interpret the wildcard
   pull_request:
 
+permissions:
+  contents: read
+  id-token: write
+  packages: write
+  checks: write
+
 jobs:
   test:
     runs-on: ubuntu-latest
