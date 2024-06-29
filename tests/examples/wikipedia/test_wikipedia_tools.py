@@ -25,14 +25,11 @@ the framework, facilitating the dependable use of Wikipedia data for a range of 
 """
 
 import logging
-import os
 
-from dotenv import load_dotenv
-
+import pytest
 from celi_framework.examples.wikipedia.index import get_wikipedia_index
 from celi_framework.examples.wikipedia.tools import WikipediaToolImplementations
-from celi_framework.experimental.codex import MongoDBUtilitySingleton
-from celi_framework.utils.cli import str2bool
+from dotenv import load_dotenv
 
 load_dotenv()
 logger = logging.getLogger(__name__)
@@ -60,6 +57,7 @@ def _get_test_tool_impls():
     )
 
 
+@pytest.mark.skip(reason="Uses LLM")
 def test_extract_schema():
     index = _get_example_index()
     toc = WikipediaToolImplementations._extract_schema(index)
@@ -68,19 +66,17 @@ def test_extract_schema():
     assert toc["2"] == "Musical style"
 
 
-def test_ask_question():
+@pytest.mark.skip(reason="Uses LLM")
+@pytest.mark.asyncio
+async def test_ask_question():
     load_dotenv()
-    MongoDBUtilitySingleton(
-        db_url=os.environ.get("DB_URL", "mongodb://localhost:27017/"),
-        db_name="celi",
-        external_db=str2bool(os.environ.get("EXTERNAL_DB", "False")),
-    )
     tools = _get_test_tool_impls()
-    ret = tools.ask_question_about_target("Who were the three brothers?")
+    ret = await tools.ask_question_about_target("Who were the three brothers?")
     logger.info(f"Answer: {ret.metadata} {ret.source_nodes}")
     assert "Kevin" in ret.response
 
 
+@pytest.mark.skip(reason="Uses LLM")
 def test_get_example_references():
     tools = _get_test_tool_impls()
     ret = tools._get_references_for_example_sections(["1.1"])
@@ -88,12 +84,14 @@ def test_get_example_references():
     assert len(ret) > 10
 
 
+@pytest.mark.skip(reason="Uses LLM")
 def test_get_text_for_section():
     tools = _get_test_tool_impls()
     ret = tools.get_text_for_sections('{"Example Document": ["1.1"]}')
     assert "Page soon switched from bass to lead guitar" in ret
 
 
+@pytest.mark.skip(reason="Uses LLM")
 def test_corresponding_target_references():
     tools = _get_test_tool_impls()
     # Get a few refernce ids

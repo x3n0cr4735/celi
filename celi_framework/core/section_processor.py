@@ -4,13 +4,12 @@ from dataclasses import dataclass
 from json import JSONDecodeError
 from typing import List, Dict, Tuple, Optional
 
-from openai.types.chat.chat_completion import Choice
-
 from celi_framework.core.celi_update_callback import CELIUpdateCallback
 from celi_framework.core.job_description import ToolImplementations
 from celi_framework.utils.llms import ToolDescription, ask_split
 from celi_framework.utils.log import app_logger
 from celi_framework.utils.token_counters import TokenCounter
+from openai.types.chat.chat_completion import Choice
 
 logger = logging.getLogger(__name__)
 
@@ -151,17 +150,28 @@ class SectionProcessor:
             self.system_message = redo["new_system_message"]
             return True
 
-    def check_for_duplicates(
-        self, ongoing_chat: List[Dict[str, str] | Tuple[str, str]]
-    ):
+    @staticmethod
+    def check_for_duplicates(ongoing_chat: List[Dict[str, str] | Tuple[str, str]]):
         if len(ongoing_chat) == 0:
             return False
         last_message = ongoing_chat[-1]
         duplicates = 0
-        for message in ongoing_chat[-7:-1]:
+        for message in ongoing_chat[-6:-1]:
             if message == last_message:
                 duplicates += 1
-        return duplicates >= 3
+        if duplicates >= 5:
+            return True
+        # Check for cycles of 2 repeating messages
+        if len(ongoing_chat) > 2:
+            previous_message = ongoing_chat[-2]
+            alternating_duplicates = 0
+            if previous_message != last_message:
+                for message in ongoing_chat[-7:-2]:
+                    if message == previous_message:
+                        alternating_duplicates += 1
+                    if duplicates >= 2 and alternating_duplicates >= 2:
+                        return True
+        return False
 
     async def builtin_review(self):
         task_specific = (

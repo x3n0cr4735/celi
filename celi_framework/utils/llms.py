@@ -61,7 +61,7 @@ async def ask_split(
     user_prompt: str | List[Tuple[str, str]],
     system_message,
     model_name,
-    max_tokens=4096,
+    max_tokens=0,
     seed=777,
     verbose=False,  # model_name="gpt-4-1106-preview"
     max_retries=7,
@@ -81,6 +81,7 @@ async def ask_split(
     err_cnt = 0
     last_error = None
     app_logger.info(f"Calling LLM {model_name.upper()}", extra={"color": "yellow"})
+    defaulted_max_tokens = max_tokens if max_tokens != 0 else None
     while err_cnt < max_retries:
         try:
             if err_cnt > 1:
@@ -105,7 +106,7 @@ async def ask_split(
                     tool_choice="auto" if tool_descriptions else None,
                     model=model_name,
                     temperature=temperature,
-                    max_tokens=max_tokens,
+                    max_tokens=defaulted_max_tokens,
                     seed=seed,
                     timeout=timeout,
                 )
@@ -120,7 +121,7 @@ async def ask_split(
                     response_format={"type": "json_object"} if json_mode else None,
                     model=model_name,
                     temperature=temperature,
-                    max_tokens=max_tokens,
+                    max_tokens=defaulted_max_tokens,
                     seed=seed,
                     timeout=timeout,
                 )

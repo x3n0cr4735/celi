@@ -143,7 +143,7 @@ class HumanEvalTools(ToolImplementations):
         entry_point = self.tests.loc[task_id, "entry_point"]
 
         # Define the function
-        logger.debug(f"Evaluating {task_id}:\n{func}\n{test_func}")
+        # logger.debug(f"Evaluating {task_id}:\n{func}\n{test_func}")
 
         def safe_exec(code: str, error_prefix: str):
             try:

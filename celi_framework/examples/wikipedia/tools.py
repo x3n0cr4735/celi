@@ -4,17 +4,15 @@ import re
 from dataclasses import asdict, dataclass
 from typing import Any, Dict, List, Optional
 
+from celi_framework.core.celi_update_callback import CELIUpdateCallback
+from celi_framework.core.job_description import BaseDocToolImplementations
+from celi_framework.examples.wikipedia.index import get_wikipedia_index
+from celi_framework.utils.llm_cache import get_celi_llm_cache
+from celi_framework.utils.utils import format_toc, get_section_context_as_text
 from llama_index.core.base.response.schema import Response
 from llama_index.core.schema import MetadataMode, QueryBundle, NodeWithScore, TextNode
 from llama_index.vector_stores.chroma.base import ChromaVectorStore
 from pydantic import BaseModel
-
-from celi_framework.core.celi_update_callback import CELIUpdateCallback
-from celi_framework.core.job_description import BaseDocToolImplementations
-from celi_framework.examples.wikipedia.index import get_wikipedia_index
-from celi_framework.experimental.codex import MongoDBUtilitySingleton
-from celi_framework.utils.llm_cache import get_celi_llm_cache
-from celi_framework.utils.utils import format_toc, get_section_context_as_text
 
 logger = logging.getLogger(__name__)
 
@@ -279,6 +277,7 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
         Args:
             prompt (str): The question to ask.
         """
+        cache = get_celi_llm_cache()
         result = await get_celi_llm_cache().check_llm_cache(
             target_url=self.target_url, prompt=prompt
         )
@@ -290,7 +289,7 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
             logger.debug("Caching LLM response")
             result = self.target_query_engine.query(prompt)
             result_dict = self._response_to_dict(result)
-            await self._get_codex().cache_llm_response(
+            await get_celi_llm_cache().cache_llm_response(
                 response={"response": result_dict},
                 target_url=self.target_url,
                 prompt=prompt,
@@ -311,11 +310,6 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
             for _ in d["source_nodes"]
         ]
         return Response(**d)
-
-    def _get_codex(self):
-        if not hasattr(self, "codex"):
-            self.codex = MongoDBUtilitySingleton.get_instance()
-        return self.codex
 
     @classmethod
     def _extract_schema(
