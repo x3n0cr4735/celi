@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - '*'  # Use quotes to properly interpret the wildcard
-  pull_request:
 
 permissions:
   contents: read
