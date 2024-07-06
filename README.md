@@ -12,7 +12,7 @@
 
 **CELI** (Controller-Embedded Language (Model) Interactions, pronounced 'Kelly') is a framework that automates knowledge work by integrating LLM controllers into task workflows. It offers:
 
-- 🧠 **Intelligent Automation:** Decomposes complex projects into manageable tasks, executed with LLM-guided precision.
+- 🧠 **Intelligent Automation:** Empowers users to strategically integrate LLMs into complex projects.
 - 🔄 **Dynamic Adaptability:** Adjusts strategies in real-time based on context and feedback.
 - 🛠️ **Versatile Application:** From code generation to data analysis, CELI tackles diverse knowledge tasks.
 - 📈 **Scalable Architecture:** Efficiently handles projects of all sizes, from quick scripts to enterprise-level applications.
@@ -20,28 +20,18 @@
 
 Whether you're automating software development workflows or streamlining complex data processing pipelines, CELI provides a flexible, powerful framework to enhance your productivity.
 
-🔗 [Join our Discord](https://discord.gg/C5SQNdzV) | 🔗 [Read our Docs](https://celi.readthedocs.io/en/latest/)
+🔗 [Join our Discord](https://discord.gg/Cr4JKKFH2X) | 🔗 [Read our Docs](https://celi.readthedocs.io/en/latest/)
 
-<p>
-  <i class="fa fa-exclamation-triangle"></i>
-  <strong>Important:</strong> CELI is currently in alpha. For support, join our Discord server or submit an issue on this GitHub repo.
-</p>
+**Important:** CELI is currently in alpha. For support, join our Discord server or submit an issue on this GitHub repo.
+
 
 <!-- end elevator-pitch -->
 
-# Table of Contents
+## Table of Contents
 
 1. [CELI: A Framework for Controller-Embedded Language (Model) Interactions](#celi-a-framework-for-controller-embedded-language-model-interactions)
 2. [Quick Start](#quick-start)
-   - [Prerequisites](#prerequisites)
-   - [Installation](#installation)
-   - [Run a Simple Demo](#run-a-simple-demo-no-llm-setup-required)
-   - [Explore the Results](#explore-the-results)
-   - [Example Usage](#example-usage)
-3. [Project Overview](#project-overview)
-   - [Example Use Cases](#example-use-cases)
-   - [Core Modules](#core-modules)
-   - [Customizable Extensions](#customizable-extensions)
+3. [CELI Overview](#celi-overview)
 4. [What is CELI?](#what-is-celi)
 5. [Discord Server](#discord-server)
 6. [Documentation](#documentation)
@@ -58,34 +48,30 @@ Whether you're automating software development workflows or streamlining complex
 ### Installation
 ```bash
 pip install celi-framework
-```
-
+````
 ### Run a Simple Demo (no LLM-setup required):
-    ```bash
-    python -m celi_framework.main \
-      --job-description=celi_framework.examples.human_eval.job_description.job_description \
-      --tool-config='{"single_example":"HumanEval/3"}' \
-      --simulate-live
-    ```
+```bash
+  python -m celi_framework.main \
+  --job-description=celi_framework.examples.human_eval.job_description.job_description \
+  --tool-config='{"single_example":"HumanEval/3"}' \
+  --simulate-live
+```
 
 This example simulates using CELI to solve problem #3 of the HumanEval benchmark programming problem set.  It uses 
 cached versions of the LLM outputs so it doesn't require an API key or make any paid LLM calls on your behalf.  The 
 result will be put in the `target/drafts` directory.
 
-Running this demo should take a couple minutes.  You will be able to see how CELI tackles the problem and the LLM calls
+Running this demo should take a few minutes. You will be able to see how CELI tackles the problem and the LLM calls
 it makes, along with the responses.
 
 ### Explore the Results
- 
 Check the output in the `target/drafts` directory.
 
-### Example Usage
-
+### Run the Example Live
 The code above uses a cached version of the LLM results. To meaningfully run CELI on anything new, you will need to make new LLM calls, which will require an OpenAI API key (or your own local LLM; see [LLM Support](https://celi.readthedocs.io/en/latest/llm_support.html)).
 ```bash
-python -m celi_framework.main \
+  python -m celi_framework.main \
   --job-description=celi_framework.examples.human_eval.job_description.job_description \
-  --tool-config='{"single_example":"HumanEval/3"}' \
   --openai-api-key=<Insert your OpenAI API key here> \
 ```
 
@@ -93,10 +79,7 @@ Again, you can check your output in the `target/drafts` directory.
 
 <!-- end getting-started -->
 
-## Project Overview
-
-### Example Use Cases
-For practical applications and demonstrations, explore the `celi_framework.examples` package.
+## CELI Overview
 
 ### Core Modules
 Located in the `celi_framework.core` package, the following essential core modules facilitate CELI's primary operations:
@@ -106,11 +89,17 @@ Located in the `celi_framework.core` package, the following essential core modul
 - **Job Description**: Manages a comprehensive list of user-defined job descriptions that guide how tasks are executed.
 - **Tools**: Provides mechanisms for CELI to interact with external systems and can be customized to suit specific use cases.
 
-### Customizable Extensions
-Users extend the CELI framework by defining their own job descriptions and tools (see Examples)[LINK HERE], which leverage and extend the functionalities of the core modules. This allows for a high degree of customization and tailoring to specific needs:
+### Example Use Cases
+For practical applications and demonstrations, explore the `celi_framework.examples` package [here](https://github.com/x3n0cr4735/celi/tree/main/celi_framework/examples).
+
+### Creating Your Own Project Using CELI
+
+Users extend the CELI framework by defining their own job descriptions and tools. These user-defined modules leverage and extend the functionalities of the core modules. This allows for a high degree of customization and tailoring to specific needs:
 
 - **User-Defined Job Descriptions**: Users can create unique job descriptions that specify detailed instructions and operational steps, ensuring that automated processes align closely with project requirements.
 - **Custom Tool Implementations**: Developers can implement custom tools by importing core modules and utilizing their functionalities. These tools can be adapted to integrate seamlessly with existing systems or to introduce new capabilities.
+
+For more detailed instructions see the Documentation [here](https://celi.readthedocs.io/en/latest/new_use_cases.html).
 
 ## What is CELI?
 
@@ -149,7 +138,7 @@ This architecture distinguishes CELI from *traditional agent-based frameworks*, 
 
 ## Discord Server
 
-[Join our Discord server](https://discord.gg/C5SQNdzV) to discuss the project with users, contributors, and project authors.
+[Join our Discord server](https://discord.gg/Cr4JKKFH2X) to discuss the project with users, contributors, and project authors.
 
 ## Documentation
 
