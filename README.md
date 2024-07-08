@@ -29,7 +29,7 @@ Whether you're automating software development workflows or streamlining complex
 
 ## Table of Contents
 
-1. [CELI: A Framework for Controller-Embedded Language (Model) Interactions](#celi-a-framework-for-controller-embedded-language-model-interactions)
+1. [Introduction](#celi-a-framework-for-controller-embedded-language-model-interactions)
 2. [Quick Start](#quick-start)
 3. [CELI Overview](#celi-overview)
 4. [What is CELI?](#what-is-celi)
