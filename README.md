@@ -8,67 +8,50 @@
 ![CELI Logo](docs/CELI_README_Header_Picture.png)
 
  <!-- start elevator-pitch -->
-# <b>C</b>ELI: A Framework for <u><b>C</b></u>ontroller-<u><b>E</b></u>mbedded <u><b>L</b></u>anguage <u><b>I</b></u>nteractions
+# CELI: A Framework for Controller-Embedded Language (Model) Interactions
 
-**CELI (pronounced 'Kelly')** leverages the capabilities of large language models (LLMs) to automate a wide range of knowledge work tasks. Here’s an overview of what CELI offers:
+**CELI** (Controller-Embedded Language (Model) Interactions, pronounced 'Kelly') is a framework that automates knowledge work by integrating LLM controllers into task workflows. It offers:
 
-- 🚀 **Autonomous Operation:** Functions independently, dynamically adapting strategies without human intervention.
-- 🛠️ **Flexible Task Automation:** Applicable across diverse tasks from document drafting to data analysis.
-- 📈 **Scalability:** Efficiently manages projects of varying sizes and complexities.
-- 📊 **Streamlined Document Management:** Enhances every phase of the document lifecycle management.
-- 🏗️ **Development Flexibility:** Supports the development of custom applications that meet specific industry standards.
+- 🧠 **Intelligent Automation:** Empowers users to strategically integrate LLMs into complex projects.
+- 🔄 **Dynamic Adaptability:** Adjusts strategies in real-time based on context and feedback.
+- 🛠️ **Versatile Application:** From code generation to data analysis, CELI tackles diverse knowledge tasks.
+- 📈 **Scalable Architecture:** Efficiently handles projects of all sizes, from quick scripts to enterprise-level applications.
+- 🔧 **Customizable Core:** Allows developers to tailor CELI's capabilities to specific industry needs.
 
-🔗 [Join our Discord](https://discord.gg/C5SQNdzV) | 🔗 [Read our Docs](https://celi.readthedocs.io/en/latest/)
+Whether you're automating software development workflows or streamlining complex data processing pipelines, CELI provides a flexible, powerful framework to enhance your productivity.
 
-<p>
-  <i class="fa fa-exclamation-triangle"></i>
-  <strong>Important:</strong> CELI is currently in alpha. For support, join our Discord server or submit an issue on this GitHub repo.
-</p>
+🔗 [Join our Discord](https://discord.gg/Cr4JKKFH2X) | 🔗 [Read our Docs](https://celi.readthedocs.io/en/latest/)
 
-## What is CELI?
+**Important:** CELI is currently in alpha. For support, join our Discord server or submit an issue on this GitHub repo.
 
-CELI (Controller-Embedded Language Interactions) automates projects by decomposing them into sets of tasks and utilizing LLM-directed controller logic for execution. Key features include:
-
-- ### 💡 **Inversion of Control and Dynamic LLM-OOP Integration**
-
-  - Transforms traditional hierarchical models by embedding the LLM controller within the operational fabric of Object-Oriented Programming (OOP) via Inversion of Control (IoC).
-  - This integration moves away from a single OOP controller directing multiple LLM agents and instead allows the LLM controller to actively manage and execute OOP functions. 
-  - Each OOP function directly interacts with the LLM controller, enhancing their autonomy and enabling dynamic function calls. 
-  - This setup ensures cohesive system operation and facilitates real-time interactions with external systems like APIs, databases, and LLM agents, significantly boosting flexibility and enabling complex operations.
-
-- ### 🔄 **Dynamic Workflow Management**
-
-    Supports complex workflows with the capability for nested operations and recursion within tasks. This dynamic structure allows workflows to adapt based on contextual changes or external data inputs, providing unparalleled flexibility and responsiveness.
-
-- ### ⚙️ **Automation Engine**
-
-    Acts as the central orchestrating unit, managing all operations from data handling to task execution. The engine efficiently handles both predefined tasks and dynamic adjustments, ensuring seamless automation across diverse platforms and use cases.
 
 <!-- end elevator-pitch -->
 
-## Getting started
+## Table of Contents
+
+1. [Introduction](#celi-a-framework-for-controller-embedded-language-model-interactions)
+2. [Quick Start](#quick-start)
+3. [CELI Overview](#celi-overview)
+4. [What is CELI?](#what-is-celi)
+5. [Discord Server](#discord-server)
+6. [Documentation](#documentation)
+7. [Contributing](#contributing)
+8. [License](#license)
+
 <!-- start getting-started -->
-[Join our Discord server](https://discord.gg/C5SQNdzV) to ask questions or get involved in our project!
 
-To get an idea of what CELI can do, we have prepackaged an example use case.  In this case, we will have CELI write a wiki page on a topic given an example page and a set of references.
+## Quick Start
+### Prerequisites
+- Python 3.10, 3.11 or 3.12
+- pip
 
-### Install CELI
-
-First, install celi using PIP with the following command:
-
+### Installation
 ```bash
 pip install celi-framework
-```
-
-You can also clone the [GitHub repo](https://github.com/x3n0cr4735/celi) and install CELI from source.  See [Running CELI from Source](https://celi.readthedocs.io/en/stable/running_celi.html) for info on how to do that.
-
-
-### Run the example use case
-
-Once you have the steps above done, you can test your setup by running a demo of CELI's capabilities:
-
+````
+### Run a Simple Demo (no LLM-setup required):
 ```bash
-python -m celi_framework.main \
+  python -m celi_framework.main \
   --job-description=celi_framework.examples.human_eval.job_description.job_description \
   --tool-config='{"single_example":"HumanEval/3"}' \
   --simulate-live
@@ -78,29 +61,25 @@ This example simulates using CELI to solve problem #3 of the HumanEval benchmark
 cached versions of the LLM outputs so it doesn't require an API key or make any paid LLM calls on your behalf.  The 
 result will be put in the `target/drafts` directory.
 
-Running this demo should take a couple minutes.  You will be able to see how CELI tackles the problem and the LLM calls
+Running this demo should take a few minutes. You will be able to see how CELI tackles the problem and the LLM calls
 it makes, along with the responses.
 
-### Running live
+### Explore the Results
+Check the output in the `target/drafts` directory.
 
-The code above uses a cached version of the LLM results.  To meaningfully run CELI on anything new, you will need to 
-make new LLM calls, which will require an OpenAI API key (or your own local LLM.  See [LLM Support](https://celi.readthedocs.io/en/stable/llm_support.html)).
-
-We can now run the full HumanEval data set.  This has 168 examples, so we won't use --simulate-live to impose a delay.
-
+### Run the Example Live
+The code above uses a cached version of the LLM results. To meaningfully run CELI on anything new, you will need to make new LLM calls, which will require an OpenAI API key (or your own local LLM; see [LLM Support](https://celi.readthedocs.io/en/latest/llm_support.html)).
 ```bash
-python -m celi_framework.main \
+  python -m celi_framework.main \
   --job-description=celi_framework.examples.human_eval.job_description.job_description \
   --openai-api-key=<Insert your OpenAI API key here> \
 ```
 
-You can also set an OPENAI_API_KEY environment variable instead of passing one on the command line.
+Again, you can check your output in the `target/drafts` directory.
 
 <!-- end getting-started -->
 
-## Project Overview
-
-CELI is structured into distinct packages, each housing modules responsible for different aspects of the document processing workflow.
+## CELI Overview
 
 ### Core Modules
 Located in the `celi_framework.core` package, the following essential core modules facilitate CELI's primary operations:
@@ -110,71 +89,56 @@ Located in the `celi_framework.core` package, the following essential core modul
 - **Job Description**: Manages a comprehensive list of user-defined job descriptions that guide how tasks are executed.
 - **Tools**: Provides mechanisms for CELI to interact with external systems and can be customized to suit specific use cases.
 
-### Customizable Extensions
-Users extend the CELI framework by defining their own job descriptions and tools, which leverage and extend the functionalities of the core modules. This allows for a high degree of customization and tailoring to specific needs:
+### Example Use Cases
+For practical applications and demonstrations, explore the `celi_framework.examples` package [here](https://github.com/x3n0cr4735/celi/tree/main/celi_framework/examples).
+
+### Creating Your Own Project Using CELI
+
+Users extend the CELI framework by defining their own job descriptions and tools. These user-defined modules leverage and extend the functionalities of the core modules. This allows for a high degree of customization and tailoring to specific needs:
 
 - **User-Defined Job Descriptions**: Users can create unique job descriptions that specify detailed instructions and operational steps, ensuring that automated processes align closely with project requirements.
 - **Custom Tool Implementations**: Developers can implement custom tools by importing core modules and utilizing their functionalities. These tools can be adapted to integrate seamlessly with existing systems or to introduce new capabilities.
 
-### Experimental Modules
-Located in the `celi_framework.experimental` package, these modules are designed to support the development of new use cases and enhance existing functionalities:
+For more detailed instructions see the Documentation [here](https://celi.readthedocs.io/en/latest/new_use_cases.html).
 
-- **Pre-Processor**: Converts DOCX documents into a clean Markdown format, priming them for further processing.
-- **Embeddor**: Embeds pre-cleaned text data from source documents, preparing it for integration with machine learning models and data analysis.
-- **Mapper**: Focuses on pre-computing mappings between document contents to enhance the efficiency of the embedding process.
+## What is CELI?
 
-### Example Use Cases
-For practical applications and demonstrations, explore the `celi_framework.examples` package:
+CELI (Controller-Embedded Language Interactions) is a framework that automates complex projects using Large Language Models (LLMs). It decomposes projects into sets of tasks and utilizes LLM-directed controller logic for execution. Key features include:
 
-- This package contains a variety of examples demonstrating how CELI can be applied across different scenarios and use cases.
+### 🔄 Dynamic Workflow Management
+- Supports complex workflows with nested operations and recursion
+- Adapts tasks based on contextual changes or external inputs
 
-## Secret Sauce: Controller-Embedded Recursion
+### ⚙️ Integrated Control Logic
+- Embeds controller logic within LLM prompts
+- Manages multi-layered tasks with reduced manual intervention
 
-CELI's architecture uniquely integrates recursion within its operational logic, significantly enhanced by embedding controller logic directly within LLM prompts. This sophisticated structure enables CELI to efficiently handle complex, multi-layered tasks with greater autonomy. The key capabilities facilitated by this approach include:
+### 🏗️ Task Structuring
+- Employs a structured pseudo-code approach
+- Enables precise execution of complex operations
 
-- ### ⚙️ Controller-Embedded Recursion
+### 🔁 Recursive Task Handling
+- Efficiently manages multiple layers of tasks
+- Allows for adaptation to operational challenges
 
-    Controllers within LLM prompts direct the flow of operations, establishing loops that enable recursion crucial for managing complex sequences, where tasks may depend on the outcomes of preceding actions or require repeated iterations until a certain condition is met.
+### 🌐 Active Data Management
+- Incorporates function calls (e.g. vector or SQL DB calls) within operational prompts
+- Facilitates real-time data interactions
 
-- ### 🔄 Deep Task Nesting
+### 📈 Scalable Framework
+- Handles a range of project sizes and complexities
+- Supports diverse requirements while maintaining performance
 
-    CELI manages tasks requiring multiple layers of sub-tasks, recursively processing each layer across various sections of documents or elements within data structures like dictionaries or lists, enhancing the system’s ability to handle diverse and complex workflows.
+### 💡 LLM-OOP Integration
+- Embeds the LLM controller within Object-Oriented Programming (OOP) structures
+- Enables direct interaction between OOP functions and the LLM controller
+- Facilitates interactions with external systems (APIs, databases, LLM agents)
 
-- ### 🛠️ Sophisticated Error Handling
-
-    By leveraging recursion, CELI dynamically identifies and manages errors or inconsistencies during task execution, ensuring reliability and operational accuracy.
-
-- ### 🧠 Adaptive Learning Loops
-
-    The recursive nature of CELI’s task management supports an environment of adaptive learning, continuously refining strategies and approaches based on ongoing interactions and feedback.
-
-## CELI vs. LLM Agents
-
-CELI offers a distinct approach to automated knowledge work, setting it apart from traditional agent-based frameworks with its effective integration of task automation and interaction with large language models (LLMs). Key differentiators include:
-
-- ### 🎛️ Integrated Control Logic
-
-    CELI’s controller logic embedded within LLM prompts enables a more autonomous and streamlined operation for handling complex tasks, reducing the dependency on manual interventions.
-
-- ### 🏗️ Enhanced Task Structuring
-
-    Unlike traditional models confined to conversational dynamics, CELI employs a structured pseudo-code approach, allowing for complex and precise task execution beyond simple dialogue systems.
-
-- ### 🔁 Recursive Task Management 
-
-    Utilizes recursion to manage multiple layers of tasks efficiently, allowing for dynamic adaptation in response to operational challenges, enhancing system reliability and responsiveness.
-
-- ### 🌐 Active Data Management
-
-    Enhances LLM utility by embedding function calls within operational prompts, enabling real-time data interactions crucial for applying model outputs effectively in real-world scenarios.
-
-- ### 📈 Robust and Adaptable Framework
-
-    Designed to handle a wide range of demands, from small tasks to large-scale projects, CELI’s architecture supports diverse requirements without sacrificing performance.
+This architecture distinguishes CELI from *traditional agent-based frameworks*, offering an integrated approach to automated knowledge work.
 
 ## Discord Server
 
-[Join our Discord server](https://discord.gg/C5SQNdzV) to discuss the project with users, contributors, and project authors.
+[Join our Discord server](https://discord.gg/Cr4JKKFH2X) to discuss the project with users, contributors, and project authors.
 
 ## Documentation
 
@@ -183,7 +147,6 @@ Explore the rest of the documentation to learn more about CELI.
 * [Running CELI](https://celi.readthedocs.io/en/stable/running_celi.html) - Learn more about the various ways to run CELI.
 * [New Use Cases](https://celi.readthedocs.io/en/stable/new_use_cases.html) - Learn how to apply CELI to your own use case.
 * [API Reference](https://celi.readthedocs.io/en/stable/reference/index.html) - If you are into reading API docs directly.
-The CELI dev team is committed to continuous improvement and user-driven development. Whether you're a seasoned developer or just starting, your feedback and contributions are invaluable to us. Let's build a smarter future together!
 
 ## Contributing
 
