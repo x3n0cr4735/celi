@@ -298,9 +298,7 @@ async def cached_chat_completion(
             return result
         else:
             app_logger.debug("Caching LLM response")
-            result = await get_openai_client(
-                base_url=base_url,
-            ).chat.completions.create(**kwargs)
+            result = create_chat_completion_with_retry(base_url, **kwargs)
             if token_counter:
                 token_counter.count_request_tokens(
                     kwargs.get("messages", ""), kwargs.get("tools", "")
@@ -316,9 +314,7 @@ async def cached_chat_completion(
             token_counter.count_request_tokens(
                 kwargs.get("messages", ""), kwargs.get("tools", "")
             )
-        result = await get_openai_client(base_url=base_url).chat.completions.create(
-            **kwargs
-        )
+        result = create_chat_completion_with_retry(base_url=base_url, **kwargs)
         if token_counter:
             token_counter.count_response_tokens(result.choices[0].message.content)
         return result
@@ -330,3 +326,24 @@ class ContextLengthExceededException(Exception):
     def __init__(self, message="Context length exceeded the model's maximum limit."):
         self.message = message
         super().__init__(self.message)
+
+
+async def create_chat_completion_with_retry(base_url, **kwargs):
+    max_retries = 5
+    backoff_factor = 2
+    retry_attempts = 0
+
+    while True:
+        try:
+            return get_openai_client(base_url=base_url).chat.completions.create(
+                **kwargs
+            )
+        except openai.error.RateLimitError as e:
+            retry_attempts += 1
+            if retry_attempts > max_retries:
+                raise e
+            sleep_time = 60 + backoff_factor**retry_attempts + random.uniform(0, 1)
+            logger.warning(
+                f"Rate limit exceeded. Retrying in {sleep_time:.2f} seconds..."
+            )
+            await asyncio.sleep(sleep_time)
