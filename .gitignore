@@ -15,5 +15,6 @@ output/
 docs/_build
 celi/
 _gen/
+logs/
 test_results
 **/test-results.xml

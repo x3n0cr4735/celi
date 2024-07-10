@@ -36,4 +36,4 @@ TOOL_INIT_CLASS=celi_framework.examples.wikipedia.tools.WikipediaInit
 ## Demo React App
 
 There is a demo of a React app in examples/celi-react-demo that provides a front end for the Wikipedia use case.
-
+See [Getting started with React app](https://celi.readthedocs.io/en/stable/reference/react_demo_app.html) for more info on how to do that.

@@ -22,6 +22,7 @@ getting_started
 new_use_cases
 running_celi
 rest_server
+react_demo_app
 llm_support
 reference/index
 ```
