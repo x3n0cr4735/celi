@@ -342,7 +342,7 @@ async def create_chat_completion_with_retry(base_url, **kwargs):
             retry_attempts += 1
             if retry_attempts > max_retries:
                 raise e
-            sleep_time = 60 + backoff_factor**retry_attempts + random.uniform(0, 1)
+            sleep_time = 60 + 20*random.uniform(0, 1)*backoff_factor**retry_attempts
             logger.warning(
                 f"Rate limit exceeded. Retrying in {sleep_time:.2f} seconds..."
             )
