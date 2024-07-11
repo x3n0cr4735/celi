@@ -18,11 +18,12 @@
 
 ```{toctree}
 :hidden:
+:maxdepth: 3
 
 ../_gen/main
 ../_gen/core
 ../_gen/utils
-../_gen/examples
+../_gen/examples.GRE
 ../_gen/experimental
 
 ```
