@@ -78,7 +78,11 @@ def process_module_members(f: TextIO, module_path: str, module_name: str, module
             write_submodule(f"{module_path}.{module_name}", name)
     return submodules
 
-def write_submodules_toc(f: TextIO, file: str, module_name: str, submodules: List[str]) -> None:
+
+
+
+
+def write_submodules_toc(f: TextIO, file: str, module_name: str, submodules: List[str], depth: int) -> None:
     """
     Write the table of contents for submodules.
 
@@ -87,21 +91,29 @@ def write_submodules_toc(f: TextIO, file: str, module_name: str, submodules: Lis
         file (str): The file path.
         module_name (str): The name of the current module.
         submodules (List[str]): A list of submodule names.
+        depth (int): The current depth of the submodule.
     """
+    depth = depth + 1
+    parent_dir = '../' * depth
     for name in submodules:
-        f.write(f"`{name} <../{file}/{module_name}/{name}>`_\n")
+        f.write(f"`{name} <{parent_dir}{file}/{module_name}/{name}>`_\n")
     f.write("\n.. toctree::\n    :hidden:\n\n")
     for name in submodules:
-        f.write(f"    ../{file}/{module_name}/{name}\n")
+        f.write(f"    {parent_dir}{file}/{module_name}/{name}\n")
+    print(f"The toc for {file} is {parent_dir}{file}/{module_name}/{name}\n")
 
-
-
-def write_submodule(module_path: str, module_name: str) -> None:
+def write_submodule(module_path: str, module_name: str, depth: int = 0) -> None:
     full_name = f"{module_path}.{module_name}"
+ 
+  
     file = module_path.replace(ROOT_MODULE, OUTPUT_DIR).replace(".", os.path.sep)
-    os.makedirs(file, exist_ok=True)
     
+    print(f"Processing module: {full_name}")
+    print(f"Output directory: {file}")
+    
+    os.makedirs(file, exist_ok=True)    
     output_file = os.path.join(file, f"{module_name}.rst")
+    print(f"Creating RST file: {output_file}")
     
     try:
         with open(output_file, "w") as f:
@@ -119,28 +131,21 @@ def write_submodule(module_path: str, module_name: str) -> None:
                 submodule_full_name = f"{full_name}.{submodule_name}"
                 if submodule_name not in submodules:
                     submodules.append(submodule_name)
-                    write_submodule(full_name, submodule_name)
+                    write_submodule(full_name, submodule_name, depth + 1)
             
             if submodules:
-                write_submodules_toc(f, file, module_name, submodules)
+                print(f"Writing TOC for {full_name} with submodules: {submodules}")
+                write_submodules_toc(f, file, module_name, submodules, depth)
         
         logging.info(f"Generated documentation for {full_name}")
     except Exception as e:
         logging.error(f"Error generating documentation for {full_name}: {str(e)}")
-        
-import celi_framework
-
-# write_submodule("celi_framework", "main")
-# write_submodule("celi_framework", "core")
-# write_submodule("celi_framework", "utils")
-# write_submodule("celi_framework", "examples")
-# write_submodule("celi_framework", "experimental")
 
 def main():
     """Main function to generate documentation for all modules."""
     modules_to_document = ["main", "core", "utils", "examples", "experimental"]
     for module in modules_to_document:
-        write_submodule(ROOT_MODULE, module)
+        write_submodule(ROOT_MODULE, module, 0)
 
 if __name__ == "__main__":
     main()

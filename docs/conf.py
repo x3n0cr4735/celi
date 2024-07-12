@@ -75,7 +75,7 @@ sys.path.insert(0, os.path.abspath(".."))
 
 
 #sys.path.insert(0, os.path.abspath('..'))
-sys.path.insert(0, os.path.abspath('../celi_framework'))
+#sys.path.insert(0, os.path.abspath('../celi_framework'))
 # def run_apidoc(app):
 #     """Run sphinx-apidoc to generate .rst files."""
 #     cur_dir = os.path.abspath(os.path.dirname(__file__))
