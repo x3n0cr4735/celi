@@ -23,7 +23,7 @@
 ../_gen/main
 ../_gen/core
 ../_gen/utils
-../_gen/examples.GRE
+../_gen/examples
 ../_gen/experimental
 
 ```
