@@ -96,7 +96,7 @@ def write_submodules_toc(f: TextIO, file: str, module_name: str, submodules: Lis
     depth = depth + 1
     parent_dir = '../' * depth
     for name in submodules:
-        f.write(f"`{name} <{parent_dir}{file}/{module_name}/{name}>`_\n")
+        f.write(f"`{name} <{parent_dir}{file}/{module_name}/{name}.html>`_\n")
     f.write("\n.. toctree::\n    :hidden:\n\n")
     for name in submodules:
         f.write(f"    {parent_dir}{file}/{module_name}/{name}\n")
