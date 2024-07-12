@@ -18,7 +18,7 @@
 
 ```{toctree}
 :hidden:
-:maxdepth: 3
+:maxdepth: 4
 
 ../_gen/main
 ../_gen/core
