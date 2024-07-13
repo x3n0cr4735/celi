@@ -34,8 +34,8 @@ import numpy as np
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
 
-from celi_framework.utils.llms import get_openai_client
 from celi_framework.utils.log import app_logger
+from celi_framework.utils.openai import get_openai_client
 from celi_framework.utils.token_counters import token_counter_og
 
 EMBEDDING_MODEL = "text-embedding-ada-002"

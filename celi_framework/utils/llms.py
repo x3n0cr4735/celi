@@ -24,31 +24,22 @@ Features and Functionalities:
 """
 
 import asyncio
-import functools
 import logging
-import os
 import re
 import time
 from typing import Optional, Dict, List, Any, Tuple
 
-import openai
 from openai.types.chat import ChatCompletion
 from pydantic import BaseModel
 from requests import HTTPError
 
+from celi_framework.utils.anthropic_client import anthropic_chat_completion
 from celi_framework.utils.llm_cache import get_celi_llm_cache
 from celi_framework.utils.log import app_logger
+from celi_framework.utils.openai_client import openai_chat_completion
 from celi_framework.utils.token_counters import TokenCounter
 
 logger = logging.getLogger(__name__)
-
-
-# Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
-@functools.lru_cache()
-def get_openai_client(base_url: Optional[str] = None):
-    return openai.AsyncOpenAI(
-        base_url=base_url, api_key=os.environ.get("OPENAI_API_KEY", None)
-    )
 
 
 class ToolDescription(BaseModel):
@@ -298,9 +289,7 @@ async def cached_chat_completion(
             return result
         else:
             app_logger.debug("Caching LLM response")
-            result = await get_openai_client(
-                base_url=base_url,
-            ).chat.completions.create(**kwargs)
+            result = await call_client(base_url=base_url, **kwargs)
             if token_counter:
                 token_counter.count_request_tokens(
                     kwargs.get("messages", ""), kwargs.get("tools", "")
@@ -316,12 +305,20 @@ async def cached_chat_completion(
             token_counter.count_request_tokens(
                 kwargs.get("messages", ""), kwargs.get("tools", "")
             )
-        result = await get_openai_client(base_url=base_url).chat.completions.create(
-            **kwargs
-        )
+        result = await call_client(base_url=base_url, **kwargs)
         if token_counter:
             token_counter.count_response_tokens(result.choices[0].message.content)
         return result
+
+
+async def call_client(base_url: Optional[str], **kwargs):
+    if "model" in kwargs and kwargs["model"].startswith("claude"):
+        assert (
+            not base_url
+        ), f"Changing the model URL is not supported for claude models.  {base_url}"
+        return await anthropic_chat_completion(**kwargs)
+    else:
+        return await openai_chat_completion(base_url=base_url, **kwargs)
 
 
 class ContextLengthExceededException(Exception):
