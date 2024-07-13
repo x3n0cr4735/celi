@@ -22,6 +22,7 @@ class CELIConfig:
     model_url: Optional[str]
     simulate_live: bool = False
     token_budget: int = 0
+    sequential: bool = False
 
 
 def run_celi(celi_config: CELIConfig):
@@ -61,6 +62,7 @@ async def run_process_runner(celi_config):
             model_url=celi_config.model_url,
             max_tokens=celi_config.max_tokens,
             token_counter=TokenCounter(celi_config.token_budget),
+            sequential=celi_config.sequential,
         )
 
         if celi_config.llm_cache:

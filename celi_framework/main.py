@@ -98,22 +98,23 @@ def parse_standard_args(args):
         model_url=args.model_api_url,
         max_tokens=args.max_tokens,
         token_budget=args.token_budget,
+        sequential=args.sequential,
     )
 
 
 def setup_standard_args():
     parser = argparse.ArgumentParser(
         description="All of the options below can also be set as environment variables"
-        "(using the capitalized names), or in a local .env file."
+        "(using the capitalized names), or placed in a local .env file."
     )
 
     parser.add_argument(
         "--openai-api-key",
         type=str,
         default=None,
-        help="Your OpenAI API key.  For security reasons, it is preferrable to set this as an environment variable "
-        "rather than passing it on the command line.  If you are serving your own models using --model-api-url, this will be the API key"
-        "passed in the calls to those models.  The specific value required will depend on the server.",
+        help="Your OpenAI API key.  For security reasons, it is preferable to set this as an environment variable "
+        "rather than passing it on the command line.  If you are serving your own models using --model-api-url, this "
+        "will be the API key passed in the calls to those models.  The specific value required will depend on the server.",
     )
     parser.add_argument(
         "--primary-model-name",
@@ -164,9 +165,17 @@ def setup_standard_args():
         parser,
         "--simulate-live",
         "SIMULATE_LIVE",
-        "Set to true to add a delay to the LLM cache.  This simulates what a live run would look like even when cached LLM results are used",
+        "Set to true to add a delay to the LLM cache.  This simulates what a live run would look like even when "
+        "cached LLM results are used",
     )
     bool_opt(parser, "--no-cache", "NO_CACHE", "Set to True to turn off LLM caching")
+    bool_opt(
+        parser,
+        "--sequential",
+        "SEQUENTIAL",
+        "Set to True to run tasks sequentially instead of in parallel.  This will run slower but can be helpful "
+        "for debugging. This does not affect the output of the tasks, just how the are run.",
+    )
     return parser
 
 

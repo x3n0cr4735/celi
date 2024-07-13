@@ -4,12 +4,13 @@ from dataclasses import dataclass
 from json import JSONDecodeError
 from typing import List, Dict, Tuple, Optional
 
+from openai.types.chat.chat_completion import Choice
+
 from celi_framework.core.celi_update_callback import CELIUpdateCallback
 from celi_framework.core.job_description import ToolImplementations
 from celi_framework.utils.llms import ToolDescription, ask_split
 from celi_framework.utils.log import app_logger
 from celi_framework.utils.token_counters import TokenCounter
-from openai.types.chat.chat_completion import Choice
 
 logger = logging.getLogger(__name__)
 
@@ -175,7 +176,7 @@ class SectionProcessor:
 
     async def builtin_review(self):
         task_specific = (
-            "Specifically, you should check for:\nself.monitor_instructions\n"
+            f"Specifically, you should check for:\n{self.monitor_instructions}\n"
             if self.monitor_instructions
             else ""
         )
