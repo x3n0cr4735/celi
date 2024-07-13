@@ -78,6 +78,7 @@ class ProcessRunner:
         callback: Optional[CELIUpdateCallback] = None,
         model_url: Optional[str] = None,
         token_counter: Optional[TokenCounter] = None,
+        sequential: bool = False,
     ):
         if skip_section_list is None:
             skip_section_list = []
@@ -86,6 +87,7 @@ class ProcessRunner:
         self.max_tokens = max_tokens
         self.token_counter = token_counter
         self.callback = callback
+        self.sequential = sequential
         logger.info(f"Using {primary_model_name} as the primary LLM")
 
         self.master_template = master_template  # config and schema need to be defined # TODO -> Read latest version from codex?
@@ -157,14 +159,19 @@ class ProcessRunner:
                 )
                 for _ in self.sections_to_be_completed
             ]
-            self.tasks = {
-                section_processor.current_section: asyncio.create_task(
-                    section_processor.run()
-                )
-                for section_processor in self.section_processors
-            }
-            logger.info(f"Done creating tasks.")
-            await self.wait_on_tasks()
+            if self.sequential:
+                for section_processor in self.section_processors:
+                    await section_processor.run()
+                self.notify_completion()
+            else:
+                self.tasks = {
+                    section_processor.current_section: asyncio.create_task(
+                        section_processor.run()
+                    )
+                    for section_processor in self.section_processors
+                }
+                logger.info(f"Done creating tasks.")
+                await self.wait_on_tasks()
         except Exception as e:
             logger.exception("Error in process runner.")
             raise e
@@ -172,6 +179,9 @@ class ProcessRunner:
     async def wait_on_tasks(self):
         app_logger.info("Waiting on task completion", extra={"color": "cyan"})
         await asyncio.gather(*self.tasks.values())
+        self.notify_completion()
+
+    def notify_completion(self):
         app_logger.info(
             f"All sections have been completed. {self.token_counter.current_token_count} live tokens and {self.token_counter.cached_token_count} cached tokens.",
             extra={"color": "cyan"},
