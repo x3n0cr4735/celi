@@ -12,11 +12,18 @@ logger = logging.getLogger(__name__)
 
 @lru_cache()
 def get_tests():
+    """
+    This function reads a CSV file containing test data and returns a pandas DataFrame.
+    """
     test_file = os.path.join(dirname(__file__), "test.csv")
     return pd.read_csv(test_file)
 
 
 def test_get_prompt():
+    """
+    Check if in given list of numbers, are any two numbers closer to each other than
+    given threshold.
+    """
     tools = HumanEvalTools()
     prompt = tools.get_prompt("HumanEval/0")
     assert (
@@ -47,6 +54,22 @@ def test_run_tests():
 
 
 def test_run_tests_invalid_code():
+    """
+    Test the _run_official_tests function when given invalid code.
+
+    This function tests the behavior of the _run_official_tests function when it is
+    provided with invalid code. It does this by creating a test case with a syntax error
+    and verifying that the returned result contains the expected error message.
+
+    Parameters:
+    None
+
+    Returns:
+    None
+
+    Raises:
+    AssertionError: If the returned result does not contain the expected error message.
+    """
     tests = get_tests()
     tools = HumanEvalTools()
     example = tests.iloc[0, :]

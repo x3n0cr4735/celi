@@ -8,14 +8,29 @@ class CELIUpdateCallback(ABC):
 
     @abstractmethod
     def on_message(self, section: str, msg: Dict[str, str] | Tuple[str, str]):
+        """
+        A description of the entire function, its parameters, and its return types.
+        """
         pass
 
     @abstractmethod
     def on_section_complete(self, section: str):
+        """
+        This method is called when a section is completed.
+
+        Args:
+            section (str): The name of the completed section.
+        """
         pass
 
     @abstractmethod
     def on_all_sections_complete(self):
+        """
+        This method is called when all sections is completed.
+
+        Args:
+            section (str): The name of the completed section.
+        """
         pass
 
     @abstractmethod

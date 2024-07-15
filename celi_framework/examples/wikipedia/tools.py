@@ -53,6 +53,16 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
         drafts_dir: str = "target/celi_output/drafts",
         callback: Optional[CELIUpdateCallback] = None,
     ):
+        """
+        Initializes the object with the provided example URL, target URL, and update settings.
+        
+        Parameters:
+            example_url (str): The URL of the example.
+            target_url (str): The URL of the target.
+            ignore_updates (bool): Flag to determine if updates should be ignored.
+            drafts_dir (str, optional): The directory for storing draft files. Defaults to "target/celi_output/drafts".
+            callback (Optional[CELIUpdateCallback], optional): A callback function for update notifications. Defaults to None.
+        """
         super().__init__(drafts_dir=drafts_dir, callback=callback)
         self.example_url = example_url
         self.target_url = target_url
@@ -60,6 +70,11 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
         self.__post_init__()
 
     def __post_init__(self):
+        """
+        Initializes the WikipediaToolImplementations object by setting up necessary attributes such as example_page, target_page, example_index,
+        target_index, target_query_engine, target_retriever, example_meta_dict, and schema. This function retrieves data from the provided URLs, 
+        sets up the necessary indexes, and extracts the schema for the Wikipedia tool implementations.
+        """
         self.example_page = self._page_title(self.example_url)
         self.target_page = self._page_title(self.target_url)
         self.example_index = get_wikipedia_index(
@@ -84,9 +99,15 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
 
     # Retrieves the top level schema for the doc.  Ignore subsections as they change page to page.
     def get_schema(self) -> Dict[str, str]:
+        """
+        Retrieves the top level schema for the doc.  Ignore subsections as they change page to page.
+        """
         return {k: v for k, v in self.schema.items() if "." not in k}
 
     def _page_title(self, url):
+        """
+        A function that extracts the title from a URL by splitting the URL and returning the last part after the last '/' and replacing underscores with spaces.
+        """
         return url.split("/")[-1].replace("_", " ")
 
     def get_example_and_target_names(self):
@@ -252,6 +273,16 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
         )
 
     def _get_top_nodes(self, all_nodes: List[NodeWithScore], top_n: int):
+        """
+        Calculate the top nodes based on the scores of all nodes.
+
+        Parameters:
+            all_nodes (List[NodeWithScore]): List of nodes with scores.
+            top_n (int): The number of top nodes to keep.
+
+        Returns:
+            List[NodeWithScore]: List of top nodes based on the scores.
+        """
         node_scores = {}
         for node in all_nodes:
             score = node_scores.get(node.node.node_id, 0.0)
@@ -300,11 +331,23 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
             return ret
 
     def _response_to_dict(self, response: Response):
+        """
+        Convert the response object to a dictionary format.
+        """
         ret = asdict(response)
         ret["source_nodes"] = [_.dict() for _ in response.source_nodes]
         return ret
 
     def _dict_to_response(self, d: Dict[str, Any]):
+        """
+        Convert a dictionary representation of a response to a Response object.
+
+        Args:
+            d (Dict[str, Any]): The dictionary representation of the response.
+
+        Returns:
+            Response: The Response object.
+        """
         d["source_nodes"] = [
             NodeWithScore(node=TextNode(**_["node"]), score=_["score"])
             for _ in d["source_nodes"]
@@ -315,6 +358,19 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
     def _extract_schema(
         cls, index, meta_dict: Optional[Dict[str, Dict[str, Any]]] = None
     ):
+        """
+        Extracts the schema from the given index and metadata dictionary.
+
+        Args:
+            index (Index): The index from which to extract the schema.
+            meta_dict (Optional[Dict[str, Dict[str, Any]]], optional): The metadata dictionary. Defaults to None.
+
+        Returns:
+            Dict[str, str]: The extracted schema.
+
+        Raises:
+            None.
+        """
         if isinstance(index.vector_store, ChromaVectorStore):
             all_metas = (
                 meta_dict.values()
@@ -342,6 +398,27 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
         return schema
 
     def _find_example_section_nodes(self, section_number: str):
+        """
+        Finds the nodes corresponding to the given section number in the example index.
+
+        Args:
+            section_number (str): The section number to find the nodes for.
+
+        Returns:
+            list: A list of RecreatedNode objects representing the nodes found.
+                If no nodes are found, an empty list is returned.
+
+        Raises:
+            ValueError: If the example section with the given section number is not found.
+
+        Note:
+            If the example index is a ChromaVectorStore, the nodes are retrieved using the
+            _collection.get method. The nodes are sorted based on the celi_chunk_index in the
+            metadata.
+
+            If the example index is not a ChromaVectorStore, the nodes are retrieved from the
+            docstore.docs dictionary.
+        """
         if isinstance(self.example_index.vector_store, ChromaVectorStore):
             section_ids = [
                 id

@@ -129,6 +129,12 @@ class ProcessRunner:
         )
 
     def get_schema(self) -> Dict[str, str]:
+        """
+        Returns the schema of the tool implementations.
+
+        :return: A dictionary mapping section names to their descriptions.
+        :rtype: Dict[str, str]
+        """
         return self.tool_implementations.get_schema()
 
     async def run(self):
@@ -170,6 +176,17 @@ class ProcessRunner:
             raise e
 
     async def wait_on_tasks(self):
+        """
+        Asynchronously waits for all tasks to complete and logs completion message.
+
+        This method waits for all tasks to complete by gathering their results using `asyncio.gather`.
+        Once all tasks have completed, it logs a completion message indicating the number of live tokens and
+        cached tokens used. If a callback is provided, it calls the `on_all_sections_complete` method of the
+        callback.
+
+        Returns:
+            None
+        """
         app_logger.info("Waiting on task completion", extra={"color": "cyan"})
         await asyncio.gather(*self.tasks.values())
         app_logger.info(
@@ -180,6 +197,16 @@ class ProcessRunner:
             self.callback.on_all_sections_complete()
 
     async def add_human_input_on_section(self, section_id: str, input: str):
+        """
+        Add human input to a specific section asynchronously.
+
+        Parameters:
+            section_id (str): The ID of the section to add input to.
+            input (str): The human input to add.
+
+        Returns:
+            None
+        """
         new_task = [
             _ for _ in self.section_processors if _.current_section == section_id
         ][0].add_human_input(input)

@@ -168,6 +168,18 @@ def create_node_hierarchy(
         prev: Optional[TextNode] = None,
         level: int = 1,
     ):
+        """
+        Recursively creates TextNode objects for each section of the ContentHierarchyNode.
+        
+        Args:
+            current: The current ContentHierarchyNode being processed.
+            parent: The parent TextNode of the current node.
+            prev: The previous TextNode processed.
+            level: The level of the current section in the hierarchy.
+
+        Returns:
+            TextNode: The last processed TextNode.
+        """
         section_metadata = {
             **standard_metadata,
             "title": current.title,
@@ -198,11 +210,29 @@ def create_node_hierarchy(
         def add_relationship(
             source: TextNode, relationship: NodeRelationship, target: TextNode
         ):
+            """
+            Assigns a RelatedNodeInfo object to the source node's relationships dictionary using the provided relationship and target node.
+            
+            Args:
+                source (TextNode): The source TextNode to which the relationship is added.
+                relationship (NodeRelationship): The type of relationship between the nodes.
+                target (TextNode): The target TextNode to which the relationship points.
+                
+            Returns:
+                None
+            """
             source.relationships[relationship] = RelatedNodeInfo(
                 node_id=target.node_id, metadata={}
             )
 
         def add_child_relationship(parent: TextNode, child: TextNode):
+            """
+            Adds a child relationship between the parent and child TextNode objects.
+            
+            Args:
+                parent (TextNode): The parent TextNode object.
+                child (TextNode): The child TextNode object.
+            """
             parent.relationships[NodeRelationship.CHILD].append(
                 RelatedNodeInfo(node_id=child.node_id, metadata={})
             )
@@ -251,6 +281,15 @@ def create_node_hierarchy(
 
 class ReferenceLoader:
     def __init__(self, allowed_failure_rate=0.5):
+        """
+        Initializes the ReferenceLoader object with an optional allowed_failure_rate parameter.
+        
+        Parameters:
+            allowed_failure_rate (float): The allowed failure rate for the ReferenceLoader object.
+            
+        Returns:
+            None
+        """
         self.loader = CachingBeautifulSoupWebReader()
         self.session = get_cached_session()
         self.allowed_failure_rate = allowed_failure_rate
@@ -258,6 +297,15 @@ class ReferenceLoader:
     def create_nodes_from_references(
         self, source_url: str, references: Iterable[ContentReference]
     ):
+        """
+        Initializes the ReferenceLoader object with an optional allowed_failure_rate parameter.
+        
+        Parameters:
+            allowed_failure_rate (float): The allowed failure rate for the ReferenceLoader object.
+            
+        Returns:
+            None
+        """
         splitter = SentenceSplitter(include_metadata=True, include_prev_next_rel=True)
 
         docs = self.create_docs_from_references(source_url, references)
@@ -297,6 +345,26 @@ class ReferenceLoader:
     def create_docs_from_references(
         self, source_url: str, references: List[ContentReference]
     ) -> List[TextNode]:
+        """
+        Creates a list of TextNode objects from a list of ContentReference objects.
+        
+        Args:
+            source_url (str): The URL of the source.
+            references (List[ContentReference]): A list of ContentReference objects.
+        
+        Returns:
+            List[TextNode]: A list of TextNode objects created from the references.
+        
+        Raises:
+            ValueError: If the number of successfully loaded references is less than the allowed failure rate.
+        
+        This function iterates over each reference in the given list of references.
+        For each reference, it tries to create a TextNode object by calling the create_doc_from_reference method.
+        If the creation is successful, the TextNode object is appended to the return list.
+        If an exception occurs during the creation, the reference is skipped and a log message is logged.
+        After iterating over all the references, if the number of successfully loaded references is less than the allowed failure rate,
+        a ValueError is raised with an appropriate error message.
+        """
         ret = []
         for reference in references:
             try:
@@ -314,6 +382,20 @@ class ReferenceLoader:
         return ret
 
     def create_doc_from_reference(self, source_url: str, reference: ContentReference):
+        """
+        Create a document from a reference.
+
+        Args:
+            source_url (str): The URL of the source.
+            reference (ContentReference): The reference object.
+
+        Returns:
+            Document: The created document with additional metadata.
+
+        This function creates a document from a reference by loading the data from the reference URL using the loader.
+        It then adds additional metadata to the document, including the celi_role, celi_reference_number, celi_reference_name,
+        celi_reference_href, and celi_reference_source. The created document is returned.
+        """
         doc = self.loader.load_data([reference.url], session=self.session)[0]
         doc.metadata["celi_role"] = "reference"
         doc.metadata["celi_reference_number"] = reference.number
@@ -324,6 +406,16 @@ class ReferenceLoader:
 
 
 def get_cached_key_and_last_content_update(url, ignore_updates: bool = False):
+    """
+    A function to get the cached key and the last content update for a given URL.
+
+    Args:
+        url (str): The URL for which the cached key and content update are needed.
+        ignore_updates (bool, optional): A flag indicating whether to ignore updates. Defaults to False.
+
+    Returns:
+        Tuple: A tuple containing the cache key and the timestamp of the last content update.
+    """
     cache = get_cached_session().cache
     cache_key = cache.create_key(Request("GET", url))
     cache_entry = cache.get_response(cache_key)

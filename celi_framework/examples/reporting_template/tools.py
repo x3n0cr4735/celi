@@ -41,6 +41,22 @@ class ReportingToolImplementations(BaseDocToolImplementations):
     doc_dir: str
 
     def __init__(self, doc_dir: str):
+        """
+        Initializes a new instance of the `ReportingToolImplementations` class.
+
+        Args:
+            doc_dir (str): The directory path where the document files are located.
+
+        Initializes the following instance variables:
+            - doc_dir (str): The directory path where the document files are located.
+            - source_mappings (Dict[str, str]): The mappings read from the "mappings_gpt.json" file.
+            - example_doc (Document): The example document with its table of contents and content read from the respective JSON files.
+            - example_doc_sources (Dict[str, Document]): The example document sources with their table of contents and content read from the respective JSON files.
+            - new_doc_sources (Dict[str, Document]): The new document sources with their table of contents and content read from the respective JSON files.
+
+        Returns:
+            None
+        """
         super().__init__()
         self.doc_dir = doc_dir
 
@@ -74,6 +90,9 @@ class ReportingToolImplementations(BaseDocToolImplementations):
         }
 
     def get_schema(self) -> Dict[str, str]:
+        """
+        A description of the entire function, its parameters, and its return types.
+        """
         return self.example_doc.toc
 
     def source_sections_getter(self, section_number: str):

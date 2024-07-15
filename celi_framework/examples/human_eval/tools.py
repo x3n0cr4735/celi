@@ -46,6 +46,15 @@ class HumanEvalTools(ToolImplementations):
         self.last_task_id = None
 
     def get_schema(self) -> Dict[str, str]:
+        """
+        Returns a dictionary containing the entry points for the tests specified in the `self.tests` DataFrame.
+        The keys of the dictionary are the index values of the `self.tests` DataFrame, and the values are the corresponding
+        "entry_point" values. If `self.single_example` is not None, only the entry point for that specific example is included
+        in the dictionary.
+
+        :return: A dictionary with the entry points for the tests.
+        :rtype: Dict[str, str]
+        """
         ret = {
             k: v
             for k, v in zip(self.tests.index, self.tests["entry_point"])
@@ -134,11 +143,34 @@ class HumanEvalTools(ToolImplementations):
         test_func: str,
         result_queue: multiprocessing.Queue,
     ):
+        """
+        Executes the test function in a sandboxed environment.
+
+        Args:
+            task_id (str): The unique identifier for the task.
+            func (str): The code for the implemented function.
+            test_func (str): The test function to validate the implemented function.
+            result_queue (multiprocessing.Queue): The queue to store the test results.
+
+        Returns:
+            None
+        """
         ret = self._execute_test(task_id, func, test_func)
         logger.info(f"Result is {ret}")
         result_queue.put(ret)
 
     def _execute_test(self, task_id: str, func: str, test_func: str):
+        """
+        Executes the test function in a sandboxed environment.
+
+        Args:
+            task_id (str): The unique identifier for the task.
+            func (str): The code for the implemented function.
+            test_func (str): The test function to validate the implemented function.
+
+        Returns:
+            str: An error message if an exception is raised during execution.
+        """
         local_namespace = {}
         entry_point = self.tests.loc[task_id, "entry_point"]
 
@@ -146,6 +178,19 @@ class HumanEvalTools(ToolImplementations):
         # logger.debug(f"Evaluating {task_id}:\n{func}\n{test_func}")
 
         def safe_exec(code: str, error_prefix: str):
+            """
+        Executes the given code in a sandboxed environment and handles any exceptions that occur.
+
+        Args:
+            code (str): The code to execute.
+            error_prefix (str): The prefix to use when raising an exception.
+
+        Raises:
+            SafeExecException: If an exception occurs during execution.
+
+        Returns:
+            None
+            """
             try:
                 exec(code, local_namespace, local_namespace)
             except AssertionError as e:

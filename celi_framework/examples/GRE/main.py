@@ -26,6 +26,20 @@ from run_gpt_alone import run_gpt
 logger = logging.getLogger(__name__)
 
 def get_config():
+    """
+    Retrieves the configuration for running the document generator.
+
+    This function initializes an argument parser and defines several boolean options. It then adds arguments for the output directory path, MongoDB URL, and database name. The function also checks if an existing MongoDB server is being used. It also adds arguments for the parser model class and name, and for turning off LLM caching and the monitoring thread.
+
+    The function parses the command line arguments and creates a `Directories` object with the specified output directory. It then instantiates a `MongoDBConfig` object with the parsed arguments.
+
+    The function also checks if the LLM caching should be turned off and if the monitoring thread should be turned off. It then retrieves the parser class and model name from the parsed arguments.
+
+    Finally, the function returns a `CELIConfig` object with the parsed arguments, the created `Directories` object, the job description, `None` for the tool implementations, the parser class, parser model name, LLM cache status, and monitoring thread status.
+
+    Returns:
+        CEL
+    """
     load_dotenv()
 
     parser = argparse.ArgumentParser(description="Run the document generator.")
@@ -95,6 +109,9 @@ def get_config():
 
 # TODO: You have a bunch of print statements in here. Change them to loggers
 def runner():
+    """
+    A function that runs the GRE narratives app, utilizing the GREToolImplementations for tool implementations.
+    """
     config = get_config()
     logger.info("Running narratives app <-----")
     config = copy.deepcopy(config)

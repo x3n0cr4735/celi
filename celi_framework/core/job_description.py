@@ -148,6 +148,16 @@ class BaseDocToolImplementations(ToolImplementations, ABC):
         write_string_to_file(json.dumps(current, indent=2), self.draft_doc)
 
     def match_doc_section(self, doc_section):
+        """
+        A function to match a document section to a number or the closest match from a dictionary.
+        
+        Args:
+            self: The class instance
+            doc_section: The section of the document to match
+        
+        Returns:
+            str: The matched number or closest match from the dictionary
+        """
         # Try to extract a number first
         number = BaseDocToolImplementations._extract_number(doc_section)
         if number is not None:
@@ -160,6 +170,16 @@ class BaseDocToolImplementations(ToolImplementations, ABC):
 
     @staticmethod
     def _extract_number(doc_section):
+        """
+        Extract the first number from a given document section.
+
+        Args:
+            doc_section (str): The document section to extract the number from.
+
+        Returns:
+            int or None: The first number found in the document section, or None if no number is found.
+
+        """
         # Find all numbers in the string
         numbers = re.findall(r"\d+", doc_section)
         if numbers:
@@ -168,6 +188,16 @@ class BaseDocToolImplementations(ToolImplementations, ABC):
 
     @staticmethod
     def _find_closest_match(section, schema_dict):
+        """
+        Find the closest match to a given section within a dictionary based on Levenshtein distance.
+        
+        Args:
+            section: The section to find the closest match for.
+            schema_dict: A dictionary containing the possible matches.
+        
+        Returns:
+            The key of the closest match found.
+        """
         closest_key = None
         closest_distance = float("inf")
 
@@ -281,6 +311,14 @@ def generate_tool_description(method: Callable) -> ToolDescription:
 
 
 def generate_tool_descriptions(cls: Type) -> List[ToolDescription]:
+    """
+    Generates descriptions for tools based on the provided class.
+    
+    :param cls: The class to generate tool descriptions for.
+    :type cls: Type
+    :return: A list of ToolDescription instances.
+    :rtype: List[ToolDescription]
+    """
     descriptions = []
     for attr_name in dir(cls):
         attr = getattr(cls, attr_name)

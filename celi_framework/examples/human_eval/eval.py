@@ -18,6 +18,24 @@ tools = HumanEvalTools()
 
 
 def run_test(id, solution):
+    """
+        Run the official tests for a given solution.
+
+        Args:
+            id (str): The ID of the test.
+            solution (dict): The solution to be tested, containing the function code.
+
+        Returns:
+            dict: The result of the official tests.
+
+        Raises:
+            None
+
+        Description:
+            This function concatenates the prompt from the tools object with the function code from the solution.
+            It then calls the _run_official_tests method of the tools object with the concatenated code and the ID.
+            The result of the official tests is returned.
+    """
     code = tools.tests.loc[id, "prompt"] + "\n" + solution["func"]
     return tools._run_official_tests(id, code)
 

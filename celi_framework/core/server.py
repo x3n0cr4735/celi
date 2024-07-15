@@ -88,6 +88,19 @@ class QueueingCallback(CELIUpdateCallback):
     queue: Queue
 
     def on_message(self, section: str, msg: Dict[str, str] | Tuple[str, str]):
+        """
+        Handle a message received from the given section.
+
+        Args:
+            section (str): The section from which the message was received.
+            msg (Dict[str, str] | Tuple[str, str]): The message received.
+
+        Raises:
+            Exception: If an error occurs while processing the message.
+
+        Returns:
+            None
+        """
         try:
             loop = asyncio.get_event_loop()
             text = SectionProcessor.format_message_content(msg)
@@ -98,10 +111,24 @@ class QueueingCallback(CELIUpdateCallback):
             logger.exception(f"on_message error - {msg}")
 
     def on_section_complete(self, section: str):
+        """
+        Handle the completion of a section by creating a task to put an 'UpdateMessage' into the queue with the section marked as 'completed'.
+        """
         loop = asyncio.get_event_loop()
         loop.create_task(self.queue.put(UpdateMessage(section, "completed")))
 
     def on_output(self, section: str, output: str):
+        """
+        A function to handle the output of a specific section by putting an 'UpdateMessage' into the queue with the section marked as 'output'.
+        
+        Args:
+            self: The instance of the class.
+            section (str): The section identifier.
+            output (str): The output content.
+
+        Returns:
+            None
+        """
         loop = asyncio.get_event_loop()
         loop.create_task(
             self.queue.put(UpdateMessage(section, "output", output=output))
@@ -112,6 +139,16 @@ class QueueingCallback(CELIUpdateCallback):
 
 
 def _check_for_init_arg(cls, arg_name: str) -> bool:
+    """
+    Check if a given argument name is present in the constructor of a class.
+
+    Args:
+        cls (type): The class to check.
+        arg_name (str): The name of the argument to check.
+
+    Returns:
+        bool: True if the argument is present in the constructor, False otherwise.
+    """
     constructor = cls.__init__
     signature = inspect.signature(constructor)
     parameters = signature.parameters
@@ -160,6 +197,15 @@ async def sessions_create(data: dict = Body(...)) -> Dict[str, str]:
 
 
 async def dummy_task(cb: CELIUpdateCallback):
+    """
+    A dummy task function that iterates 100 times, sleeps for 3 seconds each iteration, logs a message, and sends a message through the callback.
+    
+    Parameters:
+        cb (CELIUpdateCallback): The callback object used to send messages.
+    
+    Returns:
+        None
+    """
     for i in range(100):
         await asyncio.sleep(3)
         logger.info("Sending message")

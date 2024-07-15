@@ -10,6 +10,27 @@ def run_test(id, solution, tools):
 
 
 def main(file_path):
+    """
+    Runs the main function to evaluate the results from a JSON file.
+
+    Parameters:
+        file_path (str): The path to the JSON file containing the results.
+
+    Returns:
+        None
+
+    This function reads the JSON file specified by the `file_path` parameter and
+    evaluates the results using the `HumanEvalTools` class. It then calculates the
+    number of correct and incorrect results and prints the percentage of correct
+    results. It also prints the errors, along with their corresponding keys.
+
+    Note:
+        This function assumes that the JSON file contains a dictionary-like structure
+        with keys and values.
+
+    Example usage:
+        main("path/to/results.json")
+    """
     results = read_json_from_file(file_path)
     tools = HumanEvalTools()
 

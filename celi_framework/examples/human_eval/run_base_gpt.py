@@ -41,6 +41,9 @@ tools = HumanEvalTools()
 
 
 async def run_gpt(id):
+    """
+    A function that runs GPT for a given ID to generate a response.
+    """
     ret = await ask_split(
         system_message=system_prompt,
         user_prompt=tools.tests.loc[id, "prompt"],

@@ -34,6 +34,27 @@ class SectionProcessor:
     token_counter: Optional[TokenCounter] = None
 
     def __post_init__(self):
+        """
+        Initializes the object after it is created.
+
+        This method is called automatically after the object is created. It initializes the following attributes:
+        - `ongoing_chat`: a list of chat messages, either as a dictionary with keys "role" and "content" or as a tuple with two strings.
+        - `pending_human_input`: initially set to None.
+        - `section_complete_flag`: initially set to False.
+        - `retry_number`: initially set to 0.
+        - `tool_names`: a list of names of the tools, extracted from the `tool_descriptions` attribute.
+        - `is_running`: initially set to False.
+
+        The method also appends two chat messages to the `ongoing_chat` list:
+        - A user message with the content of `initial_user_message`.
+        - A user message with a message instructing the user to proceed to the current section and do Task #1.
+
+        Parameters:
+        - None
+
+        Returns:
+        - None
+        """
         self.ongoing_chat: List[Dict[str, str] | Tuple[str, str]] = []
         self.pending_human_input = None
         self._update_ongoing_chat(("user", self.initial_user_message))
@@ -49,6 +70,17 @@ class SectionProcessor:
         self.is_running = False
 
     def _update_ongoing_chat(self, msg: Dict[str, str] | Tuple[str, str]):
+        """
+        Updates the ongoing chat with a new message, then triggers the callback to handle the message for the current section. 
+        If there is pending human input, appends a user message with the input to the ongoing chat and triggers the callback. 
+        Clears the pending human input after processing.
+        
+        Parameters:
+            msg (Dict[str, str] | Tuple[str, str]): The message to be added to the ongoing chat.
+        
+        Returns:
+            None
+        """
         self.ongoing_chat.append(msg)
         if self.callback:
             self.callback.on_message(self.current_section, msg)
@@ -59,6 +91,17 @@ class SectionProcessor:
             self.pending_human_input = None
 
     async def add_human_input(self, input: str):
+        """
+        Asynchronously adds human input to the ongoing chat. If the processor is running, sets the input as pending, 
+        otherwise updates the ongoing chat with the input message and triggers the callback. If there is pending human 
+        input, appends a user message with the input to the ongoing chat. Clears the pending human input after processing.
+        
+        Parameters:
+            input (str): The human input to be added to the ongoing chat.
+        
+        Returns:
+            None
+        """
         if self.is_running:
             self.pending_human_input = input
         else:
@@ -67,6 +110,18 @@ class SectionProcessor:
             await self.run()
 
     async def run(self):
+        """
+        Asynchronously runs the section processor.
+
+        This method starts the section processor by setting `is_running` to `True`. It then enters a loop that continues
+        until `is_running` is `False`. During each iteration of the loop, it calls the `process_iteration` method asynchronously
+        and assigns the result to `self.is_running`. If `self.is_running` is `False`, the loop exits.
+
+        After the loop exits, if a callback is set (`self.callback` is not `None`), it calls the `on_section_complete`
+        method of the callback with the current section as an argument.
+
+        This method does not return anything.
+        """
         self.is_running = True
         while self.is_running:
             self.is_running = await self.process_iteration()
@@ -152,6 +207,15 @@ class SectionProcessor:
 
     @staticmethod
     def check_for_duplicates(ongoing_chat: List[Dict[str, str] | Tuple[str, str]]):
+        """
+        A function that checks for duplicates within a chat history.
+        
+        Parameters:
+            ongoing_chat: A list of dictionaries or tuples representing chat messages.
+        
+        Returns:
+            True if certain duplicate conditions are met, False otherwise.
+        """
         if len(ongoing_chat) == 0:
             return False
         last_message = ongoing_chat[-1]
@@ -174,6 +238,35 @@ class SectionProcessor:
         return False
 
     async def builtin_review(self):
+        """
+        Asynchronously performs a built-in review of the chat history of an LLM trying to accomplish a goal.
+        The review checks if the LLM achieved the goal or if it should try again. If it should try again,
+        the function proposes a modified system and initial user prompt. The output should be JSON that
+        always contains a "success" tag and has the following format:
+        - If the LLM did a good job:
+            {
+                "rationale": "All requirements specified in the user_prompt were resolved.",
+                "success": true,
+            }
+        - If the LLM should try again:
+            {
+                "rationale": "The output was not written before calling pop_context.",
+                "success": false,
+                "new_system_message": "The new system message to be used",
+                "new_initial_user_message": "The new initial user message to be used"
+            }
+
+        Parameters:
+            self (SectionProcessor): The instance of the SectionProcessor class.
+
+        Returns:
+            dict or None: If the LLM did a good job, returns None. If the LLM should try again, returns a dictionary
+            with the new_system_message and new_initial_user_message.
+
+        Raises:
+            JSONDecodeError: If the response from the LLM is not valid JSON.
+
+        """
         task_specific = (
             "Specifically, you should check for:\nself.monitor_instructions\n"
             if self.monitor_instructions
@@ -251,15 +344,42 @@ class SectionProcessor:
 
     @staticmethod
     def format_message_content(m: ChatMessageable):
+        """
+        A method that formats the content of a chat message based on the role and content. 
+        It takes a ChatMessageable object 'm' as input and returns a formatted message string.
+        """
         if isinstance(m, dict):
             return f"{m['role'].capitalize()}:\n{m['content']}"
         return f"{m[0].capitalize()}:\n{m[1]}"
 
     @staticmethod
     def format_chat_messages(msgs: List[ChatMessageable]):
+        """
+        Formats a list of chat messages into a single string.
+
+        Args:
+            msgs (List[ChatMessageable]): A list of chat messages to be formatted.
+
+        Returns:
+            str: The formatted chat messages concatenated with double newlines between each message.
+        """
         return "\n\n".join(SectionProcessor.format_message_content(m) for m in msgs)
 
     def make_tool_calls(self, response: Choice):
+        """
+        Executes a list of tool calls contained in the response message.
+
+        Args:
+            response (Choice): The response object containing the tool calls.
+
+        Returns:
+            List[Dict[str, Union[str, Any]]]: A list of dictionaries representing the results of each tool call.
+                Each dictionary contains the following keys:
+                    - "role" (str): The role of the tool call.
+                    - "name" (str): The name of the tool call.
+                    - "content" (str): The content of the tool call.
+
+        """
         def make_tool_call(tool_call):
             name = tool_call.function.name
             function_return = None

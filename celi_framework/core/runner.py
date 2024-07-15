@@ -25,6 +25,22 @@ class CELIConfig:
 
 
 def run_celi(celi_config: CELIConfig):
+    """
+    Runs the CELI process using the provided configuration.
+
+    Args:
+        celi_config (CELIConfig): The configuration object for the CELI process.
+
+    Returns:
+        None
+
+    Raises:
+        None
+
+    Notes:
+        - This function runs the CELI process asynchronously using the event loop.
+        - It cancels all pending tasks and waits for them to complete before closing the event loop.
+    """
     loop = asyncio.get_event_loop()
     try:
         loop.run_until_complete(run_process_runner(celi_config))
@@ -46,6 +62,15 @@ def run_celi(celi_config: CELIConfig):
 
 
 async def run_process_runner(celi_config):
+    """
+    A function that runs the CELI process with the given configuration.
+
+    Parameters:
+        celi_config: The configuration object containing job description, tool implementations, llm cache, primary model name, model url, max tokens, and token budget.
+
+    Returns:
+        None
+    """
     app_logger.debug("Beginning CELI")
     try:
         mt = MasterTemplateFactory(
