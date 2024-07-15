@@ -69,14 +69,18 @@ class LLMCache:
         cursor = await c.execute("SELECT response FROM llm_cache WHERE _id = ?", (id,))
         row = await cursor.fetchone()
         if row is None:
+            # logger.debug(f"No cache entry found for id {id}")
             return None
         else:
             if self.cache_delay:
                 await asyncio.sleep(self.randomize_delay(self.cache_delay))
-            return json.loads(row[0])
+            ret = json.loads(row[0])
+            assert ret, f"Empty cache entry {ret}"
+            return ret
 
     async def cache_llm_response(self, response: dict, **kwargs):
         id = generate_hash_id(kwargs)
+        # logger.debug(f"Caching id {id}")
         s = json.dumps(response)
         c = await self.connection()
         await c.execute("INSERT INTO llm_cache (_id, response) VALUES (?, ?)", (id, s))

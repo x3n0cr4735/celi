@@ -30,8 +30,6 @@ from datetime import datetime
 
 from pymongo import MongoClient
 
-from celi_framework.utils.utils import generate_hash_id
-
 logger = logging.getLogger(__name__)
 
 
@@ -289,13 +287,3 @@ class MongoDBUtilitySingleton:
                 f"Failed to update document with ID {document_id} in collection '{collection_name}': {e}"
             )
             return False
-
-    def check_llm_cache(self, **kwargs):
-        id = generate_hash_id(kwargs)
-        ret = self.get_document_by_id(id, "llm_cache")
-        return ret
-
-    def cache_llm_response(self, response: dict, **kwargs):
-        id = generate_hash_id(kwargs)
-        document = {"_id": id, **response}
-        self.db["llm_cache"].insert_one(document)

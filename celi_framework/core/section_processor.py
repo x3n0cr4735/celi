@@ -4,10 +4,9 @@ from dataclasses import dataclass
 from json import JSONDecodeError
 from typing import List, Dict, Tuple, Optional
 
-from openai.types.chat.chat_completion import Choice
-
 from celi_framework.core.celi_update_callback import CELIUpdateCallback
 from celi_framework.core.job_description import ToolImplementations
+from celi_framework.utils.llm_response import LLMResponse
 from celi_framework.utils.llms import ToolDescription, ask_split
 from celi_framework.utils.log import app_logger
 from celi_framework.utils.token_counters import TokenCounter
@@ -91,7 +90,6 @@ class SectionProcessor:
         """
         app_logger.info(
             f"Started a new iteration for {self.current_section}.  Retry count is {self.retry_number}",
-            extra={"color": "orange"},
         )
         self.section_complete_flag = False
         chat_len = len(self.ongoing_chat)
@@ -107,9 +105,7 @@ class SectionProcessor:
             max_tokens=self.max_tokens,
             token_counter=self.token_counter,
         )
-        self._update_ongoing_chat(
-            ("assistant", str(llm_response.message.content or ""))
-        )
+        self._update_ongoing_chat(("assistant", str(llm_response.content or "")))
 
         if llm_response.finish_reason == "tool_calls":
             tool_result = self.make_tool_calls(llm_response)
@@ -210,7 +206,7 @@ class SectionProcessor:
             max_tokens=self.max_tokens,
             token_counter=self.token_counter,
         )
-        text_response = llm_response.message.content.strip()
+        text_response = llm_response.content.strip()
 
         logger.info(
             f"Output of final review for {self.current_section}:\n{text_response}"
@@ -260,7 +256,7 @@ class SectionProcessor:
     def format_chat_messages(msgs: List[ChatMessageable]):
         return "\n\n".join(SectionProcessor.format_message_content(m) for m in msgs)
 
-    def make_tool_calls(self, response: Choice):
+    def make_tool_calls(self, response: LLMResponse):
         def make_tool_call(tool_call):
             name = tool_call.function.name
             function_return = None
@@ -290,4 +286,4 @@ class SectionProcessor:
             function_log = f"Call to function {name} with arguments {arguments} returned\n{function_return}"
             return {"role": "function", "name": name, "content": function_log}
 
-        return [make_tool_call(_) for _ in response.message.tool_calls]
+        return [make_tool_call(_) for _ in response.tool_calls]

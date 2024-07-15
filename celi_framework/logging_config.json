@@ -18,7 +18,13 @@
         "aiosqlite": {
             "level": "INFO"
         },
+        "anthropic": {
+            "level": "INFO"
+        },
         "asyncio": {
+            "level": "INFO"
+        },
+        "botocore": {
             "level": "INFO"
         },
         "charset_normalizer": {
