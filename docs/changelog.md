@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.3.5 (July 14, 2024)
+
+* Added `--sequential` option to turn off parallelization.
+* Added support for Claude models using Anthropic APIs and Amazon Bedrock
+* Improved loop detection
+* Added exponential backoff if rate limits are hit
+* Revised the README
+* Fixes #79 - per call max-token not working
+
 ## 0.3.4 (June 23, 2024)
 
 * Added --token-budget option to limit the number of LLM calls made.
