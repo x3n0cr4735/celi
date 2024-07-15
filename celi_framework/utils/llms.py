@@ -24,31 +24,31 @@ Features and Functionalities:
 """
 
 import asyncio
-import functools
 import logging
-import os
 import re
 import time
 from typing import Optional, Dict, List, Any, Tuple
 
 import openai
+from openai import RateLimitError
 from openai.types.chat import ChatCompletion
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 from requests import HTTPError
 
+from celi_framework.utils.anthropic_client import (
+    anthropic_chat_completion,
+    anthropic_bedrock_chat_completion,
+)
 from celi_framework.utils.llm_cache import get_celi_llm_cache
+from celi_framework.utils.llm_response import LLMResponse
 from celi_framework.utils.log import app_logger
+from celi_framework.utils.openai_client import (
+    openai_chat_completion,
+    llm_response_from_chat_completion,
+)
 from celi_framework.utils.token_counters import TokenCounter
 
 logger = logging.getLogger(__name__)
-
-
-# Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
-@functools.lru_cache()
-def get_openai_client(base_url: Optional[str] = None):
-    return openai.AsyncOpenAI(
-        base_url=base_url, api_key=os.environ.get("OPENAI_API_KEY", None)
-    )
 
 
 class ToolDescription(BaseModel):
@@ -130,10 +130,9 @@ async def ask_split(
                 app_logger.info(
                     f"LLM {model_name.upper()} responded", extra={"color": "yellow"}
                 )
-            return chat_completion.choices[0]
+            return chat_completion
 
         except (
-            openai.RateLimitError,
             openai.APIError,
             HTTPError,
             ConnectionError,
@@ -215,7 +214,7 @@ def quick_ask(
                 )
             )
 
-            response = chat_completion.choices[0].message.content
+            response = chat_completion.content
 
             if verbose:
                 app_logger.info(
@@ -278,7 +277,7 @@ async def cached_chat_completion(
     token_counter: Optional[TokenCounter] = None,
     base_url: Optional[str] = None,
     **kwargs,
-) -> ChatCompletion:
+):
     cache = get_celi_llm_cache()
     if cache:
         url_dict = {} if base_url is None else {"base_url": base_url}
@@ -286,19 +285,26 @@ async def cached_chat_completion(
         ret = await cache.check_llm_cache(**cache_args)
         if ret:
             app_logger.debug("Using cached LLM response")
-            if isinstance(ret, str):
-                logger.info(ret)
-            result = ChatCompletion.model_validate(ret["completion"])
+            try:
+                result = LLMResponse.model_validate(ret["completion"])
+            except ValidationError as e:
+                # Older caches can still have direct OpenAI responses cached instead of LLMResult objects.
+                # This provides backwards compatibility with those cache entries.
+                try:
+                    resp = ChatCompletion.model_validate(ret["completion"])
+                    result = llm_response_from_chat_completion(resp)
+                except ValidationError as e2:
+                    raise e2
             if token_counter:
                 token_counter.count_cached_tokens(
                     kwargs.get("messages", ""),
                     kwargs.get("tools", ""),
-                    result.choices[0].message.content,
+                    result.content,
                 )
             return result
         else:
             app_logger.debug("Caching LLM response")
-            result = create_chat_completion_with_retry(base_url, **kwargs)
+            result = await create_chat_completion_with_retry(base_url, **kwargs)
             if token_counter:
                 token_counter.count_request_tokens(
                     kwargs.get("messages", ""), kwargs.get("tools", "")
@@ -307,16 +313,16 @@ async def cached_chat_completion(
                 response={"completion": result.dict()}, **cache_args
             )
             if token_counter:
-                token_counter.count_response_tokens(result.choices[0].message.content)
+                token_counter.count_response_tokens(result.content)
             return result
     else:
         if token_counter:
             token_counter.count_request_tokens(
                 kwargs.get("messages", ""), kwargs.get("tools", "")
             )
-        result = create_chat_completion_with_retry(base_url=base_url, **kwargs)
+        result = await create_chat_completion_with_retry(base_url=base_url, **kwargs)
         if token_counter:
-            token_counter.count_response_tokens(result.choices[0].message.content)
+            token_counter.count_response_tokens(result.content)
         return result
 
 
@@ -335,10 +341,8 @@ async def create_chat_completion_with_retry(base_url, **kwargs):
 
     while True:
         try:
-            return get_openai_client(base_url=base_url).chat.completions.create(
-                **kwargs
-            )
-        except openai.error.RateLimitError as e:
+            return await call_client(base_url=base_url, **kwargs)
+        except RateLimitError as e:
             retry_attempts += 1
             if retry_attempts > max_retries:
                 raise e
@@ -347,3 +351,19 @@ async def create_chat_completion_with_retry(base_url, **kwargs):
                 f"Rate limit exceeded. Retrying in {sleep_time:.2f} seconds..."
             )
             await asyncio.sleep(sleep_time)
+
+
+async def call_client(base_url: Optional[str], **kwargs):
+    model = kwargs.get("model", None)
+    if model and model.startswith("claude"):
+        assert (
+            not base_url
+        ), f"Changing the model URL is not supported for claude models.  {base_url}"
+        return await anthropic_chat_completion(**kwargs)
+    elif model and model.startswith("anthropic"):
+        assert (
+            not base_url
+        ), f"Changing the model URL is not supported for claude models.  {base_url}"
+        return await anthropic_bedrock_chat_completion(**kwargs)
+    else:
+        return await openai_chat_completion(base_url=base_url, **kwargs)

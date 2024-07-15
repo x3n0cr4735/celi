@@ -86,6 +86,9 @@ def parse_standard_args(args):
     if args.openai_api_key:
         os.environ["OPENAI_API_KEY"] = args.openai_api_key
 
+    if args.anthropic_api_key:
+        os.environ["ANTHROPIC_API_KEY"] = args.anthropic_api_key
+
     if args.no_cache:
         logger.warning("LLM Caching is turned off.")
 
@@ -113,8 +116,17 @@ def setup_standard_args():
         type=str,
         default=None,
         help="Your OpenAI API key.  For security reasons, it is preferable to set this as an environment variable "
-        "rather than passing it on the command line.  If you are serving your own models using --model-api-url, this "
-        "will be the API key passed in the calls to those models.  The specific value required will depend on the server.",
+        "OPENAI_API_KEY rather than passing it on the command line.  If you are serving your own models using "
+        "--model-api-url, this will be the API key passed in the calls to those models.  The specific value required "
+        "will depend on the server.",
+    )
+    parser.add_argument(
+        "--anthropic-api-key",
+        type=str,
+        default=None,
+        help="Your Anthropic API key.  For security reasons, it is preferable to set this as an environment variable "
+        "ANTHROPIC_API_KEY rather than passing it on the command line.  This is only required when using the 'claude'"
+        "family of models",
     )
     parser.add_argument(
         "--primary-model-name",
