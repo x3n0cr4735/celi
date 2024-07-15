@@ -19,6 +19,7 @@ Explore the rest of the documentation to learn more about CELI.
 :hidden:
 
 getting_started
+cheatsheet
 new_use_cases
 running_celi
 rest_server
