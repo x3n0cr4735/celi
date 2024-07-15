@@ -46,6 +46,15 @@ logger = logging.getLogger(__name__)
 # Initialize the OpenAI client, using the OPENAI_API_KEY environment variable.
 @functools.lru_cache()
 def get_openai_client(base_url: Optional[str] = None):
+    """
+    A function that returns an AsyncOpenAI client with the provided base URL and API key.
+    
+    Parameters:
+        base_url (Optional[str]): The base URL for the OpenAI client. Defaults to None.
+    
+    Returns:
+        openai.AsyncOpenAI: An AsyncOpenAI client object.
+    """
     return openai.AsyncOpenAI(
         base_url=base_url, api_key=os.environ.get("OPENAI_API_KEY", None)
     )
@@ -260,6 +269,17 @@ def assemble_chat_messages(prompt: str | List[Tuple[str, str] | Dict[str, str]])
     """
 
     def format_message(m):
+        """
+        A function that formats a message based on the input parameter 'm'. 
+        If 'm' is a dictionary, it validates the 'role' key against a predefined pattern. 
+        If 'm' is not a dictionary, it assumes 'm' is a tuple, validates the role in the tuple, and constructs a message dictionary from it.
+        
+        Parameters:
+            m: Union[dict, Tuple[str, str]] - The input message to be formatted.
+        
+        Returns:
+            Union[dict, Tuple[str, str]] - The formatted message.
+        """
         if isinstance(m, dict):
             assert re.match(VALID_ROLES, m["role"]), f"Invalid role: {m['role']}"
             return m
@@ -279,6 +299,11 @@ async def cached_chat_completion(
     base_url: Optional[str] = None,
     **kwargs,
 ) -> ChatCompletion:
+    """
+    A function that asynchronously completes a cached chat response and handles token counting. 
+    Accepts optional parameters 'token_counter' and 'base_url', along with additional keyword arguments.
+    Returns a ChatCompletion object.
+    """
     cache = get_celi_llm_cache()
     if cache:
         url_dict = {} if base_url is None else {"base_url": base_url}
@@ -328,5 +353,14 @@ class ContextLengthExceededException(Exception):
     """Exception raised when the input exceeds the model's maximum context length."""
 
     def __init__(self, message="Context length exceeded the model's maximum limit."):
+        """
+        Initializes a ContextLengthExceededException instance with an optional message parameter.
+        
+        Parameters:
+            message (str): The message to be displayed when the exception is raised.
+            
+        Returns:
+            None
+        """
         self.message = message
         super().__init__(self.message)

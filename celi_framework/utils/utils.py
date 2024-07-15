@@ -49,6 +49,15 @@ class UnrecoverableException(BaseException):
 
 
 def get_obj_by_name(name: str):
+    """
+    A function to get an object by its name dynamically.
+    
+    Args:
+        name (str): The name of the object to get.
+        
+    Returns:
+        obj: The object retrieved by its name.
+    """
     module_path, attr_name = name.rsplit(".", 1)
 
     # Dynamically import the module and attribute
@@ -58,6 +67,9 @@ def get_obj_by_name(name: str):
 
 
 def encode_class_type(cls):
+    """
+    A function to encode the class type by combining the module and name of the class.
+    """
     return f"{cls.__module__}.{cls.__name__}"
 
 
@@ -120,6 +132,15 @@ def read_txt(file_path):
 
 def get_most_recent_file(directory):
     # Create a full path and ensure it only lists files
+    """
+    Returns the path of the most recently modified file in the specified directory.
+
+    Parameters:
+        directory (str): The path of the directory to search for the most recently modified file.
+
+    Returns:
+        str: The path of the most recently modified file in the specified directory.
+    """
     files = [
         f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f))
     ]

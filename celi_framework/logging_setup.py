@@ -5,6 +5,9 @@ from pathlib import Path
 
 
 def setup_logging():
+    """
+    Opens the logging config file, loads the configuration, and sets up the logging system accordingly.
+    """
     with open(Path(__file__).parent / "logging_config.json", "r") as f:
         log_config = json.load(f)
     logging.config.dictConfig(log_config)

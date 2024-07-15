@@ -2,6 +2,18 @@ import os
 
 
 def bool_opt(parser, opt: str, env_var: str, help: str):
+    """
+    Add a boolean option to the given parser.
+
+    Args:
+        parser (argparse.ArgumentParser): The parser to add the option to.
+        opt (str): The name of the option.
+        env_var (str): The name of the environment variable to check for the default value.
+        help (str): The help message for the option.
+
+    Returns:
+        None
+    """
     parser.add_argument(
         opt,
         action="store_true",
@@ -11,6 +23,12 @@ def bool_opt(parser, opt: str, env_var: str, help: str):
 
 
 def str2bool(v):
+    """
+    A function that converts a string representation to a boolean value.
+    It checks if the input is a boolean, returns it if so.
+    If not a boolean, it checks common string representations of True and False.
+    Raises a ValueError if the input does not match any expected boolean representation.
+    """
     if isinstance(v, bool):
         return v
     if v.lower() in ("yes", "true", "t", "y", "1"):

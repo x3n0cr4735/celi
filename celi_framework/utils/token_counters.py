@@ -83,9 +83,27 @@ class TokenCounter:
             raise ValueError("LLM Token budget exceeded")
 
     def count_response_tokens(self, response: str | None):
+        """
+        Counts the number of tokens in the given response string and updates the current token count.
+
+        Parameters:
+            response (str | None): The response string to count tokens for. If None, no action is taken.
+
+        Returns:
+            None
+        """
         self.current_token_count += self.token_counter_fn(str(response))
 
     def count_cached_tokens(self, *prompt_fields):
+        """
+        Counts the number of tokens in the given prompt fields and updates the cached token count.
+
+        Parameters:
+            *prompt_fields (Any): The prompt fields to count tokens for.
+
+        Returns:
+            None
+        """
         self.cached_token_count += sum(
             self.token_counter_fn(str(_)) for _ in prompt_fields
         )
