@@ -1,5 +1,3 @@
-Here's a structured README for the Human Eval benchmark project, incorporating the information you provided:
-
 # Human Eval Benchmark for CELI
 
 ## Overview
