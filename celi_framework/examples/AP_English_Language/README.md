@@ -17,7 +17,7 @@ To run CELI for AP Language tasks:
      ```
      python -m celi_framework.main
      ```
-   - This will generate output files in `ap_language/target/celi_output/`.
+   - This will generate output files in `AP_English_Language/target/celi_output/`.
 
 3. Evaluate the results:
    - Use the AP English Language and Composition scoring rubrics to assess the generated responses. See `data/scoring_guidelines/set_1_target_q1_scoring.txt`
@@ -32,10 +32,10 @@ CELI is designed to handle the three main types of free-response questions in th
 
 Each task type requires different analytical and writing skills, which CELI is trained to emulate.
 
-## Project Structure
+## Task Structure
 
 ```
-ap_language/
+AP_English_Language/
 ├── data/scoring_guidelines/set_1_target_q1_scoring.txt
 ├── job_description.py
 ├── tools.py
