@@ -191,6 +191,17 @@ def make_gpt_prompt_simple(current_prompt, example_prompt_response):
     return system_message, user_message
 
 def score_llm_prompt(prompt:str, llm_output: str, rubric: str):
+    """
+    Scores a prompt and its output using a provided rubric.
+
+    Args:
+        prompt (str): The prompt to score.
+        llm_output (str): The output of the prompt.
+        rubric (str): The rubric to use for scoring.
+
+    Returns:
+        tuple: A tuple containing the system message and user message.
+    """
 
     system_message = """
     You are a professional AI test scorer.

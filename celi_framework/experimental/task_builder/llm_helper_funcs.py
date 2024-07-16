@@ -22,6 +22,15 @@ These helper functions are integral to the operation of the `InteractiveDocument
 import os
 
 def interactive_input_handler(question):
+    """
+    A function that handles interactive user input based on a provided question.
+    
+    Args:
+        question (str): The question to ask the user.
+
+    Returns:
+        tuple: A tuple containing the user input and the simulated LLM response.
+    """
     user_input = input(f"{question}: ")
     # Simulate LLM response based on user input (replace with actual LLM call)
     llm_response = f"LLM simulated response based on '{user_input}'"
@@ -30,6 +39,9 @@ def interactive_input_handler(question):
 
 
 def os_file_info_handler(directory="input"):
+    """
+    Gathers information about files in a specified directory, including file formats, count, and total size.
+    """
     if not os.path.exists(directory):
         print("The directory does not exist.")
         return {}

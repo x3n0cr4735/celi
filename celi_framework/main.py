@@ -32,6 +32,16 @@ logger = logging.getLogger(__name__)
 
 
 def get_config():
+    """
+    Retrieves the configuration settings necessary for running the tools. 
+    The function loads environment variables from a .env file and sets up argument parsing with the `setup_standard_args` function. 
+    It defines two arguments related to tool configuration: `--tool-config-json` and `--tool-config`. 
+    The `--tool-config-json` argument specifies a path to a JSON file for configuring the tools, allowing specification through a file instead of the command line. 
+    If both `--tool-config-json` and `--tool-config` are provided, `--tool-config-json` takes precedence. 
+    The `--tool-config` argument expects a JSON string to configure the tools, converting it into keyword arguments for the tool implementation. 
+    If the tool_config_json file does not exist, it attempts to find it relative to the root of the installed package. 
+    Finally, it sets up the `tool_implementations` in the `celi_config` based on the provided tool configuration and returns the updated `celi_config`.
+    """
     load_dotenv("./.env")
 
     parser = setup_standard_args()
@@ -83,6 +93,15 @@ def get_config():
 
 
 def parse_standard_args(args):
+    """
+    Parse the standard arguments passed to the function.
+    
+    Args:
+        args: The arguments passed to the function.
+    
+    Returns:
+        CELIConfig: The configuration object with parsed arguments.
+    """
     if args.openai_api_key:
         os.environ["OPENAI_API_KEY"] = args.openai_api_key
 
@@ -102,6 +121,11 @@ def parse_standard_args(args):
 
 
 def setup_standard_args():
+    """
+    Define and configure the standard command-line arguments for the application.
+    These arguments include options related to OpenAI API key, primary LLM model name, 
+    maximum number of tokens, model API URL, job description, token budget, and simulation settings.
+    """
     parser = argparse.ArgumentParser(
         description="All of the options below can also be set as environment variables"
         "(using the capitalized names), or in a local .env file."

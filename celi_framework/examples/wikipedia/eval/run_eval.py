@@ -25,6 +25,9 @@ logger = logging.getLogger(__name__)
 
 
 def get_config():
+    """
+    A function to get the configuration settings based on the arguments parsed.
+    """
     load_dotenv()
 
     parser = setup_standard_args()
@@ -47,10 +50,21 @@ def get_config():
 
 
 def page_name(url: str) -> str:
+    """
+    A function to extract the last part of a URL as the page name.
+    Takes a URL string as input and returns the last segment after splitting by '/'.
+    Returns a string representing the extracted page name.
+    """
     return url.split("/")[-1]
 
 
 def run_test(config: CELIConfig, example: str, target: str):
+    """
+    A function to run a test with the provided configuration, example, and target.
+    It checks if the evaluation file exists and returns its content if it does.
+    If the evaluation file does not exist, it creates the file, runs the evaluation, and saves the results.
+    Returns the evaluation results.
+    """
     logger.info(
         f"Running test with example: {page_name(example)} and target: {page_name(target)}"
     )
@@ -85,6 +99,25 @@ def run_test(config: CELIConfig, example: str, target: str):
 
 
 def run_test_set(config: CELIConfig, test_set_name: str, test_set: List[str]):
+    """
+    Runs a test set using the provided configuration, test set name, and list of test cases.
+
+    Args:
+        config (CELIConfig): The configuration object for the test run.
+        test_set_name (str): The name of the test set.
+        test_set (List[str]): The list of test cases.
+
+    Returns:
+        List[Dict[str, Any]]: A list of dictionaries containing the test set name and the results of each test case.
+            Each dictionary has the following keys:
+                - "test_set" (str): The name of the test set.
+                - "example" (str): The name of the example page.
+                - "target" (str): The name of the target page.
+                - "score" (float): The evaluation score for the test case.
+                - "precision" (float): The precision score for the test case.
+                - "recall" (float): The recall score for the test case.
+                - "f1" (float): The F1 score for the test case.
+    """
     logger.info(f"Running test set: {test_set_name}")
     return [
         {"test_set": test_set_name, **run_test(config, example, target)}
@@ -95,6 +128,16 @@ def run_test_set(config: CELIConfig, test_set_name: str, test_set: List[str]):
 
 
 def evaluate(generated_doc: str, target_url: str):
+    """
+    Evaluate the generated document against the ground truth content from a Wikipedia URL using BERTScore.
+
+    Args:
+        generated_doc (str): The generated document to evaluate.
+        target_url (str): The URL of the Wikipedia page containing the ground truth content.
+
+    Returns:
+        Dict[str, Any]: Evaluation results including the BERTScore metrics.
+    """
     bertscore = load_eval_model()
     target_dict, _ = load_content_from_wikipedia_url(
         target_url, include_references=False
@@ -111,6 +154,9 @@ def evaluate(generated_doc: str, target_url: str):
 
 @lru_cache()
 def load_eval_model():
+    """
+    Loads the evaluation model for BERTScore.
+    """
     return load("bertscore")
 
 
