@@ -7,7 +7,7 @@ The GRE (Graduate Record Examination) writing section, known as the Analytical W
 1. Analyze an Issue
 2. Analyze an Argument
 
-This example focuses on the "Analyze an Issue" task, using CELI (Conversational Enhancement and Language Intelligence) to generate high-scoring essays.
+This example focuses on the "Analyze an Issue" task, using CELI to generate high-scoring essays.
 
 ## Our Solution
 
@@ -15,6 +15,14 @@ We've developed a system that leverages CELI to write essays that consistently s
 
 1. **Job Descriptions**: Detailed instructions for CELI on how to approach and write these essays.
 2. **Custom Tools**: A set of tools to assist in the writing process, automatically invoked by CELI controllers as needed.
+
+The overall use case is defined in the CELI Job Description object.  When you run CELI, you pass general configuration parameters and a Job Description to the main CELI processor.  The `JobDescription` defines the tasks to be accomplished and the tools to be run.  See (job_description.py)[celi-framework/core/job_description.py] for full details.
+
+The job description contains several prompt strings which describe the overall job to be run at a high level along with any general guidance for the agent.  It also contains a `task_list` and a `tool_implementations_class`.
+
+The `task_list` is a list of `Task` objects.  When completing a job, the agent will tackle each task in this list in order.  Each task has a name and a set of details.  The details is a dictionary that will be passed directly to the LLM to describe how to accomplish the task.  
+
+The `tool_implementations_class` is a reference to a class that derives from `ToolImplementations` and contains the tools that the LLM can use to accomplish the task.  This class is described in the next section.
 
 ## Key Features
 
@@ -34,11 +42,20 @@ GRE/
 └── README.md
 ```
 
-## Getting Started
+## Quick Start
 
-To run CELI against the **GRE** benchmark, use the following JobDescription (probably set in your .env file): 
-- Make sure your .env is set up correctly (look at .env.example) and set `JOB_DESCRIPTION=celi_framework.examples.gre.job_description.job_description` specifically.
-- From a terminal, and from root of project directory, run `python -m celi_framework.main`. This will output a json file (with timestamp) with the answers in GRE/target/celi_output/drafts. That's the "output file".
+To run CELI against the HumanEval benchmark:
+
+1. Set up your environment:
+   - Ensure your `.env` file is correctly configured (refer to `.env.example`).
+   - Set `JOB_DESCRIPTION=celi_framework.examples.GRE.job_description.job_description` in your `.env` file.
+
+2. Run the benchmark:
+   - From the root of the project directory, execute:
+     ```
+     python -m celi_framework.main
+     ```
+   - This will generate a JSON output file (with timestamp) in `GRE/target/celi_output/drafts/`.
 
 ## Evaluation
 
