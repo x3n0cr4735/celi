@@ -158,9 +158,9 @@ class MonitoringAgent:
                     )
                     self.analyze_prompt_completions(prompt_data)
                     # self.periodic_review_with_third_llm()
-                elif update_type == "pop_context_triggered":
-                    print("pop_context_triggered received in Monitor")
-                    # Trigger the poll_log_file logic when pop_context is called
+                elif update_type == "section_complete_triggered":
+                    print("section_complete_triggered received in Monitor")
+                    # Trigger the poll_log_file logic when complete_section is called
                     # self.poll_log_file() # TODO -> Comment back in when ready
             except queue.Empty:
                 time.sleep(0.1)

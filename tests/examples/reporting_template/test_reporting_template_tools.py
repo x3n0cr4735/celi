@@ -1,7 +1,3 @@
-import os
-from dotenv import load_dotenv
-from celi_framework.examples.reporting_template.tools import ReportingToolImplementations
-
 # load_dotenv()
 
 # def test_section_text_getter():

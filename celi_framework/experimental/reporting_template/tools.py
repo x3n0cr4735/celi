@@ -158,7 +158,7 @@ class ReportingToolImplementations(BaseDocToolImplementations):
                 followed by an instruction to proceed to the next task.
         """
         reformatted = [
-            f"{k} Table of Contexts:\n\n{format_toc(v.toc)}"
+            f"{k} Table of Contents:\n\n{format_toc(v.toc)}"
             for k, v in self.example_doc_sources.items()
         ]
 

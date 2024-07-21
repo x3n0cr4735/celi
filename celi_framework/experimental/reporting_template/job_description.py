@@ -7,7 +7,7 @@ reporting requirements.
 """
 
 from celi_framework.core.job_description import JobDescription, Task
-from celi_framework.examples.reporting_template.tools import ReportingToolImplementations
+from celi_framework.experimental.reporting_template.tools import ReportingToolImplementations
 
 task_library = [
     Task(
@@ -185,7 +185,7 @@ task_library = [
         details={
             "description": "Conclude current tasks and prepare to draft the next document section.",
             "prerequisite_tasks": ["Final Document Review"],
-            "function_call": "Use the pop_context function.",
+            "function_call": "Use the complete_section function.",
             "example_call": "{{'current_section_identifier': ['Next Section Identifier']}}",
         },
     ),

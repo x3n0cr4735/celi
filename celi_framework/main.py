@@ -15,11 +15,9 @@ The script is structured to initiate and manage parallel threads dedicated to do
 """
 
 import argparse
-import inspect
 import json
 import logging.config
 import os
-from typing import Type
 
 from dotenv import load_dotenv
 
@@ -31,7 +29,7 @@ from celi_framework.utils.utils import get_obj_by_name, read_json_from_file
 logger = logging.getLogger(__name__)
 
 
-def get_config():
+def get_celi_config():
     load_dotenv("./.env")
 
     parser = setup_standard_args()
@@ -57,7 +55,7 @@ def get_config():
     celi_config = parse_standard_args(args)
 
     # If the tool_config_json file doesn't exist, try to find it relative to the root of the installed package.
-    # This allows examples packaged with celi to work correctly.
+    # This allows examples packaged with CELI to work correctly.
     if args.tool_config_json:
         if os.path.exists(args.tool_config_json):
             tool_config_json = args.tool_config_json
@@ -75,9 +73,10 @@ def get_config():
     else:
         tool_config = {}
 
-    celi_config.tool_implementations = (
-        celi_config.job_description.tool_implementations_class(**tool_config)
-    )
+    if celi_config.job_description:
+        celi_config.tool_implementations = (
+            celi_config.job_description.tool_implementations_class(**tool_config)
+        )
 
     return celi_config
 
@@ -93,7 +92,7 @@ def parse_standard_args(args):
         logger.warning("LLM Caching is turned off.")
 
     return CELIConfig(  # noqa: F821
-        job_description=get_obj_by_name(args.job_description),
+        job_description=get_obj_by_name(args.job_description) if args.job_description else None,
         tool_implementations=None,
         llm_cache=not args.no_cache,
         simulate_live=args.simulate_live,
@@ -157,7 +156,7 @@ def setup_standard_args():
         type=str,
         default=os.getenv(
             "JOB_DESCRIPTION",
-            "celi_framework.examples.human_eval.job_description.job_description",
+            None,
         ),
         help="CELI requires a job description to know what task to run.  This parameter specifies the Python class name"
         " for the class containing the job description.  It must have JobDescription as a base class.  Several "
@@ -191,20 +190,8 @@ def setup_standard_args():
     return parser
 
 
-def instantiate_with_argparse_args(args: argparse.Namespace, cls: Type):
-    """Instantiates the given class, passing any args that match class members as keyword args."""
-    init_signature = inspect.signature(cls.__init__)
-    arg_names = [
-        param_name
-        for param_name in init_signature.parameters.keys()
-        if param_name != "self"
-    ]
-    cls_args = {k: v for k, v in vars(args).items() if k in arg_names}
-    return cls(**cls_args)
-
-
 if __name__ == "__main__":
     setup_logging()
     logger.debug("Starting CELI")
-    config = get_config()
-    run_celi(config)
+    celi_config = get_celi_config()
+    run_celi(celi_config)

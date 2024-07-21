@@ -46,7 +46,7 @@ task_library = [
             "description": """Call save_final_output to save off your final answer.  This should include your 
             function implementation as well as your test function.  Always do this, even if you aren't completely
             happy with your answer. 
-            Signal that you have completed the example by calling the pop_context function."""
+            Signal that you have completed the example by calling the complete_section function."""
         },
     ),
 ]

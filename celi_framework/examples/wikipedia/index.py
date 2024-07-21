@@ -19,16 +19,19 @@ It has has the following metadata:
 """
 
 from __future__ import annotations
-from functools import lru_cache
+
 import logging
+from functools import lru_cache
 from typing import Iterable, List, Optional, Type
-from llama_index.core.node_parser.text import SentenceSplitter
+
+import requests
+from llama_index.core import StorageContext
 from llama_index.core.indices import VectorStoreIndex
+from llama_index.core.node_parser.text import SentenceSplitter
 from llama_index.core.schema import TextNode, NodeRelationship
 from llama_index_client import RelatedNodeInfo
 from requests import Request
-import requests
-from llama_index.core import StorageContext
+
 from celi_framework.examples.wikipedia.Index_cache import ChromaDBIndexCache, IndexCache
 from celi_framework.examples.wikipedia.caching_beautiful_soup_reader import (
     CachingBeautifulSoupWebReader,
@@ -303,7 +306,7 @@ class ReferenceLoader:
                 d = self.create_doc_from_reference(source_url, reference)
                 ret.append(d)
             except Exception as e:
-                logger.exception(f"Skipping reference {reference} due to error: {e}")
+                logger.warning(f"Skipping reference {reference} due to error: {e}")
         if (
             len(references) > 0
             and len(ret) / len(references) < self.allowed_failure_rate
