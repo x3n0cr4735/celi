@@ -8,8 +8,6 @@ reporting requirements.
 
 from celi_framework.core.job_description import JobDescription, Task
 from celi_framework.examples.AP_English_Language.tools import APEnglishLanguageToolImplementations
-from celi_framework.core.mt_factory import MasterTemplateFactory
-from celi_framework.utils.utils import load_json
 
 # TODO: Get the "AP Way" of doing free response questions for AP English Language
 #  Refactor the tasks below that are taking as example
@@ -155,11 +153,10 @@ Task(
     }
 ),
     Task(
-        task_name="Move on to next question",
+        task_name="Complete this question",
         details={
-            "description": "Pop context to finish this question and move on to next question.",
-            "tool_call": "Use the pop_context function.",
-            "example_call": "{{'current_question_number': ['next_question_number']}}",
+            "description": "Indicate that work on this question is finished.",
+            "tool_call": "Use the complete_section function.",
         },
     ),
 ]

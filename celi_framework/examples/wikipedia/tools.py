@@ -4,15 +4,16 @@ import re
 from dataclasses import asdict, dataclass
 from typing import Any, Dict, List, Optional
 
+from llama_index.core.base.response.schema import Response
+from llama_index.core.schema import MetadataMode, QueryBundle, NodeWithScore, TextNode
+from llama_index.vector_stores.chroma.base import ChromaVectorStore
+from pydantic import BaseModel
+
 from celi_framework.core.celi_update_callback import CELIUpdateCallback
 from celi_framework.core.job_description import BaseDocToolImplementations
 from celi_framework.examples.wikipedia.index import get_wikipedia_index
 from celi_framework.utils.llm_cache import get_celi_llm_cache
 from celi_framework.utils.utils import format_toc, get_section_context_as_text
-from llama_index.core.base.response.schema import Response
-from llama_index.core.schema import MetadataMode, QueryBundle, NodeWithScore, TextNode
-from llama_index.vector_stores.chroma.base import ChromaVectorStore
-from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
@@ -44,22 +45,12 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
     example_url: str
     target_url: str
     ignore_updates: bool = False
-
-    def __init__(
-        self,
-        example_url: str,
-        target_url: str,
-        ignore_updates: bool,
-        drafts_dir: str = "target/celi_output/drafts",
-        callback: Optional[CELIUpdateCallback] = None,
-    ):
-        super().__init__(drafts_dir=drafts_dir, callback=callback)
-        self.example_url = example_url
-        self.target_url = target_url
-        self.ignore_updates = ignore_updates
-        self.__post_init__()
+    target_section: Optional[int] = None
+    drafts_dir: str = "target/celi_output/drafts"
+    callback: Optional[CELIUpdateCallback] = None
 
     def __post_init__(self):
+        super().__init__(drafts_dir=self.drafts_dir, callback=self.callback)
         self.example_page = self._page_title(self.example_url)
         self.target_page = self._page_title(self.target_url)
         self.example_index = get_wikipedia_index(
@@ -84,7 +75,10 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
 
     # Retrieves the top level schema for the doc.  Ignore subsections as they change page to page.
     def get_schema(self) -> Dict[str, str]:
-        return {k: v for k, v in self.schema.items() if "." not in k}
+        top_level = {k: v for k, v in self.schema.items() if "." not in k}
+        if self.target_section is not None:
+            return {self.target_section:top_level[str(self.target_section)]}
+        return top_level
 
     def _page_title(self, url):
         return url.split("/")[-1].replace("_", " ")
@@ -105,7 +99,7 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
         Returns:
             str: A string containing the formatted table of contents for the example document.
         """
-        return f"Table of Contexts:\n\n{format_toc(self.schema)}"
+        return f"Table of Contents:\n\n{format_toc(self.schema)}"
 
     def get_text_for_sections(
         self,
@@ -282,11 +276,11 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
             target_url=self.target_url, prompt=prompt
         )
         if result:
-            logger.debug("Using cached LLM response")
+            logger.debug("Using cached LLM response in ask_question")
             return self._dict_to_response(result["response"])
 
         else:
-            logger.debug("Caching LLM response")
+            logger.debug("Caching LLM response in ask_question")
             result = self.target_query_engine.query(prompt)
             result_dict = self._response_to_dict(result)
             await get_celi_llm_cache().cache_llm_response(

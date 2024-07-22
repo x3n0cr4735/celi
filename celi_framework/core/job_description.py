@@ -115,6 +115,7 @@ class BaseDocToolImplementations(ToolImplementations, ABC):
         drafts_dir: str = "target/celi_output/drafts",
         callback: Optional[CELIUpdateCallback] = None,
     ):
+        assert callback is None or isinstance(callback, CELIUpdateCallback), f"Invalid callback: {callback}"
         os.makedirs(drafts_dir, exist_ok=True)
         self.callback = callback
         self.draft_doc = (
@@ -125,13 +126,13 @@ class BaseDocToolImplementations(ToolImplementations, ABC):
     def save_draft_section(self, doc_section: str, draft: str):
         """Saves a draft of the current section.
 
-        This must be called with the final output before calling pop_context and moving on to the next section.
+        This must be called with the final output before calling complete_section and moving on to the next section.
 
         Args:
             doc_section: The section name to save
             draft: The draft text
         """
-        matched_section = self.match_doc_section(doc_section)
+        matched_section = self._match_doc_section(doc_section)
         logger.info(
             f"Completed section {doc_section} ({matched_section}).  Draft output is:\n{draft}",
             extra={"color": "orange"},
@@ -147,7 +148,7 @@ class BaseDocToolImplementations(ToolImplementations, ABC):
         current[doc_section] = draft
         write_string_to_file(json.dumps(current, indent=2), self.draft_doc)
 
-    def match_doc_section(self, doc_section):
+    def _match_doc_section(self, doc_section):
         # Try to extract a number first
         number = BaseDocToolImplementations._extract_number(doc_section)
         if number is not None:

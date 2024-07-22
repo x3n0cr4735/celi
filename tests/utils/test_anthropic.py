@@ -27,7 +27,7 @@ async def test_ask_split():
 
 def test_adjust_args_for_anthropic():
     tool_description = ToolDescription(
-        name="pop_context",
+        name="complete_section",
         description="It will empty out the current chat history.",
         parameters={
             "type": "object",
@@ -64,7 +64,7 @@ def test_adjust_args_for_anthropic():
         "tools": [
             {
                 "description": "It will empty out the current chat history.",
-                "name": "pop_context",
+                "name": "complete_section",
                 "input_schema": {
                     "properties": {
                         "current_section_number": {

@@ -9,8 +9,6 @@ reporting requirements.
 from celi_framework.core.job_description import JobDescription, Task
 
 from tools import GREToolImplementations
-from celi_framework.core.mt_factory import MasterTemplateFactory
-from celi_framework.utils.utils import load_json
 
 task_library = [
     Task(
@@ -236,8 +234,8 @@ Task(
         task_name="Finish Essay and move on to next question",
         details={
             "description": "Pop context to finish this question and move on to next question if there are any questions left.",
-            "instructions": "A section is considered complete once there are no more revisions required. If there are revisions recommended then go back to Task Synthesize Sections into a Draft - IN THIS CASE, DO NOT CALL pop_context.",
-            "tool_call": "Use the pop_context function.",
+            "instructions": "A section is considered complete once there are no more revisions required. If there are revisions recommended then go back to Task Synthesize Sections into a Draft - IN THIS CASE, DO NOT CALL complete_section.",
+            "tool_call": "Use the complete_section function.",
             "example_call": "{{'current_question_number': ['next_question_number']}}",
         },
     ),

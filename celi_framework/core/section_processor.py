@@ -1,3 +1,4 @@
+import inspect
 import json
 import logging
 from dataclasses import dataclass
@@ -20,6 +21,10 @@ MAX_RETRIES = 2
 
 @dataclass
 class SectionProcessor:
+    """This is the core processor that uses iterative calls to LLMs to manage the drafting process.  Each
+    SectionProcessor runs independently, working through a task list described in the JobDescription and using
+    the tools it provides.
+    """
     current_section: str
     system_message: str
     initial_user_message: str
@@ -40,7 +45,7 @@ class SectionProcessor:
         self._update_ongoing_chat(
             (
                 "user",
-                f"Proceed to document section {self.current_section}, and do Task #1.",
+                f"You are working on section {self.current_section}.  Begin with Task #1.",
             )
         )
         self.section_complete_flag = False
@@ -89,7 +94,7 @@ class SectionProcessor:
             should stop.
         """
         app_logger.info(
-            f"Started a new iteration for {self.current_section}.  Retry count is {self.retry_number}",
+            f"Started a new iteration for section {self.current_section}.  Retry count is {self.retry_number}",
         )
         self.section_complete_flag = False
         chat_len = len(self.ongoing_chat)
@@ -108,18 +113,18 @@ class SectionProcessor:
         self._update_ongoing_chat(("assistant", str(llm_response.content or "")))
 
         if llm_response.finish_reason == "tool_calls":
-            tool_result = self.make_tool_calls(llm_response)
+            tool_result = await self.make_tool_calls(llm_response)
             [self._update_ongoing_chat(_) for _ in tool_result]
 
         app_logger.info(
-            f"New chat iteration for {self.current_section}:\n"
+            f"LLM response for section {self.current_section}:\n"
             + self.format_chat_messages(self.ongoing_chat[chat_len:]),
             extra={"color": "green"},
         )
 
         if self.check_for_duplicates(self.ongoing_chat):
             logger.warning(
-                f"Identified a loop in {self.current_section}.  Identical messages are repeating.  pop_context and moving on to the next section."
+                f"Identified a loop of repeating message in section {self.current_section}.  Terminating this attempt."
             )
             self.section_complete_flag = True
 
@@ -141,7 +146,7 @@ class SectionProcessor:
                 ("user", redo["new_initial_user_message"]),
                 (
                     "user",
-                    f"Proceed to document section {self.current_section}, and do Task #1",
+                    f"You are working on section {self.current_section}.  Begin with Task #1.",
                 ),
             ]
             self.system_message = redo["new_system_message"]
@@ -188,13 +193,15 @@ class SectionProcessor:
             }}
         If it should try again:
             {{
-                "rationale": "The output was not written before calling pop_context.",
+                "rationale": "The output was not written before calling complete_section.",
                 "success": false,
                 "new_system_message": "The new system message to be used",
                 "new_initial_user_message": "The new initial user message to be used"
             }}
         """
-        user_message = f"The initial prompt was:\n{self.initial_user_message}\n\nHere is the chat history:\n{self.format_chat_messages(self.ongoing_chat)}\n\n"
+        user_message = f"""The initial system message was\n<SystemMessage>{self.system_message}</SystemMessage>.  The
+        initial user message was:\n<UserMessage>{self.initial_user_message}</UserMessage>\n\nHere is the chat history:
+        {self.format_chat_messages(self.ongoing_chat)}"""
         llm_response = await ask_split(
             user_prompt=user_message,  # type: ignore
             system_message=system_message,
@@ -209,11 +216,11 @@ class SectionProcessor:
         text_response = llm_response.content.strip()
 
         logger.info(
-            f"Output of final review for {self.current_section}:\n{text_response}"
+            f"Output of final review for section {self.current_section}:\n{text_response}"
         )
         if not text_response:
             logger.warning(
-                f"Built-in review for {self.current_section} returned an empty response.  Assuming success."
+                f"Built-in review for section {self.current_section} returned an empty response.  Assuming success."
             )
             return None
 
@@ -221,13 +228,14 @@ class SectionProcessor:
             ret = json.loads(text_response)
         except JSONDecodeError as e:
             logger.warning(
-                f"Built-in review for {self.current_section} didn't return valid JSON.  {e}\nResponse was: {text_response}"
+                f"Built-in review for section {self.current_section} didn't return valid JSON.  {e}\n"
+                "Response was: {text_response}"
             )
             ret = {}
 
         if "success" not in ret:
             logger.warning(
-                f"Built-in review for {self.current_section} didn't return a success key.  Assuming success."
+                f"Built-in review for section {self.current_section} didn't return a success key.  Assuming success."
             )
             return None
 
@@ -235,12 +243,16 @@ class SectionProcessor:
             return None
 
         if (
-            "new_system_message"
-            and "new_initial_user_message" not in ret
-            or ret["new_system_message"] == self.system_message
+            "new_system_message" not in ret and "new_initial_user_message" not in ret
         ):
             logger.warning(
-                f"Built-in review for {self.current_section} didn't return a new_system_message or new_initial_user_message.  Skipping retry."
+                f"Built-in review for section {self.current_section} didn't return a new_system_message or "
+                f"new_initial_user_message.  Skipping retry."
+            )
+            return None
+        if ret["new_system_message"] == self.system_message and ret['new_initial_user_message'] == self.initial_user_message:
+            logger.warning(
+                f"Built-in review for section {self.current_section} didn't changeany messages.  Skipping retry."
             )
             return None
 
@@ -256,8 +268,8 @@ class SectionProcessor:
     def format_chat_messages(msgs: List[ChatMessageable]):
         return "\n\n".join(SectionProcessor.format_message_content(m) for m in msgs)
 
-    def make_tool_calls(self, response: LLMResponse):
-        def make_tool_call(tool_call):
+    async def make_tool_calls(self, response: LLMResponse):
+        async def make_tool_call(tool_call):
             name = tool_call.function.name
             function_return = None
             try:
@@ -266,8 +278,8 @@ class SectionProcessor:
                 arguments = "<Unable to parse>"
                 function_return = f"Error: Unable to parse arguments {e}"
             if not function_return:
-                if name == "pop_context":
-                    # pop_context is a built-in function and not in the tool_implementations.
+                if name == "complete_section":
+                    # conplete_section is a built-in function and not in the tool_implementations.
                     self.section_complete_flag = True
                     function_return = arguments["current_section_number"]
                 else:
@@ -275,6 +287,8 @@ class SectionProcessor:
                         method_to_call = getattr(self.tool_implementations, name)
                         try:
                             function_return = method_to_call(**arguments)
+                            if inspect.iscoroutine(function_return):
+                                function_return = await function_return
                         except Exception as e:
                             function_return = f"Error: {e}"
                     else:
@@ -286,4 +300,4 @@ class SectionProcessor:
             function_log = f"Call to function {name} with arguments {arguments} returned\n{function_return}"
             return {"role": "function", "name": name, "content": function_log}
 
-        return [make_tool_call(_) for _ in response.tool_calls]
+        return [await make_tool_call(_) for _ in response.tool_calls]

@@ -72,8 +72,8 @@ class HumanEvalTools(ToolImplementations):
             func (str): The body of the function indented by 4 spaces (without the function signature).
             test_func (str): The full definition of the `check` function (including the `def check` line)
 
-        This must be called before calling pop_context and moving on to the next problem.  The most recently submitted
-        code will be used.
+        This must be called before calling complete_section and moving on to the next problem.  The most recently
+        submitted code will be used.
         """
         logger.info(
             f"Completed problem {task_id}.  Code is:\n{func}\nTests are:\n{test_func}",

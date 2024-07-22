@@ -26,7 +26,15 @@ class CELIConfig:
 
 
 def run_celi(celi_config: CELIConfig):
-    loop = asyncio.get_event_loop()
+    try:
+        loop = asyncio.get_event_loop()
+        if loop.is_closed():
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
     try:
         loop.run_until_complete(run_process_runner(celi_config))
     finally:

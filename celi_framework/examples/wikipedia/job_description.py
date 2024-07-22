@@ -88,9 +88,9 @@ task_library = [
     Task(
         task_name="Prepare for Next Document Section",
         details={
-            "description": "Signal that you have completed the draft by calling the pop_context function and prepare "
+            "description": "Signal that you have completed the draft by calling the complete_section function and prepare "
             "to start drafting the next section of the document.",
-            "function_call": "Use the pop_context function with the argument value = current section identifier.",
+            "function_call": "Use the complete_section function with the argument value = current section identifier.",
             "example_call": "{{'current_section_identifier': ['1.2']}}",
             "instructions": [
                 "Announce completion: 'Proceed to the next section of the document, [current section identifier] has "
@@ -103,9 +103,9 @@ task_library = [
 general_comments = """
 ============
 GENERAL COMMENTS:
-START WITH THE FIRST SECTION. ONLY DO THE NEXT UNCOMPLETED TASK (ONLY ONE TASK AT A TIME).
+DO ONE TASK AT A TIME.
 EXPLICITLY print out the current section identifier.
-EXPLICITLY print out wheter the last task completed successfully or not.
+EXPLICITLY print out whether the last task completed successfully or not.
 EXPLICITLY print out the task you are completing currently.
 EXPLICITLY print out what task you will complete next.
 EXPLICITLY provide a detailed and appropriate response for EVERY TASK.
@@ -125,11 +125,10 @@ Do not ever return a tool or function call with the name 'multi_tool_use.paralle
 
 
 initial_user_message = """
-Please see system message for instructions. Take note of which document section is currently being worked on and which tasks have been completed. Complete the next uncompleted task.
-If you do not see any tasks completed for the current section, begin with Task #1.
+Please see system message for instructions. Take note of which tasks have been completed. Complete the next uncompleted 
+task. Begin with Task #1.
 
-If all tasks for the current section have been completed, proceed to the next document section.
-If the new section draft is complete, ensure to 'Prepare for Next Document Section' as described in the tasks.
+If all tasks for the current section have been completed, make a call to write the output and then call complete_section.
 """
 
 pre_algo_instruct = """
@@ -144,7 +143,7 @@ post_algo_instruct = """
 We will look at an Example Document that is similar to the document to be drafted.
 Its full content can be queried with a function (get_text_for_sections) and used as an example (in json format).
 The keys of the json are the section numbers of the document and the values contain the sections' bodies.
-What I want you to do is to go section by section in the Document to be drafted, and do the following, in sequential order:
+For the section you are working on do the following in sequential order:
 """
 
 job_description = JobDescription(
