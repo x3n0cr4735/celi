@@ -105,7 +105,6 @@ def write_submodules_toc(f: TextIO, file: str, module_name: str, submodules: Lis
 def write_submodule(module_path: str, module_name: str, depth: int = 0) -> None:
     full_name = f"{module_path}.{module_name}"
  
-  
     file = module_path.replace(ROOT_MODULE, OUTPUT_DIR).replace(".", os.path.sep)
     
     print(f"Processing module: {full_name}")
@@ -125,13 +124,13 @@ def write_submodule(module_path: str, module_name: str, depth: int = 0) -> None:
             
             submodules = process_module_members(f, module_path, module_name, module)
             
-            # Add this block to handle subpackages
-            package = importlib.import_module(full_name)
-            for _, submodule_name, ispkg in pkgutil.iter_modules(package.__path__):
-                submodule_full_name = f"{full_name}.{submodule_name}"
-                if submodule_name not in submodules:
-                    submodules.append(submodule_name)
-                    write_submodule(full_name, submodule_name, depth + 1)
+            # Check if the module is a package before iterating over submodules
+            if hasattr(module, '__path__'):
+                for _, submodule_name, ispkg in pkgutil.iter_modules(module.__path__):
+                    submodule_full_name = f"{full_name}.{submodule_name}"
+                    if submodule_name not in submodules:
+                        submodules.append(submodule_name)
+                        write_submodule(full_name, submodule_name, depth + 1)
             
             if submodules:
                 print(f"Writing TOC for {full_name} with submodules: {submodules}")
