@@ -80,7 +80,9 @@ class TokenCounter:
             self.token_counter_fn(str(_)) for _ in prompt_fields
         )
         if self.token_budget and self.current_token_count > self.token_budget:
-            raise ValueError("LLM Token budget exceeded")
+            raise ValueError(
+                f"LLM Token budget exceeded.  Budget was {self.token_budget}. Consumed {self.current_token_count} tokens and {self.cached_token_count} cached tokens."
+            )
 
     def count_response_tokens(self, response: str | None):
         self.current_token_count += self.token_counter_fn(str(response))
