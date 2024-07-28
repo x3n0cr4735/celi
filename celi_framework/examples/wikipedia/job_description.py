@@ -11,6 +11,7 @@ task_library = [
             "function_call": "Call get_example_toc to get the full list of sections in the example doc and then get_text_for_sections to retrieve the text for the current section and any relevant (sub)sections.",
             "example_call": "{{'Example Document': ['1', '1.1', '1.2']}}",
             "instructions": [
+                "Use get_example_and_target_names to get the name of the target that the document should be about.",
                 "Every section should have corresponding text, even that text is blank. If you get an error, try again with different parameters",
                 "Do not truncate or modify the retrieved text.",
                 "If text is present, print the entire text and instruct to proceed to the next task.",
@@ -46,26 +47,32 @@ task_library = [
     Task(
         task_name="Ask additional questions",
         details={
-            "description": """Determine if any additional information is required to draft the section and call the ask_question_about_target function to gather that information.
-            Feel free to ask as many questions as you need and keep working on this task until you have the information you need.  This is especially important if
-            the initial references turn out not to be useful.
-            If you ask questions, make sure they are specific and include the names of what you are asking about.  For 
+            "description": """Determine if any additional information is required to draft the section and call the 
+            ask_question_about_target function to gather that information.  Remember, your goal is to create a page about
+            the target, not the example.  Feel free to ask as many questions as you need and keep working on this task 
+            until you have the information you need.  This is especially important if the initial references turn out 
+            not to be useful.  If you ask questions, make sure they are specific and ask directly about the target by 
+             name.  Do not ask questions about the example.  For 
             example, ask "What are major events in Henry Thoreau's life" instead of "What are major events in the author's life?"
             If you don't have any questions, just move on to the next section.""",
-            "example_call": '{"prompt": "What is unusual about when this band formed?"}',
+            "example_call": '{"prompt": "What is unusual about the formation of Cream?"}',
         },
     ),
     Task(
         task_name="Define subsections for this section",
         details={
-            "description": """Define what subsections should be present within this individual section.  Use the table of contents from the example document and your knowledge of the target page to structure the subsections.  Keeep in mind over differentiation of this section from other sections in the document.  It is totally fine to not have subsections, especially if the example document does not have them.
-            Also, remember that the subsections should be relevant for the target document.  The detailed structure of subsections used in the example may not be relevant for our target document.""",
+            "description": """Define what subsections should be present within this individual section.  Use the table 
+            of contents from the example document and your knowledge of the target to structure the subsections.  
+            Keep in mind over differentiation of this section from other sections in the document.  It is totally fine 
+            to not have subsections, especially if the example document does not have them.
+            Also, remember that the subsections should be relevant for the target document.  The detailed structure of 
+            subsections used in the example may not be relevant for our target document.""",
         },
     ),
     Task(
         task_name="Draft New Document Section",
         details={
-            "description": "Draft a new section analogous to the revised example section, ensuring alignment with its "
+            "description": "Draft a new section analogous to the example section, but about the target subject.  Ensure alignment with its "
             "structure, format, and scope (from {{TaskRef:Understand Differentiation}} output).  Use "
             "the section structure you defined in {{TaskRef:Define subsections for this section}}. "
             "However, the details should be related to the target and not the example document."
@@ -88,8 +95,7 @@ task_library = [
     Task(
         task_name="Prepare for Next Document Section",
         details={
-            "description": "Signal that you have completed the draft by calling the complete_section function and prepare "
-            "to start drafting the next section of the document.",
+            "description": "Signal that you have completed the draft by calling complete_section",
             "function_call": "Use the complete_section function with the argument value = current section identifier.",
             "example_call": "{{'current_section_identifier': ['1.2']}}",
             "instructions": [
@@ -140,7 +146,8 @@ The subsections in the target document will be different and should be based on 
 """
 
 post_algo_instruct = """
-We will look at an Example Document that is similar to the document to be drafted.
+We will look at an Example Document that is similar to the document to be drafted.  Your document should be about the
+target, not the example.  You can distinguish the target and the example using the get_example_and_target_names tool.
 Its full content can be queried with a function (get_text_for_sections) and used as an example (in json format).
 The keys of the json are the section numbers of the document and the values contain the sections' bodies.
 For the section you are working on do the following in sequential order:
@@ -151,6 +158,7 @@ job_description = JobDescription(
     context="Document to be drafted:",
     task_list=task_library,
     tool_implementations_class=WikipediaToolImplementations,
+    monitor_instructions="""Make sure the article is about the target, not the source.""",
     pre_context_instruct=pre_algo_instruct,
     post_context_instruct=post_algo_instruct,
     general_comments=general_comments,

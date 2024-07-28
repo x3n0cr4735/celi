@@ -25,6 +25,7 @@ class SectionProcessor:
     SectionProcessor runs independently, working through a task list described in the JobDescription and using
     the tools it provides.
     """
+
     current_section: str
     system_message: str
     initial_user_message: str
@@ -181,19 +182,32 @@ class SectionProcessor:
             if self.monitor_instructions
             else ""
         )
-        system_message = f"""Your job is to review the chat history of an LLM trying to accomplish a goal and decide if
-         it achieved that goal or if it should try again.  {task_specific}
-         If it should try again, please propose a modified system and 
-         initial user prompt that should be used.  Your output should be JSON that always contains a "success" tag and
+        system_message = f"""Your job is to review the chat history of an LLM trying to accomplish a goal.  This first 
+         thing you should do is find all the tool calls made by the LLM.  After you have done that, review those to 
+         decide if the overall goal was achieved or if the LLM should try again.  Think step by step and explain your
+         reasoning.  
+         
+         You can identify tool calls in the chat  history because they will look like this: 
+         
+         Function:
+         Call to function run_tests with arguments....
+         
+         {task_specific}
+
+         If the LLM should try again, please propose a modified system and 
+         initial user prompt that should be used.  Your output should be JSON that always contains tags for
+         "tool_calls_made", "ratioale", and "success".
          has the following format:
-         If it did a good job:
+         Example of a successful review:
             {{
+                "tool_calls_made": ['get_prompt', 'ask_question', 'save_draft_output', 'complete_section'],
                 "rationale": "All requirements specified in the user_prompt were resolved.",
                 "success": true,
             }}
-        If it should try again:
+         Example of a unsuccessful review:
             {{
-                "rationale": "The output was not written before calling complete_section.",
+                "tool_calls_made": ['get_prompt', 'complete_section'],
+                "rationale": "save_draft_output was not called before calling complete_section.",
                 "success": false,
                 "new_system_message": "The new system message to be used",
                 "new_initial_user_message": "The new initial user message to be used"
@@ -202,6 +216,7 @@ class SectionProcessor:
         user_message = f"""The initial system message was\n<SystemMessage>{self.system_message}</SystemMessage>.  The
         initial user message was:\n<UserMessage>{self.initial_user_message}</UserMessage>\n\nHere is the chat history:
         {self.format_chat_messages(self.ongoing_chat)}"""
+        # logger.debug(f"Built-in review input:\n{user_message}")
         llm_response = await ask_split(
             user_prompt=user_message,  # type: ignore
             system_message=system_message,
@@ -245,9 +260,10 @@ class SectionProcessor:
         if "new_system_message" not in ret or "new_initial_user_message" not in ret:
             logger.warning(
                 f"Built-in review for section {self.current_section} didn't return a new_system_message or "
-                f"new_initial_user_message.  Skipping retry.  {ret}"
+                f"new_initial_user_message.  Skipping retry."
             )
             return None
+
         if (
             ret["new_system_message"] == self.system_message
             and ret["new_initial_user_message"] == self.initial_user_message

@@ -77,7 +77,7 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
     def get_schema(self) -> Dict[str, str]:
         top_level = {k: v for k, v in self.schema.items() if "." not in k}
         if self.target_section is not None:
-            return {self.target_section:top_level[str(self.target_section)]}
+            return {self.target_section: top_level[str(self.target_section)]}
         return top_level
 
     def _page_title(self, url):
@@ -85,7 +85,8 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
 
     def get_example_and_target_names(self):
         """
-        Gets the names for the example and target documents.  This way you can know what the target document is supposed to be about.
+        Gets the names for the example and target documents.  This way you can know what the target document is
+        supposed to be about.  You can also use it to make sure you don't inmclude content from the example.
         """
         return {
             "example": self.example_page,

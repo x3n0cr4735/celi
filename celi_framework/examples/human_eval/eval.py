@@ -26,8 +26,8 @@ evaluated = {k: run_test(k, v) for k, v in results.items()}
 
 total = tools.tests.shape[0]
 n_trials = len(evaluated)
-n_correct = len([_ for _ in evaluated.values() if _ is None])
-errors = {k: v for k, v in evaluated.items() if v is not None}
+n_correct = len([_ for _ in evaluated.values() if _ == ""])
+errors = {k: v for k, v in evaluated.items() if v != ""}
 unevaluated = total - n_trials
 
 print(f"{n_correct} correct out of {n_trials}: {round(100*n_correct/n_trials, 2)}%")
