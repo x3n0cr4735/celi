@@ -242,15 +242,16 @@ class SectionProcessor:
         if ret["success"]:
             return None
 
-        if (
-            "new_system_message" not in ret and "new_initial_user_message" not in ret
-        ):
+        if "new_system_message" not in ret or "new_initial_user_message" not in ret:
             logger.warning(
                 f"Built-in review for section {self.current_section} didn't return a new_system_message or "
-                f"new_initial_user_message.  Skipping retry."
+                f"new_initial_user_message.  Skipping retry.  {ret}"
             )
             return None
-        if ret["new_system_message"] == self.system_message and ret['new_initial_user_message'] == self.initial_user_message:
+        if (
+            ret["new_system_message"] == self.system_message
+            and ret["new_initial_user_message"] == self.initial_user_message
+        ):
             logger.warning(
                 f"Built-in review for section {self.current_section} didn't changeany messages.  Skipping retry."
             )

@@ -25,6 +25,7 @@ Features and Functionalities:
 
 import asyncio
 import logging
+import random
 import re
 import time
 from typing import Optional, Dict, List, Any, Tuple
@@ -150,35 +151,38 @@ async def ask_split(
 
 
 def quick_ask(
-        prompt,
-        model_name,
-        max_tokens=None,
-        temperature=None,
-        seed=777,
-        verbose=False,
-        json_output=False,  # model_name="gpt-4-1106-preview"
-        max_retries=3,
-        wait_between_retries=10,
-        timeout=90,
-        time_increase=30,
-        model_url: Optional[str] = None,
-        token_counter: Optional[TokenCounter] = None,
+    prompt,
+    model_name,
+    max_tokens=None,
+    temperature=None,
+    seed=777,
+    verbose=False,
+    json_output=False,  # model_name="gpt-4-1106-preview"
+    max_retries=3,
+    wait_between_retries=10,
+    timeout=90,
+    time_increase=30,
+    model_url: Optional[str] = None,
+    token_counter: Optional[TokenCounter] = None,
 ):
-    return asyncio.run(quick_ask(
-        prompt,
-        model_name,
-        max_tokens,
-        temperature,
-        seed,
-        verbose,
-        json_output,
-        max_retries,
-        wait_between_retries,
-        timeout,
-        time_increase,
-        model_url,
-        token_counter,
-    ))
+    return asyncio.run(
+        quick_ask(
+            prompt,
+            model_name,
+            max_tokens,
+            temperature,
+            seed,
+            verbose,
+            json_output,
+            max_retries,
+            wait_between_retries,
+            timeout,
+            time_increase,
+            model_url,
+            token_counter,
+        )
+    )
+
 
 async def quick_ask_async(
     prompt,
@@ -232,16 +236,16 @@ async def quick_ask_async(
                 response_format = None
 
             chat_completion = await cached_chat_completion(
-                    token_counter=token_counter,
-                    base_url=model_url,
-                    messages=assemble_chat_messages(prompt),
-                    model=model_name,
-                    temperature=temperature,
-                    max_tokens=max_tokens,
-                    seed=seed,
-                    response_format=response_format,
-                    timeout=timeout,
-                )
+                token_counter=token_counter,
+                base_url=model_url,
+                messages=assemble_chat_messages(prompt),
+                model=model_name,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                seed=seed,
+                response_format=response_format,
+                timeout=timeout,
+            )
             response = chat_completion.content
 
             if verbose:
