@@ -2,9 +2,29 @@
 To run CELI against the **HumanEval** benchmark, use the following JobDescription (probably set in your .env file): 
 - Make sure your .env is set up correctly (look at .env.example) and set `JOB_DESCRIPTION=celi_framework.examples.human_eval.job_description.job_description` specifically.
 - From a terminal, and from the human_eval project directory, run `python main.py`. This will output a json file (with timestamp) with the answers in human_eval/target/celi_output/drafts. That's the "output file".
-- To see what score you got, from a terminal, run `python eval.py <output file>` for windows, or `python eval_osx.py <output file>` for OS X (and probably Linux).
+- To see what score you got, from a terminal, run `python eval.py <output file>`
+
+```bash
+python -m celi_framework.main   \
+  --job-description=celi_framework.examples.human_eval.job_description.job_description   \
+  --primary-model-name=gpt-4o-mini \
+  --token-budget=30000000
+```
+
+```bash
+python -m celi_framework.main   \
+  --job-description=celi_framework.examples.human_eval.job_description.job_description   \
+  --primary-model-name=gpt-4o-mini \
+  --tool-config='{"single_example":"HumanEval/143"}' \
+  --token-budget=30000000
+```
+
 
 # Results
+
+With gpt-4o-mini
+138 correct out of 157: 87.9%
+Unanswered: 7 - resulting in 84.15%
 
 With gpt-4-0125-preview
 150 correct out of 163: 92.02%

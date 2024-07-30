@@ -3,6 +3,7 @@ import copy
 import json
 import logging
 import os
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -39,6 +40,7 @@ async def run_test(celi_config: CELIConfig, example: str, target: str):
     else:
         config = copy.deepcopy(celi_config)
         from celi_framework.examples.wikipedia.job_description import job_description
+
         config.job_description = job_description
         config.tool_implementations = WikipediaToolImplementations(
             example, target, ignore_updates=True
@@ -47,7 +49,10 @@ async def run_test(celi_config: CELIConfig, example: str, target: str):
         logger.debug(f"Evaluating {result_file_name}")
         draft_doc_path = config.tool_implementations.draft_doc
         draft_doc_sections = read_json_from_file(draft_doc_path)
-        draft_doc = "\n".join(f"{k}\n{v}" for k, v in sorted(draft_doc_sections.items(), key=lambda x: int(x[0])))
+        draft_doc = "\n".join(
+            f"{k}\n{v}"
+            for k, v in sorted(draft_doc_sections.items(), key=lambda x: int(x[0]))
+        )
         result = await evaluate(draft_doc, target)
         logger.debug("Evaluation complete")
         result_out = {
@@ -87,10 +92,14 @@ async def evaluate(generated_doc: str, target_url: str):
 
     result = await quick_ask_async(prompt, "gpt-4o")
 
-    eval_score_list = [int(line[6:]) for line in result.split('\n') if line.startswith("SCORE: ")]
+    eval_score_list = [
+        int(re.sub(r"[^0-9]", "", line.split(" ")[-1]))
+        for line in result.split("\n")
+        if "SCORE:" in line
+    ]
     assert len(eval_score_list) == 1, f"Eval didn't return valid output: {result}"
     eval_score = eval_score_list[0]
-    return {"eval_score": eval_score, 'eval_rationale': result}
+    return {"eval_score": eval_score, "eval_rationale": result}
 
 
 if __name__ == "__main__":
@@ -99,7 +108,10 @@ if __name__ == "__main__":
 
     test_sets = read_json_from_file(Path(__file__).parent / "test_sets.json")
     results = [
-        {"test_set": test_set_name, **asyncio.run(run_test(celi_config, example, target), debug=True)}
+        {
+            "test_set": test_set_name,
+            **asyncio.run(run_test(celi_config, example, target), debug=True),
+        }
         for test_set_name, test_set in test_sets.items()
         for example in test_set
         for target in test_set
@@ -107,7 +119,6 @@ if __name__ == "__main__":
     ]
     ret = pd.DataFrame.from_records(results)
     print(ret)
-    average_eval_scores = ret.groupby('test_set')['eval_score'].mean()
+    average_eval_scores = ret.groupby("test_set")["eval_score"].mean()
     print(average_eval_scores)
     print(f"Average eval score: {round(ret['eval_score'].mean(),2)}")
-

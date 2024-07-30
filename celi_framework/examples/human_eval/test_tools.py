@@ -43,7 +43,7 @@ def test_run_tests():
     for ix in range(tests.shape[0]):
         example = tests.iloc[ix, :]
         code = example["prompt"] + "\n" + example["canonical_solution"]
-        assert tools._run_official_tests(example["task_id"], code) is None
+        assert tools._run_official_tests(example["task_id"], code) == ""
 
 
 def test_run_tests_invalid_code():
@@ -102,3 +102,14 @@ def test_failure():
     ret = tools.run_tests(task_id, func, test_func)
     assert "Test case 5 failed" in ret
     assert "assert candidate([-1.0, -1.5, -2.0], 0.4) == True" in ret
+
+
+def test_failure_with_debug():
+    func = 'from typing import List\n\ndef has_close_elements(numbers: List[float], threshold: float) -> bool:\n    """ Check if in given list of numbers, are any two numbers closer to each other than\n    given threshold.\n    """\n    for i in range(len(numbers)):\n        for j in range(i + 1, len(numbers)):\n            if abs(numbers[i] - numbers[j]) < threshold:\n                return True\n    return False'
+    task_id = "HumanEval/0"
+    test_func = 'def check(candidate):\n    print("debug message")\n    # Test case 1: Numbers far apart\n    assert candidate([1.0, 2.0, 3.0], 0.5) == False, "Test case 1 failed"\n    \n    # Test case 2: Numbers closer than threshold\n    assert candidate([1.0, 2.8, 3.0, 4.0, 5.0, 2.0], 0.3) == True, "Test case 2 failed"\n    \n    # Test case 3: Empty list\n    assert candidate([], 0.5) == False, "Test case 3 failed"\n    \n    # Test case 4: All elements the same\n    assert candidate([2.0, 2.0, 2.0], 0.1) == True, "Test case 4 failed"\n    \n    # Test case 5: Negative numbers\n    assert candidate([-1.0, -1.5, -2.0], 0.4) == True, "Test case 5 failed"\n    \n    # Test case 6: Numbers close to threshold\n    assert candidate([0.1, 0.2, 0.4], 0.1) == False, "Test case 6 failed"'
+    tools = HumanEvalTools()
+    ret = tools.run_tests(task_id, func, test_func)
+    assert "Test case 5 failed" in ret
+    assert "assert candidate([-1.0, -1.5, -2.0], 0.4) == True" in ret
+    assert "debug message" in ret

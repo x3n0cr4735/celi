@@ -1,4 +1,6 @@
+import contextlib
 import datetime
+import io
 import json
 import logging
 import multiprocessing
@@ -46,6 +48,7 @@ class HumanEvalTools(ToolImplementations):
         self.last_task_id = None
 
     def get_schema(self) -> Dict[str, str]:
+        """This is called by the CELI infrastructure.  It should not be used as a tool."""
         ret = {
             k: v
             for k, v in zip(self.tests.index, self.tests["entry_point"])
@@ -103,6 +106,13 @@ class HumanEvalTools(ToolImplementations):
         return self.run_tests(task_id, func, test_func)
 
     def run_tests(self, task_id: str, func: str, test_func: str):
+        """Runs the tests on a HumanEval example.
+
+        Args:
+            task_id (str): The task id for which to run tests.
+            func (str): Code for the implemented function
+            test_func (str): The code for the `check` function.  This function should take one positional argument, the function to test.
+        """
         self.last_task_id = task_id
         self.last_func = func
         self.last_test_func = test_func
@@ -116,13 +126,17 @@ class HumanEvalTools(ToolImplementations):
 
         try:
             # Wait for the process to finish, with a timeout of 3 seconds
+            # logger.debug("Waiting 3 seconds for process to finish")
             p.join(timeout=3)
             if p.is_alive():
                 # If the process is still alive after 3 seconds, terminate it
+                # logger.debug("Terminating process that ran too long")
                 p.terminate()
                 p.join()
                 return "Function execution timed out"
+            # logger.debug("Retrieving result")
             result = result_queue.get()
+            # logger.debug("Retrieved result")
             return result
         finally:
             result_queue.close()
@@ -146,23 +160,33 @@ class HumanEvalTools(ToolImplementations):
         # logger.debug(f"Evaluating {task_id}:\n{func}\n{test_func}")
 
         def safe_exec(code: str, error_prefix: str):
+            output_buffer = io.StringIO()
             try:
-                exec(code, local_namespace, local_namespace)
+                with contextlib.redirect_stdout(output_buffer):
+                    exec(code, local_namespace, local_namespace)
             except AssertionError as e:
+                output = output_buffer.getvalue()
                 tb = traceback.extract_tb(e.__traceback__)
                 last_tb = tb[-1]
                 if last_tb.name == "check":
-                    line = test_func.split("\n")[last_tb.lineno - 1]
-                    raise SafeExecException(
-                        f"The function failed a check:\n{e}\n{line}"
-                    )
+                    func_lines = test_func.split("\n")
+                    if last_tb.lineno >= 1 and last_tb.lineno - 1 < len(func_lines):
+                        line = func_lines[last_tb.lineno - 1]
+                        raise SafeExecException(
+                            f"{output}\nThe function failed a check:\n{e}\n{line}"
+                        )
+                    else:
+                        raise SafeExecException(
+                            f"{output}\nFunc:\n{test_func}\nHas no line {last_tb.lineno-1}\nTraceback{tb}"
+                        )
                 else:
                     raise SafeExecException(
-                        f"An assert failed in the function.\n{e}\n{tb}"
+                        f"{output}\nAn assert failed in the function.\n{e}\n{tb}"
                     )
             except Exception as e:
                 tb = traceback.extract_tb(e.__traceback__)
                 raise SafeExecException(f"{error_prefix}:\n{e}\n{tb}")
+            return output_buffer.getvalue()
 
         try:
             safe_exec(func, "There was an error in your function definition")
@@ -178,6 +202,6 @@ class HumanEvalTools(ToolImplementations):
                 return "Your test code didn't define a 'check' function."
 
             # Now run the checks
-            safe_exec(f"check({entry_point})", "An exception was thrown")
+            return safe_exec(f"check({entry_point})", "An exception was thrown")
         except SafeExecException as e:
             return e.args[0]

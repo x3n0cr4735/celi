@@ -3,7 +3,7 @@ from celi_framework.examples.human_eval.tools import HumanEvalTools
 
 task_library = [
     Task(
-        task_name="Get the prompt for this task",
+        task_name="Get the prompt",
         details={
             "description": "Find the coding prompt for the current section by calling get_prompt",
         },
@@ -22,22 +22,32 @@ task_library = [
                 assert add_two_numbers(-1, 1) == 0
                 assert add_two_numbers(1.5, 1) == 2.5
             
-            Think through edge cases and different types of inputs that might be passed to the function.            
+            When writing test cases, think through edge cases and different types of inputs that might be passed to the function.
+            Some functions that may seen very simple have a trick to them.  
+            When mapping from a real world description of a problem to the algorithm, make sure you have the situation modeled correctly.
+            Be sure the function behaves correctly when numbers are integers or floats.
+            Be sure to handle negative numbers appropriately.
+            If you have a test case that is failing, write out the intermediate steps involved in that test case and see
+            if that explains why your implementation is failing.
+            If you need to debug, you can add print statements into the functions you pass to run_tests. 
+            Think about issue like empty inputs and multiple delimiters.  
+            
+            Remember that check must take the a `candidate` argument that is the function to test.         
             """,
         },
     ),
     Task(
-        task_name="Write code and tests",
+        task_name="Write and test code",
         details={
             "description": """
             In this task you iteratively refine your implementation and test cases.   
             Decide how to implement the function and call run_tests to check your implementation, passing in the code 
-            and tests. If the tests don't pass, check both your implementation and the test cases and decide which needs 
+            and tests. Make sure to include all required imports.   If the tests don't pass, check both your implementation 
+            and the test cases and decide which needs 
             to be adjusted (or both). Don't assume the test cases are correct, review the problem specification and 
             adjust if necessary.  Also, feel free to add more tests.  
             Keep going as long as you are making progress, but if 
-            you can't get all the tests to pass after a few tries, save your best effort result and move on to the 
-            next problem.""",
+            you can't get all the tests to pass after a few tries, just save your output and complete.""",
         },
     ),
     Task(
@@ -54,41 +64,21 @@ task_library = [
 general_comments = """
 ============
 GENERAL COMMENTS:
+Work through the listed tasks one by one.  Explicitly note which task you are working on.
 Do not return an empty response.
-
-START WITH THE FIRST SECTION. ONLY DO THE NEXT UNCOMPLETED TASK (ONLY ONE TASK AT A TIME).
-EXPLICITLY print out the current section identifier.
-EXPLICITLY print out whether the last task completed successfully or not.
-EXPLICITLY print out the task you are completing currently.
-EXPLICITLY print out what task you will complete next.
-EXPLICITLY provide a detailed and appropriate response for EVERY TASK.
-
-IF TASK HAS NOT COMPLETED SUCCESSFULLY, TRY AGAIN WITH AN ALTERED RESPONSE.
-DO NOT REPEAT YOUR PREVIOUS MESSAGE.  
-IF YOU NOTICE A TASK (OR SERIES OF TASKS) BEING REPEATED ERRONEOUSLY, devise a plan to move on to the next uncompleted task.
-IF YOU ENCOUNTER REPEATED MESSAGES IN THE CHAT HISTORY, reorient yourself by revisiting the last task completed. Check that the sequence of past tasks progresses in logical order. If not, assess and adjust accordingly.
-If you are on the same task for a long time, and you are not making progress, just go to the next task and do the best you can.
-Do not ever return a tool or function call with the name 'multi_tool_use.parallel'
-
+Do not return a tool or function call with the name 'multi_tool_use.parallel'
 =============
 """
 
 
 initial_user_message = """
-Please see system message for instructions. Take note of which document section is currently being worked on and which 
-tasks have been completed. Complete the next uncompleted task.
-If you do not see any tasks completed for the current section, begin with Task #1.
-
-If all tasks for the current section have been completed, proceed to the next document section.
-If the new section draft is complete, ensure to 'Prepare for Next Document Section' as described in the tasks.
+Call get_prompt to get function signature.
 """
 
 pre_algo_instruct = """
-I am going to give you step by step instructions on how to solve problems in the HumanEval data set.  For each problem
-you are given a prompt which is a Python function signature and doc string.  Your job is to draft the function.  You have
-a tool available to run a set of tests and check the results.  You can run the tests and check the results as many times as you
-like, but make sure you don't get stuck in a loop of sending the same code to test over and over.  
-When you are done with your result, your final output is the function body.
+We are solving a problem in the HumanEval data set.  You are given a prompt which is a Python function signature and doc string.  
+Your job is to draft the function.
+
 For example.  If the prompt is;
 def add(a: int, b: int) -> int:
     "Add two numbers"
@@ -96,20 +86,23 @@ def add(a: int, b: int) -> int:
 Then your response would be:
     return a+b
 
+The tasks you need to do to solve the problem are:
 
-You will be given the examples one at a time.
 """
 
 post_algo_instruct = """
 """
 
 job_description = JobDescription(
-    role="You are a python coding AI agent. You have the ability to call outside functions.",
-    context="The test cases are:",
+    role="You are a python coding AI agent.",
+    context="",
     task_list=task_library,
     tool_implementations_class=HumanEvalTools,
     pre_context_instruct=pre_algo_instruct,
     post_context_instruct=post_algo_instruct,
+    monitor_instructions="""save_final_output must be called before calling complete_section.  
+    Also, run_tests should have been called on the implementation that was saved and it should have returned without 
+    any failures.""",
     general_comments=general_comments,
     initial_user_message=initial_user_message,
     include_schema_in_system_message=False,
