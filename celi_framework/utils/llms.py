@@ -166,7 +166,7 @@ def quick_ask(
     token_counter: Optional[TokenCounter] = None,
 ):
     return asyncio.run(
-        quick_ask(
+        quick_ask_async(
             prompt,
             model_name,
             max_tokens,
