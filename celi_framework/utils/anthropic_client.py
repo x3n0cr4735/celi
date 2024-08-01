@@ -40,7 +40,7 @@ def _convert_openai_to_anthropic_input(**kwargs):
     remaining_kwargs = {
         k: v
         for k, v in kwargs.items()
-        if k not in ["response_format", "seed", "tools", "tool_choice"]
+        if k not in ["response_format", "seed", "tools", "tool_choice"] and (k != "temperature" or v is not None)
     }
 
     def fix_tool(t):
