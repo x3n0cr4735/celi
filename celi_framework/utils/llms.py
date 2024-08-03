@@ -40,6 +40,7 @@ from celi_framework.utils.anthropic_client import (
     anthropic_chat_completion,
     anthropic_bedrock_chat_completion,
 )
+from celi_framework.utils.converse_client import converse_bedrock_chat_completion
 from celi_framework.utils.llm_cache import get_celi_llm_cache
 from celi_framework.utils.llm_response import LLMResponse
 from celi_framework.utils.log import app_logger
@@ -392,10 +393,15 @@ async def call_client(base_url: Optional[str], **kwargs):
             not base_url
         ), f"Changing the model URL is not supported for claude models.  {base_url}"
         return await anthropic_chat_completion(**kwargs)
-    elif model and model.startswith("anthropic"):
+    # elif model and model.startswith("anthropic"):
+    #     assert (
+    #         not base_url
+    #     ), f"Changing the model URL is not supported for claude models.  {base_url}"
+    #     return await anthropic_bedrock_chat_completion(**kwargs)
+    elif model and not model.startswith("gpt"):
         assert (
             not base_url
-        ), f"Changing the model URL is not supported for claude models.  {base_url}"
-        return await anthropic_bedrock_chat_completion(**kwargs)
+        ), f"Changing the model URL is not supported for Bedrock models.  {base_url}"
+        return await converse_bedrock_chat_completion(**kwargs)
     else:
         return await openai_chat_completion(base_url=base_url, **kwargs)
