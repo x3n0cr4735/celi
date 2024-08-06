@@ -3,6 +3,7 @@ import json
 import logging
 import os
 import boto3
+import aioboto3
 
 #from anthropic import AsyncAnthropic, AsyncAnthropicBedrock
 #from anthropic.types import ToolUseBlock, Message
@@ -14,12 +15,13 @@ logger = logging.getLogger(__name__)
 
 @functools.lru_cache()
 def get_converse_bedrock_client():
-    return boto3.client(service_name='bedrock-runtime', region_name='us-east-1')
+    session = aioboto3.Session(region_name = 'us-east-1')
+    return session
 
 async def converse_bedrock_chat_completion(**kwargs):
-    #logger.info(kwargs.get("model"))
     cleaned_kwargs = _convert_openai_to_converse_input(**kwargs)
-    resp = get_converse_bedrock_client().converse(**cleaned_kwargs)
+    async with get_converse_bedrock_client().client('bedrock-runtime') as client:
+        resp = await client.converse(**cleaned_kwargs)
     return _parse_converse_response(resp)
 
 def _convert_openai_to_converse_input(**kwargs):
