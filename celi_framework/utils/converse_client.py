@@ -14,13 +14,22 @@ logger = logging.getLogger(__name__)
 
 
 @functools.lru_cache()
-def get_converse_bedrock_client():
-    session = aioboto3.Session(region_name = 'us-east-1')
+def get_converse_bedrock_client(model_name):
+    if model_name in {
+        'anthropic.claude-3-opus-20240229-v1:0',
+        'meta.llama3-1-8b-instruct-v1:0',
+        'meta.llama3-1-70b-instruct-v1:0',
+        'meta.llama3-1-405b-instruct-v1:0',
+        'mistral.mistral-large-2407-v1:0'
+    }:
+        session = aioboto3.Session(region_name = 'us-west-1')
+    else:
+        session = aioboto3.Session(region_name = 'us-east-1')
     return session
 
 async def converse_bedrock_chat_completion(**kwargs):
     cleaned_kwargs = _convert_openai_to_converse_input(**kwargs)
-    async with get_converse_bedrock_client().client('bedrock-runtime') as client:
+    async with get_converse_bedrock_client(kwargs.get('model')).client('bedrock-runtime') as client:
         resp = await client.converse(**cleaned_kwargs)
     return _parse_converse_response(resp)
 
