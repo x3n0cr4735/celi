@@ -22,7 +22,7 @@ def get_converse_bedrock_client(model_name):
         'meta.llama3-1-405b-instruct-v1:0',
         'mistral.mistral-large-2407-v1:0'
     }:
-        session = aioboto3.Session(region_name = 'us-west-1')
+        session = aioboto3.Session(region_name = 'us-west-2')
     else:
         session = aioboto3.Session(region_name = 'us-east-1')
     return session
