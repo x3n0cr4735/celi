@@ -10,15 +10,15 @@
  <!-- start elevator-pitch -->
 # CELI: A Framework for Controller-Embedded Language (Model) Interactions
 
-**CELI** (Controller-Embedded Language (Model) Interactions, pronounced 'Kelly') is a framework that automates knowledge work by integrating LLM controllers into task workflows. It offers:
+**CELI** (Controller-Embedded Language (Model) Interactions, pronounced 'Kelly') is a framework that integrates LLM controllers to enhance and automate a wide range of tasks and processes. It offers:
 
+- 🛠️ **Versatile Application:** Handles diverse tasks such as automated document generation, data pipelines, building robust software, and more.
 - 🧠 **Intelligent Automation:** Empowers users to strategically integrate LLMs into complex projects.
 - 🔄 **Dynamic Adaptability:** Adjusts strategies in real-time based on context and feedback.
-- 🛠️ **Versatile Application:** From code generation to data analysis, CELI tackles diverse knowledge tasks.
 - 📈 **Scalable Architecture:** Efficiently handles projects of all sizes, from quick scripts to enterprise-level applications.
 - 🔧 **Customizable Core:** Allows developers to tailor CELI's capabilities to specific industry needs.
 
-Whether you're automating software development workflows or streamlining complex data processing pipelines, CELI provides a flexible, powerful framework to enhance your productivity.
+Whether you're automating document generation, streamlining complex data processing pipelines, or hardening software applications, CELI provides a flexible, powerful framework to enhance your productivity.
 
 🔗 [Join our Discord](https://discord.gg/Cr4JKKFH2X) | 🔗 [Read our Docs](https://celi.readthedocs.io/en/latest/)
 
