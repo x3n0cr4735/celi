@@ -81,7 +81,8 @@ def _convert_openai_to_anthropic_input(**kwargs):
     non_system_messages = [m for m in kwargs["messages"] if m["role"] != "system"]
     for m in non_system_messages:
         clean_m = (
-            {"role": "user", "content": m["content"]} if m["role"] == "function" else m
+            {"role": "user",
+             "content": f"<ToolUseResult>\n{m['content']}</ToolUseResult>"} if m["role"] == "function" else m
         )
         if clean_m["role"] != current_role:
             deduped_messages.append(clean_m)
@@ -97,7 +98,7 @@ def _convert_openai_to_anthropic_input(**kwargs):
     # Can't end with an 'assistant' message when using tool calls.
     if deduped_messages[-1]["role"] == "assistant":
         deduped_messages.append(
-            {"role": "user", "content": "Please continue executing the tasks."}
+            {"role": "user", "content": "Think step by step and then make the tool call you need to accomplish the task."}
         )
 
     # Max tokens has to be specified
@@ -132,6 +133,7 @@ def _map_stop_reason(stop_reason):
 
 
 def _parse_anthropic_response(resp: Message):
+    #logger.debug(f"Raw anthropic response: {resp}")
     text = "\n".join(_.text for _ in resp.content if _.type == "text")
 
     def convert_tool(t: ToolUseBlock):

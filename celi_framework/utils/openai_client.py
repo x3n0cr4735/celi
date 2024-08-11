@@ -1,6 +1,7 @@
 """Supports OpenAI or any other LLMs that implement the OpenAI aAPI"""
 
 import functools
+import logging
 import os
 from typing import Optional
 
@@ -9,9 +10,11 @@ from openai.types.chat import ChatCompletion, ChatCompletionMessageToolCall
 
 from celi_framework.utils.llm_response import LLMResponse, ToolCall
 
+logger = logging.getLogger(__name__)
 
 @functools.lru_cache()
 def get_openai_client(base_url: Optional[str] = None):
+    logger.info("Creating OpenAI client")
     return openai.AsyncOpenAI(
         base_url=base_url, api_key=os.environ.get("OPENAI_API_KEY", None)
     )
@@ -21,6 +24,7 @@ async def openai_chat_completion(base_url: str, **kwargs):
     resp = await get_openai_client(
         base_url=base_url,
     ).chat.completions.create(**kwargs)
+    #logger.debug(f"Received LLM response {resp}")
     return llm_response_from_chat_completion(resp)
 
 

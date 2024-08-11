@@ -48,6 +48,7 @@ from celi_framework.utils.openai_client import (
     llm_response_from_chat_completion,
 )
 from celi_framework.utils.token_counters import TokenCounter
+import anthropic
 
 logger = logging.getLogger(__name__)
 
@@ -81,7 +82,7 @@ async def ask_split(
     """
     err_cnt = 0
     last_error = None
-    app_logger.info(f"Calling LLM {model_name.upper()}", extra={"color": "yellow"})
+    app_logger.info(f"Calling LLM {model_name}", extra={"color": "yellow"})
     defaulted_max_tokens = max_tokens if max_tokens != 0 else None
     while err_cnt < max_retries:
         try:
@@ -135,10 +136,13 @@ async def ask_split(
 
         except (
             openai.APIError,
+            anthropic.BadRequestError,
             HTTPError,
             ConnectionError,
             TimeoutError,
         ) as e:
+            if isinstance(e, anthropic.BadRequestError) and 'Output blocked by content filtering policy' not in str(e):
+                raise e
             err_cnt += 1
             app_logger.exception(f"Error attempt {err_cnt}")
             app_logger.warning(f"Error: Prompt was {user_prompt}")
@@ -217,9 +221,6 @@ async def quick_ask_async(
     """
     err_cnt = 0
     last_error = None
-
-    # Assuming the beginning parts of the function are unchanged
-    ...
 
     while err_cnt < max_retries:
         try:

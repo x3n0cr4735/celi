@@ -244,7 +244,7 @@ class SectionProcessor:
         except JSONDecodeError as e:
             logger.warning(
                 f"Built-in review for section {self.current_section} didn't return valid JSON.  {e}\n"
-                "Response was: {text_response}"
+                f"Response was: {text_response}"
             )
             ret = {}
 
