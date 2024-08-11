@@ -14,6 +14,13 @@ logger = logging.getLogger(__name__)
 _global_llm_cache = None
 
 
+async def disable_llm_caching():
+    global _global_llm_cache
+    if _global_llm_cache:
+        await _global_llm_cache.close()
+    _global_llm_cache = None
+
+
 def enable_llm_caching(simulate_live: bool = False):
     """Enables LLM caching for all calls using the celi_framework.utils.llms functions.
 

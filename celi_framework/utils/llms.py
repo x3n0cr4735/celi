@@ -30,6 +30,7 @@ import re
 import time
 from typing import Optional, Dict, List, Any, Tuple
 
+import anthropic
 import openai
 from openai import RateLimitError
 from openai.types.chat import ChatCompletion
@@ -48,7 +49,6 @@ from celi_framework.utils.openai_client import (
     llm_response_from_chat_completion,
 )
 from celi_framework.utils.token_counters import TokenCounter
-import anthropic
 
 logger = logging.getLogger(__name__)
 
@@ -74,6 +74,7 @@ async def ask_split(
     model_url: Optional[str] = None,
     json_mode: bool = False,
     token_counter: Optional[TokenCounter] = None,
+    force_tool_use: bool = False,
 ):
     """
     Sends a prompt to the OpenAI API and returns the response, with retries on error.
@@ -88,45 +89,34 @@ async def ask_split(
         try:
             if err_cnt > 1:
                 app_logger.warning(f"Attempt {err_cnt + 1}:")
-            if model_url is None:
-                chat_completion = await cached_chat_completion(
-                    token_counter=token_counter,
-                    base_url=model_url,
-                    messages=[
-                        {"role": "system", "content": system_message},
+            tool_choice = (
+                None
+                if tool_descriptions is None
+                else "required" if force_tool_use else "auto"
+            )
+            chat_completion = await cached_chat_completion(
+                token_counter=token_counter,
+                base_url=model_url,
+                messages=[
+                    {"role": "system", "content": system_message},
+                ]
+                + assemble_chat_messages(user_prompt),
+                tools=(
+                    [
+                        {"type": "function", "function": _.model_dump()}
+                        for _ in tool_descriptions
                     ]
-                    + assemble_chat_messages(user_prompt),
-                    tools=(
-                        [
-                            {"type": "function", "function": _.model_dump()}
-                            for _ in tool_descriptions
-                        ]
-                        if tool_descriptions
-                        else None
-                    ),
-                    response_format={"type": "json_object"} if json_mode else None,
-                    tool_choice="auto" if tool_descriptions else None,
-                    model=model_name,
-                    temperature=temperature,
-                    max_tokens=defaulted_max_tokens,
-                    seed=seed,
-                    timeout=timeout,
-                )
-            else:
-                chat_completion = await cached_chat_completion(
-                    token_counter=token_counter,
-                    base_url=model_url,
-                    messages=[
-                        {"role": "system", "content": system_message},
-                    ]
-                    + assemble_chat_messages(user_prompt),
-                    response_format={"type": "json_object"} if json_mode else None,
-                    model=model_name,
-                    temperature=temperature,
-                    max_tokens=defaulted_max_tokens,
-                    seed=seed,
-                    timeout=timeout,
-                )
+                    if tool_descriptions
+                    else None
+                ),
+                tool_choice=tool_choice,
+                response_format={"type": "json_object"} if json_mode else None,
+                model=model_name,
+                temperature=temperature,
+                max_tokens=defaulted_max_tokens,
+                seed=seed,
+                timeout=timeout,
+            )
 
             if verbose:
                 app_logger.info(
@@ -141,8 +131,6 @@ async def ask_split(
             ConnectionError,
             TimeoutError,
         ) as e:
-            if isinstance(e, anthropic.BadRequestError) and 'Output blocked by content filtering policy' not in str(e):
-                raise e
             err_cnt += 1
             app_logger.exception(f"Error attempt {err_cnt}")
             app_logger.warning(f"Error: Prompt was {user_prompt}")
@@ -399,4 +387,7 @@ async def call_client(base_url: Optional[str], **kwargs):
         ), f"Changing the model URL is not supported for claude models.  {base_url}"
         return await anthropic_bedrock_chat_completion(**kwargs)
     else:
+        # Tools are not yet implemented for vLLM models.
+        if base_url is not None:
+            kwargs = {k: v for k, v in kwargs if k not in ["tools", "tool_choice"]}
         return await openai_chat_completion(base_url=base_url, **kwargs)

@@ -12,6 +12,7 @@ from celi_framework.utils.llm_response import LLMResponse, ToolCall
 
 logger = logging.getLogger(__name__)
 
+
 @functools.lru_cache()
 def get_openai_client(base_url: Optional[str] = None):
     logger.info("Creating OpenAI client")
@@ -21,10 +22,23 @@ def get_openai_client(base_url: Optional[str] = None):
 
 
 async def openai_chat_completion(base_url: str, **kwargs):
+    def clean_msg(m):
+        return (
+            {
+                "role": "function",
+                "name": m["name"],
+                "content": f"Call to function {m['name']} with arguments {m['arguments']} returned\n{m['return_value']}",
+            }
+            if m["role"] == "function"
+            else m
+        )
+
+    cleaned_messages = [clean_msg(m) for m in kwargs["messages"]]
+    cleaned_args = {**kwargs, "messages": cleaned_messages}
     resp = await get_openai_client(
         base_url=base_url,
-    ).chat.completions.create(**kwargs)
-    #logger.debug(f"Received LLM response {resp}")
+    ).chat.completions.create(**cleaned_args)
+    # logger.debug(f"Received LLM response {resp}")
     return llm_response_from_chat_completion(resp)
 
 

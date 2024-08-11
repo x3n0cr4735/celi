@@ -123,14 +123,6 @@ IF YOU ENCOUNTER REPEATED MESSAGES IN THE CHAT HISTORY, reorient yourself by rev
 If you are on the same task for a long time, and you are not making progress, just go to the next task and do the best you can.
 Do not ever return a tool or function call with the name 'multi_tool_use.parallel'
 
-When you want to call a function (all functions are tools) or use a tool, you must indicate that by returning an LLM response 
-with a 'stop_reason' of 'tool_use'.  This is the only type of function call or tool use you should do.
-You can't just say you are calling a function, the LLM response must have a stop_reason of 'tool_use' in
-order to make the call happen.
-
-NEVER CREATE YOUR OWN ANSWER TO A FUNCTION OR TOOL CALL.
-Results from tool calls that you make will be returned to you in later prompts inside a <ToolUseResult/> tag.
-NEVER GENERATE A RESPONSE THAT <ToolUseResult/> tag  
 =============
 """
 
@@ -144,7 +136,7 @@ If all tasks for the current section have been completed, make a call to write t
 
 pre_algo_instruct = """
 I am going to give you step by step instructions on how to draft a section of a new wiki page.
-Below you will find a json object that contains the index including the section that need to be drafted.
+Below you will find a json object that contains the table of contents for the whole document.
 The keys of the json are the section numbers of the document. The values include the heading title.
 
 The subsections in the target document will be different and should be based on the information in the target document.

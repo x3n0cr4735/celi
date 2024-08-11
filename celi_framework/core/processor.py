@@ -32,6 +32,7 @@ class ProcessRunner:
         llm_cache: bool,
         primary_model_name: str,
         max_tokens: int,
+        force_tool_every_n: int,
         callback: Optional[CELIUpdateCallback] = None,
         model_url: Optional[str] = None,
         token_counter: Optional[TokenCounter] = None,
@@ -40,6 +41,7 @@ class ProcessRunner:
         self.primary_model_name = primary_model_name
         self.model_url = model_url
         self.max_tokens = max_tokens
+        self.force_tool_every_n = force_tool_every_n
         self.token_counter = token_counter
         self.callback = callback
         self.sequential = sequential
@@ -105,6 +107,7 @@ class ProcessRunner:
                     model_url=self.model_url,
                     max_tokens=self.max_tokens,
                     token_counter=self.token_counter,
+                    force_tool_every_n=self.force_tool_every_n,
                 )
                 for _ in self.sections_to_be_completed
             ]

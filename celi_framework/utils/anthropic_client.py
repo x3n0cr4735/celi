@@ -2,7 +2,9 @@ import functools
 import json
 import logging
 import os
+from json import JSONDecodeError
 
+import boto3
 from anthropic import AsyncAnthropic, AsyncAnthropicBedrock
 from anthropic.types import ToolUseBlock, Message
 
@@ -13,7 +15,16 @@ logger = logging.getLogger(__name__)
 
 @functools.lru_cache()
 def get_anthropic_bedrock_client():
-    return AsyncAnthropicBedrock()
+    if "AWS_PROFILE" in os.environ:
+        session = boto3.Session(profile_name=os.environ["AWS_PROFILE"])
+        credentials = session.get_credentials()
+        args = {
+            "aws_access_key": credentials.access_key,
+            "aws_secret_key": credentials.secret_key,
+        }
+    else:
+        args = {}
+    return AsyncAnthropicBedrock(**args)
 
 
 @functools.lru_cache()
@@ -23,6 +34,7 @@ def get_anthropic_client():
 
 async def anthropic_bedrock_chat_completion(**kwargs):
     cleaned_kwargs = _convert_openai_to_anthropic_input(**kwargs)
+    # logger.debug(f"Anthropic input:\n{cleaned_kwargs}")
     resp = await get_anthropic_bedrock_client().messages.create(**cleaned_kwargs)
     return _parse_anthropic_response(resp)
 
@@ -40,7 +52,8 @@ def _convert_openai_to_anthropic_input(**kwargs):
     remaining_kwargs = {
         k: v
         for k, v in kwargs.items()
-        if k not in ["response_format", "seed", "tools", "tool_choice"] and (k != "temperature" or v is not None)
+        if k not in ["response_format", "seed", "tools", "tool_choice"]
+        and (k != "temperature" or v is not None)
     }
 
     def fix_tool(t):
@@ -60,7 +73,15 @@ def _convert_openai_to_anthropic_input(**kwargs):
 
     # Tool choice has a different format, and can only be specified if tools are present
     tool_choice = (
-        {"tool_choice": {"type": kwargs["tool_choice"]}}
+        {
+            "tool_choice": {
+                "type": (
+                    "any"
+                    if kwargs["tool_choice"] == "required"
+                    else kwargs["tool_choice"]
+                )
+            }
+        }
         if "tool_choice" in kwargs and "tools" in tools and len(tools["tools"]) > 0
         else {}
     )
@@ -80,10 +101,36 @@ def _convert_openai_to_anthropic_input(**kwargs):
     deduped_messages = []
     non_system_messages = [m for m in kwargs["messages"] if m["role"] != "system"]
     for m in non_system_messages:
-        clean_m = (
-            {"role": "user",
-             "content": f"<ToolUseResult>\n{m['content']}</ToolUseResult>"} if m["role"] == "function" else m
-        )
+        if m["role"] == "function":
+            original_content = deduped_messages[-1]["content"]
+            formatted_original_content = (
+                [{"type": "text", "text": original_content}] if original_content else []
+            )
+            try:
+                arg_dict = json.loads(m["arguments"])
+            except JSONDecodeError:
+                arg_dict = {"invalid_arguments": m["arguments"]}
+            deduped_messages[-1]["content"] = formatted_original_content + [
+                {
+                    "type": "tool_use",
+                    "id": m["id"],
+                    "name": m["name"],
+                    "input": arg_dict,
+                },
+            ]
+            clean_m = {
+                "role": "user",
+                "content": [
+                    {
+                        "type": "tool_result",
+                        "tool_use_id": m["id"],
+                        "content": m["return_value"],
+                        "is_error": m["is_error"],
+                    }
+                ],
+            }
+        else:
+            clean_m = {**m}
         if clean_m["role"] != current_role:
             deduped_messages.append(clean_m)
         else:
@@ -98,7 +145,10 @@ def _convert_openai_to_anthropic_input(**kwargs):
     # Can't end with an 'assistant' message when using tool calls.
     if deduped_messages[-1]["role"] == "assistant":
         deduped_messages.append(
-            {"role": "user", "content": "Think step by step and then make the tool call you need to accomplish the task."}
+            {
+                "role": "user",
+                "content": "Think step by step and then make the tool call you need to accomplish the task.",
+            }
         )
 
     # Max tokens has to be specified
@@ -133,7 +183,7 @@ def _map_stop_reason(stop_reason):
 
 
 def _parse_anthropic_response(resp: Message):
-    #logger.debug(f"Raw anthropic response: {resp}")
+    # logger.debug(f"Raw anthropic response: {resp}")
     text = "\n".join(_.text for _ in resp.content if _.type == "text")
 
     def convert_tool(t: ToolUseBlock):
