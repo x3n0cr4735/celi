@@ -1,5 +1,16 @@
 # Change Log
 
+## 0.3.6 (August 12, 2024)
+* Many changes to improve performance with Claude
+* Added a new command line option --force-tool-every-n
+* Fixes #91 - Anthropic model temp=None issues
+* Fixes #90 - quick_ask stack overflow
+* Made the builtin review more robust
+* Fixes #87 - missing new initial user message
+* Better logging of token budget errors
+* Changed pop_context to complete_section
+* Update Wikipedia example
+
 ## 0.3.5 (July 14, 2024)
 
 * Added `--sequential` option to turn off parallelization.
