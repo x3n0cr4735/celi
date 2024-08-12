@@ -81,6 +81,41 @@ def test_adjust_args_for_anthropic():
     }
 
 
+def test_filter_empty_text():
+    def make_args():
+        return {
+            "messages": [
+                {"role": "user", "content": "real prompt"},
+                {"role": "assistant", "content": ""},
+                {"role": "user", "content": "try again"},
+                {"role": "assistant", "content": "ok"},
+                {"role": "user", "content": "better"},
+            ],
+            "max_tokens": None,
+        }
+
+    input_args = make_args()
+    actual = _convert_openai_to_anthropic_input(**input_args)
+    assert input_args == make_args(), "Input was altered"
+    assert actual == {
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {"text": "real prompt", "type": "text"},
+                    {"text": "try again", "type": "text"},
+                ],
+            },
+            {
+                "role": "assistant",
+                "content": "ok",
+            },
+            {"role": "user", "content": "better"},
+        ],
+        "max_tokens": 4096,
+    }
+
+
 def test_adjust_dedup_user():
     def make_args():
         return {

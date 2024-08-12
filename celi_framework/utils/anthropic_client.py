@@ -94,9 +94,11 @@ def _convert_openai_to_anthropic_input(**kwargs):
                 # System message is a separate argument.
                 extract_system_messages.append(m["content"])
             case "user":
-                reformatted_messages.append(m)
+                if m["content"]:
+                    reformatted_messages.append(m)
             case "assistant":
-                reformatted_messages.append(m)
+                if m["content"]:
+                    reformatted_messages.append(m)
             case "function":
                 # Function calls get split into 2 messages, a call and a response.
                 try:
