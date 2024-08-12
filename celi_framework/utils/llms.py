@@ -269,7 +269,7 @@ async def quick_ask_async(
 
             app_logger.exception(f"Error: attempt {err_cnt}", extra={"color": "red"})
             app_logger.error(f"Error: Prompt was {prompt}")
-            asyncio.sleep(wait_between_retries)
+            await asyncio.sleep(wait_between_retries)
             if timeout and time_increase:
                 timeout += time_increase  # Note: Adjusting timeout may not affect the API call's internal timeout handling.
                 wait_between_retries += time_increase

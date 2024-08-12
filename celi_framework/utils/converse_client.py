@@ -86,6 +86,11 @@ def _convert_openai_to_converse_input(**kwargs):
     extract_system_messages = [m["content"] for m in kwargs["messages"] if m["role"] == "system"]
     assert len(extract_system_messages) <= 1, "Only one system message is allowed"
     system_message = extract_system_messages if extract_system_messages else []
+    system_message = [
+        {
+            "text": system_message[0]
+        }
+    ]
 
     # Can't have repeated 'user' messages:
     # Current "function" to a "user" message
