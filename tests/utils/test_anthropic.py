@@ -107,7 +107,10 @@ def test_adjust_dedup_user():
         "messages": [
             {
                 "role": "user",
-                "content": "instructions\n\nreal prompt",
+                "content": [
+                    {"text": "instructions", "type": "text"},
+                    {"text": "real prompt", "type": "text"},
+                ],
             },
             {
                 "role": "assistant",
@@ -127,6 +130,91 @@ def test_adjust_dedup_user():
                     {
                         "content": "function_return",
                         "tool_use_id": "tool_id_42",
+                        "type": "tool_result",
+                        "is_error": False,
+                    }
+                ],
+            },
+        ],
+        "max_tokens": 4096,
+    }
+
+
+def test_adjust_multiple_tool_calls():
+    def make_args():
+        return {
+            "messages": [
+                {"role": "user", "content": "real prompt"},
+                {"role": "assistant", "content": "result"},
+                {
+                    "role": "function",
+                    "name": "get_prompt",
+                    "id": "tool_id_42",
+                    "arguments": '{"task_id": "HumanEval/9"}',
+                    "return_value": "function_return",
+                    "is_error": False,
+                },
+                {
+                    "role": "function",
+                    "name": "get_prompt",
+                    "id": "tool_id_43",
+                    "arguments": '{"task_id": "HumanEval/10"}',
+                    "return_value": "function_return",
+                    "is_error": False,
+                },
+            ],
+            "max_tokens": None,
+        }
+
+    input_args = make_args()
+    actual = _convert_openai_to_anthropic_input(**input_args)
+    assert input_args == make_args(), "Input was altered"
+    assert actual == {
+        "messages": [
+            {
+                "role": "user",
+                "content": "real prompt",
+            },
+            {
+                "role": "assistant",
+                "content": [
+                    {"text": "result", "type": "text"},
+                    {
+                        "id": "tool_id_42",
+                        "input": {"task_id": "HumanEval/9"},
+                        "name": "get_prompt",
+                        "type": "tool_use",
+                    },
+                ],
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "content": "function_return",
+                        "tool_use_id": "tool_id_42",
+                        "type": "tool_result",
+                        "is_error": False,
+                    }
+                ],
+            },
+            {
+                "role": "assistant",
+                "content": [
+                    {
+                        "id": "tool_id_43",
+                        "input": {"task_id": "HumanEval/10"},
+                        "name": "get_prompt",
+                        "type": "tool_use",
+                    },
+                ],
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "content": "function_return",
+                        "tool_use_id": "tool_id_43",
                         "type": "tool_result",
                         "is_error": False,
                     }

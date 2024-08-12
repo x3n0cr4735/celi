@@ -86,61 +86,70 @@ def _convert_openai_to_anthropic_input(**kwargs):
         else {}
     )
 
-    # System message is a separate argument.
-    extract_system_messages = [
-        m["content"] for m in kwargs["messages"] if m["role"] == "system"
-    ]
+    extract_system_messages = []
+    reformatted_messages = []
+    for m in kwargs["messages"]:
+        match m["role"]:
+            case "system":
+                # System message is a separate argument.
+                extract_system_messages.append(m["content"])
+            case "user":
+                reformatted_messages.append(m)
+            case "assistant":
+                reformatted_messages.append(m)
+            case "function":
+                # Function calls get split into 2 messages, a call and a response.
+                try:
+                    arg_dict = json.loads(m["arguments"])
+                except JSONDecodeError:
+                    arg_dict = {"invalid_arguments": m["arguments"]}
+                func_call = {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "tool_use",
+                            "id": m["id"],
+                            "name": m["name"],
+                            "input": arg_dict,
+                        }
+                    ],
+                }
+                func_response = {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": m["id"],
+                            "content": m["return_value"],
+                            "is_error": m["is_error"],
+                        }
+                    ],
+                }
+                reformatted_messages.append(func_call)
+                reformatted_messages.append(func_response)
+            case x:
+                raise ValueError(f"Unknown role {x}")
+
     assert len(extract_system_messages) <= 1, "Only one system message is allowed"
     system_message = (
         {"system": extract_system_messages[0]} if extract_system_messages else {}
     )
 
-    # Can't have repeated 'user' messages:
-    # Current "function" to a "user" message
+    # Combine adjacent messages with the same role
     current_role = None
     deduped_messages = []
-    non_system_messages = [m for m in kwargs["messages"] if m["role"] != "system"]
-    for m in non_system_messages:
-        if m["role"] == "function":
+    for m in reformatted_messages:
+        if m["role"] != current_role:
+            deduped_messages.append({**m})
+            current_role = m["role"]
+        else:
             original_content = deduped_messages[-1]["content"]
-            formatted_original_content = (
-                [{"type": "text", "text": original_content}] if original_content else []
-            )
-            try:
-                arg_dict = json.loads(m["arguments"])
-            except JSONDecodeError:
-                arg_dict = {"invalid_arguments": m["arguments"]}
-            deduped_messages[-1]["content"] = formatted_original_content + [
-                {
-                    "type": "tool_use",
-                    "id": m["id"],
-                    "name": m["name"],
-                    "input": arg_dict,
-                },
-            ]
-            clean_m = {
-                "role": "user",
-                "content": [
-                    {
-                        "type": "tool_result",
-                        "tool_use_id": m["id"],
-                        "content": m["return_value"],
-                        "is_error": m["is_error"],
-                    }
-                ],
-            }
-        else:
-            clean_m = {**m}
-        if clean_m["role"] != current_role:
-            deduped_messages.append(clean_m)
-        else:
-            deduped_messages[-1] = {
-                **deduped_messages[-1],
-                "content": deduped_messages[-1]["content"]
-                + "\n\n"
-                + clean_m["content"],
-            }
-        current_role = clean_m["role"]
+            if isinstance(original_content, str):
+                original_content = [{"type": "text", "text": original_content}]
+            new_content = m["content"]
+            if isinstance(new_content, str):
+                new_content = [{"type": "text", "text": new_content}]
+            deduped_messages[-1]["content"] = original_content + new_content
 
     # Can't end with an 'assistant' message when using tool calls.
     if deduped_messages[-1]["role"] == "assistant":
