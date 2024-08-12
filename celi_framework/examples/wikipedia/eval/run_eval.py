@@ -51,7 +51,7 @@ async def run_test(celi_config: CELIConfig, example: str, target: str):
         draft_doc_sections = read_json_from_file(draft_doc_path)
         draft_doc = "\n".join(
             f"{k}\n{v}"
-            for k, v in sorted(draft_doc_sections.items(), key=lambda x: int(x[0]))
+            for k, v in sorted(draft_doc_sections.items(), key=lambda x: int(''.join(filter(str.isdigit, x[0]))))
         )
         result = await evaluate(draft_doc, target)
         logger.debug("Evaluation complete")
@@ -74,16 +74,25 @@ async def evaluate(generated_doc: str, target_url: str):
     )
     ground_truth_doc = format_content(target_dict)
 
-    prompt = f"""Your job is to compare a generated document versus a human-created reference.  Give a score of 0-100 
-    based on how well the LLM created document matches the original.  0 indicates the document is useless, and 100 
-    indicates that you'd prefer the generated document to the reference.  Begin your response by providing a reason and 
-    then have the final line print out the integer score between 0 adn 100.
+    prompt = f"""Your job is to compare a generated document versus a human-created reference.  Rate the document using
+    an integer from 0-6 using the scale below.
+
+    0 - Irrelevant: The AI document is completely off-topic or unusable.
+    1 - Very Poor: Major errors or missing information make the document largely ineffective.
+    2 - Insufficient: Significant elements are missing, and extensive revisions are needed.
+    3 - Marginal: Meets the basic requirements but contains several deficiencies.
+    4 - Satisfactory: Acceptable as a first draft but requires refinement.
+    5 - Comparable: Matches the quality and completeness of the ground truth document.
+    6 - Outstanding: Surpasses the ground truth in quality, detail, and presentation.
+    Have the scores be discrete (no floats)
+
+    Begin your response by providing a reason and then have the final line print out the integer score.
     
     <ExampleOutput>
     The document covers all the basic information adn is structured similarly, but lacks the compelling narrative
     of the original 
     
-    SCORE: 75
+    SCORE: 3
     </ExampleOutput>
     
     <GeneratedDocument>{generated_doc}</GeneratedDocument> 

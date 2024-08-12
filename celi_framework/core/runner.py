@@ -23,6 +23,7 @@ class CELIConfig:
     simulate_live: bool = False
     token_budget: int = 0
     sequential: bool = False
+    force_tool_every_n: int = 5
 
 
 def run_celi(celi_config: CELIConfig):
@@ -71,6 +72,7 @@ async def run_process_runner(celi_config):
             max_tokens=celi_config.max_tokens,
             token_counter=TokenCounter(celi_config.token_budget),
             sequential=celi_config.sequential,
+            force_tool_every_n=celi_config.force_tool_every_n,
         )
 
         if celi_config.llm_cache:

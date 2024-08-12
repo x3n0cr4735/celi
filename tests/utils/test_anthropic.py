@@ -8,15 +8,16 @@ from celi_framework.utils.anthropic_client import (
     _convert_openai_to_anthropic_input,
     _parse_anthropic_response,
 )
+from celi_framework.utils.llm_cache import disable_llm_caching, enable_llm_caching
 from celi_framework.utils.llm_response import LLMResponse, ToolCall, FunctionCall
-from celi_framework.utils.llms import ToolDescription
+from celi_framework.utils.llms import ToolDescription, ask_split
 
 logger = logging.getLogger(__name__)
 
 
 @pytest.mark.skip
 @pytest.mark.asyncio
-async def test_ask_split():
+async def test_anthropic_chat_completion():
     ret = await anthropic_chat_completion(
         messages=[{"role": "user", "content": "the quick brown fox jumps over the"}],
         model="claude-2.1",
@@ -80,16 +81,55 @@ def test_adjust_args_for_anthropic():
     }
 
 
+def test_filter_empty_text():
+    def make_args():
+        return {
+            "messages": [
+                {"role": "user", "content": "real prompt"},
+                {"role": "assistant", "content": ""},
+                {"role": "user", "content": "try again"},
+                {"role": "assistant", "content": "ok"},
+                {"role": "user", "content": "better"},
+            ],
+            "max_tokens": None,
+        }
+
+    input_args = make_args()
+    actual = _convert_openai_to_anthropic_input(**input_args)
+    assert input_args == make_args(), "Input was altered"
+    assert actual == {
+        "messages": [
+            {
+                "role": "user",
+                "content": [
+                    {"text": "real prompt", "type": "text"},
+                    {"text": "try again", "type": "text"},
+                ],
+            },
+            {
+                "role": "assistant",
+                "content": "ok",
+            },
+            {"role": "user", "content": "better"},
+        ],
+        "max_tokens": 4096,
+    }
+
+
 def test_adjust_dedup_user():
     def make_args():
         return {
             "messages": [
                 {"role": "user", "content": "instructions"},
                 {"role": "user", "content": "real prompt"},
+                {"role": "assistant", "content": "result"},
                 {
                     "role": "function",
                     "name": "get_prompt",
-                    "content": "function_return",
+                    "id": "tool_id_42",
+                    "arguments": '{"task_id": "HumanEval/9"}',
+                    "return_value": "function_return",
+                    "is_error": False,
                 },
             ],
             "max_tokens": None,
@@ -102,8 +142,119 @@ def test_adjust_dedup_user():
         "messages": [
             {
                 "role": "user",
-                "content": "instructions\n\nreal prompt\n\nfunction_return",
-            }
+                "content": [
+                    {"text": "instructions", "type": "text"},
+                    {"text": "real prompt", "type": "text"},
+                ],
+            },
+            {
+                "role": "assistant",
+                "content": [
+                    {"text": "result", "type": "text"},
+                    {
+                        "id": "tool_id_42",
+                        "input": {"task_id": "HumanEval/9"},
+                        "name": "get_prompt",
+                        "type": "tool_use",
+                    },
+                ],
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "content": "function_return",
+                        "tool_use_id": "tool_id_42",
+                        "type": "tool_result",
+                        "is_error": False,
+                    }
+                ],
+            },
+        ],
+        "max_tokens": 4096,
+    }
+
+
+def test_adjust_multiple_tool_calls():
+    def make_args():
+        return {
+            "messages": [
+                {"role": "user", "content": "real prompt"},
+                {"role": "assistant", "content": "result"},
+                {
+                    "role": "function",
+                    "name": "get_prompt",
+                    "id": "tool_id_42",
+                    "arguments": '{"task_id": "HumanEval/9"}',
+                    "return_value": "function_return",
+                    "is_error": False,
+                },
+                {
+                    "role": "function",
+                    "name": "get_prompt",
+                    "id": "tool_id_43",
+                    "arguments": '{"task_id": "HumanEval/10"}',
+                    "return_value": "function_return",
+                    "is_error": False,
+                },
+            ],
+            "max_tokens": None,
+        }
+
+    input_args = make_args()
+    actual = _convert_openai_to_anthropic_input(**input_args)
+    assert input_args == make_args(), "Input was altered"
+    assert actual == {
+        "messages": [
+            {
+                "role": "user",
+                "content": "real prompt",
+            },
+            {
+                "role": "assistant",
+                "content": [
+                    {"text": "result", "type": "text"},
+                    {
+                        "id": "tool_id_42",
+                        "input": {"task_id": "HumanEval/9"},
+                        "name": "get_prompt",
+                        "type": "tool_use",
+                    },
+                ],
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "content": "function_return",
+                        "tool_use_id": "tool_id_42",
+                        "type": "tool_result",
+                        "is_error": False,
+                    }
+                ],
+            },
+            {
+                "role": "assistant",
+                "content": [
+                    {
+                        "id": "tool_id_43",
+                        "input": {"task_id": "HumanEval/10"},
+                        "name": "get_prompt",
+                        "type": "tool_use",
+                    },
+                ],
+            },
+            {
+                "role": "user",
+                "content": [
+                    {
+                        "content": "function_return",
+                        "tool_use_id": "tool_id_43",
+                        "type": "tool_result",
+                        "is_error": False,
+                    }
+                ],
+            },
         ],
         "max_tokens": 4096,
     }
@@ -126,7 +277,10 @@ def test_assistant_final():
         "messages": [
             {"role": "user", "content": "instructions"},
             {"role": "assistant", "content": "previous response"},
-            {"role": "user", "content": "Please continue executing the tasks."},
+            {
+                "role": "user",
+                "content": "Think step by step and then make the tool call you need to accomplish the task.",
+            },
         ],
         "max_tokens": 4096,
     }
@@ -190,3 +344,39 @@ def test_parse_anthropic_response():
             )
         ],
     )
+
+
+@pytest.mark.skip
+@pytest.mark.asyncio
+async def test_ask_split_anthropic_with_tools():
+    try:
+        await disable_llm_caching()
+        ret = await ask_split(
+            "Please call the test tool with value 1",
+            system_message="You are a test for tool calls",
+            # model_name="anthropic.claude-3-sonnet-20240229-v1:0",
+            model_name="claude-3-5-sonnet-20240620",
+            tool_descriptions=[
+                ToolDescription(
+                    name="test",
+                    description="Simple tool used in unit testing",
+                    parameters={
+                        "type": "object",
+                        "properties": {
+                            "arg_value": {
+                                "type": "integer",
+                                "description": "The test value.",
+                            }
+                        },
+                        "required": ["arg_value"],
+                    },
+                )
+            ],
+        )
+        assert ret.tool_calls[0].type == "function"
+        assert ret.tool_calls[0].function.name == "test"
+        assert (
+            ret.tool_calls[0].function.arguments.replace(" ", "") == '{"arg_value":1}'
+        )
+    finally:
+        enable_llm_caching()

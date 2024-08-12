@@ -292,7 +292,7 @@ class WikipediaToolImplementations(BaseDocToolImplementations):
             # Convert back to a response just as a check that serialization was successful.
             ret = self._dict_to_response(result_dict)
             assert result == ret
-            return ret
+            return ret.response
 
     def _response_to_dict(self, response: Response):
         ret = asdict(response)
