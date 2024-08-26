@@ -13,7 +13,14 @@ logger = logging.getLogger(__name__)
 
 @functools.lru_cache()
 def get_anthropic_bedrock_client():
-    return AsyncAnthropicBedrock()
+    try:
+        if aws_region is None:
+            aws_region = os.environ.get("AWS_REGION") or "us-west-2"
+            logging.info("AWS region not defined. Defaulting to 'us-west-2'.")
+    except NameError:
+        aws_region = os.environ.get("AWS_REGION") or "us-west-2"
+        logging.info("AWS region not defined. Defaulting to 'us-west-2'.")
+    return AsyncAnthropicBedrock(aws_region=aws_region)
 
 
 @functools.lru_cache()
