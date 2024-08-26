@@ -30,6 +30,7 @@ import re
 import time
 from typing import Optional, Dict, List, Any, Tuple
 
+import anthropic
 import openai
 from openai import RateLimitError
 from openai.types.chat import ChatCompletion
@@ -74,6 +75,7 @@ async def ask_split(
     model_url: Optional[str] = None,
     json_mode: bool = False,
     token_counter: Optional[TokenCounter] = None,
+    force_tool_use: bool = False,
 ):
     """
     Sends a prompt to the OpenAI API and returns the response, with retries on error.
@@ -82,51 +84,40 @@ async def ask_split(
     """
     err_cnt = 0
     last_error = None
-    app_logger.info(f"Calling LLM {model_name.upper()}", extra={"color": "yellow"})
+    app_logger.info(f"Calling LLM {model_name}", extra={"color": "yellow"})
     defaulted_max_tokens = max_tokens if max_tokens != 0 else None
     while err_cnt < max_retries:
         try:
             if err_cnt > 1:
                 app_logger.warning(f"Attempt {err_cnt + 1}:")
-            if model_url is None:
-                chat_completion = await cached_chat_completion(
-                    token_counter=token_counter,
-                    base_url=model_url,
-                    messages=[
-                        {"role": "system", "content": system_message},
+            tool_choice = (
+                None
+                if tool_descriptions is None
+                else "required" if force_tool_use else "auto"
+            )
+            chat_completion = await cached_chat_completion(
+                token_counter=token_counter,
+                base_url=model_url,
+                messages=[
+                    {"role": "system", "content": system_message},
+                ]
+                + assemble_chat_messages(user_prompt),
+                tools=(
+                    [
+                        {"type": "function", "function": _.model_dump()}
+                        for _ in tool_descriptions
                     ]
-                    + assemble_chat_messages(user_prompt),
-                    tools=(
-                        [
-                            {"type": "function", "function": _.model_dump()}
-                            for _ in tool_descriptions
-                        ]
-                        if tool_descriptions
-                        else None
-                    ),
-                    response_format={"type": "json_object"} if json_mode else None,
-                    tool_choice="auto" if tool_descriptions else None,
-                    model=model_name,
-                    temperature=temperature,
-                    max_tokens=defaulted_max_tokens,
-                    seed=seed,
-                    timeout=timeout,
-                )
-            else:
-                chat_completion = await cached_chat_completion(
-                    token_counter=token_counter,
-                    base_url=model_url,
-                    messages=[
-                        {"role": "system", "content": system_message},
-                    ]
-                    + assemble_chat_messages(user_prompt),
-                    response_format={"type": "json_object"} if json_mode else None,
-                    model=model_name,
-                    temperature=temperature,
-                    max_tokens=defaulted_max_tokens,
-                    seed=seed,
-                    timeout=timeout,
-                )
+                    if tool_descriptions
+                    else None
+                ),
+                tool_choice=tool_choice,
+                response_format={"type": "json_object"} if json_mode else None,
+                model=model_name,
+                temperature=temperature,
+                max_tokens=defaulted_max_tokens,
+                seed=seed,
+                timeout=timeout,
+            )
 
             if verbose:
                 app_logger.info(
@@ -136,6 +127,7 @@ async def ask_split(
 
         except (
             openai.APIError,
+            anthropic.BadRequestError,
             HTTPError,
             ConnectionError,
             TimeoutError,
@@ -218,9 +210,6 @@ async def quick_ask_async(
     """
     err_cnt = 0
     last_error = None
-
-    # Assuming the beginning parts of the function are unchanged
-    ...
 
     while err_cnt < max_retries:
         try:
@@ -404,4 +393,7 @@ async def call_client(base_url: Optional[str], **kwargs):
         ), f"Changing the model URL is not supported for Bedrock models.  {base_url}"
         return await converse_bedrock_chat_completion(**kwargs)
     else:
+        # Tools are not yet implemented for vLLM models.
+        if base_url is not None:
+            kwargs = {k: v for k, v in kwargs if k not in ["tools", "tool_choice"]}
         return await openai_chat_completion(base_url=base_url, **kwargs)

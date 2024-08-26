@@ -2,7 +2,9 @@ import functools
 import json
 import logging
 import os
+from json import JSONDecodeError
 
+import boto3
 from anthropic import AsyncAnthropic, AsyncAnthropicBedrock
 from anthropic.types import ToolUseBlock, Message
 
@@ -13,6 +15,8 @@ logger = logging.getLogger(__name__)
 
 @functools.lru_cache()
 def get_anthropic_bedrock_client():
+
+    #Default the AWS region to us-west-2
     try:
         if aws_region is None:
             aws_region = os.environ.get("AWS_REGION") or "us-west-2"
@@ -20,7 +24,17 @@ def get_anthropic_bedrock_client():
     except NameError:
         aws_region = os.environ.get("AWS_REGION") or "us-west-2"
         logging.info("AWS region not defined. Defaulting to 'us-west-2'.")
-    return AsyncAnthropicBedrock(aws_region=aws_region)
+        
+    if "AWS_PROFILE" in os.environ:
+        session = boto3.Session(profile_name=os.environ["AWS_PROFILE"])
+        credentials = session.get_credentials()
+        args = {
+            "aws_access_key": credentials.access_key,
+            "aws_secret_key": credentials.secret_key,
+        }
+    else:
+        args = {}
+    return AsyncAnthropicBedrock(**args)
 
 
 @functools.lru_cache()
@@ -30,6 +44,7 @@ def get_anthropic_client():
 
 async def anthropic_bedrock_chat_completion(**kwargs):
     cleaned_kwargs = _convert_openai_to_anthropic_input(**kwargs)
+    # logger.debug(f"Anthropic input:\n{cleaned_kwargs}")
     resp = await get_anthropic_bedrock_client().messages.create(**cleaned_kwargs)
     return _parse_anthropic_response(resp)
 
@@ -47,7 +62,8 @@ def _convert_openai_to_anthropic_input(**kwargs):
     remaining_kwargs = {
         k: v
         for k, v in kwargs.items()
-        if k not in ["response_format", "seed", "tools", "tool_choice"] and (k != "temperature" or v is not None)
+        if k not in ["response_format", "seed", "tools", "tool_choice"]
+        and (k != "temperature" or v is not None)
     }
 
     def fix_tool(t):
@@ -67,44 +83,93 @@ def _convert_openai_to_anthropic_input(**kwargs):
 
     # Tool choice has a different format, and can only be specified if tools are present
     tool_choice = (
-        {"tool_choice": {"type": kwargs["tool_choice"]}}
+        {
+            "tool_choice": {
+                "type": (
+                    "any"
+                    if kwargs["tool_choice"] == "required"
+                    else kwargs["tool_choice"]
+                )
+            }
+        }
         if "tool_choice" in kwargs and "tools" in tools and len(tools["tools"]) > 0
         else {}
     )
 
-    # System message is a separate argument.
-    extract_system_messages = [
-        m["content"] for m in kwargs["messages"] if m["role"] == "system"
-    ]
+    extract_system_messages = []
+    reformatted_messages = []
+    for m in kwargs["messages"]:
+        match m["role"]:
+            case "system":
+                # System message is a separate argument.
+                extract_system_messages.append(m["content"])
+            case "user":
+                if m["content"]:
+                    reformatted_messages.append(m)
+            case "assistant":
+                if m["content"]:
+                    reformatted_messages.append(m)
+            case "function":
+                # Function calls get split into 2 messages, a call and a response.
+                try:
+                    arg_dict = json.loads(m["arguments"])
+                except JSONDecodeError:
+                    arg_dict = {"invalid_arguments": m["arguments"]}
+                func_call = {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "tool_use",
+                            "id": m["id"],
+                            "name": m["name"],
+                            "input": arg_dict,
+                        }
+                    ],
+                }
+                func_response = {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": m["id"],
+                            "content": m["return_value"],
+                            "is_error": m["is_error"],
+                        }
+                    ],
+                }
+                reformatted_messages.append(func_call)
+                reformatted_messages.append(func_response)
+            case x:
+                raise ValueError(f"Unknown role {x}")
+
     assert len(extract_system_messages) <= 1, "Only one system message is allowed"
     system_message = (
         {"system": extract_system_messages[0]} if extract_system_messages else {}
     )
 
-    # Can't have repeated 'user' messages:
-    # Current "function" to a "user" message
+    # Combine adjacent messages with the same role
     current_role = None
     deduped_messages = []
-    non_system_messages = [m for m in kwargs["messages"] if m["role"] != "system"]
-    for m in non_system_messages:
-        clean_m = (
-            {"role": "user", "content": m["content"]} if m["role"] == "function" else m
-        )
-        if clean_m["role"] != current_role:
-            deduped_messages.append(clean_m)
+    for m in reformatted_messages:
+        if m["role"] != current_role:
+            deduped_messages.append({**m})
+            current_role = m["role"]
         else:
-            deduped_messages[-1] = {
-                **deduped_messages[-1],
-                "content": deduped_messages[-1]["content"]
-                + "\n\n"
-                + clean_m["content"],
-            }
-        current_role = clean_m["role"]
+            original_content = deduped_messages[-1]["content"]
+            if isinstance(original_content, str):
+                original_content = [{"type": "text", "text": original_content}]
+            new_content = m["content"]
+            if isinstance(new_content, str):
+                new_content = [{"type": "text", "text": new_content}]
+            deduped_messages[-1]["content"] = original_content + new_content
 
     # Can't end with an 'assistant' message when using tool calls.
     if deduped_messages[-1]["role"] == "assistant":
         deduped_messages.append(
-            {"role": "user", "content": "Please continue executing the tasks."}
+            {
+                "role": "user",
+                "content": "Think step by step and then make the tool call you need to accomplish the task.",
+            }
         )
 
     # Max tokens has to be specified
@@ -139,6 +204,7 @@ def _map_stop_reason(stop_reason):
 
 
 def _parse_anthropic_response(resp: Message):
+    # logger.debug(f"Raw anthropic response: {resp}")
     text = "\n".join(_.text for _ in resp.content if _.type == "text")
 
     def convert_tool(t: ToolUseBlock):

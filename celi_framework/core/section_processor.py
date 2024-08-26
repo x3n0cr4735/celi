@@ -35,6 +35,7 @@ class SectionProcessor:
     llm_cache: bool
     monitor_instructions: str
     max_tokens: int
+    force_tool_every_n: int
     callback: Optional[CELIUpdateCallback] = None
     model_url: Optional[str] = None
     token_counter: Optional[TokenCounter] = None
@@ -100,6 +101,13 @@ class SectionProcessor:
         self.section_complete_flag = False
         chat_len = len(self.ongoing_chat)
 
+        n_since_tool_use = self.responses_since_last_tool_call(self.ongoing_chat)
+        force_tool_use = n_since_tool_use >= self.force_tool_every_n
+        if force_tool_use:
+            logger.debug(
+                f"Forcing tool use because there have been no tool calls in the last {n_since_tool_use} iterations."
+            )
+
         llm_response = await ask_split(
             user_prompt=self.ongoing_chat,  # type: ignore
             model_name=self.primary_model_name,
@@ -110,6 +118,7 @@ class SectionProcessor:
             model_url=self.model_url,
             max_tokens=self.max_tokens,
             token_counter=self.token_counter,
+            force_tool_use=force_tool_use,
         )
         self._update_ongoing_chat(("assistant", str(llm_response.content or "")))
 
@@ -152,6 +161,19 @@ class SectionProcessor:
             ]
             self.system_message = redo["new_system_message"]
             return True
+
+    @staticmethod
+    def responses_since_last_tool_call(
+        ongoing_chat: List[Dict[str, str] | Tuple[str, str]]
+    ):
+        ix = 0
+        for m in reversed(ongoing_chat):
+            role = m[0] if isinstance(m, tuple) else m["role"]
+            if role == "function":
+                break
+            if role == "assistant":
+                ix += 1
+        return ix
 
     @staticmethod
     def check_for_duplicates(ongoing_chat: List[Dict[str, str] | Tuple[str, str]]):
@@ -244,7 +266,7 @@ class SectionProcessor:
         except JSONDecodeError as e:
             logger.warning(
                 f"Built-in review for section {self.current_section} didn't return valid JSON.  {e}\n"
-                "Response was: {text_response}"
+                f"Response was: {text_response}"
             )
             ret = {}
 
@@ -278,7 +300,8 @@ class SectionProcessor:
     @staticmethod
     def format_message_content(m: ChatMessageable):
         if isinstance(m, dict):
-            return f"{m['role'].capitalize()}:\n{m['content']}"
+            non_role = {k: v for k, v in m.items() if k != "role"}
+            return f"{m['role'].capitalize()}:\n{non_role}"
         return f"{m[0].capitalize()}:\n{m[1]}"
 
     @staticmethod
@@ -314,7 +337,14 @@ class SectionProcessor:
                             "user",
                             f"Error: Called unknown function name: {name} with arguments {arguments}",
                         )
-            function_log = f"Call to function {name} with arguments {arguments} returned\n{function_return}"
-            return {"role": "function", "name": name, "content": function_log}
+            return {
+                "role": "function",
+                "name": name,
+                "id": tool_call.id,
+                "arguments": tool_call.function.arguments,
+                "return_value": str(function_return),
+                "is_error": isinstance(function_return, str)
+                and function_return.startswith("Error"),
+            }
 
         return [await make_tool_call(_) for _ in response.tool_calls]

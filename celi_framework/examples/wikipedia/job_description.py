@@ -6,16 +6,16 @@ task_library = [
     Task(
         task_name="Search for Document Section Text",
         details={
-            "description": "Find the text of the current section and all subsections in the example document.",
+            "description": "Find the text of the specified section and all subsections in the example document.",
             "prerequisite_tasks": [],
-            "function_call": "Call get_example_toc to get the full list of sections in the example doc and then get_text_for_sections to retrieve the text for the current section and any relevant (sub)sections.",
+            "function_call": "Call get_example_toc to get the full list of sections in the example doc and then get_text_for_sections to retrieve the text for the specified section and any relevant (sub)sections.",
             "example_call": "{{'Example Document': ['1', '1.1', '1.2']}}",
             "instructions": [
                 "Use get_example_and_target_names to get the name of the target that the document should be about.",
-                "Every section should have corresponding text, even that text is blank. If you get an error, try again with different parameters",
+                "The specified section should have corresponding text, even that text is blank. If you get an error, try again with different parameters",
                 "Do not truncate or modify the retrieved text.",
                 "If text is present, print the entire text and instruct to proceed to the next task.",
-                "If a given section is empty in the example document, then you can leave that section empty in the target. In that case, you can skip all the remaining tasks and jump straight to the 'Draft New Document Section' task, which can just draft an empty section. Note that a blank section is not the same as the function returning an error.",
+                "If the specified section is empty in the example document, then you can leave it empty in the target. In that case, you can skip all the remaining tasks and jump straight to the 'Draft New Document Section' task, which can just draft an empty section. Note that a blank section is not the same as the function returning an error.",
             ],
         },
     ),
@@ -98,10 +98,6 @@ task_library = [
             "description": "Signal that you have completed the draft by calling complete_section",
             "function_call": "Use the complete_section function with the argument value = current section identifier.",
             "example_call": "{{'current_section_identifier': ['1.2']}}",
-            "instructions": [
-                "Announce completion: 'Proceed to the next section of the document, [current section identifier] has "
-                "been completed.'"
-            ],
         },
     ),
 ]
@@ -116,7 +112,8 @@ EXPLICITLY print out the task you are completing currently.
 EXPLICITLY print out what task you will complete next.
 EXPLICITLY provide a detailed and appropriate response for EVERY TASK.
 THE MOST IMPORTANT THING FOR YOU TO UNDERSTAND: THE PRIMARY GOAL OF THE TASKS IS TO DRAFT A NEW SECTION OF THE DOCUMENT
-A SECTION IS CONSIDERED COMPLETE ONCE THE LAST TASK HAS BEEN ACCOMPLISHED.
+A SECTION IS CONSIDERED COMPLETE ONCE YOU HAVE CALLED save_draft_section and then complete_section.  IF YOU BELIEVE YOU HAVE
+DONE ALL YOU CAN, CALL THESE TWO FUNCTIONS.
 
 IF A FUNCTION CALL RETURNS AN ERROR THEN TRY AGAIN WITH PARAMETERS, OR MAKE DIFFERENT FUNCTION CALL.
 IF TASK HAS NOT COMPLETED SUCCESSFULLY, TRY AGAIN WITH AN ALTERED RESPONSE.
@@ -138,8 +135,8 @@ If all tasks for the current section have been completed, make a call to write t
 """
 
 pre_algo_instruct = """
-I am going to give you step by step instructions on how to draft a new wiki page section by section.
-Below you will find a json object that contains the index of sections that need to be drafted.
+I am going to give you step by step instructions on how to draft a section of a new wiki page.
+Below you will find a json object that contains the table of contents for the whole document.
 The keys of the json are the section numbers of the document. The values include the heading title.
 
 The subsections in the target document will be different and should be based on the information in the target document.
