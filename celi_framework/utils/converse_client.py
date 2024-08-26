@@ -15,17 +15,13 @@ logger = logging.getLogger(__name__)
 
 @functools.lru_cache()
 def get_converse_bedrock_client(model_name):
-    if model_name in {
-        'anthropic.claude-3-opus-20240229-v1:0',
-        'meta.llama3-1-8b-instruct-v1:0',
-        'meta.llama3-1-70b-instruct-v1:0',
-        'meta.llama3-1-405b-instruct-v1:0',
-        'mistral.mistral-large-2407-v1:0'
-    }:
-        session = aioboto3.Session(region_name = 'us-west-2')
-    else:
-        session = aioboto3.Session(region_name = 'us-east-1')
-    return session
+    try:
+        if aws_region is None:
+            aws_region = os.environ.get("AWS_REGION") or "us-west-1"
+            logging.info("AWS region not defined. Defaulting to 'us-west-1'.")
+    except NameError:
+        aws_region = os.environ.get("AWS_REGION") or "us-west-1"
+        logging.info("AWS region not defined. Defaulting to 'us-west-1'.")
 
 async def converse_bedrock_chat_completion(**kwargs):
     cleaned_kwargs = _convert_openai_to_converse_input(**kwargs)
@@ -35,6 +31,10 @@ async def converse_bedrock_chat_completion(**kwargs):
 
 def _convert_openai_to_converse_input(**kwargs):
     """Adjust OpenAI options to support Converse API."""
+
+    # Check if "tools" are present in kwargs and raise an error if they are
+    if "tools" in kwargs and kwargs["tools"] is not None:
+        raise ValueError("The 'tools' parameter is not yet supported by the CELI implementation of AWS Bedrock models. Try using a different model e.g. through OpenAI or Anthropic.")
 
     # remove arguments not supported by Converse
     remaining_kwargs = {
