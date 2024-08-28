@@ -36,6 +36,7 @@ from openai import RateLimitError
 from openai.types.chat import ChatCompletion
 from pydantic import BaseModel, ValidationError
 from requests import HTTPError
+from botocore.exceptions import ClientError
 
 from celi_framework.utils.anthropic_client import (
     anthropic_chat_completion,
@@ -372,7 +373,19 @@ async def create_chat_completion_with_retry(base_url, **kwargs):
             logger.warning(
                 f"Rate limit exceeded. Retrying in {sleep_time:.2f} seconds..."
             )
-            await asyncio.sleep(sleep_time)
+        except ClientError as e:
+            if e.response['Error']['Code'] == "ThrottlingException":
+                retry_attempts += 1
+                if retry_attempts > max_retries:
+                    raise e
+                sleep_time = 5 + random.uniform(1, 2) * backoff_factor**retry_attempts
+                #sleep_time = 1 + random.uniform(1, 2) * backoff_factor**retry_attempts
+                logger.warning(
+                    f"Rate limit exceeded. Retrying in {sleep_time:.2f} seconds..."
+                )
+            else:
+                raise e
+        await asyncio.sleep(sleep_time)
 
 
 async def call_client(base_url: Optional[str], **kwargs):
