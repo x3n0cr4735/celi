@@ -20,7 +20,7 @@ python = "^3.10"
 python-dotenv = ">=1.0.0"
 python-levenshtein = ">=0.25.1"
 aiosqlite = ">=0.20.0"
-anthropic = {extras = ["bedrock"], version = "^0.31.0"}
+anthropic = {extras = ["bedrock"], version = "^0.34.2"}
 numpy = ">=1.22.4"
 openai = ">=1.16.0"
 pandas = ">=2.0.3"
