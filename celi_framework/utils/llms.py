@@ -32,7 +32,8 @@ from typing import Optional, Dict, List, Any, Tuple
 
 import anthropic
 import openai
-from openai import RateLimitError
+from anthropic import RateLimitError as AnthropicRateLimitError
+from openai import RateLimitError as OpenAIRateLimitError
 from openai.types.chat import ChatCompletion
 from pydantic import BaseModel, ValidationError
 from requests import HTTPError
@@ -363,7 +364,7 @@ async def create_chat_completion_with_retry(base_url, **kwargs):
     while True:
         try:
             return await call_client(base_url=base_url, **kwargs)
-        except RateLimitError as e:
+        except (AnthropicRateLimitError, OpenAIRateLimitError) as e:
             retry_attempts += 1
             if retry_attempts > max_retries:
                 raise e
