@@ -18,15 +18,11 @@ def get_anthropic_bedrock_client():
 
     args={}
     #Default the AWS region to us-west-2
-    try:
-        if aws_region is None:
-            aws_region = os.environ.get("AWS_REGION") or "us-west-2"
-            logging.info("AWS region not defined. Defaulting to 'us-west-2'.")
-            args = {"aws_region": aws_region}
-    except NameError:
-        aws_region = os.environ.get("AWS_REGION") or "us-west-2"
+    aws_region = os.environ.get("AWS_REGION", None)
+    if aws_region is None:
+        aws_region = "us-west-2"
         logging.info("AWS region not defined. Defaulting to 'us-west-2'.")
-        args = {"aws_region": aws_region}
+    args = {"aws_region": aws_region}
         
     if "AWS_PROFILE" in os.environ:
         session = boto3.Session(profile_name=os.environ["AWS_PROFILE"])
