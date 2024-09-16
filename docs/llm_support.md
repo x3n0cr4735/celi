@@ -31,9 +31,10 @@ the `--anthropic-api-key` command line option.  Claude models names are availabl
 To use Amazon Bedrock with the Claude models, there are a couple preliminary steps you need to do.
 1. Set up default AWS keys.  You can set up an `.aws/credentials` file or set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variables.
 2. Enable the Claude models in AWS.  You can use the [Bedrock AWS Console](https://us-west-2.console.aws.amazon.com/bedrock/home?region=us-west-2#/models) for this.  Note, models are enabled per region.  To use the Anthropic APIs, get an Anthropic API key and use the ANTHROPIC_API_KEY environment variable or
+3. If the AWS region is not assigned using the environment variable AWS_REGION or passed directly to LLM calls as aws_region, the default is us-west-2. For more info on model available by region, see [Model support by AWS Region](https://docs.aws.amazon.com/bedrock/latest/userguide/models-regions.html).
+4. Text completions are currently enabled for all Bedrock models, but tools are only integrated for Anthropic models.
 
-
-WHen used through Bedrock, the Claude model name start with `anthropic.`.  Model availability
+When used through Bedrock, the Claude model name start with `anthropic.`.  Model availability
 varies by region.  For more info see the [Claude model docs](https://docs.anthropic.com/en/docs/about-claude/models#model-names).
 
 Example - note that the AWS login credentials need to be set for this to work:
