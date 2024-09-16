@@ -76,6 +76,7 @@ async def ask_split(
     tool_descriptions: Optional[List[ToolDescription]] = None,
     model_url: Optional[str] = None,
     json_mode: bool = False,
+    response_format = None,
     token_counter: Optional[TokenCounter] = None,
     force_tool_use: bool = False,
 ):
@@ -97,6 +98,8 @@ async def ask_split(
                 if tool_descriptions is None
                 else "required" if force_tool_use else "auto"
             )
+            if json_mode:
+                response_format = {"type": "json_object"}
             chat_completion = await cached_chat_completion(
                 token_counter=token_counter,
                 base_url=model_url,
@@ -113,7 +116,7 @@ async def ask_split(
                     else None
                 ),
                 tool_choice=tool_choice,
-                response_format={"type": "json_object"} if json_mode else None,
+                response_format=response_format,
                 model=model_name,
                 temperature=temperature,
                 max_tokens=defaulted_max_tokens,
@@ -153,6 +156,7 @@ def quick_ask(
     seed=777,
     verbose=False,
     json_output=False,  # model_name="gpt-4-1106-preview"
+    response_format=None,
     max_retries=3,
     wait_between_retries=10,
     timeout=90,
@@ -169,6 +173,7 @@ def quick_ask(
             seed,
             verbose,
             json_output,
+            response_format,
             max_retries,
             wait_between_retries,
             timeout,
@@ -187,6 +192,7 @@ async def quick_ask_async(
     seed=777,
     verbose=False,
     json_output=False,  # model_name="gpt-4-1106-preview"
+    response_format=None,
     max_retries=3,
     wait_between_retries=10,
     timeout=90,
@@ -224,8 +230,6 @@ async def quick_ask_async(
 
             if json_output:
                 response_format = {"type": "json_object"}
-            else:
-                response_format = None
 
             chat_completion = await cached_chat_completion(
                 token_counter=token_counter,
