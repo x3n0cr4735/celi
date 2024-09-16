@@ -15,15 +15,22 @@ logger = logging.getLogger(__name__)
 
 @functools.lru_cache()
 def get_anthropic_bedrock_client():
+
+    args={}
+    #Default the AWS region to us-west-2
+    aws_region = os.environ.get("AWS_REGION", None)
+    if aws_region is None:
+        aws_region = "us-west-2"
+        logging.info("AWS region not defined. Defaulting to 'us-west-2'.")
+    args = {"aws_region": aws_region}
+        
     if "AWS_PROFILE" in os.environ:
         session = boto3.Session(profile_name=os.environ["AWS_PROFILE"])
         credentials = session.get_credentials()
-        args = {
+        args.update({
             "aws_access_key": credentials.access_key,
             "aws_secret_key": credentials.secret_key,
-        }
-    else:
-        args = {}
+        })
     return AsyncAnthropicBedrock(**args)
 
 

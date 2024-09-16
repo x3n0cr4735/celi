@@ -32,15 +32,18 @@ from typing import Optional, Dict, List, Any, Tuple
 
 import anthropic
 import openai
-from openai import RateLimitError
+from anthropic import RateLimitError as AnthropicRateLimitError
+from openai import RateLimitError as OpenAIRateLimitError
 from openai.types.chat import ChatCompletion
 from pydantic import BaseModel, ValidationError
 from requests import HTTPError
+from botocore.exceptions import ClientError
 
 from celi_framework.utils.anthropic_client import (
     anthropic_chat_completion,
     anthropic_bedrock_chat_completion,
 )
+from celi_framework.utils.converse_client import converse_bedrock_chat_completion
 from celi_framework.utils.llm_cache import get_celi_llm_cache
 from celi_framework.utils.llm_response import LLMResponse
 from celi_framework.utils.log import app_logger
@@ -257,7 +260,7 @@ async def quick_ask_async(
 
             app_logger.exception(f"Error: attempt {err_cnt}", extra={"color": "red"})
             app_logger.error(f"Error: Prompt was {prompt}")
-            asyncio.sleep(wait_between_retries)
+            await asyncio.sleep(wait_between_retries)
             if timeout and time_increase:
                 timeout += time_increase  # Note: Adjusting timeout may not affect the API call's internal timeout handling.
                 wait_between_retries += time_increase
@@ -363,7 +366,7 @@ async def create_chat_completion_with_retry(base_url, **kwargs):
     while True:
         try:
             return await call_client(base_url=base_url, **kwargs)
-        except RateLimitError as e:
+        except (AnthropicRateLimitError, OpenAIRateLimitError) as e:
             retry_attempts += 1
             if retry_attempts > max_retries:
                 raise e
@@ -371,7 +374,19 @@ async def create_chat_completion_with_retry(base_url, **kwargs):
             logger.warning(
                 f"Rate limit exceeded. Retrying in {sleep_time:.2f} seconds..."
             )
-            await asyncio.sleep(sleep_time)
+        except ClientError as e:
+            if e.response['Error']['Code'] == "ThrottlingException":
+                retry_attempts += 1
+                if retry_attempts > max_retries:
+                    raise e
+                sleep_time = 5 + random.uniform(1, 2) * backoff_factor**retry_attempts
+                #sleep_time = 1 + random.uniform(1, 2) * backoff_factor**retry_attempts
+                logger.warning(
+                    f"Rate limit exceeded. Retrying in {sleep_time:.2f} seconds..."
+                )
+            else:
+                raise e
+        await asyncio.sleep(sleep_time)
 
 
 async def call_client(base_url: Optional[str], **kwargs):
@@ -386,6 +401,11 @@ async def call_client(base_url: Optional[str], **kwargs):
             not base_url
         ), f"Changing the model URL is not supported for claude models.  {base_url}"
         return await anthropic_bedrock_chat_completion(**kwargs)
+    elif model and not model.startswith("gpt") and not model.startswith("chatgpt"):
+        assert (
+            not base_url
+        ), f"Changing the model URL is not supported for Bedrock models.  {base_url}"
+        return await converse_bedrock_chat_completion(**kwargs)
     else:
         # Tools are not yet implemented for vLLM models.
         if base_url is not None:
