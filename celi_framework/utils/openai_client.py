@@ -33,8 +33,15 @@ async def openai_chat_completion(base_url: str, **kwargs):
             else m
         )
 
+    # remove arguments not supported by OpenAI
+    remaining_kwargs = {
+        k: v
+        for k, v in kwargs.items()
+        if k not in ["max_tokens"]
+    }
+
     cleaned_messages = [clean_msg(m) for m in kwargs["messages"]]
-    cleaned_args = {**kwargs, "messages": cleaned_messages}
+    cleaned_args = {**remaining_kwargs, "messages": cleaned_messages, "max_completion_tokens": kwargs.get("max_tokens", None)}
     resp = await get_openai_client(
         base_url=base_url,
     ).chat.completions.create(**cleaned_args)
