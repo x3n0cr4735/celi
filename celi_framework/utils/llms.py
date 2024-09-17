@@ -229,6 +229,8 @@ async def quick_ask_async(
                 )
 
             if json_output:
+                if response_format:
+                    app_logger.warning(f"A value has been provided for response_format while json_output is enabled. JSON mode will be use and response_format will be ignored.")
                 response_format = {"type": "json_object"}
 
             chat_completion = await cached_chat_completion(
