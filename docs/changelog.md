@@ -1,5 +1,14 @@
 # Change Log
 
+## 0.3.7 (September 28, 2024)
+* Added initial support for OpenAI o1 models
+* Big improvements to loop detection
+* Handle errors/bad JSON in the builtin review
+* Allow built-in review to skip updating the system prompt (useful for long system prompts)
+* Improved Anthropic support - handle rate limiting correctly
+* Support additional AWS Bedrock models besides Anthropic
+* Bug fix with command line option --force-tool-every-n 
+
 ## 0.3.6 (August 12, 2024)
 * Many changes to improve performance with Claude
 * Added a new command line option --force-tool-every-n
