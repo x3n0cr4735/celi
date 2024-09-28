@@ -9,6 +9,7 @@
 .DS_Store
 .vscode
 .local_notebooks
+*.iml
 dist/
 target/
 output/

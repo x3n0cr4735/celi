@@ -106,6 +106,7 @@ def parse_standard_args(args):
         max_tokens=args.max_tokens,
         token_budget=args.token_budget,
         sequential=args.sequential,
+        force_tool_every_n=args.force_tool_every_n,
     )
 
 
