@@ -408,7 +408,7 @@ async def call_client(base_url: Optional[str], **kwargs):
             not base_url
         ), f"Changing the model URL is not supported for claude models.  {base_url}"
         return await anthropic_bedrock_chat_completion(**kwargs)
-    elif model and not model.startswith("gpt") and not model.startswith("chatgpt"):
+    elif model and not model.startswith("gpt") and not model.startswith("chatgpt") and not model.startswith("o1"):
         assert (
             not base_url
         ), f"Changing the model URL is not supported for Bedrock models.  {base_url}"

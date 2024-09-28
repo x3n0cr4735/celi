@@ -11,7 +11,7 @@ from typing import Any, Callable, Dict, List, Optional, Tuple
 from urllib.parse import urljoin
 from requests import Session
 
-from llama_index.core.bridge.pydantic import PrivateAttr
+from pydantic import PrivateAttr
 from llama_index.core.readers.base import BasePydanticReader
 from llama_index.core.schema import Document
 
@@ -158,8 +158,8 @@ class CachingBeautifulSoupWebReader(BasePydanticReader):
         self,
         website_extractor: Optional[Dict[str, Callable]] = None,
     ) -> None:
-        self._website_extractor = website_extractor or DEFAULT_WEBSITE_EXTRACTOR
         super().__init__()
+        self._website_extractor = website_extractor or DEFAULT_WEBSITE_EXTRACTOR
 
     @classmethod
     def class_name(cls) -> str:
