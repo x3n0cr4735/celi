@@ -36,6 +36,7 @@ class SectionProcessor:
     monitor_instructions: str
     max_tokens: int
     force_tool_every_n: int
+    seed: int = 777
     callback: Optional[CELIUpdateCallback] = None
     model_url: Optional[str] = None
     token_counter: Optional[TokenCounter] = None
@@ -118,6 +119,7 @@ class SectionProcessor:
             model_url=self.model_url,
             max_tokens=self.max_tokens,
             token_counter=self.token_counter,
+            seed=self.seed,
             force_tool_use=force_tool_use,
         )
         self._update_ongoing_chat(("assistant", str(llm_response.content or "")))
@@ -125,9 +127,15 @@ class SectionProcessor:
         if llm_response.finish_reason == "tool_calls":
             tool_result = await self.make_tool_calls(llm_response)
             [self._update_ongoing_chat(_) for _ in tool_result]
+        elif not llm_response.content or llm_response.content.strip() == "":
+            logger.warning(f"LLM returned empty content and did not make a tool call.  Prompting it not to do that.  force_tool_use was {force_tool_use}")
+            if force_tool_use:
+                self._update_ongoing_chat(("user", "Your last response was empty and did not have a tool call.  Please refer back to your original instructions and select a tool call with the next response."))
+            else:
+                self._update_ongoing_chat(("user", "Your last response was empty and did not have a tool call.  Please refer back to your original instructions and provide either a text response for the current task or make a tool call."))
 
         app_logger.info(
-            f"LLM response for section {self.current_section}:\n"
+            f"LLM response for section {self.current_section} - (finish reason {llm_response.finish_reason}):\n"
             + self.format_chat_messages(self.ongoing_chat[chat_len:]),
             extra={"color": "green"},
         )
@@ -151,7 +159,8 @@ class SectionProcessor:
                 )
                 return False
             self.retry_number += 1
-            logger.warning(f"Retrying section {self.current_section}")
+            self.seed += 1
+            logger.warning(f"Retrying section {self.current_section} with seed {self.seed}")
             self.ongoing_chat = [
                 ("user", redo["new_initial_user_message"]),
                 (
@@ -159,7 +168,8 @@ class SectionProcessor:
                     f"You are working on section {self.current_section}.  Begin with Task #1.",
                 ),
             ]
-            self.system_message = redo["new_system_message"]
+            if "new_system_message" in redo:
+                self.system_message = redo["new_system_message"]
             return True
 
     @staticmethod
@@ -198,41 +208,49 @@ class SectionProcessor:
                         return True
         return False
 
-    async def builtin_review(self):
+    async def builtin_review(self, edit_system_message: bool = True):
         task_specific = (
             f"Specifically, you should check for:\n{self.monitor_instructions}\n"
             if self.monitor_instructions
             else ""
         )
+        new_prompts = "initial user prompt and possibly a new system prompt" if edit_system_message else "initial user prompt"
         system_message = f"""Your job is to review the chat history of an LLM trying to accomplish a goal.  This first 
          thing you should do is find all the tool calls made by the LLM.  After you have done that, review those to 
          decide if the overall goal was achieved or if the LLM should try again.  Think step by step and explain your
          reasoning.  
          
-         You can identify tool calls in the chat  history because they will look like this: 
+         You can identify tool calls in the chat history because they will look like this: 
          
          Function:
          Call to function run_tests with arguments....
          
          {task_specific}
 
-         If the LLM should try again, please propose a modified system and 
-         initial user prompt that should be used.  Your output should be JSON that always contains tags for
-         "tool_calls_made", "ratioale", and "success".
-         has the following format:
+         If the LLM should try again, please propose a modified {new_prompts} that should be used.  Your output should 
+         be JSON that always contains tags for "tool_calls_made", "rationale", and "success".  
+         If you do propose new system and/or user messages, make sure to include all the information in the original 
+         message.  If the system prompt is too long for you to include everything, just update the user prompt.  For 
+         any prompt you modify, the original will not be passed to the LLM on retry, only your updated version will be 
+         passed.
+         
          Example of a successful review:
             {{
                 "tool_calls_made": ['get_prompt', 'ask_question', 'save_draft_output', 'complete_section'],
                 "rationale": "All requirements specified in the user_prompt were resolved.",
                 "success": true,
             }}
-         Example of a unsuccessful review:
+        Example of a unsuccessful review:
+        Given this input
+        <SystemMessage>You are an AI writing agent.  write a creative story and save it.</SystemMessage>
+        <UserMessage>Write a story about cats</UserMessage>
+        Here is the response:
             {{
                 "tool_calls_made": ['get_prompt', 'complete_section'],
                 "rationale": "save_draft_output was not called before calling complete_section.",
                 "success": false,
-                "new_system_message": "The new system message to be used",
-                "new_initial_user_message": "The new initial user message to be used"
+                {'"new_system_message": "You are an AI writing agent.  write a creative story and save it using the save_draft_output tool.",' if edit_system_message else ''}
+                "new_initial_user_message": "Write a story about cats.  Make sure to call save_draft_output when you are done."
             }}
         """
         user_message = f"""The initial system message was\n<SystemMessage>{self.system_message}</SystemMessage>.  The
@@ -264,11 +282,18 @@ class SectionProcessor:
         try:
             ret = json.loads(text_response)
         except JSONDecodeError as e:
-            logger.warning(
-                f"Built-in review for section {self.current_section} didn't return valid JSON.  {e}\n"
-                f"Response was: {text_response}"
-            )
-            ret = {}
+            if llm_response.finish_reason == 'length' and edit_system_message:
+                logger.warning(
+                    f"Built-in review for section {self.current_section} didn't return valid JSON because the length limit was hit. Retrying without editing the system message. {e}\n"
+                    f"Response was: {text_response}\n"
+                )
+                ret = await self.builtin_review(edit_system_message=False)
+            else:
+                logger.warning(
+                    f"Built-in review for section {self.current_section} didn't return valid JSON.  Finish reason was {llm_response.finish_reason} Edit system message: {edit_system_message} {e}\n"
+                    f"Response was: {text_response}"
+                )
+                ret = {}
 
         if "success" not in ret:
             logger.warning(
@@ -279,19 +304,18 @@ class SectionProcessor:
         if ret["success"]:
             return None
 
-        if "new_system_message" not in ret or "new_initial_user_message" not in ret:
+        if "new_initial_user_message" not in ret:
             logger.warning(
-                f"Built-in review for section {self.current_section} didn't return a new_system_message or "
+                f"Built-in review for section {self.current_section} didn't return a "
                 f"new_initial_user_message.  Skipping retry."
             )
             return None
 
-        if (
-            ret["new_system_message"] == self.system_message
-            and ret["new_initial_user_message"] == self.initial_user_message
-        ):
+        system_message_unchanged = "new_system_message" not in ret or ret["new_system_message"] == self.system_message
+        user_message_unchanged = ret["new_initial_user_message"] == self.initial_user_message
+        if system_message_unchanged and user_message_unchanged:
             logger.warning(
-                f"Built-in review for section {self.current_section} didn't changeany messages.  Skipping retry."
+                f"Built-in review for section {self.current_section} didn't change any messages.  Skipping retry."
             )
             return None
 
