@@ -8247,4 +8247,4 @@ wikipedia = ["llama-index", "llama-index-vector-stores-chroma"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "961d4542f3b78578235f35d6cc4ba2649643479e9fea7c7e34f533f377f780c3"
+content-hash = "26aa59ae1239f1d77238e2332e843776c7f21b4833d590be31f7f241c75751b4"
