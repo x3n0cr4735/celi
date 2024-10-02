@@ -42,6 +42,7 @@ scikit-learn = { version = ">=1.4.2", optional = true }
 [tool.poetry.extras]
 experimental = ["py-llm-core", "opentelemetry-proto", "pymongo", "bert-score", "evaluate", "requests-cache", "scikit-learn", "pymupdf", "python-docx"]
 wikipedia = ["llama-index", "llama-index-vector-stores-chroma"]
+GRE = ["python-docx"]
 
 [tool.poetry.group.test.dependencies]
 pytest = ">=7.4.4"
