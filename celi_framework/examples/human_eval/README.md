@@ -1,8 +1,5 @@
 # Quick start
-To run CELI against the **HumanEval** benchmark, use the following JobDescription (probably set in your .env file): 
-- Make sure your .env is set up correctly (look at .env.example) and set `JOB_DESCRIPTION=celi_framework.examples.human_eval.job_description.job_description` specifically.
-- From a terminal, and from the human_eval project directory, run `python main.py`. This will output a json file (with timestamp) with the answers in human_eval/target/celi_output/drafts. That's the "output file".
-- To see what score you got, from a terminal, run `python eval.py <output file>`
+To run CELI against the **HumanEval** benchmark, use the following command (you will need to set your OPENAI_API_KEY in your .env file): 
 
 **For a single example (#143 here):**
 
@@ -23,6 +20,8 @@ python -m celi_framework.main   \
   --primary-model-name=gpt-4-0125-preview \
   --token-budget=3000000
 ```
+
+- To see what score you got, from a terminal, run `python -m celi_framework.examples.human_eval.eval <output file>`
 
 # HumanEval Pass@1 Results 
 Note: This was run with GPT-4-Turbo (0125)

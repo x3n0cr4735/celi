@@ -7,8 +7,7 @@ reporting requirements.
 """
 
 from celi_framework.core.job_description import JobDescription, Task
-
-from tools import GREToolImplementations
+from celi_framework.examples.GRE.tools import GREToolImplementations
 
 task_library = [
     Task(
@@ -17,8 +16,7 @@ task_library = [
             "description": "Find and retrieve the text for the prompt of the current test question.",
             "tool_call": "Perform a function call to retrieve the question's prompt.",
             "example_call": "{{'question_number': ['q1']}}",
-            "instructions": [
-            ],
+            "instructions": [],
         },
     ),
     Task(
@@ -31,15 +29,15 @@ task_library = [
                 "Retrieve an example prompt and response pair using the provided function call, ensuring it correlates with the question number of the current task.",
                 "Examine the structure of the response, noting the introduction, body, and conclusion arrangement.",
                 "Identify key argumentation techniques used in the response, noting how evidence is integrated to support claims.",
-                "Abstract strategies that are effective in addressing the prompt, including rhetorical devices, logical reasoning, and evidence presentation."
+                "Abstract strategies that are effective in addressing the prompt, including rhetorical devices, logical reasoning, and evidence presentation.",
             ],
             "additional_notes": [
                 "Highlight any innovative or particularly effective methods used in the example that could be adapted for your response.",
-                "Consider the context in which the example was effective—cultural, educational, or disciplinary perspectives might influence how the response is crafted."
+                "Consider the context in which the example was effective—cultural, educational, or disciplinary perspectives might influence how the response is crafted.",
             ],
             "tool_call": "Use a function call to retrieve the example prompt and response pair for analysis.",
             "example_call": "{{'question_number': ['q1']}}",
-        }
+        },
     ),
     Task(
         task_name="Develop Response Strategy",
@@ -49,15 +47,15 @@ task_library = [
                 "Synthesize the findings from the previous analysis task into a cohesive strategy document.",
                 "Outline how each identified successful technique will be adapted to fit the specific requirements and context of the current prompt.",
                 "Develop a structured plan that specifies the introduction, development of arguments, integration of evidence, and conclusion.",
-                "Ensure the strategy is flexible enough to accommodate potential variations in the prompt's requirements or unexpected insights gained during the drafting process."
+                "Ensure the strategy is flexible enough to accommodate potential variations in the prompt's requirements or unexpected insights gained during the drafting process.",
             ],
             "additional_notes": [
                 "The strategy should be documented clearly and concisely to serve as a guideline during the response drafting stage.",
-                "Consider peer review or feedback mechanisms if possible, to validate and refine the strategy before proceeding to draft."
+                "Consider peer review or feedback mechanisms if possible, to validate and refine the strategy before proceeding to draft.",
             ],
             "tool_call": "Initiate drafting in the document editor with outline format enabled.",
             "example_call": "{{'question_number': ['q1']}}",
-        }
+        },
     ),
     Task(
         task_name="Draft a Numbered Response Outline",
@@ -67,16 +65,16 @@ task_library = [
                 "Start with an introduction that sets the context and states the thesis clearly.",
                 "List the main points that will form the body of the response, detailing the argument and evidence planned for each section.",
                 "Conclude with a summary that reinforces the thesis and encapsulates the main arguments made in the body.",
-                "Ensure each section is numbered and clearly delineated to facilitate easy navigation and organization during the drafting process."
+                "Ensure each section is numbered and clearly delineated to facilitate easy navigation and organization during the drafting process.",
             ],
             "example": {
                 "Example Outline Format": "1. Introduction with thesis statement\n2. Body section 1 with evidence point\n3. Body section 2 with another evidence point\n4. Conclusion"
             },
             "additional_notes": [
                 "This outline should not only serve as a guide for drafting but also as a checklist to ensure all critical points are covered.",
-                "Revise the outline as necessary to reflect any new insights or adjustments in the response strategy."
-            ]
-        }
+                "Revise the outline as necessary to reflect any new insights or adjustments in the response strategy.",
+            ],
+        },
     ),
     Task(
         task_name="Iteratively Draft Each Section of the Response",
@@ -96,9 +94,9 @@ task_library = [
             },
             "additional_notes": [
                 "This drafting process should be iterative; don't hesitate to revisit earlier sections as you gain more insight or as the argument develops.",
-                "Consider peer feedback on drafted sections to enhance clarity and effectiveness."
-            ]
-        }
+                "Consider peer feedback on drafted sections to enhance clarity and effectiveness.",
+            ],
+        },
     ),
     Task(
         task_name="Synthesize Sections into a Draft",
@@ -108,7 +106,7 @@ task_library = [
                 "Combine the drafted sections starting with the introduction, followed by the body sections, and ending with the conclusion.",
                 "Ensure that transitions between sections are smooth and logical, enhancing the overall flow and readability of the document.",
                 "Check that the final draft maintains a consistent style, tone, and voice throughout, which are important for presenting a professional and coherent argument.",
-                "Review the entire document to ensure that it aligns with the response strategy and meets the structural and content expectations outlined previously."
+                "Review the entire document to ensure that it aligns with the response strategy and meets the structural and content expectations outlined previously.",
             ],
             "example": {
                 "Model Response Example": "Refer to the structure and length of the example response (essay) as a benchmark for the final draft."
@@ -116,10 +114,10 @@ task_library = [
             "additional_notes": [
                 "Consider the overall narrative arc of the response to ensure it effectively builds towards a convincing conclusion.",
                 "Revisit the introduction after completing the body and conclusion to ensure it accurately reflects the depth and scope of the argument discussed.",
-            ]
-        }
+            ],
+        },
     ),
-Task(
+    Task(
         task_name="Save draft",
         details={
             "description": "Dave the draft.",
@@ -128,23 +126,23 @@ Task(
             "example_call": "{'draft_dict': {'Introduction': 'INTRO CONTENT', 'Section 1 (Title)': 'BODY SECTION 1 CONTENT', .... , 'Conclusion': 'CONCLUSION CONTENT'}}",
         },
     ),
-Task(
-    task_name="Review Draft",
-    details={
-        "description": "This final review task is crucial for ensuring that the complete document meets the established criteria, drawing on insights and structures developed in previous tasks. It involves a detailed comparison with a similar prompt-answer pair to check for structural and thematic consistency, ensuring the response aligns with standard response formats and expectations.",
-        "instructions": [
-            "Use the 'retrieve_instructions' function to fetch a prompt and answer pair for a similar question, ensuring alignment with standard response formats and expectations.",
-            "Review each section of the document to confirm it follows the logical flow and depth outlined, comparing it with the retrieved example where necessary.",
-            "Check that the thesis is clearly stated in the introduction and is effectively supported throughout the body sections.",
-            "Verify that the conclusion effectively summarizes the arguments and reinforces the thesis.",
-            "Ensure that each section transitions smoothly into the next, maintaining a coherent narrative flow.",
-            "Assess the use of evidence to ensure it is pertinent and effectively integrated into the argument."
-        ],
-        "additional_notes": [
-            "Maintain originality in each section while addressing the specifics of the test question effectively.",
-            "Pay special attention to the synthesis of information from provided sources, ensuring accurate representation and logical argumentation.",
-            "Review formatting and grammar to ensure the document is well-presented and free of errors.",
-            """
+    Task(
+        task_name="Review Draft",
+        details={
+            "description": "This final review task is crucial for ensuring that the complete document meets the established criteria, drawing on insights and structures developed in previous tasks. It involves a detailed comparison with a similar prompt-answer pair to check for structural and thematic consistency, ensuring the response aligns with standard response formats and expectations.",
+            "instructions": [
+                "Use the 'retrieve_instructions' function to fetch a prompt and answer pair for a similar question, ensuring alignment with standard response formats and expectations.",
+                "Review each section of the document to confirm it follows the logical flow and depth outlined, comparing it with the retrieved example where necessary.",
+                "Check that the thesis is clearly stated in the introduction and is effectively supported throughout the body sections.",
+                "Verify that the conclusion effectively summarizes the arguments and reinforces the thesis.",
+                "Ensure that each section transitions smoothly into the next, maintaining a coherent narrative flow.",
+                "Assess the use of evidence to ensure it is pertinent and effectively integrated into the argument.",
+            ],
+            "additional_notes": [
+                "Maintain originality in each section while addressing the specifics of the test question effectively.",
+                "Pay special attention to the synthesis of information from provided sources, ensuring accurate representation and logical argumentation.",
+                "Review formatting and grammar to ensure the document is well-presented and free of errors.",
+                """
             Here is typical feedback that you have received for prior drafts. Make sure you are addressing the previous concerns:
             Based on the GRE® Scoring Guide provided, the essay you've written would likely receive a Score 5 (out of 6). Here's the rationale for this assessment:
             
@@ -160,53 +158,52 @@ Task(
             A score of 6 would also typically involve demonstrating superior skill in the use of language, including more sophisticated syntax and richer vocabulary.
             
             """,
-            "BE VERY CRITICIAL. TRY TO POKE HOLES AS MUCH AS YOU CAN. THE DRAFT NEEDS TO BE AT PHD DISSERTATION LEVEL SOPHISTICATION"
-        ],
-        "tool_call": "Use a function to retrieve the instructions for this question",
-        "example_call": "{{'question_number': ['q1']}}",
-        "output_format": {
-            "Section Review": "Detailed feedback for each section",
-            "Draft Quality": "Assessment of argumentation and evidence integration",
-            "Final Verdict": "PASS or FAIL based on the established criteria",
-            "Additional Comments": "Feedback on specific areas for improvement or commendation"
-        }
-    }
-),
-Task(
-    task_name="Recommend Revisions with Review Output",
-    details={
-        "description": "This task involves identifying necessary revisions based on detailed feedback and assessments provided in the 'Draft Review' task. The goal is to pinpoint areas where the document can be improved to meet established criteria, thus enhancing clarity, coherence, and argumentative strength based on the review outputs.",
-        "instructions": [
-            "Review the feedback provided in the 'Section Review', 'Draft Quality', and 'Final Verdict' components from the Draft Review.",
-            "Identify key areas requiring improvement—these may include areas where argumentation needs to be strengthened, the thesis needs to be clearer, transitions between sections need to be smoother, or grammatical and formatting errors need to be corrected.",
-            "Recommend specific revisions for each section of the document, focusing on the areas highlighted in the feedback.",
-            "Suggest re-evaluation of the evidence used in the response to ensure it aligns well with the thesis and supports the overall argument effectively.",
-            "Propose how to ensure that all recommended revisions will maintain the logical flow and coherence of the response, thus enhancing its overall persuasive impact."
-        ],
-        "additional_notes": [
-            "Document the recommended changes to track revisions made during this phase, facilitating subsequent reviews if necessary.",
-            "Advise on seeking additional feedback after proposing revisions to confirm that all issues have been adequately addressed and the response is optimized."
-        ],
-        "output_format": {
-            "Revised Sections": "Detailed documentation of recommended changes for each section",
-            "Improvements Proposed": "List of improvements suggested based on the feedback",
-            "Re-Review Suggested": "Indicate whether an additional review is suggested after the recommended revisions"
-        }
-    }
-),
-
+                "BE VERY CRITICIAL. TRY TO POKE HOLES AS MUCH AS YOU CAN. THE DRAFT NEEDS TO BE AT PHD DISSERTATION LEVEL SOPHISTICATION",
+            ],
+            "tool_call": "Use a function to retrieve the instructions for this question",
+            "example_call": "{{'question_number': ['q1']}}",
+            "output_format": {
+                "Section Review": "Detailed feedback for each section",
+                "Draft Quality": "Assessment of argumentation and evidence integration",
+                "Final Verdict": "PASS or FAIL based on the established criteria",
+                "Additional Comments": "Feedback on specific areas for improvement or commendation",
+            },
+        },
+    ),
+    Task(
+        task_name="Recommend Revisions with Review Output",
+        details={
+            "description": "This task involves identifying necessary revisions based on detailed feedback and assessments provided in the 'Draft Review' task. The goal is to pinpoint areas where the document can be improved to meet established criteria, thus enhancing clarity, coherence, and argumentative strength based on the review outputs.",
+            "instructions": [
+                "Review the feedback provided in the 'Section Review', 'Draft Quality', and 'Final Verdict' components from the Draft Review.",
+                "Identify key areas requiring improvement—these may include areas where argumentation needs to be strengthened, the thesis needs to be clearer, transitions between sections need to be smoother, or grammatical and formatting errors need to be corrected.",
+                "Recommend specific revisions for each section of the document, focusing on the areas highlighted in the feedback.",
+                "Suggest re-evaluation of the evidence used in the response to ensure it aligns well with the thesis and supports the overall argument effectively.",
+                "Propose how to ensure that all recommended revisions will maintain the logical flow and coherence of the response, thus enhancing its overall persuasive impact.",
+            ],
+            "additional_notes": [
+                "Document the recommended changes to track revisions made during this phase, facilitating subsequent reviews if necessary.",
+                "Advise on seeking additional feedback after proposing revisions to confirm that all issues have been adequately addressed and the response is optimized.",
+            ],
+            "output_format": {
+                "Revised Sections": "Detailed documentation of recommended changes for each section",
+                "Improvements Proposed": "List of improvements suggested based on the feedback",
+                "Re-Review Suggested": "Indicate whether an additional review is suggested after the recommended revisions",
+            },
+        },
+    ),
     # TODO: Can we do one section at a time
-Task(
+    Task(
         task_name="Redraft",
         details={
             "description": "Redraft with recommended revisions.",
             "instructions": [
                 "Revise each of the sections and subsections drafted separately in 'Iteratively Draft Each Section of the Response'.",
                 "---> THIS TASK NEEDS TO BE EXECUTED AS SUB-TASKS. DRAFT EACH SECTION AND SUB-SECTION SEPERATELY IN SEQUENTIAL PROMPT/COMPLETIONS (ONE RESPONSE AT A TIME) <----",
-            ]
+            ],
         },
     ),
-Task(
+    Task(
         task_name="Save draft",
         details={
             "description": "Save the draft.",
@@ -215,9 +212,8 @@ Task(
             "example_call": "{'draft_dict': {'Introduction': 'INTRO CONTENT', 'Section 1 (Title)': 'BODY SECTION 1 CONTENT', .... , 'Conclusion': 'CONCLUSION CONTENT'}}",
         },
     ),
-
-# TODO: To Add a step to review both saved drafts (pre/post revisions) and to choose the better one <<<<<<<<<<
-Task(
+    # TODO: To Add a step to review both saved drafts (pre/post revisions) and to choose the better one <<<<<<<<<<
+    Task(
         task_name="Score the final essay",
         details={
             "description": "Use the rubric provided in the instructions to score the final response from 1 to 6. Afterwards include the final score at the top of the essay.",
@@ -227,10 +223,9 @@ Task(
                 "Be sure to take the entire essay into account when scoring the essay"
             ],
             "tool_call": "Use a function to retrieve the rubric to score this question",
-    }
+        },
     ),
-
-Task(
+    Task(
         task_name="Finish Essay and move on to next question",
         details={
             "description": "Pop context to finish this question and move on to next question if there are any questions left.",
