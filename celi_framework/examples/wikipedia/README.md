@@ -30,7 +30,7 @@ python -m celi_framework.examples.wikipedia.eval.run_eval \
     --job-description=celi_framework.examples.wikipedia.job_description.job_description \
     --tool-config='{"example_url": "https://en.wikipedia.org/wiki/Led_Zeppelin",
         "target_url": "https://en.wikipedia.org/wiki/Jonas_Brothers",
-        "ignore_updates": true,
+        "ignore_updates": true
         }'
 ```
 
