@@ -28,7 +28,7 @@ import requests
 from llama_index.core import StorageContext
 from llama_index.core.indices import VectorStoreIndex
 from llama_index.core.node_parser.text import SentenceSplitter
-from llama_index.core.schema import TextNode, NodeRelationship
+from llama_index.core.schema import TextNode, NodeRelationship, RelatedNodeInfo
 from requests import Request
 
 from celi_framework.examples.wikipedia.Index_cache import ChromaDBIndexCache, IndexCache

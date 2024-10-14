@@ -25,12 +25,12 @@ pip install celi-framework[wikipedia]
 To generate target output for a single page, you can use the CELI command line:
 
 ```bash 
-python -m celi_framework.examples.wikipedia.eval.run_eval \
+python -m celi_framework.main \
     --openai-api-key=<Insert your OpenAI API key here> \
     --job-description=celi_framework.examples.wikipedia.job_description.job_description \
     --tool-config='{"example_url": "https://en.wikipedia.org/wiki/Led_Zeppelin",
         "target_url": "https://en.wikipedia.org/wiki/Jonas_Brothers",
-        "ignore_updates": true,
+        "ignore_updates": true
         }'
 ```
 
