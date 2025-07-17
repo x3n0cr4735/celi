@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/sam/Projects/celi/celi_framework/main.py", line 24, in <module>
+    from celi_framework.core.runner import CELIConfig, run_celi
+  File "/home/sam/Projects/celi/celi_framework/core/runner.py", line 7, in <module>
+    from celi_framework.core.job_description import JobDescription, ToolImplementations
+  File "/home/sam/Projects/celi/celi_framework/core/job_description.py", line 12, in <module>
+    import Levenshtein
+ModuleNotFoundError: No module named 'Levenshtein'

@@ -44,6 +44,7 @@ from celi_framework.utils.anthropic_client import (
     anthropic_bedrock_chat_completion,
 )
 from celi_framework.utils.converse_client import converse_bedrock_chat_completion
+from celi_framework.utils.gemini_client import gemini_chat_completion
 from celi_framework.utils.llm_cache import get_celi_llm_cache
 from celi_framework.utils.llm_response import LLMResponse
 from celi_framework.utils.log import app_logger
@@ -408,6 +409,11 @@ async def call_client(base_url: Optional[str], **kwargs):
             not base_url
         ), f"Changing the model URL is not supported for claude models.  {base_url}"
         return await anthropic_bedrock_chat_completion(**kwargs)
+    elif model and model.startswith("gemini"):
+        assert (
+            not base_url
+        ), f"Changing the model URL is not supported for Gemini models.  {base_url}"
+        return await gemini_chat_completion(**kwargs)
     elif model and not model.startswith("gpt") and not model.startswith("chatgpt") and not model.startswith("o1"):
         assert (
             not base_url

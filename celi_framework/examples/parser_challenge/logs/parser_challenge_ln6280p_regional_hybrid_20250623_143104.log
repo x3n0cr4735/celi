@@ -1,0 +1,286 @@
+2025-06-23 14:31:04,907 __main__ DEBUG - Starting CELI
+2025-06-23 14:31:04,909 app_logger DEBUG - Beginning CELI
+2025-06-23 14:31:04,909 celi_framework.core.processor INFO - Using claude-sonnet-4-20250514 as the primary LLM
+[96m2025-06-23 14:31:04,909 app_logger INFO - System message created:
+You are an expert parser developer specializing in banking document processing. 
+Your task is to adapt existing parsers to handle format variations from different banks 
+while maintaining backward compatibility. You work with Claude for analysis and orchestration,
+and can leverage Gemini 2.5 Pro for fixing complex code issues.
+
+Remember: The tools will load file contents for you to analyze. 
+You should read and understand the actual content, identify patterns and differences yourself, 
+and make informed decisions about what changes to implement. When tests fail, Gemini 2.5 Pro
+will help fix the specific issues.
+
+You are working on adapting the LN6280P parser to handle format variations 
+from RegionalBank. The gold standard parser works perfectly for Jack Henry (JH) format 
+but needs enhancement to handle RegionalBank's variations. The key requirement is 
+maintaining backward compatibility - the enhanced parser must still work correctly 
+with the original JH format.
+{'parser_tasks': ['LN6280P_RegionalBank']}
+
+Focus on creating a robust parser through additive enhancement. 
+The gold standard parser is already excellent - you just need to add patterns for the new bank's variations.
+If tests fail, the system will automatically use Gemini to help fix them.
+
+
+
+Task 1
+Task_name: analyze_gold_parser
+Details: {'description': 'Load and analyze the gold standard parser', 'instructions': "\n1. Use read_parser to load the gold standard LN6280P parser for bank 'JH'\n2. Understand its structure, patterns, and extraction methods\n3. Note the key components: section detection, field extraction, transaction parsing"}
+
+Task 2
+Task_name: compare_formats
+Details: {'description': 'Compare JH and RegionalBank input formats', 'instructions': "\n1. Use read_input to load example inputs for both 'JH' and 'RegionalBank'\n2. Compare them side-by-side to identify differences\n3. Note specific changes in: field labels, prefixes, formatting, structure"}
+
+Task 3
+Task_name: analyze_expected_outputs
+Details: {'description': 'Compare expected outputs', 'instructions': "\n1. Use read_expected_output for both 'JH' and 'RegionalBank'\n2. Identify any structural differences in the JSON\n3. Note if RegionalBank expects additional fields (like phone number)"}
+
+Task 4
+Task_name: test_baseline
+Details: {'description': 'Test gold parser on new input', 'instructions': "\n1. Use execute_parser_code to run the gold parser on RegionalBank input\n2. Compare the output with expected output to see what's not working\n3. Make a list of specific issues to fix"}
+
+Task 5
+Task_name: identify_changes
+Details: {'description': 'Identify required parser changes', 'instructions': "\nBased on your analysis, list the specific changes needed:\n1. New field label patterns to add\n2. New prefix patterns to support\n3. Additional extraction logic needed\n4. Remember: use additive enhancement only - don't remove existing patterns"}
+
+Task 6
+Task_name: implement_enhancements
+Details: {'description': 'Create enhanced parser', 'instructions': '\n1. Start with the gold parser code\n2. Add new patterns for each identified difference\n3. Use multiple regex patterns with fallback (try JH pattern first, then RegionalBank)\n4. Add clear comments explaining each enhancement\n5. Ensure all changes are additive - preserve existing functionality'}
+
+Task 7
+Task_name: test_enhanced_parser
+Details: {'description': 'Test the enhanced parser', 'instructions': '\n1. Use execute_parser_code to test on RegionalBank input\n2. Verify the output matches expected JSON exactly\n3. Also test on JH input to ensure backward compatibility\n4. If any issues, fix and retest'}
+
+Task 8
+Task_name: comprehensive_validation_with_llm_fixes
+Details: {'description': 'Final validation with all test cases using LLM for fixes', 'instructions': '\n1. Run run_comprehensive_tests_with_llm_fixes with your enhanced parser code\n2. This will:\n   - Run all 5 test cases (main + 4 tests including stress tests)\n   - If any fail, automatically call an LLM (Gemini by default) to fix the issues\n   - Re-test the fixed code\n   - Save the parser if all tests pass\n3. Review the results and confirm success'}[0m
+2025-06-23 14:31:04,909 celi_framework.core.processor INFO - Starting new run on 1 sections.
+2025-06-23 14:31:04,909 celi_framework.core.processor DEBUG - Processing all sections in parallel.
+2025-06-23 14:31:04,909 app_logger INFO - Started a new iteration for section parser_tasks.  Retry count is 0
+[93m2025-06-23 14:31:04,909 app_logger INFO - Calling LLM claude-sonnet-4-20250514[0m
+2025-06-23 14:31:04,910 app_logger DEBUG - Caching LLM response
+[91m2025-06-23 14:31:05,117 app_logger ERROR - Error attempt 1
+Traceback (most recent call last):
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 104, in ask_split
+    chat_completion = await cached_chat_completion(
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 339, in cached_chat_completion
+    result = await create_chat_completion_with_retry(base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 376, in create_chat_completion_with_retry
+    return await call_client(base_url=base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 406, in call_client
+    return await anthropic_chat_completion(**kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/anthropic_client.py", line 51, in anthropic_chat_completion
+    resp = await get_anthropic_client().messages.create(**cleaned_kwargs)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/resources/messages/messages.py", line 2229, in create
+    return await self._post(
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1852, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1659, in request
+    raise self._make_status_error_from_response(err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tools.4.custom.input_schema: JSON schema is invalid. It must match JSON Schema draft 2020-12 (https://json-schema.org/draft/2020-12). Learn more about tool use at https://docs.anthropic.com/en/docs/tool-use.'}}[0m
+[93m2025-06-23 14:31:05,118 app_logger WARNING - Error: Prompt was [('user', "Help me adapt the LN6280P parser to handle RegionalBank's format. \nThe parser must produce output that exactly matches the expected JSON while maintaining compatibility \nwith the original Jack Henry format. Use the hybrid approach with Gemini for fixing any test failures."), ('user', 'You are working on section parser_tasks.  Begin with Task #1.')][0m
+2025-06-23 14:31:07,121 app_logger DEBUG - Caching LLM response
+[91m2025-06-23 14:31:07,197 app_logger ERROR - Error attempt 2
+Traceback (most recent call last):
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 104, in ask_split
+    chat_completion = await cached_chat_completion(
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 339, in cached_chat_completion
+    result = await create_chat_completion_with_retry(base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 376, in create_chat_completion_with_retry
+    return await call_client(base_url=base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 406, in call_client
+    return await anthropic_chat_completion(**kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/anthropic_client.py", line 51, in anthropic_chat_completion
+    resp = await get_anthropic_client().messages.create(**cleaned_kwargs)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/resources/messages/messages.py", line 2229, in create
+    return await self._post(
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1852, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1659, in request
+    raise self._make_status_error_from_response(err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tools.4.custom.input_schema: JSON schema is invalid. It must match JSON Schema draft 2020-12 (https://json-schema.org/draft/2020-12). Learn more about tool use at https://docs.anthropic.com/en/docs/tool-use.'}}[0m
+[93m2025-06-23 14:31:07,197 app_logger WARNING - Error: Prompt was [('user', "Help me adapt the LN6280P parser to handle RegionalBank's format. \nThe parser must produce output that exactly matches the expected JSON while maintaining compatibility \nwith the original Jack Henry format. Use the hybrid approach with Gemini for fixing any test failures."), ('user', 'You are working on section parser_tasks.  Begin with Task #1.')][0m
+[93m2025-06-23 14:31:09,199 app_logger WARNING - Attempt 3:[0m
+2025-06-23 14:31:09,200 app_logger DEBUG - Caching LLM response
+[91m2025-06-23 14:31:09,296 app_logger ERROR - Error attempt 3
+Traceback (most recent call last):
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 104, in ask_split
+    chat_completion = await cached_chat_completion(
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 339, in cached_chat_completion
+    result = await create_chat_completion_with_retry(base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 376, in create_chat_completion_with_retry
+    return await call_client(base_url=base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 406, in call_client
+    return await anthropic_chat_completion(**kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/anthropic_client.py", line 51, in anthropic_chat_completion
+    resp = await get_anthropic_client().messages.create(**cleaned_kwargs)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/resources/messages/messages.py", line 2229, in create
+    return await self._post(
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1852, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1659, in request
+    raise self._make_status_error_from_response(err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tools.4.custom.input_schema: JSON schema is invalid. It must match JSON Schema draft 2020-12 (https://json-schema.org/draft/2020-12). Learn more about tool use at https://docs.anthropic.com/en/docs/tool-use.'}}[0m
+[93m2025-06-23 14:31:09,296 app_logger WARNING - Error: Prompt was [('user', "Help me adapt the LN6280P parser to handle RegionalBank's format. \nThe parser must produce output that exactly matches the expected JSON while maintaining compatibility \nwith the original Jack Henry format. Use the hybrid approach with Gemini for fixing any test failures."), ('user', 'You are working on section parser_tasks.  Begin with Task #1.')][0m
+[93m2025-06-23 14:31:11,298 app_logger WARNING - Attempt 4:[0m
+2025-06-23 14:31:11,299 app_logger DEBUG - Caching LLM response
+[91m2025-06-23 14:31:11,363 app_logger ERROR - Error attempt 4
+Traceback (most recent call last):
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 104, in ask_split
+    chat_completion = await cached_chat_completion(
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 339, in cached_chat_completion
+    result = await create_chat_completion_with_retry(base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 376, in create_chat_completion_with_retry
+    return await call_client(base_url=base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 406, in call_client
+    return await anthropic_chat_completion(**kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/anthropic_client.py", line 51, in anthropic_chat_completion
+    resp = await get_anthropic_client().messages.create(**cleaned_kwargs)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/resources/messages/messages.py", line 2229, in create
+    return await self._post(
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1852, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1659, in request
+    raise self._make_status_error_from_response(err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tools.4.custom.input_schema: JSON schema is invalid. It must match JSON Schema draft 2020-12 (https://json-schema.org/draft/2020-12). Learn more about tool use at https://docs.anthropic.com/en/docs/tool-use.'}}[0m
+[93m2025-06-23 14:31:11,364 app_logger WARNING - Error: Prompt was [('user', "Help me adapt the LN6280P parser to handle RegionalBank's format. \nThe parser must produce output that exactly matches the expected JSON while maintaining compatibility \nwith the original Jack Henry format. Use the hybrid approach with Gemini for fixing any test failures."), ('user', 'You are working on section parser_tasks.  Begin with Task #1.')][0m
+[93m2025-06-23 14:31:13,366 app_logger WARNING - Attempt 5:[0m
+2025-06-23 14:31:13,366 app_logger DEBUG - Caching LLM response
+[91m2025-06-23 14:31:13,454 app_logger ERROR - Error attempt 5
+Traceback (most recent call last):
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 104, in ask_split
+    chat_completion = await cached_chat_completion(
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 339, in cached_chat_completion
+    result = await create_chat_completion_with_retry(base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 376, in create_chat_completion_with_retry
+    return await call_client(base_url=base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 406, in call_client
+    return await anthropic_chat_completion(**kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/anthropic_client.py", line 51, in anthropic_chat_completion
+    resp = await get_anthropic_client().messages.create(**cleaned_kwargs)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/resources/messages/messages.py", line 2229, in create
+    return await self._post(
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1852, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1659, in request
+    raise self._make_status_error_from_response(err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tools.4.custom.input_schema: JSON schema is invalid. It must match JSON Schema draft 2020-12 (https://json-schema.org/draft/2020-12). Learn more about tool use at https://docs.anthropic.com/en/docs/tool-use.'}}[0m
+[93m2025-06-23 14:31:13,454 app_logger WARNING - Error: Prompt was [('user', "Help me adapt the LN6280P parser to handle RegionalBank's format. \nThe parser must produce output that exactly matches the expected JSON while maintaining compatibility \nwith the original Jack Henry format. Use the hybrid approach with Gemini for fixing any test failures."), ('user', 'You are working on section parser_tasks.  Begin with Task #1.')][0m
+[93m2025-06-23 14:31:15,456 app_logger WARNING - Attempt 6:[0m
+2025-06-23 14:31:15,457 app_logger DEBUG - Caching LLM response
+[91m2025-06-23 14:31:15,788 app_logger ERROR - Error attempt 6
+Traceback (most recent call last):
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 104, in ask_split
+    chat_completion = await cached_chat_completion(
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 339, in cached_chat_completion
+    result = await create_chat_completion_with_retry(base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 376, in create_chat_completion_with_retry
+    return await call_client(base_url=base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 406, in call_client
+    return await anthropic_chat_completion(**kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/anthropic_client.py", line 51, in anthropic_chat_completion
+    resp = await get_anthropic_client().messages.create(**cleaned_kwargs)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/resources/messages/messages.py", line 2229, in create
+    return await self._post(
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1852, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1659, in request
+    raise self._make_status_error_from_response(err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tools.4.custom.input_schema: JSON schema is invalid. It must match JSON Schema draft 2020-12 (https://json-schema.org/draft/2020-12). Learn more about tool use at https://docs.anthropic.com/en/docs/tool-use.'}}[0m
+[93m2025-06-23 14:31:15,788 app_logger WARNING - Error: Prompt was [('user', "Help me adapt the LN6280P parser to handle RegionalBank's format. \nThe parser must produce output that exactly matches the expected JSON while maintaining compatibility \nwith the original Jack Henry format. Use the hybrid approach with Gemini for fixing any test failures."), ('user', 'You are working on section parser_tasks.  Begin with Task #1.')][0m
+[93m2025-06-23 14:31:17,790 app_logger WARNING - Attempt 7:[0m
+2025-06-23 14:31:17,790 app_logger DEBUG - Caching LLM response
+[91m2025-06-23 14:31:18,059 app_logger ERROR - Error attempt 7
+Traceback (most recent call last):
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 104, in ask_split
+    chat_completion = await cached_chat_completion(
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 339, in cached_chat_completion
+    result = await create_chat_completion_with_retry(base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 376, in create_chat_completion_with_retry
+    return await call_client(base_url=base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 406, in call_client
+    return await anthropic_chat_completion(**kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/anthropic_client.py", line 51, in anthropic_chat_completion
+    resp = await get_anthropic_client().messages.create(**cleaned_kwargs)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/resources/messages/messages.py", line 2229, in create
+    return await self._post(
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1852, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1659, in request
+    raise self._make_status_error_from_response(err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tools.4.custom.input_schema: JSON schema is invalid. It must match JSON Schema draft 2020-12 (https://json-schema.org/draft/2020-12). Learn more about tool use at https://docs.anthropic.com/en/docs/tool-use.'}}[0m
+[93m2025-06-23 14:31:18,059 app_logger WARNING - Error: Prompt was [('user', "Help me adapt the LN6280P parser to handle RegionalBank's format. \nThe parser must produce output that exactly matches the expected JSON while maintaining compatibility \nwith the original Jack Henry format. Use the hybrid approach with Gemini for fixing any test failures."), ('user', 'You are working on section parser_tasks.  Begin with Task #1.')][0m
+[91m2025-06-23 14:31:20,062 app_logger ERROR - All retries failed after 7 attempts.[0m
+[91m2025-06-23 14:31:20,062 celi_framework.core.processor ERROR - Error in process runner.
+Traceback (most recent call last):
+  File "/home/sam/Projects/celi/celi_framework/core/processor.py", line 126, in run
+    await self.wait_on_tasks()
+  File "/home/sam/Projects/celi/celi_framework/core/processor.py", line 132, in wait_on_tasks
+    await asyncio.gather(*self.tasks.values())
+  File "/home/sam/Projects/celi/celi_framework/core/section_processor.py", line 80, in run
+    self.is_running = await self.process_iteration()
+  File "/home/sam/Projects/celi/celi_framework/core/section_processor.py", line 112, in process_iteration
+    llm_response = await ask_split(
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 149, in ask_split
+    raise last_error  # type: ignore
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 104, in ask_split
+    chat_completion = await cached_chat_completion(
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 339, in cached_chat_completion
+    result = await create_chat_completion_with_retry(base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 376, in create_chat_completion_with_retry
+    return await call_client(base_url=base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 406, in call_client
+    return await anthropic_chat_completion(**kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/anthropic_client.py", line 51, in anthropic_chat_completion
+    resp = await get_anthropic_client().messages.create(**cleaned_kwargs)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/resources/messages/messages.py", line 2229, in create
+    return await self._post(
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1852, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1659, in request
+    raise self._make_status_error_from_response(err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tools.4.custom.input_schema: JSON schema is invalid. It must match JSON Schema draft 2020-12 (https://json-schema.org/draft/2020-12). Learn more about tool use at https://docs.anthropic.com/en/docs/tool-use.'}}[0m
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/sam/Projects/celi/celi_framework/main.py", line 216, in <module>
+    run_celi(celi_config)
+  File "/home/sam/Projects/celi/celi_framework/core/runner.py", line 40, in run_celi
+    loop.run_until_complete(run_process_runner(celi_config))
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/home/sam/Projects/celi/celi_framework/core/runner.py", line 81, in run_process_runner
+    await process_runner.run()
+  File "/home/sam/Projects/celi/celi_framework/core/processor.py", line 129, in run
+    raise e
+  File "/home/sam/Projects/celi/celi_framework/core/processor.py", line 126, in run
+    await self.wait_on_tasks()
+  File "/home/sam/Projects/celi/celi_framework/core/processor.py", line 132, in wait_on_tasks
+    await asyncio.gather(*self.tasks.values())
+  File "/home/sam/Projects/celi/celi_framework/core/section_processor.py", line 80, in run
+    self.is_running = await self.process_iteration()
+  File "/home/sam/Projects/celi/celi_framework/core/section_processor.py", line 112, in process_iteration
+    llm_response = await ask_split(
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 149, in ask_split
+    raise last_error  # type: ignore
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 104, in ask_split
+    chat_completion = await cached_chat_completion(
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 339, in cached_chat_completion
+    result = await create_chat_completion_with_retry(base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 376, in create_chat_completion_with_retry
+    return await call_client(base_url=base_url, **kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/llms.py", line 406, in call_client
+    return await anthropic_chat_completion(**kwargs)
+  File "/home/sam/Projects/celi/celi_framework/utils/anthropic_client.py", line 51, in anthropic_chat_completion
+    resp = await get_anthropic_client().messages.create(**cleaned_kwargs)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/resources/messages/messages.py", line 2229, in create
+    return await self._post(
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1852, in post
+    return await self.request(cast_to, opts, stream=stream, stream_cls=stream_cls)
+  File "/home/sam/Projects/celi/.venv/lib/python3.10/site-packages/anthropic/_base_client.py", line 1659, in request
+    raise self._make_status_error_from_response(err.response) from None
+anthropic.BadRequestError: Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'tools.4.custom.input_schema: JSON schema is invalid. It must match JSON Schema draft 2020-12 (https://json-schema.org/draft/2020-12). Learn more about tool use at https://docs.anthropic.com/en/docs/tool-use.'}}

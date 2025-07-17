@@ -1,0 +1,11 @@
+2025-07-13 10:01:55,586 __main__ DEBUG - Starting CELI
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/sam/Projects/celi/celi_framework/main.py", line 215, in <module>
+    celi_config = get_celi_config()
+  File "/home/sam/Projects/celi/celi_framework/main.py", line 78, in get_celi_config
+    celi_config.job_description.tool_implementations_class(**tool_config)
+AttributeError: 'function' object has no attribute 'tool_implementations_class'

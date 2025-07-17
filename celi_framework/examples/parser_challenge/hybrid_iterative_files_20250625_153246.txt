@@ -1,0 +1,4552 @@
+HYBRID ITERATIVE PARSER CHALLENGE - FILE COLLECTION
+Generated: 2025-06-25 15:32:46
+
+This collection includes all files relevant to the hybrid iterative parser challenge run.
+
+KEY CHANGES:
+1. job_description_hybrid_iterative.py - Modified to use 5 tasks instead of 6
+2. tool_implementations.py - Fixed asyncio issue in fix_parser_with_llm() method (lines 602-647)
+3. tool_implementations.py - NEW: Added support for passing Claude's analysis to Gemini:
+   - Added claude_analysis instance variable to store Claude's initial analysis
+   - Added set_claude_analysis() method to store the analysis
+   - Modified run_comprehensive_tests_with_llm_fixes() to accept claude_analysis parameter
+   - Modified fix_parser_with_llm_comprehensive_iterative() to include Claude's analysis in prompt
+   - Gemini now receives Claude's initial format analysis for better context
+
+ENVIRONMENT REQUIREMENTS:
+- ANTHROPIC_API_KEY must be set
+- GOOGLE_API_KEY must be set
+- Virtual environment: /home/sam/Projects/celi/.venv
+
+
+================================================================================
+FILE: celi/celi_framework/examples/parser_challenge/job_description_hybrid_iterative.py
+================================================================================
+
+"""Job description for parser challenge with systematic Claude + Gemini hybrid approach."""
+
+from celi_framework.core.job_description import JobDescription, Task
+from celi_framework.examples.parser_challenge.tool_implementations import ParserChallengeToolImplementations
+
+# Create the job description
+job_description = JobDescription(
+    role="""You are an expert parser developer specializing in banking document processing. 
+You excel at pattern recognition, code analysis, and creating robust parsers.""",
+    
+    context="""Your goal is to adapt the LN6280P parser to handle format variations from a new client, RegionalBank. 
+The original parser for Jack Henry (JH) is the starting point. You will focus exclusively on making 
+the parser work for the new RegionalBank format.
+
+You will follow a systematic, evidence-based development plan with 5 tasks that form ONE complete workflow:
+1. Task 1: Analyze the formats to understand the key differences.
+2. Task 2: Propose code changes based on your analysis before writing code.
+3. Task 3: Verify your plan by running a baseline test.
+4. Task 4: Implement changes and validate with intelligent escalation if needed.
+5. Task 5: Review final results and summarize the work.
+
+All 5 tasks must be completed before calling complete_section. This systematic approach ensures your changes are logical and robust.""",
+    
+    task_list=[
+        Task(
+            task_name="analyze_formats",
+            details={
+                "description": "Analyze both the Jack Henry (JH) and RegionalBank formats to understand the key differences",
+                "instructions": """
+1. Use read_parser to load the gold standard LN6280P parser.
+2. Use read_input and read_expected_output to load the files for both 'JH' and 'RegionalBank'.
+3. Compare the inputs and expected outputs to create a detailed list of the differences. 
+   This analysis will be the foundation for your code changes."""
+            }
+        ),
+        
+        Task(
+            task_name="propose_code_changes",
+            details={
+                "description": "Based on your analysis, develop a plan of the necessary code modifications",
+                "instructions": """
+1. Based on the format differences you observed in Task 1, formulate a hypothesis of what needs to change in the parser code.
+2. List the specific functions and regex patterns that will require modification.
+3. For each, describe the change you plan to make (e.g., "Update the find_customer_info function to detect the '4' prefix instead of '3'.")"""
+            }
+        ),
+        
+        Task(
+            task_name="verify_plan_with_baseline",
+            details={
+                "description": "Run the original parser on the new format to verify that your proposed changes are necessary",
+                "instructions": """
+1. Now, use debug_parser_output to run the original gold parser on the RegionalBank input.
+2. Analyze the failures from this baseline test by comparing the actual vs. expected output.
+3. Confirm that the fields that fail are the same ones you identified for modification in your Task 2 plan."""
+            }
+        ),
+        
+        Task(
+            task_name="implementation_and_validation",
+            details={
+                "description": "Implement the planned changes and validate against all test cases, with intelligent escalation",
+                "instructions": """
+1. Start by implementing the changes you planned in Task 2.
+2. Run `run_comprehensive_tests` to validate your parser against all 5 test cases.
+3. Analyze the results:
+   - **If all tests pass**: Excellent! Your implementation is complete.
+   - **If some tests fail**: Study the error messages and try to fix them yourself. You may iterate 1-2 times.
+4. After your attempts, run `run_comprehensive_tests` again.
+5. **If tests still fail after your attempts**: Use `run_comprehensive_tests_with_llm_fixes` to get expert assistance from Gemini. This tool will analyze the failures and provide targeted fixes."""
+            }
+        ),
+        
+        Task(
+            task_name="final_verification_and_summary",
+            details={
+                "description": "Review the final test results and summarize the work",
+                "instructions": """
+1. Review the final test results to confirm all 5 tests have passed.
+2. If successful, the parser will be automatically saved.
+3. Summarize the changes that were made to adapt the parser for the RegionalBank format."""
+            }
+        )
+    ],
+    
+    tool_implementations_class=ParserChallengeToolImplementations,
+    
+    pre_context_instruct="""You will follow a systematic approach: analyze, plan, verify, implement, and validate.
+This ensures your changes are based on evidence and your implementation is robust.""",
+    
+    post_context_instruct="""Remember: Focus exclusively on making the parser work for RegionalBank. 
+Since backward compatibility is not required, you can modify or replace patterns as needed.
+
+IMPORTANT: Do NOT call complete_section until ALL 5 TASKS have been completed. 
+The tasks form one complete workflow - analyze, propose, verify, implement/validate, and summarize.
+Only after Task 5 (final_verification_and_summary) should you call complete_section with "parser_tasks".""",
+    
+    monitor_instructions="""Key requirements:
+1. Systematic development - analyze, plan, verify, then implement
+2. Exact JSON output match
+3. RegionalBank format working correctly
+4. Clear documentation of changes
+5. All 5 test cases must pass
+6. Smart escalation - try fixing yourself first, then leverage Gemini if needed""",
+    
+    initial_user_message="""Help me adapt the LN6280P parser to handle RegionalBank's format.
+Follow the systematic approach: analyze the differences, propose changes, verify with baseline test,
+then implement and validate. If you encounter difficult test failures, the system can leverage Gemini's expertise."""
+)
+
+
+================================================================================
+FILE: celi/celi_framework/examples/parser_challenge/tool_implementations.py
+================================================================================
+
+"""Tool implementations for the parser challenge - focused on file I/O and execution."""
+
+import json
+import os
+import subprocess
+import sys
+import tempfile
+import traceback
+from pathlib import Path
+from typing import Dict, List, Tuple, Any, Optional
+
+# Add paths for imports
+sys.path.append(str(Path(__file__).parent.parent.parent.parent))
+
+from celi_framework.utils.log import app_logger
+
+
+class ParserChallengeToolImplementations:
+    """Simple tools for reading files, running parsers, and saving output."""
+    
+    def __init__(self, document_type: str = 'LN6280P', bank_name: str = 'NewBank', fix_model: str = 'gemini-2.5-flash', **kwargs):
+        self.document_type = document_type
+        self.bank_name = bank_name
+        self.base_path = Path("/home/sam/Projects/prog_parser_statements")
+        self.output_dir = Path("/home/sam/Projects/celi/celi_framework/examples/parser_challenge/output")
+        self.output_dir.mkdir(exist_ok=True, parents=True)
+        self.fix_model = fix_model
+        self.claude_analysis = None  # Store Claude's analysis for later use
+        
+    def get_schema(self):
+        """Return the schema of document types to process."""
+        return {
+            "parser_tasks": [f"{self.document_type}_{self.bank_name}"]
+        }
+    
+    def set_claude_analysis(self, analysis: str):
+        """
+        Store Claude's initial analysis of format differences.
+        This will be passed to Gemini during the fix process.
+        
+        Args:
+            analysis: Claude's analysis text describing the differences between formats
+        """
+        self.claude_analysis = analysis
+        app_logger.info("Stored Claude's analysis for passing to Gemini")
+    
+    def read_parser(self, document_type: str, bank: str = "JH") -> str:
+        """
+        Read a parser file and return its contents.
+        
+        Args:
+            document_type: The document type (e.g., 'LN6280P')
+            bank: The bank name (default 'JH' for gold standard)
+            
+        Returns:
+            The full parser code as a string
+        """
+        if bank == "JH":
+            parser_path = self.base_path / "prog_parsers" / "JH" / document_type / "parser.py"
+        else:
+            parser_path = self.base_path / "prog_parsers" / "JH" / f"{document_type}_{bank}" / "parser.py"
+        
+        try:
+            with open(parser_path, 'r', encoding='utf-8') as f:
+                return f.read()
+        except FileNotFoundError:
+            return f"Parser not found at {parser_path}"
+    
+    def read_input(self, document_type: str, bank: str = "JH") -> str:
+        """
+        Read an input file for a document type and bank.
+        
+        Args:
+            document_type: The document type (e.g., 'LN6280P')
+            bank: The bank name (default 'JH' for gold standard)
+            
+        Returns:
+            The input file contents
+        """
+        if bank == "JH":
+            input_path = self.base_path / "data" / "JH" / document_type / "input_output" / f"{document_type.lower()}_input.txt"
+        else:
+            input_path = self.base_path / "demos" / document_type / bank / "input_output" / f"{document_type.lower()}_{bank.lower()}_input.txt"
+        
+        try:
+            with open(input_path, 'r', encoding='utf-8') as f:
+                return f.read()
+        except FileNotFoundError:
+            return f"Input file not found at {input_path}"
+    
+    def read_expected_output(self, document_type: str, bank: str = "JH") -> str:
+        """
+        Read an expected output JSON file for a document type and bank.
+        
+        Args:
+            document_type: The document type (e.g., 'LN6280P')
+            bank: The bank name (default 'JH' for gold standard)
+            
+        Returns:
+            The expected output JSON as a string
+        """
+        if bank == "JH":
+            output_path = self.base_path / "data" / "JH" / document_type / "input_output" / f"{document_type.lower()}_output.json"
+        else:
+            output_path = self.base_path / "demos" / document_type / bank / "input_output" / f"{document_type.lower()}_{bank.lower()}_output.json"
+        
+        try:
+            with open(output_path, 'r', encoding='utf-8') as f:
+                return f.read()
+        except FileNotFoundError:
+            return f"Output file not found at {output_path}"
+    
+    def run_parser(self, parser_path: str, input_text: str) -> str:
+        """
+        Run a parser on input text and return the output.
+        
+        Args:
+            parser_path: Full path to the parser file
+            input_text: The input text to parse
+            
+        Returns:
+            The parser output (JSON string)
+        """
+        # Save input to temporary file
+        temp_input = self.output_dir / "temp_input.txt"
+        with open(temp_input, 'w', encoding='utf-8') as f:
+            f.write(input_text)
+        
+        try:
+            # Run the parser
+            result = subprocess.run(
+                [sys.executable, parser_path, str(temp_input)],
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+            
+            if result.returncode != 0:
+                return f"Parser error: {result.stderr}"
+            
+            return result.stdout
+        except Exception as e:
+            return f"Error running parser: {e}"
+        finally:
+            # Clean up temp file
+            if temp_input.exists():
+                temp_input.unlink()
+    
+    def _execute_parser_code(self, parser_code: str, input_text: str):
+        """
+        Internal method to execute parser code directly with input text.
+        This is similar to the HumanEval execution model.
+        
+        Args:
+            parser_code: The complete parser code to execute
+            input_text: The input text to parse
+            
+        Returns:
+            Tuple of (output, error) - output is the JSON result or empty string, 
+            error contains any exception messages
+        """
+        # Create a temporary directory for safe execution
+        with tempfile.TemporaryDirectory() as temp_dir:
+            temp_path = Path(temp_dir)
+            
+            # Write parser code to a file
+            parser_file = temp_path / "parser.py"
+            with open(parser_file, 'w', encoding='utf-8') as f:
+                f.write(parser_code)
+            
+            # Write input to a file
+            input_file = temp_path / "input.txt"
+            with open(input_file, 'w', encoding='utf-8') as f:
+                f.write(input_text)
+            
+            # Execute the parser in a subprocess for safety
+            try:
+                result = subprocess.run(
+                    [sys.executable, str(parser_file), str(input_file)],
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
+                    cwd=temp_dir
+                )
+                
+                if result.returncode != 0:
+                    return "", f"Parser execution failed:\n{result.stderr}"
+                
+                return result.stdout.strip(), ""
+                
+            except subprocess.TimeoutExpired:
+                return "", "Parser execution timed out (10 seconds)"
+            except Exception as e:
+                return "", f"Execution error: {str(e)}\n{traceback.format_exc()}"
+    
+    def test_parser_code(self, parser_code: str) -> str:
+        """
+        Test parser code against multiple test cases.
+        
+        Args:
+            parser_code: The parser code to test
+            
+        Returns:
+            Test results summary
+        """
+        results = []
+        
+        # Test 1: Gold standard input
+        gold_input = self.read_input(self.document_type, "JH")
+        gold_expected = self.read_expected_output(self.document_type, "JH")
+        
+        output, error = self._execute_parser_code(parser_code, gold_input)
+        if error:
+            results.append(f"❌ Gold standard test failed: {error}")
+        else:
+            match = self.compare_outputs(output, gold_expected)
+            if match == "MATCH":
+                results.append("✅ Gold standard test: PASS")
+            else:
+                results.append(f"❌ Gold standard test: Output mismatch")
+        
+        # Test 2: New bank input
+        new_input = self.read_input(self.document_type, self.bank_name)
+        new_expected = self.read_expected_output(self.document_type, self.bank_name)
+        
+        output, error = self._execute_parser_code(parser_code, new_input)
+        if error:
+            results.append(f"❌ {self.bank_name} test failed: {error}")
+        else:
+            match = self.compare_outputs(output, new_expected)
+            if match == "MATCH":
+                results.append(f"✅ {self.bank_name} test: PASS")
+            else:
+                results.append(f"❌ {self.bank_name} test: Output mismatch")
+        
+        return "\n".join(results)
+    
+    def save_parser(self, parser_code: str) -> str:
+        """
+        Save a new parser to the output directory.
+        
+        Args:
+            parser_code: The complete parser code
+            
+        Returns:
+            The path where the parser was saved
+        """
+        # Create directory structure
+        parser_dir = self.output_dir / f"{self.document_type}_{self.bank_name}"
+        parser_dir.mkdir(exist_ok=True)
+        
+        parser_path = parser_dir / "parser.py"
+        
+        with open(parser_path, 'w', encoding='utf-8') as f:
+            f.write(parser_code)
+        
+        app_logger.info(f"Saved parser to: {parser_path}")
+        return str(parser_path)
+    
+    def validate_json(self, json_string: str) -> str:
+        """
+        Validate that a string is valid JSON.
+        
+        Args:
+            json_string: String to validate as JSON
+            
+        Returns:
+            "Valid JSON" or error message
+        """
+        try:
+            json.loads(json_string)
+            return "Valid JSON"
+        except json.JSONDecodeError as e:
+            return f"Invalid JSON: {e}"
+    
+    def compare_outputs(self, actual: str, expected: str) -> str:
+        """
+        Compare two JSON outputs and report if they match.
+        
+        Args:
+            actual: The actual output JSON string
+            expected: The expected output JSON string
+            
+        Returns:
+            "MATCH" if identical, or a summary of differences
+        """
+        try:
+            actual_obj = json.loads(actual)
+            expected_obj = json.loads(expected)
+            
+            # Normalize by pretty-printing with sorted keys
+            actual_normalized = json.dumps(actual_obj, indent=2, sort_keys=True)
+            expected_normalized = json.dumps(expected_obj, indent=2, sort_keys=True)
+            
+            if actual_normalized == expected_normalized:
+                return "MATCH"
+            else:
+                # Just report that they don't match - let the LLM analyze the differences
+                return "NO MATCH - outputs differ"
+        except json.JSONDecodeError as e:
+            return f"JSON decode error: {e}"
+    
+    def debug_parser_output(self, parser_code: str, input_text: str) -> str:
+        """
+        Execute parser code and return both output and detailed error information for debugging.
+        
+        Args:
+            parser_code: The parser code to debug
+            input_text: The input text to parse
+            
+        Returns:
+            Detailed output including stdout, stderr, and any exceptions
+        """
+        output, error = self._execute_parser_code(parser_code, input_text)
+        
+        result = []
+        if output:
+            result.append("=== PARSER OUTPUT ===")
+            result.append(output)
+            result.append("")
+        
+        if error:
+            result.append("=== PARSER ERROR ===")
+            result.append(error)
+            result.append("")
+        
+        # Try to validate JSON if we got output
+        if output and not error:
+            validation = self.validate_json(output)
+            result.append(f"=== JSON VALIDATION ===")
+            result.append(validation)
+        
+        return "\n".join(result)
+    
+    def run_comprehensive_tests(self, parser_code: str, detailed_errors: bool = False) -> str:
+        """
+        Run comprehensive tests including all 5 test cases per bank.
+        
+        Args:
+            parser_code: The parser code to test
+            detailed_errors: If True, include detailed error information for debugging
+            
+        Returns:
+            Detailed test results
+        """
+        # Import test harness
+        sys.path.append(str(Path(__file__).parent))
+        from test_harness import ParserTestHarness, TestResult
+        
+        # Save parser temporarily
+        temp_parser_path = self.save_parser(parser_code)
+        parser_path = Path(temp_parser_path)
+        
+        # Create test harness
+        harness = ParserTestHarness(self.document_type)
+        
+        # Store detailed error info
+        detailed_failures = []
+        
+        # Run tests for this bank
+        try:
+            bank_results = harness.test_bank_parser(parser_path, self.bank_name)
+            
+            # Format results
+            result_lines = []
+            result_lines.append(f"=== COMPREHENSIVE TEST RESULTS FOR {self.bank_name} ===")
+            result_lines.append(f"Difficulty: {bank_results.difficulty}")
+            result_lines.append(f"Overall Pass Rate: {bank_results.pass_rate:.1f}%")
+            result_lines.append("")
+            
+            for test in bank_results.test_results:
+                status = "✅ PASS" if test.passed else "❌ FAIL"
+                result_lines.append(f"{test.test_name}: {status}")
+                if test.execution_time:
+                    result_lines.append(f"  Execution time: {test.execution_time:.2f}s")
+                if not test.passed and test.error_message:
+                    result_lines.append(f"  Error: {test.error_message.split(chr(10))[0]}")
+                    
+                    # Collect detailed error info for failed tests
+                    if detailed_errors:
+                        # Get test input and expected output
+                        test_input_path = self.base_path / "demos" / self.document_type / self.bank_name / "test_cases" / f"{test.test_name}_input.txt"
+                        test_output_path = self.base_path / "demos" / self.document_type / self.bank_name / "test_cases" / f"{test.test_name}_output.json"
+                        
+                        detailed_info = {
+                            "test_name": test.test_name,
+                            "error_message": test.error_message,
+                            "input_file": str(test_input_path),
+                            "expected_output_file": str(test_output_path)
+                        }
+                        
+                        # Try to get actual vs expected comparison
+                        if "!=" in test.error_message:
+                            parts = test.error_message.split("!=")
+                            if len(parts) == 2:
+                                detailed_info["actual_value"] = parts[0].strip().split(": ")[-1].strip()
+                                detailed_info["expected_value"] = parts[1].strip()
+                        
+                        detailed_failures.append(detailed_info)
+                        
+                result_lines.append("")
+            
+            if bank_results.overall_passed:
+                result_lines.append("🎉 ALL TESTS PASSED! 🎉")
+            else:
+                result_lines.append(f"⚠️  {sum(1 for t in bank_results.test_results if not t.passed)} tests failed")
+                
+                if detailed_errors and detailed_failures:
+                    result_lines.append("\n=== DETAILED ERROR INFORMATION ===")
+                    for failure in detailed_failures:
+                        result_lines.append(f"\nTest: {failure['test_name']}")
+                        result_lines.append(f"Error: {failure['error_message']}")
+                        if 'actual_value' in failure:
+                            result_lines.append(f"Actual: {failure['actual_value']}")
+                            result_lines.append(f"Expected: {failure['expected_value']}")
+            
+            return "\n".join(result_lines)
+            
+        except Exception as e:
+            return f"Error running comprehensive tests: {e}\n{traceback.format_exc()}"
+    
+    def call_gemini_directly(self, prompt: str) -> str:
+        """
+        Call Gemini API directly using Google's generative AI library.
+        
+        Args:
+            prompt: The prompt to send to Gemini
+            
+        Returns:
+            The response from Gemini
+        """
+        import os
+        import google.generativeai as genai
+        
+        # Configure Gemini
+        api_key = os.getenv("GEMINI_API_KEY")
+        if not api_key:
+            return "Error: GEMINI_API_KEY not found in environment"
+        
+        app_logger.info(f"Using Gemini API key: {api_key[:10]}...")
+        genai.configure(api_key=api_key)
+        
+        # Create the model - using exact model name from user
+        # Try gemini-2.5-flash
+        model = genai.GenerativeModel('gemini-2.5-flash')
+        app_logger.info("Created Gemini model instance")
+        
+        # Generate response
+        try:
+            response = model.generate_content(
+                prompt,
+                generation_config=genai.types.GenerationConfig(
+                    temperature=0.2,
+                    max_output_tokens=20000,
+                )
+            )
+            return response.text
+        except Exception as e:
+            return f"Error calling Gemini: {str(e)}"
+    
+    def fix_parser_with_llm(self, parser_code: str, test_failures: str, detailed_test_info: list = None, model: str = "gemini-2.5-flash") -> str:
+        """
+        Use an LLM to fix failing tests in the parser.
+        
+        Args:
+            parser_code: The current parser code
+            test_failures: Description of which tests failed and why
+            detailed_test_info: Optional list of dicts with detailed test failure info
+            model: The model to use for fixing (defaults to gemini-2.5-flash)
+            
+        Returns:
+            Fixed parser code
+        """
+        import difflib
+        
+        # Load the gold standard parser for reference
+        gold_parser = self.read_parser(self.document_type, "JH")
+        
+        # Load example inputs and outputs for both banks
+        jh_input = self.read_input(self.document_type, "JH")
+        jh_output = self.read_expected_output(self.document_type, "JH")
+        regional_input = self.read_input(self.document_type, self.bank_name)
+        regional_output = self.read_expected_output(self.document_type, self.bank_name)
+        
+        # Prepare comprehensive prompt for Gemini
+        prompt = f"""You are an expert Python parser developer. Fix the failing tests in this parser.
+
+CONTEXT:
+You are adapting a parser that works perfectly for Jack Henry (JH) bank format to also work with {self.bank_name} format.
+The parser must maintain backward compatibility - it should still work with JH format after your changes.
+
+GOLD STANDARD PARSER (works perfectly for JH format):
+```python
+{gold_parser}
+```
+
+EXAMPLE INPUTS AND OUTPUTS:
+
+1. Jack Henry (JH) Format Input:
+```
+{jh_input}
+```
+
+Expected JH Output:
+```json
+{jh_output}
+```
+
+2. {self.bank_name} Format Input:
+```
+{regional_input}
+```
+
+Expected {self.bank_name} Output:
+```json
+{regional_output}
+```
+
+CURRENT PARSER CODE (your starting point):
+```python
+{parser_code}
+```
+
+TEST FAILURES:
+{test_failures}
+"""
+        
+        # Add detailed information if available
+        if detailed_test_info:
+            prompt += "\n\nDETAILED FAILURE ANALYSIS:\n"
+            
+            for test_info in detailed_test_info:
+                prompt += f"\n{'='*60}\nTest: {test_info['test_name']}\n"
+                prompt += f"Error Type: {test_info.get('error_type', 'Unknown')}\n"
+                
+                # If it's an execution error (parser crashed)
+                if test_info.get('error_type') == 'execution_error':
+                    prompt += f"Execution Error: {test_info['error_message']}\n"
+                    if 'traceback' in test_info:
+                        prompt += f"Traceback:\n{test_info['traceback']}\n"
+                    if 'input_snippet' in test_info:
+                        prompt += f"\nInput that caused the error (first 500 chars):\n```\n{test_info['input_snippet'][:500]}...\n```\n"
+                
+                # If it's an output mismatch (parser ran but produced wrong output)
+                elif test_info.get('error_type') == 'output_mismatch':
+                    prompt += f"Output Mismatch: {test_info['error_message']}\n"
+                    
+                    # Add diff if we have both outputs
+                    if 'actual_output' in test_info and 'expected_output' in test_info:
+                        try:
+                            # Parse JSON for pretty comparison
+                            actual_json = json.loads(test_info['actual_output'])
+                            expected_json = json.loads(test_info['expected_output'])
+                            
+                            # Pretty print both for diff
+                            actual_lines = json.dumps(actual_json, indent=2, sort_keys=True).splitlines(keepends=True)
+                            expected_lines = json.dumps(expected_json, indent=2, sort_keys=True).splitlines(keepends=True)
+                            
+                            # Generate unified diff
+                            diff = difflib.unified_diff(
+                                expected_lines,
+                                actual_lines,
+                                fromfile='expected_output.json',
+                                tofile='actual_output.json',
+                                n=5  # Context lines
+                            )
+                            
+                            prompt += "\nJSON Diff (expected vs actual):\n```diff\n"
+                            diff_lines = list(diff)
+                            # Limit diff output to avoid token explosion
+                            if len(diff_lines) > 100:
+                                prompt += ''.join(diff_lines[:100])
+                                prompt += f"\n... ({len(diff_lines) - 100} more lines) ...\n"
+                            else:
+                                prompt += ''.join(diff_lines)
+                            prompt += "\n```\n"
+                            
+                        except json.JSONDecodeError:
+                            # If JSON parsing fails, show the raw error
+                            prompt += f"JSON parsing failed. Raw output comparison:\n"
+                            prompt += f"Expected (first 200 chars): {test_info['expected_output'][:200]}...\n"
+                            prompt += f"Actual (first 200 chars): {test_info['actual_output'][:200]}...\n"
+                    
+                    # Add input snippet for context
+                    if 'input_snippet' in test_info:
+                        prompt += f"\nTest Input (first 300 chars):\n```\n{test_info['input_snippet'][:300]}...\n```\n"
+                    
+                    # Try to add full test input if available
+                    if 'full_input' in test_info:
+                        prompt += f"\nFull Test Input:\n```\n{test_info['full_input']}\n```\n"
+                    
+                    # Try to add full expected output if available
+                    if 'expected_output' in test_info:
+                        prompt += f"\nFull Expected Output:\n```json\n{test_info['expected_output']}\n```\n"
+        
+        prompt += """
+
+REQUIREMENTS:
+1. Fix ONLY the specific issues causing test failures
+2. Maintain all existing functionality (backward compatibility)
+3. Use additive enhancement - don't remove existing patterns
+4. Add clear comments explaining your fixes
+5. Return the complete, corrected parser code
+
+Key things to fix based on the failures:
+- For execution errors: Fix the code that's crashing (check stack traces)
+- For output mismatches: Fix the parsing logic to produce expected output
+- If address parsing fails with comma issues, check the address parsing logic
+- If transactions are missing, check the transaction parsing regex patterns
+- Ensure all edge cases are handled properly
+
+Return only the complete Python code, no explanations."""
+
+        # Call the specified model for the fix using integrated LLM system
+        app_logger.info(f"Calling {model} to fix parser issues...")
+        
+        # Import here to avoid circular imports
+        from celi_framework.utils.llms import quick_ask_async
+        import asyncio
+        
+        try:
+            # Check if we're already in an event loop
+            try:
+                loop = asyncio.get_running_loop()
+                # We're in an event loop, need to use a different approach
+                import concurrent.futures
+                import threading
+                
+                # Run in a separate thread to avoid event loop conflict
+                def run_in_thread():
+                    # Create a new event loop for this thread
+                    new_loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(new_loop)
+                    try:
+                        return new_loop.run_until_complete(quick_ask_async(
+                            prompt=prompt,
+                            model_name=model,
+                            temperature=0.2,
+                            max_tokens=20000,
+                            verbose=True
+                        ))
+                    finally:
+                        new_loop.close()
+                
+                with concurrent.futures.ThreadPoolExecutor() as executor:
+                    future = executor.submit(run_in_thread)
+                    fixed_code = future.result(timeout=300)  # 5 minute timeout
+                    
+            except RuntimeError:
+                # No event loop running, we can use asyncio.run
+                fixed_code = asyncio.run(quick_ask_async(
+                    prompt=prompt,
+                    model_name=model,
+                    temperature=0.2,
+                    max_tokens=20000,
+                    verbose=True
+                ))
+        except Exception as e:
+            return f"Error calling {model}: {str(e)}"
+        
+        # Extract code if wrapped in markdown
+        if "```python" in fixed_code:
+            fixed_code = fixed_code.split("```python")[1].split("```")[0].strip()
+        elif "```" in fixed_code:
+            fixed_code = fixed_code.split("```")[1].split("```")[0].strip()
+            
+        return fixed_code
+    
+    def fix_parser_with_llm_comprehensive(self, parser_code: str, test_failures: str, detailed_test_info: list, all_test_cases: list, model: str = "gemini-2.5-flash") -> str:
+        """
+        Enhanced version of fix_parser_with_llm that includes ALL test case data.
+        
+        Args:
+            parser_code: The current parser code
+            test_failures: Description of which tests failed and why
+            detailed_test_info: List of dicts with detailed test failure info
+            all_test_cases: List of ALL test cases (both passing and failing) with inputs/outputs
+            model: The model to use for fixing (defaults to gemini-2.5-flash)
+            
+        Returns:
+            Fixed parser code
+        """
+        import difflib
+        
+        # Load the gold standard parser for reference
+        gold_parser = self.read_parser(self.document_type, "JH")
+        
+        # Load example inputs and outputs for both banks
+        jh_input = self.read_input(self.document_type, "JH")
+        jh_output = self.read_expected_output(self.document_type, "JH")
+        regional_input = self.read_input(self.document_type, self.bank_name)
+        regional_output = self.read_expected_output(self.document_type, self.bank_name)
+        
+        # Prepare comprehensive prompt for Gemini
+        prompt = f"""You are an expert Python parser developer. Fix the failing tests in this parser.
+
+IMPORTANT CONTEXT - PLEASE READ CAREFULLY:
+1. We started with a GOLD STANDARD parser that works perfectly for Jack Henry (JH) bank format
+2. Claude has already attempted to adapt this parser for {self.bank_name} format while maintaining backward compatibility
+3. Claude's approach was to make minimal changes - only adding new patterns without removing existing ones
+4. However, Claude's adapted parser is failing some test cases for {self.bank_name}
+5. Your job is to fix these specific failures while keeping Claude's correct adaptations
+
+GOLD STANDARD PARSER (the original that works perfectly for JH format):
+```python
+{gold_parser}
+```
+
+ORIGINAL MAIN EXAMPLES (what the parsers were designed for):
+
+1. Jack Henry (JH) Format - Original Input:
+```
+{jh_input}
+```
+
+Jack Henry (JH) Format - Expected Output:
+```json
+{jh_output}
+```
+
+2. {self.bank_name} Format - Target Input:
+```
+{regional_input}
+```
+
+{self.bank_name} Format - Target Expected Output:
+```json
+{regional_output}
+```
+
+CLAUDE'S ADAPTED PARSER (attempting to handle both JH and {self.bank_name}):
+This is the parser that Claude created by adapting the gold standard. It's passing some tests but failing others.
+```python
+{parser_code}
+```
+
+COMPREHENSIVE TEST SUITE OVERVIEW:
+Total tests: {len(all_test_cases)}
+Passing tests: {sum(1 for t in all_test_cases if t.get('passed', False))}
+Failing tests: {sum(1 for t in all_test_cases if not t.get('passed', False))}
+
+ALL TEST CASES (INCLUDING PASSING ONES FOR CONTEXT):
+"""
+        
+        # Add ALL test cases to give Gemini complete understanding
+        for i, test_case in enumerate(all_test_cases):
+            prompt += f"\n{'='*60}\nTest {i+1}: {test_case['test_name']} - {'PASS' if test_case.get('passed', False) else 'FAIL'}\n"
+            
+            if 'full_input' in test_case:
+                prompt += f"\nTest Input (first 500 chars):\n```\n{test_case['full_input'][:500]}{'...' if len(test_case['full_input']) > 500 else ''}\n```\n"
+            
+            if 'expected_output' in test_case:
+                try:
+                    # Pretty print expected JSON
+                    expected_json = json.loads(test_case['expected_output'])
+                    prompt += f"\nExpected Output (first notice only for brevity):\n```json\n"
+                    if 'notices' in expected_json and expected_json['notices']:
+                        first_notice = {
+                            "metadata": expected_json.get("metadata", {}),
+                            "bank": expected_json.get("bank", {}),
+                            "notices": [expected_json['notices'][0]],  # Just first notice
+                            "extra": expected_json.get("extra", {})
+                        }
+                        prompt += json.dumps(first_notice, indent=2)[:1000]
+                        if len(expected_json['notices']) > 1:
+                            prompt += f"\n... ({len(expected_json['notices']) - 1} more notices) ..."
+                    else:
+                        prompt += json.dumps(expected_json, indent=2)[:1000]
+                    prompt += "\n```\n"
+                except:
+                    prompt += f"\nExpected Output (raw, first 300 chars): {test_case['expected_output'][:300]}...\n"
+        
+        prompt += f"""
+
+TEST FAILURES SUMMARY:
+{test_failures}
+
+WHAT CLAUDE GOT RIGHT AND WRONG:
+Based on the test results above, Claude's parser successfully:
+- Adapted the basic structure to handle {self.bank_name} format
+- {f"Passed {sum(1 for t in all_test_cases if t.get('passed', False))} out of {len(all_test_cases)} tests"}
+- Maintained backward compatibility with JH format (if applicable)
+
+But Claude's parser is failing because:
+- It didn't handle all the edge cases in the test suite
+- The specific failures are detailed below
+"""
+        
+        # Add detailed information about failures
+        if detailed_test_info:
+            prompt += "\n\nDETAILED FAILURE ANALYSIS:\n"
+            
+            for test_info in detailed_test_info:
+                prompt += f"\n{'='*60}\nFailing Test: {test_info['test_name']}\n"
+                prompt += f"Error Type: {test_info.get('error_type', 'Unknown')}\n"
+                
+                # If it's an execution error (parser crashed)
+                if test_info.get('error_type') == 'execution_error':
+                    prompt += f"Execution Error: {test_info['error_message']}\n"
+                    if 'traceback' in test_info:
+                        prompt += f"Traceback:\n{test_info['traceback']}\n"
+                
+                # If it's an output mismatch (parser ran but produced wrong output)
+                elif test_info.get('error_type') == 'output_mismatch':
+                    prompt += f"Output Mismatch: {test_info['error_message']}\n"
+                    
+                    # Add diff if we have both outputs
+                    if 'actual_output' in test_info and 'expected_output' in test_info:
+                        try:
+                            # Parse JSON for pretty comparison
+                            actual_json = json.loads(test_info['actual_output'])
+                            expected_json = json.loads(test_info['expected_output'])
+                            
+                            # Pretty print both for diff
+                            actual_lines = json.dumps(actual_json, indent=2, sort_keys=True).splitlines(keepends=True)
+                            expected_lines = json.dumps(expected_json, indent=2, sort_keys=True).splitlines(keepends=True)
+                            
+                            # Generate unified diff
+                            diff = difflib.unified_diff(
+                                expected_lines,
+                                actual_lines,
+                                fromfile='expected_output.json',
+                                tofile='actual_output.json',
+                                n=5  # Context lines
+                            )
+                            
+                            prompt += "\nJSON Diff (expected vs actual):\n```diff\n"
+                            diff_lines = list(diff)
+                            # Limit diff output to avoid token explosion
+                            if len(diff_lines) > 100:
+                                prompt += ''.join(diff_lines[:100])
+                                prompt += f"\n... ({len(diff_lines) - 100} more lines) ...\n"
+                            else:
+                                prompt += ''.join(diff_lines)
+                            prompt += "\n```\n"
+                            
+                        except json.JSONDecodeError:
+                            # If JSON parsing fails, show the raw error
+                            prompt += f"JSON parsing failed. Raw output comparison:\n"
+                            prompt += f"Expected (first 200 chars): {test_info['expected_output'][:200]}...\n"
+                            prompt += f"Actual (first 200 chars): {test_info['actual_output'][:200]}...\n"
+        
+        prompt += f"""
+
+KEY OBSERVATIONS FROM ALL TEST CASES:
+1. There are {len(all_test_cases)} test cases total that your parser must handle
+2. Test cases include various edge cases like Unicode characters, special business names, complex addresses
+3. The passing tests show patterns that Claude got RIGHT - don't break these!
+4. The failing tests show specific patterns that Claude MISSED - these need surgical fixes
+
+YOUR TASK:
+You need to fix Claude's adapted parser so it passes ALL test cases. Claude already did the heavy lifting of:
+- Adding support for {self.bank_name}'s different field names
+- Handling the basic format differences
+- Maintaining JH compatibility
+
+But Claude missed some edge cases that are causing test failures. Your job is to:
+1. Keep all of Claude's correct adaptations
+2. Add the specific fixes for the failing test cases
+3. Make minimal, surgical changes - don't rewrite what's already working
+
+REQUIREMENTS:
+1. Start with Claude's parser code (not the gold standard)
+2. Fix ONLY the specific issues causing test failures
+3. Preserve all of Claude's working adaptations
+4. Add clear comments for your specific fixes (e.g., "# FIX: Added handling for negative amounts")
+5. Ensure the parser handles ALL {len(all_test_cases)} test cases correctly
+6. Return the complete, corrected parser code
+
+COMMON ISSUES CLAUDE MIGHT HAVE MISSED:
+- Address parsing with commas (e.g., "C/O EXECUTIVE PROPERTY MANAGEMENT, 9876 WALL STREET")
+- Negative transaction amounts (e.g., "$-2.50")
+- Edge cases in regex patterns that work for main examples but fail on test cases
+- Special characters or Unicode handling in stress tests
+- Multi-line address formatting
+
+Return only the complete Python code with your fixes applied to Claude's parser."""
+
+        # Call the specified model for the fix using integrated LLM system
+        app_logger.info(f"Calling {model} to fix parser issues with comprehensive context...")
+        app_logger.info(f"Providing context for all {len(all_test_cases)} test cases")
+        
+        # Import here to avoid circular imports
+        from celi_framework.utils.llms import quick_ask_async
+        import asyncio
+        
+        try:
+            # Check if we're already in an event loop
+            try:
+                loop = asyncio.get_running_loop()
+                # We're in an event loop, need to use a different approach
+                import concurrent.futures
+                
+                # Run in a separate thread to avoid event loop conflict
+                def run_in_thread():
+                    # Create a new event loop for this thread
+                    new_loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(new_loop)
+                    try:
+                        return new_loop.run_until_complete(quick_ask_async(
+                            prompt=prompt,
+                            model_name=model,
+                            temperature=0.2,
+                            max_tokens=20000,
+                            verbose=True
+                        ))
+                    finally:
+                        new_loop.close()
+                
+                with concurrent.futures.ThreadPoolExecutor() as executor:
+                    future = executor.submit(run_in_thread)
+                    fixed_code = future.result(timeout=300)  # 5 minute timeout
+                    
+            except RuntimeError:
+                # No event loop running, we can use asyncio.run
+                fixed_code = asyncio.run(quick_ask_async(
+                    prompt=prompt,
+                    model_name=model,
+                    temperature=0.2,
+                    max_tokens=20000,
+                    verbose=True
+                ))
+        except Exception as e:
+            return f"Error calling {model}: {str(e)}"
+        
+        # Extract code if wrapped in markdown
+        if "```python" in fixed_code:
+            fixed_code = fixed_code.split("```python")[1].split("```")[0].strip()
+        elif "```" in fixed_code:
+            fixed_code = fixed_code.split("```")[1].split("```")[0].strip()
+            
+        return fixed_code
+    
+    def fix_parser_with_llm_comprehensive_iterative(self, parser_code: str, test_failures: str, detailed_test_info: list, all_test_cases: list, iteration_history: list, claude_analysis: str = None, model: str = "gemini-2.5-flash") -> str:
+        """
+        Enhanced version that includes COMPLETE iteration history with all previous prompts, responses, and results.
+        
+        Args:
+            parser_code: The current parser code
+            test_failures: Description of which tests failed and why  
+            detailed_test_info: List of dicts with detailed test failure info
+            all_test_cases: List of ALL test cases (both passing and failing) with inputs/outputs
+            iteration_history: Complete history of all previous fix attempts
+            claude_analysis: Claude's initial analysis of format differences (optional)
+            model: The model to use for fixing (defaults to gemini-2.5-flash)
+            
+        Returns:
+            Fixed parser code
+        """
+        import difflib
+        
+        # Load the gold standard parser for reference
+        gold_parser = self.read_parser(self.document_type, "JH")
+        
+        # Load example inputs and outputs for both banks
+        jh_input = self.read_input(self.document_type, "JH")
+        jh_output = self.read_expected_output(self.document_type, "JH")
+        regional_input = self.read_input(self.document_type, self.bank_name)
+        regional_output = self.read_expected_output(self.document_type, self.bank_name)
+        
+        # Start with base prompt
+        prompt = f"""You are an expert Python parser developer. Fix the failing tests in this parser.
+
+IMPORTANT CONTEXT - PLEASE READ CAREFULLY:
+1. We started with a GOLD STANDARD parser that works perfectly for Jack Henry (JH) bank format
+2. Claude has already attempted to adapt this parser for {self.bank_name} format while maintaining backward compatibility
+3. You are now on iteration {len(iteration_history) + 1} of fixing the remaining issues
+4. Below is the COMPLETE HISTORY of all previous attempts, including the exact prompts and your responses"""
+        
+        # Add Claude's initial analysis if provided
+        if claude_analysis:
+            prompt += f"""
+
+CLAUDE'S INITIAL ANALYSIS OF FORMAT DIFFERENCES:
+{claude_analysis}
+
+This analysis identified the key differences between JH and {self.bank_name} formats that Claude addressed in the initial parser adaptation."""
+        
+        prompt += f"""
+
+GOLD STANDARD PARSER (the original that works perfectly for JH format):
+```python
+{gold_parser}
+```
+
+ORIGINAL MAIN EXAMPLES (what the parsers were designed for):
+
+1. Jack Henry (JH) Format - Original Input:
+```
+{jh_input}
+```
+
+Jack Henry (JH) Format - Expected Output:
+```json
+{jh_output}
+```
+
+2. {self.bank_name} Format - Target Input:
+```
+{regional_input}
+```
+
+{self.bank_name} Format - Target Expected Output:
+```json
+{regional_output}
+```
+
+"""
+
+        # Add complete iteration history
+        if iteration_history:
+            prompt += "\n\n=== COMPLETE ITERATION HISTORY ===\n"
+            prompt += "Below is the FULL HISTORY of all previous fix attempts, including prompts and results:\n\n"
+            
+            for idx, iteration in enumerate(iteration_history):
+                prompt += f"--- ITERATION {iteration['iteration']} ---\n"
+                prompt += f"Tests Status: {iteration['failing_tests']} failing out of {iteration['total_tests']} total\n"
+                prompt += f"\nParser Code at Start of Iteration {iteration['iteration']}:\n```python\n{iteration['parser_code']}\n```\n"
+                prompt += f"\nTest Results for this Code:\n{iteration['test_results']}\n"
+                prompt += "\n" + "="*80 + "\n\n"
+
+        # Add current state
+        prompt += f"""\n\n=== CURRENT STATE (ITERATION {len(iteration_history) + 1}) ===
+
+CURRENT PARSER CODE (after {len(iteration_history)} previous fix attempts):
+```python
+{parser_code}
+```
+
+CURRENT TEST RESULTS:
+Total tests: {len(all_test_cases)}
+Passing tests: {sum(1 for t in all_test_cases if t.get('passed', False))}
+Failing tests: {sum(1 for t in all_test_cases if not t.get('passed', False))}
+
+CURRENT TEST FAILURES:
+{test_failures}
+
+"""
+
+        # Add all test cases
+        prompt += "\nALL TEST CASES (INCLUDING PASSING ONES FOR CONTEXT):\n"
+        
+        for i, test_case in enumerate(all_test_cases):
+            prompt += f"\n{'='*60}\nTest {i+1}: {test_case['test_name']} - {'PASS' if test_case.get('passed', False) else 'FAIL'}\n"
+            
+            if 'full_input' in test_case:
+                prompt += f"\nTest Input (first 500 chars):\n```\n{test_case['full_input'][:500]}{'...' if len(test_case['full_input']) > 500 else ''}\n```\n"
+            
+            if 'expected_output' in test_case:
+                try:
+                    # Pretty print expected JSON
+                    expected_json = json.loads(test_case['expected_output'])
+                    prompt += f"\nExpected Output (first notice only for brevity):\n```json\n"
+                    if 'notices' in expected_json and expected_json['notices']:
+                        first_notice = {
+                            "metadata": expected_json.get("metadata", {}),
+                            "bank": expected_json.get("bank", {}),
+                            "notices": [expected_json['notices'][0]],  # Just first notice
+                            "extra": expected_json.get("extra", {})
+                        }
+                        prompt += json.dumps(first_notice, indent=2)[:1000]
+                        if len(expected_json['notices']) > 1:
+                            prompt += f"\n... ({len(expected_json['notices']) - 1} more notices) ..."
+                    else:
+                        prompt += json.dumps(expected_json, indent=2)[:1000]
+                    prompt += "\n```\n"
+                except:
+                    prompt += f"\nExpected Output (raw, first 300 chars): {test_case['expected_output'][:300]}...\n"
+
+        # Add detailed failure analysis
+        if detailed_test_info:
+            prompt += "\n\nDETAILED FAILURE ANALYSIS FOR CURRENT ITERATION:\n"
+            
+            for test_info in detailed_test_info:
+                prompt += f"\n{'='*60}\nFailing Test: {test_info['test_name']}\n"
+                prompt += f"Error Type: {test_info.get('error_type', 'Unknown')}\n"
+                
+                if test_info.get('error_type') == 'execution_error':
+                    prompt += f"Execution Error: {test_info['error_message']}\n"
+                    if 'traceback' in test_info:
+                        prompt += f"Traceback:\n{test_info['traceback']}\n"
+                
+                elif test_info.get('error_type') == 'output_mismatch':
+                    prompt += f"Output Mismatch: {test_info['error_message']}\n"
+                    
+                    if 'actual_output' in test_info and 'expected_output' in test_info:
+                        try:
+                            # Parse JSON for pretty comparison
+                            actual_json = json.loads(test_info['actual_output'])
+                            expected_json = json.loads(test_info['expected_output'])
+                            
+                            # Pretty print both for diff
+                            actual_lines = json.dumps(actual_json, indent=2, sort_keys=True).splitlines(keepends=True)
+                            expected_lines = json.dumps(expected_json, indent=2, sort_keys=True).splitlines(keepends=True)
+                            
+                            # Generate unified diff
+                            diff = difflib.unified_diff(
+                                expected_lines,
+                                actual_lines,
+                                fromfile='expected_output.json',
+                                tofile='actual_output.json',
+                                n=5
+                            )
+                            
+                            prompt += "\nJSON Diff (expected vs actual):\n```diff\n"
+                            diff_lines = list(diff)
+                            if len(diff_lines) > 100:
+                                prompt += ''.join(diff_lines[:100])
+                                prompt += f"\n... ({len(diff_lines) - 100} more lines) ...\n"
+                            else:
+                                prompt += ''.join(diff_lines)
+                            prompt += "\n```\n"
+                            
+                        except json.JSONDecodeError:
+                            prompt += f"JSON parsing failed. Raw output comparison:\n"
+                            prompt += f"Expected (first 200 chars): {test_info['expected_output'][:200]}...\n"
+                            prompt += f"Actual (first 200 chars): {test_info['actual_output'][:200]}...\n"
+
+        # Add specific instructions based on iteration
+        if len(iteration_history) == 0:
+            prompt += """
+YOUR TASK:
+This is your first attempt. You need to fix the failing tests while maintaining backward compatibility.
+"""
+        else:
+            prompt += f"""
+YOUR TASK - ITERATION {len(iteration_history) + 1}:
+You have already tried {len(iteration_history)} time(s) to fix these issues. 
+Review the complete history above to understand:
+1. What fixes you've already attempted
+2. Which fixes worked (tests that now pass)
+3. Which fixes didn't work or caused new issues
+4. What patterns or edge cases you might have missed
+
+DO NOT repeat the same mistakes. Learn from the iteration history and make targeted fixes for the remaining issues.
+"""
+
+        prompt += """
+REQUIREMENTS:
+1. Fix ONLY the specific issues causing test failures
+2. Maintain all existing functionality (backward compatibility)
+3. Preserve all working fixes from previous iterations
+4. Add clear comments for your specific fixes
+5. Do not revert fixes that are already working
+6. Return the complete, corrected parser code
+
+Return only the complete Python code with your fixes applied."""
+
+        # Call the specified model
+        app_logger.info(f"Calling {model} for iteration {len(iteration_history) + 1} with full history context...")
+        
+        # Import here to avoid circular imports
+        from celi_framework.utils.llms import quick_ask_async
+        import asyncio
+        
+        try:
+            # Check if we're already in an event loop
+            try:
+                loop = asyncio.get_running_loop()
+                # We're in an event loop, need to use a different approach
+                import concurrent.futures
+                
+                # Run in a separate thread to avoid event loop conflict
+                def run_in_thread():
+                    # Create a new event loop for this thread
+                    new_loop = asyncio.new_event_loop()
+                    asyncio.set_event_loop(new_loop)
+                    try:
+                        return new_loop.run_until_complete(quick_ask_async(
+                            prompt=prompt,
+                            model_name=model,
+                            temperature=0.2,
+                            max_tokens=20000,
+                            verbose=True
+                        ))
+                    finally:
+                        new_loop.close()
+                
+                with concurrent.futures.ThreadPoolExecutor() as executor:
+                    future = executor.submit(run_in_thread)
+                    fixed_code = future.result(timeout=300)  # 5 minute timeout
+                    
+            except RuntimeError:
+                # No event loop running, we can use asyncio.run
+                fixed_code = asyncio.run(quick_ask_async(
+                    prompt=prompt,
+                    model_name=model,
+                    temperature=0.2,
+                    max_tokens=20000,
+                    verbose=True
+                ))
+        except Exception as e:
+            return f"Error calling {model}: {str(e)}"
+        
+        # Extract code if wrapped in markdown
+        if "```python" in fixed_code:
+            fixed_code = fixed_code.split("```python")[1].split("```")[0].strip()
+        elif "```" in fixed_code:
+            fixed_code = fixed_code.split("```")[1].split("```")[0].strip()
+            
+        return fixed_code
+    
+    def run_comprehensive_tests_with_llm_fixes(self, parser_code: str, max_iterations: int = 3, claude_analysis: str = None) -> str:
+        """
+        Run comprehensive tests and automatically fix failures using an LLM with iterative refinement.
+        
+        Args:
+            parser_code: The parser code to test and potentially fix
+            max_iterations: Maximum number of fix attempts (default: 3)
+            claude_analysis: Claude's initial analysis of format differences (optional)
+            
+        Returns:
+            Final test results and fixed code if applicable
+        """
+        # Use stored analysis if not provided
+        if claude_analysis is None and self.claude_analysis is not None:
+            claude_analysis = self.claude_analysis
+            app_logger.info("Using stored Claude analysis for Gemini context")
+        # First run the tests with detailed errors
+        initial_results = self.run_comprehensive_tests(parser_code, detailed_errors=True)
+        
+        # Check if any tests failed
+        if "❌ FAIL" not in initial_results:
+            return initial_results + "\n\nNo fixes needed - all tests passed!"
+        
+        result_lines = [initial_results]
+        current_code = parser_code
+        iteration_history = []  # Store history of all attempts
+        
+        # Iterative fixing loop
+        for iteration in range(max_iterations):
+            # Extract failure information and collect detailed data
+            test_results = self.run_comprehensive_tests(current_code, detailed_errors=True)
+            
+            # Check if all tests pass
+            if "🎉 ALL TESTS PASSED! 🎉" in test_results:
+                result_lines.append(f"\n=== ITERATION {iteration + 1} SUCCESSFUL ===")
+                result_lines.append(test_results)
+                self.save_parser(current_code)
+                result_lines.append("\n✅ Fixed parser saved successfully!")
+                return '\n'.join(result_lines)
+            
+            # Parse test results
+            failure_info = []
+            detailed_test_info = []
+            all_test_cases = []
+            lines = test_results.split('\n')
+            
+            # Parse test results to find all tests (both passing and failing)
+            for i, line in enumerate(lines):
+                if "✅ PASS" in line or "❌ FAIL" in line:
+                    # Extract test name
+                    test_name = line.split(":")[0].strip()
+                    is_failing = "❌ FAIL" in line
+                    
+                    # Collect all test case information
+                    test_info = {
+                        "test_name": test_name,
+                        "passed": not is_failing
+                    }
+                    
+                    # Get test input and expected output for ALL tests
+                    try:
+                        # Handle different paths for main_example vs test_cases
+                        if test_name == "main_example":
+                            test_input_path = self.base_path / "demos" / self.document_type / self.bank_name / "input_output" / f"{self.document_type.lower()}_{self.bank_name.lower()}_input.txt"
+                            test_output_path = self.base_path / "demos" / self.document_type / self.bank_name / "input_output" / f"{self.document_type.lower()}_{self.bank_name.lower()}_output.json"
+                        else:
+                            test_input_path = self.base_path / "demos" / self.document_type / self.bank_name / "test_cases" / f"{test_name}_input.txt"
+                            test_output_path = self.base_path / "demos" / self.document_type / self.bank_name / "test_cases" / f"{test_name}_output.json"
+                        
+                        # Read test input
+                        if test_input_path.exists():
+                            with open(test_input_path, 'r') as f:
+                                test_info["full_input"] = f.read()
+                        
+                        # Read expected output
+                        if test_output_path.exists():
+                            with open(test_output_path, 'r') as f:
+                                test_info["expected_output"] = f.read()
+                                
+                    except Exception as e:
+                        test_info["collection_error"] = str(e)
+                    
+                    all_test_cases.append(test_info)
+                    
+                    # For failing tests, collect additional error details
+                    if is_failing:
+                        current_test = test_info.copy()
+                        failure_info.append(line)
+                        
+                        # Get the error message if available
+                        if i + 2 < len(lines) and "Error:" in lines[i + 2]:
+                            error_msg = lines[i + 2]
+                            failure_info.append(error_msg)
+                            current_test["error_message"] = error_msg.replace("Error: ", "").strip()
+                        
+                        # Try to run the test individually to get actual output
+                        if "full_input" in test_info:
+                            actual_output, exec_error = self._execute_parser_code(current_code, test_info["full_input"])
+                            
+                            if exec_error:
+                                # Parser crashed
+                                current_test["error_type"] = "execution_error"
+                                current_test["traceback"] = exec_error
+                            else:
+                                # Parser ran, check output
+                                current_test["error_type"] = "output_mismatch"
+                                current_test["actual_output"] = actual_output
+                        
+                        detailed_test_info.append(current_test)
+            
+            # No more failures to fix
+            if not detailed_test_info:
+                break
+                
+            failures_text = '\n'.join(failure_info)
+            
+            # Store this iteration's state
+            iteration_data = {
+                "iteration": iteration + 1,
+                "test_results": test_results,
+                "failing_tests": len(detailed_test_info),
+                "total_tests": len(all_test_cases),
+                "parser_code": current_code
+            }
+            iteration_history.append(iteration_data)
+            
+            # Prepare for LLM fix
+            result_lines.append(f"\n=== ITERATION {iteration + 1}: ATTEMPTING LLM FIX ===")
+            result_lines.append(f"Detected {len(detailed_test_info)} failing tests out of {len(all_test_cases)} total tests")
+            result_lines.append(f"Calling {self.fix_model} to fix the parser...\n")
+            
+            # Call LLM with comprehensive information including iteration history
+            fixed_code = self.fix_parser_with_llm_comprehensive_iterative(
+                current_code, 
+                failures_text, 
+                detailed_test_info, 
+                all_test_cases,
+                iteration_history,
+                claude_analysis=claude_analysis,
+                model=self.fix_model
+            )
+            
+            if "Error calling" in fixed_code:
+                result_lines.append(f"Failed to get fix from LLM: {fixed_code}")
+                break
+            
+            # Update current code for next iteration
+            current_code = fixed_code
+            
+            # Test the fixed code
+            result_lines.append(f"Testing {self.fix_model}'s iteration {iteration + 1} fix...")
+            iteration_results = self.run_comprehensive_tests(current_code)
+            result_lines.append(iteration_results)
+            
+            # Check if we should continue
+            if "❌ FAIL" not in iteration_results:
+                self.save_parser(current_code)
+                result_lines.append("\n✅ Fixed parser saved successfully!")
+                break
+            elif iteration < max_iterations - 1:
+                result_lines.append(f"\n⚠️ Some tests still failing after iteration {iteration + 1}, trying again...")
+            else:
+                result_lines.append(f"\n⚠️ Reached maximum iterations ({max_iterations}). Some tests still failing.")
+                
+        return '\n'.join(result_lines)
+
+
+================================================================================
+FILE: celi/celi_framework/examples/parser_challenge/test_harness.py
+================================================================================
+
+"""Test harness for parser challenge - runs comprehensive tests on generated parsers."""
+
+import json
+import subprocess
+import sys
+import tempfile
+import traceback
+from pathlib import Path
+from typing import Dict, List, Tuple, Optional
+from dataclasses import dataclass
+from datetime import datetime
+
+
+@dataclass
+class TestResult:
+    """Result of a single test case."""
+    test_name: str
+    passed: bool
+    error_message: Optional[str] = None
+    output_diff: Optional[str] = None
+    execution_time: Optional[float] = None
+
+
+@dataclass
+class BankTestResults:
+    """Results for all test cases of a single bank."""
+    bank_name: str
+    difficulty: str
+    test_results: List[TestResult]
+    overall_passed: bool
+    
+    @property
+    def pass_rate(self) -> float:
+        """Calculate the pass rate as a percentage."""
+        if not self.test_results:
+            return 0.0
+        passed = sum(1 for r in self.test_results if r.passed)
+        return (passed / len(self.test_results)) * 100
+
+
+class ParserTestHarness:
+    """Test harness for running parser tests."""
+    
+    def __init__(self, document_type: str = "LN6280P"):
+        self.document_type = document_type
+        self.base_path = Path("/home/sam/Projects/prog_parser_statements")
+        self.celi_path = Path("/home/sam/Projects/celi/celi_framework/examples/parser_challenge")
+        
+        # Define the challenges with their difficulty levels
+        self.challenges = {
+            "RegionalBank": "easy",
+            "CommunityCredit": "intermediate", 
+            "MetroBank": "advanced"
+        }
+        
+        # Test case names
+        self.test_cases = [
+            "test_case_1",
+            "test_case_2", 
+            "stress_test_1",
+            "stress_test_2"
+        ]
+    
+    def run_parser(self, parser_path: Path, input_path: Path, timeout: int = 10) -> Tuple[str, str]:
+        """
+        Run a parser on an input file and return output and error.
+        
+        Args:
+            parser_path: Path to the parser file
+            input_path: Path to the input file
+            timeout: Timeout in seconds
+            
+        Returns:
+            Tuple of (output, error)
+        """
+        try:
+            result = subprocess.run(
+                [sys.executable, str(parser_path), str(input_path)],
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+                cwd=parser_path.parent
+            )
+            
+            if result.returncode != 0:
+                return "", f"Parser error (exit code {result.returncode}):\n{result.stderr}"
+            
+            return result.stdout.strip(), ""
+            
+        except subprocess.TimeoutExpired:
+            return "", f"Parser execution timed out after {timeout} seconds"
+        except Exception as e:
+            return "", f"Execution error: {str(e)}\n{traceback.format_exc()}"
+    
+    def compare_json_outputs(self, actual: str, expected: str) -> Tuple[bool, Optional[str]]:
+        """
+        Compare two JSON outputs for exact match.
+        
+        Args:
+            actual: Actual output JSON string
+            expected: Expected output JSON string
+            
+        Returns:
+            Tuple of (matches, error_message)
+        """
+        try:
+            actual_obj = json.loads(actual)
+            expected_obj = json.loads(expected)
+            
+            # Normalize by pretty-printing with sorted keys
+            actual_normalized = json.dumps(actual_obj, indent=2, sort_keys=True)
+            expected_normalized = json.dumps(expected_obj, indent=2, sort_keys=True)
+            
+            if actual_normalized == expected_normalized:
+                return True, None
+            
+            # Find differences
+            diff_summary = self._summarize_json_differences(actual_obj, expected_obj)
+            return False, diff_summary
+            
+        except json.JSONDecodeError as e:
+            return False, f"JSON decode error: {e}"
+        except Exception as e:
+            return False, f"Comparison error: {e}"
+    
+    def _summarize_json_differences(self, obj1: any, obj2: any, path: str = "") -> str:
+        """Summarize differences between two JSON objects."""
+        differences = []
+        
+        def find_diffs(o1, o2, p):
+            if type(o1) != type(o2):
+                differences.append(f"{p}: Type mismatch - {type(o1).__name__} vs {type(o2).__name__}")
+                return
+            
+            if isinstance(o1, dict):
+                all_keys = set(o1.keys()) | set(o2.keys())
+                for key in sorted(all_keys):
+                    if key not in o1:
+                        differences.append(f"{p}.{key}: Missing in actual")
+                    elif key not in o2:
+                        differences.append(f"{p}.{key}: Extra in actual")
+                    else:
+                        find_diffs(o1[key], o2[key], f"{p}.{key}")
+            
+            elif isinstance(o1, list):
+                if len(o1) != len(o2):
+                    differences.append(f"{p}: List length mismatch - {len(o1)} vs {len(o2)}")
+                for i in range(min(len(o1), len(o2))):
+                    find_diffs(o1[i], o2[i], f"{p}[{i}]")
+            
+            elif o1 != o2:
+                differences.append(f"{p}: '{o1}' != '{o2}'")
+        
+        find_diffs(obj1, obj2, "root")
+        
+        # Return first 10 differences
+        if len(differences) > 10:
+            return "\n".join(differences[:10]) + f"\n... and {len(differences) - 10} more differences"
+        return "\n".join(differences)
+    
+    def test_single_case(self, parser_path: Path, bank_name: str, test_case: str) -> TestResult:
+        """
+        Test a single test case.
+        
+        Args:
+            parser_path: Path to the parser file
+            bank_name: Name of the bank
+            test_case: Name of the test case
+            
+        Returns:
+            TestResult object
+        """
+        # Construct paths
+        test_dir = self.base_path / "demos" / self.document_type / bank_name / "test_cases"
+        input_path = test_dir / f"{test_case}_input.txt"
+        expected_path = test_dir / f"{test_case}_output.json"
+        
+        # Check if files exist
+        if not input_path.exists():
+            return TestResult(test_case, False, f"Input file not found: {input_path}")
+        if not expected_path.exists():
+            return TestResult(test_case, False, f"Expected output file not found: {expected_path}")
+        
+        # Read expected output
+        try:
+            with open(expected_path, 'r', encoding='utf-8') as f:
+                expected_output = f.read()
+        except Exception as e:
+            return TestResult(test_case, False, f"Error reading expected output: {e}")
+        
+        # Run parser
+        start_time = datetime.now()
+        actual_output, error = self.run_parser(parser_path, input_path)
+        execution_time = (datetime.now() - start_time).total_seconds()
+        
+        if error:
+            return TestResult(test_case, False, error, execution_time=execution_time)
+        
+        # Compare outputs
+        matches, diff = self.compare_json_outputs(actual_output, expected_output)
+        
+        return TestResult(
+            test_case,
+            matches,
+            error_message=diff if not matches else None,
+            execution_time=execution_time
+        )
+    
+    def test_bank_parser(self, parser_path: Path, bank_name: str) -> BankTestResults:
+        """
+        Run all test cases for a specific bank parser.
+        
+        Args:
+            parser_path: Path to the parser file
+            bank_name: Name of the bank
+            
+        Returns:
+            BankTestResults object
+        """
+        if bank_name not in self.challenges:
+            raise ValueError(f"Unknown bank: {bank_name}")
+        
+        # Also test the main input/output example
+        all_test_cases = ["main_example"] + self.test_cases
+        test_results = []
+        
+        for test_case in all_test_cases:
+            if test_case == "main_example":
+                # Special handling for main example
+                test_dir = self.base_path / "demos" / self.document_type / bank_name / "input_output"
+                input_path = test_dir / f"{self.document_type.lower()}_{bank_name.lower()}_input.txt"
+                expected_path = test_dir / f"{self.document_type.lower()}_{bank_name.lower()}_output.json"
+                
+                if not input_path.exists() or not expected_path.exists():
+                    result = TestResult("main_example", False, "Main example files not found")
+                else:
+                    try:
+                        with open(expected_path, 'r', encoding='utf-8') as f:
+                            expected_output = f.read()
+                        
+                        start_time = datetime.now()
+                        actual_output, error = self.run_parser(parser_path, input_path)
+                        execution_time = (datetime.now() - start_time).total_seconds()
+                        
+                        if error:
+                            result = TestResult("main_example", False, error, execution_time=execution_time)
+                        else:
+                            matches, diff = self.compare_json_outputs(actual_output, expected_output)
+                            result = TestResult(
+                                "main_example",
+                                matches,
+                                error_message=diff if not matches else None,
+                                execution_time=execution_time
+                            )
+                    except Exception as e:
+                        result = TestResult("main_example", False, f"Error: {e}")
+                
+                test_results.append(result)
+            else:
+                result = self.test_single_case(parser_path, bank_name, test_case)
+                test_results.append(result)
+        
+        # Check if all tests passed
+        all_passed = all(r.passed for r in test_results)
+        
+        return BankTestResults(
+            bank_name=bank_name,
+            difficulty=self.challenges[bank_name],
+            test_results=test_results,
+            overall_passed=all_passed
+        )
+    
+    def run_all_tests(self, output_dir: Optional[Path] = None) -> Dict[str, BankTestResults]:
+        """
+        Run tests for all banks that have parsers in the output directory.
+        
+        Args:
+            output_dir: Directory containing parser outputs (default: CELI output dir)
+            
+        Returns:
+            Dictionary mapping bank names to test results
+        """
+        if output_dir is None:
+            output_dir = self.celi_path / "output"
+        
+        results = {}
+        
+        for bank_name in self.challenges:
+            parser_dir = output_dir / f"{self.document_type}_{bank_name}"
+            parser_path = parser_dir / "parser.py"
+            
+            if parser_path.exists():
+                print(f"\nTesting {bank_name} parser...")
+                results[bank_name] = self.test_bank_parser(parser_path, bank_name)
+            else:
+                print(f"\nSkipping {bank_name} - parser not found at {parser_path}")
+        
+        return results
+    
+    def print_results(self, results: Dict[str, BankTestResults]):
+        """Print a formatted summary of test results."""
+        print("\n" + "="*80)
+        print(f"PARSER CHALLENGE TEST RESULTS - {self.document_type}")
+        print("="*80)
+        
+        for bank_name, bank_results in results.items():
+            print(f"\n{bank_name} ({bank_results.difficulty}):")
+            print("-" * 40)
+            
+            for test_result in bank_results.test_results:
+                status = "✅ PASS" if test_result.passed else "❌ FAIL"
+                print(f"  {test_result.test_name}: {status}", end="")
+                if test_result.execution_time:
+                    print(f" ({test_result.execution_time:.2f}s)")
+                else:
+                    print()
+                
+                if not test_result.passed and test_result.error_message:
+                    # Print first few lines of error
+                    error_lines = test_result.error_message.split('\n')[:3]
+                    for line in error_lines:
+                        print(f"    {line}")
+                    if len(test_result.error_message.split('\n')) > 3:
+                        print("    ...")
+            
+            print(f"\n  Overall: {bank_results.pass_rate:.1f}% ({sum(1 for r in bank_results.test_results if r.passed)}/{len(bank_results.test_results)} passed)")
+        
+        # Overall summary
+        print("\n" + "="*80)
+        print("SUMMARY")
+        print("="*80)
+        
+        total_tests = sum(len(r.test_results) for r in results.values())
+        total_passed = sum(sum(1 for t in r.test_results if t.passed) for r in results.values())
+        
+        print(f"Total banks tested: {len(results)}")
+        print(f"Total tests run: {total_tests}")
+        print(f"Total tests passed: {total_passed}")
+        print(f"Overall pass rate: {(total_passed/total_tests*100) if total_tests > 0 else 0:.1f}%")
+        
+        # Check if all banks passed all tests
+        all_perfect = all(r.overall_passed for r in results.values())
+        if all_perfect:
+            print("\n🎉 All parsers passed all tests! 🎉")
+        
+        print("="*80)
+    
+    def save_results(self, results: Dict[str, BankTestResults], output_path: Optional[Path] = None):
+        """Save test results to a JSON file."""
+        if output_path is None:
+            output_path = self.celi_path / "output" / f"test_results_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
+        
+        # Convert results to JSON-serializable format
+        json_results = {}
+        for bank_name, bank_results in results.items():
+            json_results[bank_name] = {
+                "difficulty": bank_results.difficulty,
+                "overall_passed": bank_results.overall_passed,
+                "pass_rate": bank_results.pass_rate,
+                "test_results": [
+                    {
+                        "test_name": r.test_name,
+                        "passed": r.passed,
+                        "error_message": r.error_message,
+                        "execution_time": r.execution_time
+                    }
+                    for r in bank_results.test_results
+                ]
+            }
+        
+        with open(output_path, 'w', encoding='utf-8') as f:
+            json.dump(json_results, f, indent=2)
+        
+        print(f"\nTest results saved to: {output_path}")
+
+
+def main():
+    """Main entry point for running the test harness."""
+    import argparse
+    
+    parser = argparse.ArgumentParser(
+        description="Test harness for parser challenge",
+        formatter_class=argparse.RawDescriptionHelpFormatter
+    )
+    
+    parser.add_argument(
+        "--document-type",
+        default="LN6280P",
+        help="Document type to test (default: LN6280P)"
+    )
+    
+    parser.add_argument(
+        "--output-dir",
+        type=Path,
+        help="Directory containing parser outputs"
+    )
+    
+    parser.add_argument(
+        "--bank",
+        choices=["RegionalBank", "CommunityCredit", "MetroBank"],
+        help="Test only a specific bank parser"
+    )
+    
+    parser.add_argument(
+        "--save-results",
+        action="store_true",
+        help="Save test results to JSON file"
+    )
+    
+    args = parser.parse_args()
+    
+    # Create test harness
+    harness = ParserTestHarness(args.document_type)
+    
+    # Run tests
+    if args.bank:
+        # Test single bank
+        parser_path = (args.output_dir or harness.celi_path / "output") / f"{args.document_type}_{args.bank}" / "parser.py"
+        if not parser_path.exists():
+            print(f"Error: Parser not found at {parser_path}")
+            return 1
+        
+        results = {args.bank: harness.test_bank_parser(parser_path, args.bank)}
+    else:
+        # Test all banks
+        results = harness.run_all_tests(args.output_dir)
+    
+    # Print results
+    harness.print_results(results)
+    
+    # Save results if requested
+    if args.save_results:
+        harness.save_results(results)
+    
+    # Return exit code based on results
+    all_passed = all(r.overall_passed for r in results.values())
+    return 0 if all_passed else 1
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+
+
+================================================================================
+FILE: celi/celi_framework/examples/parser_challenge/hybrid_llm_tools.py
+================================================================================
+
+"""
+Hybrid LLM tools for CELI framework.
+
+This module provides tools that enable job descriptions to leverage multiple LLMs
+for different tasks, implementing a hybrid approach where each model is used for
+its strengths.
+"""
+
+from typing import Optional, Dict, Any
+from celi_framework.utils.llms import quick_ask
+from celi_framework.utils.log import app_logger
+
+
+class HybridLLMTools:
+    """Tools for using multiple LLMs in a single job description."""
+    
+    def __init__(self, default_model: Optional[str] = None, **kwargs):
+        """
+        Initialize hybrid LLM tools.
+        
+        Args:
+            default_model: Default model to use if not specified in tool calls
+            **kwargs: Additional configuration
+        """
+        self.default_model = default_model or "claude-sonnet-4-20250514"
+        self.config = kwargs
+    
+    def get_schema(self) -> Dict[str, Any]:
+        """Return the schema for available hybrid LLM tools."""
+        return {
+            "tools": [
+                {
+                    "name": "ask_llm",
+                    "description": "Send a prompt to a specific LLM model",
+                    "parameters": {
+                        "prompt": "The prompt to send to the model",
+                        "model": "The model to use (e.g., 'gemini-2.5-flash', 'claude-sonnet-4-20250514')",
+                        "temperature": "Optional temperature (0.0-2.0)",
+                        "max_tokens": "Optional max tokens to generate"
+                    }
+                },
+                {
+                    "name": "ask_for_code", 
+                    "description": "Ask an LLM optimized for code generation",
+                    "parameters": {
+                        "prompt": "The coding task or question",
+                        "language": "Optional programming language",
+                        "model": "Optional model override (defaults to code-optimized model)"
+                    }
+                },
+                {
+                    "name": "ask_for_analysis",
+                    "description": "Ask an LLM optimized for analysis and reasoning",
+                    "parameters": {
+                        "prompt": "The analysis task or question",
+                        "model": "Optional model override (defaults to analysis-optimized model)"
+                    }
+                },
+                {
+                    "name": "fix_code_with_llm",
+                    "description": "Fix code issues using a code-optimized LLM",
+                    "parameters": {
+                        "code": "The code to fix",
+                        "error_description": "Description of the error or issue",
+                        "test_failures": "Optional test failure details",
+                        "model": "Optional model override (defaults to code-fixing model)"
+                    }
+                }
+            ]
+        }
+    
+    def ask_llm(self, prompt: str, model: Optional[str] = None, 
+                temperature: Optional[float] = None, max_tokens: Optional[int] = None) -> str:
+        """
+        Send a prompt to a specific LLM model.
+        
+        Args:
+            prompt: The prompt to send
+            model: The model to use (defaults to configured default)
+            temperature: Sampling temperature
+            max_tokens: Maximum tokens to generate
+            
+        Returns:
+            The model's response
+        """
+        model = model or self.default_model
+        
+        app_logger.info(f"Hybrid LLM: Sending prompt to {model}")
+        
+        try:
+            response = quick_ask(
+                prompt=prompt,
+                model_name=model,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                verbose=True
+            )
+            return response
+        except Exception as e:
+            app_logger.error(f"Error calling {model}: {str(e)}")
+            return f"Error calling {model}: {str(e)}"
+    
+    def ask_for_code(self, prompt: str, language: Optional[str] = None, 
+                     model: Optional[str] = None) -> str:
+        """
+        Ask an LLM optimized for code generation.
+        
+        Args:
+            prompt: The coding task or question  
+            language: Optional programming language
+            model: Optional model override
+            
+        Returns:
+            Generated code
+        """
+        # Default to Gemini for code generation based on our testing
+        model = model or "gemini-2.5-flash"
+        
+        code_prompt = f"You are an expert programmer. Generate clean, well-commented code.\n\n"
+        if language:
+            code_prompt += f"Language: {language}\n\n"
+        code_prompt += f"Task: {prompt}\n\n"
+        code_prompt += "Return only the code, no explanations."
+        
+        return self.ask_llm(code_prompt, model=model, temperature=0.2)
+    
+    def ask_for_analysis(self, prompt: str, model: Optional[str] = None) -> str:
+        """
+        Ask an LLM optimized for analysis and reasoning.
+        
+        Args:
+            prompt: The analysis task or question
+            model: Optional model override
+            
+        Returns:
+            Analysis response
+        """
+        # Default to Claude for analysis based on our testing
+        model = model or "claude-sonnet-4-20250514"
+        
+        analysis_prompt = f"You are an expert analyst. Provide thorough, insightful analysis.\n\n"
+        analysis_prompt += f"Task: {prompt}\n\n"
+        analysis_prompt += "Be comprehensive but concise."
+        
+        return self.ask_llm(analysis_prompt, model=model, temperature=0.3)
+    
+    def fix_code_with_llm(self, code: str, error_description: str, 
+                         test_failures: Optional[str] = None, 
+                         model: Optional[str] = None) -> str:
+        """
+        Fix code issues using a code-optimized LLM.
+        
+        Args:
+            code: The code to fix
+            error_description: Description of the error
+            test_failures: Optional test failure details
+            model: Optional model override
+            
+        Returns:
+            Fixed code
+        """
+        # Default to Gemini for code fixing based on our testing
+        model = model or "gemini-2.5-flash"
+        
+        fix_prompt = f"""You are an expert debugger. Fix the following code.
+
+CURRENT CODE:
+```python
+{code}
+```
+
+ERROR DESCRIPTION:
+{error_description}
+"""
+        
+        if test_failures:
+            fix_prompt += f"""
+TEST FAILURES:
+{test_failures}
+"""
+        
+        fix_prompt += """
+REQUIREMENTS:
+1. Fix ONLY the specific issues described
+2. Maintain all existing functionality
+3. Use additive enhancement - don't remove existing code
+4. Add clear comments explaining your fixes
+5. Return the complete, corrected code
+
+Return only the fixed Python code, no explanations."""
+        
+        return self.ask_llm(fix_prompt, model=model, temperature=0.2, max_tokens=20000)
+
+
+================================================================================
+FILE: celi/celi_framework/examples/parser_challenge/run_hybrid_iterative_test.py
+================================================================================
+
+#!/usr/bin/env python3
+"""
+Test the hybrid iterative approach.
+"""
+
+import os
+from dotenv import load_dotenv
+
+# Load environment variables FIRST
+load_dotenv()
+
+import subprocess
+import sys
+from pathlib import Path
+from datetime import datetime
+
+def main():
+    """Run the hybrid iterative parser challenge."""
+    
+    # Check for API keys
+    if not os.getenv("ANTHROPIC_API_KEY"):
+        print("Error: ANTHROPIC_API_KEY not found in environment")
+        print("Please run: export ANTHROPIC_API_KEY=your-key")
+        return 1
+        
+    if not os.getenv("GOOGLE_API_KEY") and not os.getenv("GEMINI_API_KEY"):
+        print("Error: GOOGLE_API_KEY or GEMINI_API_KEY not found in environment")
+        print("Please run: export GOOGLE_API_KEY=your-key")
+        return 1
+    
+    # Create logs directory
+    logs_dir = Path("logs")
+    logs_dir.mkdir(exist_ok=True)
+    
+    # Create log filename with timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = logs_dir / f"hybrid_iterative_test_{timestamp}.log"
+    
+    print(f"Starting hybrid iterative parser challenge...")
+    print(f"Log file: {log_file}")
+    print(f"Using job description: job_description_hybrid_iterative.py")
+    
+    # Build the command
+    cmd = [
+        sys.executable,
+        "-m", "celi_framework.main",
+        "--job-description=celi_framework.examples.parser_challenge.job_description_hybrid_iterative.job_description",
+        "--tool-config={\"document_type\":\"LN6280P\", \"bank_name\":\"RegionalBank\", \"fix_model\":\"gemini-2.5-pro\"}",
+        "--primary-model-name=claude-sonnet-4-20250514"
+    ]
+    
+    # Run the command with output to both console and log file
+    with open(log_file, 'w') as f:
+        process = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            text=True,
+            bufsize=1
+        )
+        
+        # Stream output
+        for line in process.stdout:
+            print(line, end='')
+            f.write(line)
+            f.flush()
+        
+        process.wait()
+    
+    print(f"\n{'='*60}")
+    print(f"Hybrid iterative test completed!")
+    print(f"Log saved to: {log_file}")
+    print(f"Return code: {process.returncode}")
+    
+    # Check if parser was created
+    parser_path = Path("output/LN6280P_RegionalBank/parser.py")
+    if parser_path.exists():
+        print(f"✅ Parser created at: {parser_path}")
+    else:
+        print(f"❌ Parser not found at: {parser_path}")
+    
+    return process.returncode
+
+if __name__ == "__main__":
+    sys.exit(main())
+
+
+================================================================================
+FILE: celi/celi_framework/examples/parser_challenge/test_claude_analysis_integration.py
+================================================================================
+
+#!/usr/bin/env python3
+"""
+Test script to demonstrate how Claude's analysis is passed to Gemini
+"""
+
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent.parent.parent))
+
+from celi_framework.examples.parser_challenge.tool_implementations import ParserChallengeToolImplementations
+
+def test_claude_analysis_integration():
+    """Test that Claude's analysis can be passed through to Gemini"""
+    
+    # Initialize tools
+    tools = ParserChallengeToolImplementations(
+        document_type="LN6280P",
+        bank_name="RegionalBank",
+        fix_model="gemini-2.5-flash"
+    )
+    
+    # Example of Claude's analysis that would be captured from the job description workflow
+    claude_analysis = """
+After analyzing the format differences between Jack Henry (JH) and RegionalBank:
+
+1. **Customer Name Prefix Change**:
+   - JH uses prefix '3' for customer names
+   - RegionalBank uses prefix '4' for customer names
+   
+2. **Date Field Label Changes**:
+   - JH: "Statement Date" → RegionalBank: "Billing Date"
+   - JH: "Payment Due Date" → RegionalBank: "Due Date"
+   
+3. **Amount Field Label Changes**:
+   - JH: "Total Amount Due" → RegionalBank: "Payment Amount Due" (with ** emphasis)
+   - JH: "Current Balance" → RegionalBank: "Outstanding Balance"
+   - JH: "Regular Payment Amount" → RegionalBank: "Monthly Payment"
+   
+4. **New Fields**:
+   - RegionalBank adds "Phone Number" field after Due Date
+   
+5. **Bank Address Structure**:
+   - JH: Empty dict {} for bank address
+   - RegionalBank: Proper address dict with street/city/state/zip fields (all null)
+   
+6. **Bottom Section Label Change**:
+   - JH: "Total Amount Due" → RegionalBank: "Payment Amount Due" in borrower section
+
+These changes require updating the parser's regex patterns and field extraction logic while maintaining backward compatibility with JH format.
+"""
+    
+    # Load Claude's adapted parser (simulating what would be passed)
+    parser_code = tools.read_parser("LN6280P", "RegionalBank")
+    
+    # Now test with Claude's analysis included
+    print("Testing parser with Claude's analysis passed to Gemini...")
+    results = tools.run_comprehensive_tests_with_llm_fixes(
+        parser_code=parser_code,
+        max_iterations=3,
+        claude_analysis=claude_analysis
+    )
+    
+    print(results)
+
+if __name__ == "__main__":
+    test_claude_analysis_integration()
+
+
+================================================================================
+FILE: celi/celi_framework/examples/parser_challenge/job_description_hybrid_iterative_with_analysis.py
+================================================================================
+
+"""
+Enhanced hybrid iterative job description that captures and passes Claude's analysis to Gemini
+"""
+
+def job_description(tools):
+    """
+    Enhanced hybrid iterative approach that ensures Claude's analysis is passed to Gemini.
+    This version captures Claude's initial analysis and includes it in all Gemini fix attempts.
+    """
+    
+    # Storage for Claude's analysis
+    claude_analysis_storage = {"analysis": None}
+    
+    def enhanced_analyze_formats(tools):
+        """Task 1 with analysis capture"""
+        result = tools.analyze_formats()
+        
+        # Capture the analysis text that Claude generates
+        # This would be the detailed comparison of differences
+        if hasattr(tools, '_last_analysis'):
+            claude_analysis_storage["analysis"] = tools._last_analysis
+        
+        return result
+    
+    def enhanced_implementation_and_validation(tools):
+        """Task 4 with Claude's analysis passed to Gemini"""
+        # Get Claude's analysis from storage
+        claude_analysis = claude_analysis_storage.get("analysis", None)
+        
+        # If we have claude_analysis, create a wrapper for run_comprehensive_tests_with_llm_fixes
+        if claude_analysis and hasattr(tools, 'run_comprehensive_tests_with_llm_fixes'):
+            original_method = tools.run_comprehensive_tests_with_llm_fixes
+            
+            def wrapped_method(parser_code, max_iterations=3):
+                return original_method(parser_code, max_iterations, claude_analysis=claude_analysis)
+            
+            # Temporarily replace the method
+            tools.run_comprehensive_tests_with_llm_fixes = wrapped_method
+        
+        # Run the standard implementation
+        return tools.implementation_and_validation()
+    
+    return {
+        "name": "Parser Adaptation with Hybrid Iterative LLM Approach (Enhanced)",
+        "description": """Adapt a banking document parser to handle format variations from a new client.
+        
+This enhanced version:
+1. Uses Claude to analyze formats and create the initial adaptation
+2. Captures Claude's analysis of format differences
+3. Passes Claude's analysis to Gemini for context in all fix attempts
+4. Leverages Gemini to fix any edge cases Claude misses
+5. Supports up to 3 iterations of refinement per fix attempt
+6. Achieves 100% test coverage through intelligent collaboration
+
+The key enhancement is that Gemini receives Claude's initial analysis, ensuring continuity of understanding across both models.""",
+        
+        "sections": {
+            "parser_tasks": {
+                "tasks": [
+                    {
+                        "name": "analyze_formats",
+                        "description": "Analyze both the Jack Henry (JH) and RegionalBank formats to understand the key differences",
+                        "instructions": """
+1. Use read_parser to load the gold standard LN6280P parser.
+2. Use read_input and read_expected_output to load the files for both 'JH' and 'RegionalBank'.
+3. Compare the inputs and expected outputs to create a detailed list of the differences.
+4. Document each difference clearly with examples from the actual data.
+5. Store this analysis - it will be passed to Gemini later for context.
+
+Your analysis should cover:
+- Customer name prefix differences
+- Date field label changes
+- Amount field label changes  
+- New fields added
+- Structural differences in output JSON
+- Any other patterns that differ between formats"""
+                    },
+                    {
+                        "name": "propose_code_changes",
+                        "description": "Based on your analysis, develop a plan of the necessary code modifications",
+                        "instructions": """
+1. Based on the format differences you identified, formulate specific code changes needed.
+2. List the functions and regex patterns that need modification.
+3. For each change, explain why it's needed and how it addresses the format differences.
+4. Emphasize the additive enhancement approach - adding new patterns without removing existing ones."""
+                    },
+                    {
+                        "name": "verify_plan_with_baseline",
+                        "description": "Run the original parser on the new format to verify that your proposed changes are necessary",
+                        "instructions": """
+1. Use debug_parser_output to run the original gold parser on the RegionalBank input.
+2. Analyze the failures to confirm they match your identified differences.
+3. This validates that your analysis and proposed changes are correct."""
+                    },
+                    {
+                        "name": "implementation_and_validation",
+                        "description": "Implement the planned changes and validate against all test cases, with intelligent escalation",
+                        "instructions": """
+1. Implement the changes you planned in Task 2.
+2. Use the additive enhancement approach - add new patterns alongside existing ones.
+3. Run run_comprehensive_tests to validate against all 5 test cases.
+4. If tests fail after your attempts, use run_comprehensive_tests_with_llm_fixes.
+   - This will automatically call Gemini with:
+     * Your analysis from Task 1
+     * The current parser code
+     * Detailed test failure information
+     * All test cases (passing and failing)
+     * Complete iteration history
+   - Gemini will have full context including your initial analysis
+5. The system supports up to 3 iterations of fixes."""
+                    },
+                    {
+                        "name": "final_verification_and_summary", 
+                        "description": "Review the final test results and summarize the work",
+                        "instructions": """
+1. Review the final test results to confirm all 5 tests pass.
+2. Verify backward compatibility is maintained.
+3. Summarize what was accomplished, including:
+   - Your initial analysis findings
+   - Changes you implemented
+   - Any fixes Gemini contributed
+   - Final success metrics"""
+                    }
+                ]
+            }
+        },
+        
+        # Override specific task implementations
+        "task_overrides": {
+            "analyze_formats": enhanced_analyze_formats,
+            "implementation_and_validation": enhanced_implementation_and_validation
+        }
+    }
+
+
+================================================================================
+FILE: celi/celi_framework/utils/llms.py
+================================================================================
+
+"""
+The `utils.llms` module is designed to facilitate communication with Large Language Models (LLMs)
+such as OpenAI's GPT models. It provides utility functions that abstract away the complexities
+of sending prompts to the model, receiving responses, and handling various edge cases like
+rate limits or excessive context lengths. This module is particularly useful for applications
+that require robust and efficient interaction with LLMs for generating text, parsing information,
+or conducting analysis based on model responses.
+
+Features and Functionalities:
+    - `ask_split` and `quick_ask`: Core functions for sending prompts to OpenAI's API, with built-in
+        token counting, retries on failure, and verbose logging. `ask_split` is designed for more complex
+        interactions involving system messages and user prompts, while `quick_ask` offers a streamlined
+        approach for simple prompt-response cycles.
+    - Token Counter Decorators: Decorators that wrap around the core functions to enforce token limits,
+        ensuring that each query adheres to predefined constraints to manage costs and API usage efficiently.
+    - Custom Error Handling: Implements error handling mechanisms to gracefully recover from common
+        issues such as network timeouts, API rate limits, and context length exceedance. The
+        `ContextLengthExceededException` specifically addresses scenarios where the prompt exceeds
+        the maximum allowed context length, enabling the application to respond appropriately.
+    - Memory Tracking: Utilizes the `tracemalloc` library to monitor memory allocation and identify
+        potential inefficiencies, which is critical for applications processing large volumes of text
+        or managing numerous concurrent interactions with the LLM.
+
+"""
+
+import asyncio
+import logging
+import random
+import re
+import time
+from typing import Optional, Dict, List, Any, Tuple
+
+import anthropic
+import openai
+from anthropic import RateLimitError as AnthropicRateLimitError
+from openai import RateLimitError as OpenAIRateLimitError
+from openai.types.chat import ChatCompletion
+from pydantic import BaseModel, ValidationError
+from requests import HTTPError
+from botocore.exceptions import ClientError
+
+from celi_framework.utils.anthropic_client import (
+    anthropic_chat_completion,
+    anthropic_bedrock_chat_completion,
+)
+from celi_framework.utils.converse_client import converse_bedrock_chat_completion
+from celi_framework.utils.gemini_client import gemini_chat_completion
+from celi_framework.utils.llm_cache import get_celi_llm_cache
+from celi_framework.utils.llm_response import LLMResponse
+from celi_framework.utils.log import app_logger
+from celi_framework.utils.openai_client import (
+    openai_chat_completion,
+    llm_response_from_chat_completion,
+)
+from celi_framework.utils.token_counters import TokenCounter
+
+logger = logging.getLogger(__name__)
+
+
+class ToolDescription(BaseModel):
+    name: str
+    description: str
+    parameters: Dict[str, Any]
+
+
+async def ask_split(
+    user_prompt: str | List[Tuple[str, str]],
+    system_message,
+    model_name,
+    max_tokens=0,
+    seed=777,
+    verbose=False,  # model_name="gpt-4-1106-preview"
+    max_retries=7,
+    wait_between_retries=2,
+    temperature=0.0,
+    timeout: Optional[int] = 120,
+    tool_descriptions: Optional[List[ToolDescription]] = None,
+    model_url: Optional[str] = None,
+    json_mode: bool = False,
+    response_format = None,
+    token_counter: Optional[TokenCounter] = None,
+    force_tool_use: bool = False,
+):
+    """
+    Sends a prompt to the OpenAI API and returns the response, with retries on error.
+
+    user_prompt can be either a string or a list of messages.
+    """
+    err_cnt = 0
+    last_error = None
+    app_logger.info(f"Calling LLM {model_name}", extra={"color": "yellow"})
+    defaulted_max_tokens = max_tokens if max_tokens != 0 else None
+    while err_cnt < max_retries:
+        try:
+            if err_cnt > 1:
+                app_logger.warning(f"Attempt {err_cnt + 1}:")
+            tool_choice = (
+                None
+                if tool_descriptions is None
+                else "required" if force_tool_use else "auto"
+            )
+            if json_mode:
+                response_format = {"type": "json_object"}
+            chat_completion = await cached_chat_completion(
+                token_counter=token_counter,
+                base_url=model_url,
+                messages=[
+                    {"role": "system", "content": system_message},
+                ]
+                + assemble_chat_messages(user_prompt),
+                tools=(
+                    [
+                        {"type": "function", "function": _.model_dump()}
+                        for _ in tool_descriptions
+                    ]
+                    if tool_descriptions
+                    else None
+                ),
+                tool_choice=tool_choice,
+                response_format=response_format,
+                model=model_name,
+                temperature=temperature,
+                max_tokens=defaulted_max_tokens,
+                seed=seed,
+                timeout=timeout,
+            )
+
+            if verbose:
+                app_logger.info(
+                    f"LLM {model_name.upper()} responded", extra={"color": "yellow"}
+                )
+            return chat_completion
+
+        except (
+            openai.APIError,
+            anthropic.BadRequestError,
+            HTTPError,
+            ConnectionError,
+            TimeoutError,
+        ) as e:
+            err_cnt += 1
+            app_logger.exception(f"Error attempt {err_cnt}")
+            app_logger.warning(f"Error: Prompt was {user_prompt}")
+            time.sleep(wait_between_retries)
+            last_error = e
+
+    if verbose:
+        app_logger.error(f"All retries failed after {max_retries} attempts.")
+    raise last_error  # type: ignore
+
+
+def quick_ask(
+    prompt,
+    model_name,
+    max_tokens=None,
+    temperature=None,
+    seed=777,
+    verbose=False,
+    json_output=False,  # model_name="gpt-4-1106-preview"
+    response_format=None,
+    max_retries=3,
+    wait_between_retries=10,
+    timeout=90,
+    time_increase=30,
+    model_url: Optional[str] = None,
+    token_counter: Optional[TokenCounter] = None,
+):
+    return asyncio.run(
+        quick_ask_async(
+            prompt,
+            model_name,
+            max_tokens,
+            temperature,
+            seed,
+            verbose,
+            json_output,
+            response_format,
+            max_retries,
+            wait_between_retries,
+            timeout,
+            time_increase,
+            model_url,
+            token_counter,
+        )
+    )
+
+
+async def quick_ask_async(
+    prompt,
+    model_name,
+    max_tokens=None,
+    temperature=None,
+    seed=777,
+    verbose=False,
+    json_output=False,  # model_name="gpt-4-1106-preview"
+    response_format=None,
+    max_retries=3,
+    wait_between_retries=10,
+    timeout=90,
+    time_increase=30,
+    model_url: Optional[str] = None,
+    token_counter: Optional[TokenCounter] = None,
+):
+    """
+    Simplified version of ask_split for quickly sending prompts to the OpenAI API, with error handling and retries.
+
+    Args:
+        prompt (str): The user's prompt to send to the model.
+        model_name (str): Name of the GPT model to use.
+        max_tokens (int, optional): Maximum number of tokens to generate.
+        seed (int, optional): Seed for random number generation in the model.
+        verbose (bool, optional): If True, prints additional information.
+        json_output (bool, optional): If True, response will be in JSON format.
+        max_retries (int, optional): Maximum number of retries on error.
+        wait_between_retries (int, optional): Time in seconds to wait between retries.
+
+    Returns:
+        str: The content of the response message or error message after all retries.
+    """
+    err_cnt = 0
+    last_error = None
+
+    while err_cnt < max_retries:
+        try:
+            if err_cnt > 1:
+                app_logger.warning(f"Attempt {err_cnt + 1}:")
+            if verbose:
+                app_logger.info(
+                    f"Calling: {model_name.upper()}", extra={"color": "yellow"}
+                )
+
+            if json_output:
+                if response_format:
+                    app_logger.warning(f"A value has been provided for response_format (OpenAI Structured Outputs) while json_output (OpenAI JSON mode) is 'True'. The model will default to Structured Outputs. To use JSON mode, do not provide a value for response_format.")
+                else:
+                    response_format = {"type": "json_object"}
+
+            chat_completion = await cached_chat_completion(
+                token_counter=token_counter,
+                base_url=model_url,
+                messages=assemble_chat_messages(prompt),
+                model=model_name,
+                temperature=temperature,
+                max_tokens=max_tokens,
+                seed=seed,
+                response_format=response_format,
+                timeout=timeout,
+            )
+            response = chat_completion.content
+
+            if verbose:
+                app_logger.info(
+                    f"{model_name.upper()} responded", extra={"color": "yellow"}
+                )
+
+            return response
+        except Exception as e:
+            err_cnt += 1
+            last_error = str(e)
+
+            # Check for context length exceeded error in the exception message
+            if (
+                "context_length_exceeded" in last_error
+                or "maximum context length" in last_error
+            ):
+                # If the specific error condition is met, raise a custom exception
+                raise ContextLengthExceededException(last_error)
+
+            app_logger.exception(f"Error: attempt {err_cnt}", extra={"color": "red"})
+            app_logger.error(f"Error: Prompt was {prompt}")
+            await asyncio.sleep(wait_between_retries)
+            if timeout and time_increase:
+                timeout += time_increase  # Note: Adjusting timeout may not affect the API call's internal timeout handling.
+                wait_between_retries += time_increase
+
+    if err_cnt >= max_retries:
+        err = f"All retries failed after {max_retries} attempts."
+        app_logger.error(err, extra={"color": "red"})
+        # Instead of returning the error, consider raising a generic exception if recovery is not possible
+        raise Exception(f"{err}\nLast error: {last_error} with Prompt:\n{prompt}")
+
+
+VALID_ROLES = r"^[a-zA-Z0-9_-]+$"
+
+
+def assemble_chat_messages(prompt: str | List[Tuple[str, str] | Dict[str, str]]):
+    """Takes a prompt and formats it as chat messages.  Prompt can be in the form:
+    * "" - str - A single prompt string
+    * A list of ("role","content") tuples
+    * A list of dictionaries of chat messages {"role":"assistant","content":"..."}
+    """
+
+    def format_message(m):
+        if isinstance(m, dict):
+            assert re.match(VALID_ROLES, m["role"]), f"Invalid role: {m['role']}"
+            return m
+        else:
+            role = m[0]
+            assert re.match(VALID_ROLES, role), f"Invalid role: {role}"
+            return {"role": m[0], "content": m[1]}
+
+    if isinstance(prompt, str):
+        return [{"role": "user", "content": prompt}]
+    else:
+        return [format_message(msg) for msg in prompt]
+
+
+async def cached_chat_completion(
+    token_counter: Optional[TokenCounter] = None,
+    base_url: Optional[str] = None,
+    **kwargs,
+):
+    cache = get_celi_llm_cache()
+    if cache:
+        url_dict = {} if base_url is None else {"base_url": base_url}
+        cache_args = {**url_dict, **kwargs}
+        ret = await cache.check_llm_cache(**cache_args)
+        if ret:
+            app_logger.debug("Using cached LLM response")
+            try:
+                result = LLMResponse.model_validate(ret["completion"])
+            except ValidationError as e:
+                # Older caches can still have direct OpenAI responses cached instead of LLMResult objects.
+                # This provides backwards compatibility with those cache entries.
+                try:
+                    resp = ChatCompletion.model_validate(ret["completion"])
+                    result = llm_response_from_chat_completion(resp)
+                except ValidationError as e2:
+                    raise e2
+            if token_counter:
+                token_counter.count_cached_tokens(
+                    kwargs.get("messages", ""),
+                    kwargs.get("tools", ""),
+                    result.content,
+                )
+            return result
+        else:
+            app_logger.debug("Caching LLM response")
+            result = await create_chat_completion_with_retry(base_url, **kwargs)
+            if token_counter:
+                token_counter.count_request_tokens(
+                    kwargs.get("messages", ""), kwargs.get("tools", "")
+                )
+            await cache.cache_llm_response(
+                response={"completion": result.dict()}, **cache_args
+            )
+            if token_counter:
+                token_counter.count_response_tokens(result.content)
+            return result
+    else:
+        if token_counter:
+            token_counter.count_request_tokens(
+                kwargs.get("messages", ""), kwargs.get("tools", "")
+            )
+        result = await create_chat_completion_with_retry(base_url=base_url, **kwargs)
+        if token_counter:
+            token_counter.count_response_tokens(result.content)
+        return result
+
+
+class ContextLengthExceededException(Exception):
+    """Exception raised when the input exceeds the model's maximum context length."""
+
+    def __init__(self, message="Context length exceeded the model's maximum limit."):
+        self.message = message
+        super().__init__(self.message)
+
+
+async def create_chat_completion_with_retry(base_url, **kwargs):
+    max_retries = 5
+    backoff_factor = 2
+    retry_attempts = 0
+
+    while True:
+        try:
+            return await call_client(base_url=base_url, **kwargs)
+        except (AnthropicRateLimitError, OpenAIRateLimitError) as e:
+            retry_attempts += 1
+            if retry_attempts > max_retries:
+                raise e
+            sleep_time = 60 + 20 * random.uniform(0, 1) * backoff_factor**retry_attempts
+            logger.warning(
+                f"Rate limit exceeded. Retrying in {sleep_time:.2f} seconds..."
+            )
+        except ClientError as e:
+            if e.response['Error']['Code'] == "ThrottlingException":
+                retry_attempts += 1
+                if retry_attempts > max_retries:
+                    raise e
+                sleep_time = 5 + random.uniform(1, 2) * backoff_factor**retry_attempts
+                #sleep_time = 1 + random.uniform(1, 2) * backoff_factor**retry_attempts
+                logger.warning(
+                    f"Rate limit exceeded. Retrying in {sleep_time:.2f} seconds..."
+                )
+            else:
+                raise e
+        await asyncio.sleep(sleep_time)
+
+
+async def call_client(base_url: Optional[str], **kwargs):
+    model = kwargs.get("model", None)
+    if model and model.startswith("claude"):
+        assert (
+            not base_url
+        ), f"Changing the model URL is not supported for claude models.  {base_url}"
+        return await anthropic_chat_completion(**kwargs)
+    elif model and model.startswith("anthropic"):
+        assert (
+            not base_url
+        ), f"Changing the model URL is not supported for claude models.  {base_url}"
+        return await anthropic_bedrock_chat_completion(**kwargs)
+    elif model and model.startswith("gemini"):
+        assert (
+            not base_url
+        ), f"Changing the model URL is not supported for Gemini models.  {base_url}"
+        return await gemini_chat_completion(**kwargs)
+    elif model and not model.startswith("gpt") and not model.startswith("chatgpt") and not model.startswith("o1"):
+        assert (
+            not base_url
+        ), f"Changing the model URL is not supported for Bedrock models.  {base_url}"
+        return await converse_bedrock_chat_completion(**kwargs)
+    else:
+        # Tools are not yet implemented for vLLM models.
+        if base_url is not None:
+            kwargs = {k: v for k, v in kwargs if k not in ["tools", "tool_choice"]}
+        return await openai_chat_completion(base_url=base_url, **kwargs)
+
+
+
+================================================================================
+FILE: celi/celi_framework/utils/anthropic_client.py
+================================================================================
+
+import functools
+import json
+import logging
+import os
+from json import JSONDecodeError
+
+import boto3
+from anthropic import AsyncAnthropic, AsyncAnthropicBedrock
+from anthropic.types import ToolUseBlock, Message
+
+from celi_framework.utils.llm_response import LLMResponse, ToolCall, FunctionCall
+
+logger = logging.getLogger(__name__)
+
+
+@functools.lru_cache()
+def get_anthropic_bedrock_client():
+
+    args={}
+    #Default the AWS region to us-west-2
+    aws_region = os.environ.get("AWS_REGION", None)
+    if aws_region is None:
+        aws_region = "us-west-2"
+        logging.info("AWS region not defined. Defaulting to 'us-west-2'.")
+    args = {"aws_region": aws_region}
+        
+    if "AWS_PROFILE" in os.environ:
+        session = boto3.Session(profile_name=os.environ["AWS_PROFILE"])
+        credentials = session.get_credentials()
+        args.update({
+            "aws_access_key": credentials.access_key,
+            "aws_secret_key": credentials.secret_key,
+        })
+    return AsyncAnthropicBedrock(**args)
+
+
+@functools.lru_cache()
+def get_anthropic_client():
+    return AsyncAnthropic(api_key=os.environ["ANTHROPIC_API_KEY"])
+
+
+async def anthropic_bedrock_chat_completion(**kwargs):
+    cleaned_kwargs = _convert_openai_to_anthropic_input(**kwargs)
+    # logger.debug(f"Anthropic input:\n{cleaned_kwargs}")
+    resp = await get_anthropic_bedrock_client().messages.create(**cleaned_kwargs)
+    return _parse_anthropic_response(resp)
+
+
+async def anthropic_chat_completion(**kwargs):
+    cleaned_kwargs = _convert_openai_to_anthropic_input(**kwargs)
+    resp = await get_anthropic_client().messages.create(**cleaned_kwargs)
+    return _parse_anthropic_response(resp)
+
+
+def _convert_openai_to_anthropic_input(**kwargs):
+    """Adjust OpenAI options to support Anthropic API."""
+
+    # remove arguments not supported by Anthropic
+    remaining_kwargs = {
+        k: v
+        for k, v in kwargs.items()
+        if k not in ["response_format", "seed", "tools", "tool_choice"]
+        and (k != "temperature" or v is not None)
+    }
+
+    def fix_tool(t):
+        assert t["type"] == "function", "OpenAI API only allows 'function' tools"
+        tool = t["function"]
+        tool = {
+            ("input_schema" if k == "parameters" else k): v for k, v in tool.items()
+        }
+        return tool
+
+    # Tools have a different format
+    tools = (
+        {"tools": [fix_tool(_) for _ in kwargs["tools"]]}
+        if "tools" in kwargs and kwargs["tools"] is not None
+        else {}
+    )
+
+    # Tool choice has a different format, and can only be specified if tools are present
+    tool_choice = (
+        {
+            "tool_choice": {
+                "type": (
+                    "any"
+                    if kwargs["tool_choice"] == "required"
+                    else kwargs["tool_choice"]
+                )
+            }
+        }
+        if "tool_choice" in kwargs and "tools" in tools and len(tools["tools"]) > 0
+        else {}
+    )
+
+    extract_system_messages = []
+    reformatted_messages = []
+    for m in kwargs["messages"]:
+        match m["role"]:
+            case "system":
+                # System message is a separate argument.
+                extract_system_messages.append(m["content"])
+            case "user":
+                if m["content"]:
+                    reformatted_messages.append(m)
+            case "assistant":
+                if m["content"]:
+                    reformatted_messages.append(m)
+            case "function":
+                # Function calls get split into 2 messages, a call and a response.
+                try:
+                    arg_dict = json.loads(m["arguments"])
+                except JSONDecodeError:
+                    arg_dict = {"invalid_arguments": m["arguments"]}
+                func_call = {
+                    "role": "assistant",
+                    "content": [
+                        {
+                            "type": "tool_use",
+                            "id": m["id"],
+                            "name": m["name"],
+                            "input": arg_dict,
+                        }
+                    ],
+                }
+                func_response = {
+                    "role": "user",
+                    "content": [
+                        {
+                            "type": "tool_result",
+                            "tool_use_id": m["id"],
+                            "content": m["return_value"],
+                            "is_error": m["is_error"],
+                        }
+                    ],
+                }
+                reformatted_messages.append(func_call)
+                reformatted_messages.append(func_response)
+            case x:
+                raise ValueError(f"Unknown role {x}")
+
+    assert len(extract_system_messages) <= 1, "Only one system message is allowed"
+    system_message = (
+        {"system": extract_system_messages[0]} if extract_system_messages else {}
+    )
+
+    # Combine adjacent messages with the same role
+    current_role = None
+    deduped_messages = []
+    for m in reformatted_messages:
+        if m["role"] != current_role:
+            deduped_messages.append({**m})
+            current_role = m["role"]
+        else:
+            original_content = deduped_messages[-1]["content"]
+            if isinstance(original_content, str):
+                original_content = [{"type": "text", "text": original_content}]
+            new_content = m["content"]
+            if isinstance(new_content, str):
+                new_content = [{"type": "text", "text": new_content}]
+            deduped_messages[-1]["content"] = original_content + new_content
+
+    # Can't end with an 'assistant' message when using tool calls.
+    if deduped_messages[-1]["role"] == "assistant":
+        deduped_messages.append(
+            {
+                "role": "user",
+                "content": "Think step by step and then make the tool call you need to accomplish the task.",
+            }
+        )
+
+    # Max tokens has to be specified
+    max_tokens = (
+        {"max_tokens": 4096}
+        if "max_tokens" not in remaining_kwargs
+        or remaining_kwargs["max_tokens"] is None
+        else {}
+    )
+
+    cleaned_kwargs = {
+        **remaining_kwargs,
+        "messages": deduped_messages,
+        **system_message,
+        **tool_choice,
+        **tools,
+        **max_tokens,
+    }
+    return cleaned_kwargs
+
+
+def _map_stop_reason(stop_reason):
+    match stop_reason:
+        case "max_tokens":
+            return "length"
+        case "end_turn":
+            return "stop"
+        case "tool_use":
+            return "tool_calls"
+        case _:
+            assert False, f"Unexpected stop reason {stop_reason}"
+
+
+def _parse_anthropic_response(resp: Message):
+    # logger.debug(f"Raw anthropic response: {resp}")
+    text = "\n".join(_.text for _ in resp.content if _.type == "text")
+
+    def convert_tool(t: ToolUseBlock):
+        args = json.dumps(t.input)
+        return ToolCall(
+            id=t.id,
+            type="function",
+            function=FunctionCall(
+                arguments=args,
+                name=t.name,
+            ),
+        )
+
+    tools = [convert_tool(_) for _ in resp.content if _.type == "tool_use"]
+    return LLMResponse(
+        content=text,
+        finish_reason=_map_stop_reason(resp.stop_reason),
+        tool_calls=tools if tools else None,
+    )
+
+
+
+================================================================================
+FILE: celi/celi_framework/utils/converse_client.py
+================================================================================
+
+import functools
+import json
+import logging
+import os
+import boto3
+import aioboto3
+
+from celi_framework.utils.llm_response import LLMResponse, ToolCall, FunctionCall
+
+logger = logging.getLogger(__name__)
+
+
+@functools.lru_cache()
+def get_converse_bedrock_client(model_name):
+    try:
+        if aws_region is None:
+            aws_region = os.environ.get("AWS_REGION") or "us-west-2"
+            logging.info("AWS region not defined. Defaulting to 'us-west-2'.")
+    except NameError:
+        aws_region = os.environ.get("AWS_REGION") or "us-west-2"
+        logging.info("AWS region not defined. Defaulting to 'us-west-2'.")
+    
+    session = aioboto3.Session(region_name = aws_region)
+    return session
+
+async def converse_bedrock_chat_completion(**kwargs):
+    cleaned_kwargs = _convert_openai_to_converse_input(**kwargs)
+    async with get_converse_bedrock_client(kwargs.get('model')).client('bedrock-runtime') as client:
+        resp = await client.converse(**cleaned_kwargs)
+    return _parse_converse_response(resp)
+
+def _convert_openai_to_converse_input(**kwargs):
+    """Adjust OpenAI options to support Converse API."""
+
+    # Check if "tools" are present in kwargs and raise an error if they are
+    if "tools" in kwargs and kwargs["tools"] is not None:
+        raise ValueError("The 'tools' parameter is not yet supported by the CELI implementation of AWS Bedrock models. Try using a different model e.g. through OpenAI or Anthropic.")
+
+    # remove arguments not supported by Converse
+    remaining_kwargs = {
+        k: v
+        for k, v in kwargs.items()
+        if k not in ["response_format", "seed", "tools", "tool_choice"] and (k != "temperature" or v is not None)
+    }
+
+    # Create inferenceConfig
+    max_tokens = kwargs.get('max_tokens', None)
+    stop_sequences = kwargs.get('stop_sequences', None)
+    temperature = kwargs.get('temperature', None)
+    top_p = kwargs.get('top_p', None)
+    inference_config = {k: v for k, v in {
+        "maxTokens": max_tokens,
+        "stopSequences": stop_sequences,
+        "temperature": temperature,
+        "topP": top_p
+    }.items() if v is not None}
+
+    # System message is a separate argument.
+    extract_system_messages = [m["content"] for m in kwargs["messages"] if m["role"] == "system"]
+    assert len(extract_system_messages) <= 1, "Only one system message is allowed"
+    if extract_system_messages:
+        system_message = [{"text": extract_system_messages[0]}]
+    else:
+        system_message = []  # or provide a default message if needed
+
+
+    # Can't have repeated 'user' messages:
+    # Current "function" to a "user" message
+    current_role = None
+    deduped_messages = []
+    non_system_messages = [m for m in kwargs["messages"] if m["role"] != "system"]
+    for m in non_system_messages:
+        if m["role"] == "function":
+            clean_m = {"role": "user", "content": [{"text": m["content"]}]}
+        else:
+            clean_m = m
+            clean_m["content"] = [{"text": clean_m["content"]}] if isinstance(clean_m["content"], str) else clean_m["content"]
+        
+        if clean_m["role"] != current_role:
+            deduped_messages.append(clean_m)
+        else:
+            deduped_messages[-1]["content"] += clean_m["content"]
+        current_role = clean_m["role"]
+    if deduped_messages[-1]["role"] == "assistant":
+        deduped_messages.append({"role": "user", "content": [{"text": "Please continue executing the tasks."}]})
+
+    cleaned_kwargs = {
+        "modelId": kwargs.get("model"),
+        "inferenceConfig": inference_config,
+        "messages": deduped_messages,
+        "system": system_message,
+    }
+    return cleaned_kwargs
+
+
+def _map_stop_reason(stop_reason):
+    match stop_reason:
+        case "max_tokens":
+            return "length"
+        case "end_turn":
+            return "stop"
+        case "tool_use":
+            return "tool_calls"
+        case _:
+            assert False, f"Unexpected stop reason {stop_reason}"
+
+
+def _parse_converse_response(resp):
+    text = "\n".join(item['text'] for item in resp['output']['message']['content'])
+
+    return LLMResponse(
+        content=text,
+        finish_reason=_map_stop_reason(resp['stopReason']),
+        #tool_calls=tools if tools else None,
+        tool_calls=None
+    )
+
+
+
+================================================================================
+FILE: celi/celi_framework/core/processor.py
+================================================================================
+
+import asyncio
+import logging
+from typing import Dict, Optional
+
+from celi_framework.core.celi_update_callback import CELIUpdateCallback
+from celi_framework.core.job_description import (
+    ToolImplementations,
+    generate_tool_descriptions,
+)
+from celi_framework.core.mt_factory import MasterTemplateFactory
+from celi_framework.core.section_processor import SectionProcessor
+from celi_framework.utils.llms import ToolDescription
+from celi_framework.utils.log import app_logger
+from celi_framework.utils.token_counters import TokenCounter
+
+logger = logging.getLogger(__name__)
+
+
+class ProcessRunner:
+    """
+    The ProcessRunner manages the overall CELI job.  It's primary job is to manage all fo the different sections that
+    need to be completed. Each section is completed independently by a SectionProcessor.
+
+    The ProcessRunner handles waiting on the sections, which are usually run in parallel.  It also coordinates any human
+    input coming in and callbacks going out.
+    """
+
+    def __init__(
+        self,
+        master_template: MasterTemplateFactory,
+        tool_implementations: ToolImplementations,
+        llm_cache: bool,
+        primary_model_name: str,
+        max_tokens: int,
+        force_tool_every_n: int,
+        callback: Optional[CELIUpdateCallback] = None,
+        model_url: Optional[str] = None,
+        token_counter: Optional[TokenCounter] = None,
+        sequential: bool = False,
+    ):
+        self.primary_model_name = primary_model_name
+        self.model_url = model_url
+        self.max_tokens = max_tokens
+        self.force_tool_every_n = force_tool_every_n
+        self.token_counter = token_counter
+        self.callback = callback
+        self.sequential = sequential
+        logger.info(f"Using {primary_model_name} as the primary LLM")
+
+        self.master_template = master_template
+        self.builtin_tool_descriptions = [
+            ToolDescription(
+                name="complete_section",
+                description="Indicates that this section has been completed.  This function should not be called unless"
+                " save_draft_section or some similar function has been called to store the section's output.  Calling "
+                " this will trigger a review of the results and possibly a retry of the whole section.",
+                parameters={
+                    "type": "object",
+                    "properties": {
+                        "current_section_number": {
+                            "type": "string",
+                            "description": "The section being completed.",
+                        }
+                    },
+                    "required": ["current_section_number"],
+                },
+            )
+        ]
+        self.llm_cache = llm_cache
+
+        self.system_message = self.master_template.create_system_message()
+        app_logger.info(
+            f"System message created:\n{self.system_message}",
+            extra={"color": "cyan"},
+        )
+
+        self.sections_to_be_completed = list(self.master_template.schema.keys())
+
+        self.tool_implementations = tool_implementations
+        self.tool_descriptions = generate_tool_descriptions(
+            self.master_template.job_desc.tool_implementations_class
+        )
+
+    def get_schema(self) -> Dict[str, str]:
+        return self.tool_implementations.get_schema()
+
+    async def run(self):
+        """
+        Runs all sections of the document.
+        """
+        try:
+            logger.info(
+                f"Starting new run on {len(self.sections_to_be_completed)} sections."
+            )
+            self.section_processors = [
+                SectionProcessor(
+                    current_section=_,
+                    system_message=self.system_message,
+                    initial_user_message=self.master_template.job_desc.initial_user_message,
+                    tool_descriptions=self.tool_descriptions
+                    + self.builtin_tool_descriptions,
+                    tool_implementations=self.tool_implementations,
+                    primary_model_name=self.primary_model_name,
+                    llm_cache=self.llm_cache,
+                    monitor_instructions=self.master_template.job_desc.monitor_instructions,
+                    callback=self.callback,
+                    model_url=self.model_url,
+                    max_tokens=self.max_tokens,
+                    token_counter=self.token_counter,
+                    force_tool_every_n=self.force_tool_every_n,
+                )
+                for _ in self.sections_to_be_completed
+            ]
+            if self.sequential:
+                for section_processor in self.section_processors:
+                    await section_processor.run()
+                self.notify_completion()
+            else:
+                self.tasks = {
+                    section_processor.current_section: asyncio.create_task(
+                        section_processor.run()
+                    )
+                    for section_processor in self.section_processors
+                }
+                logger.debug(f"Processing all sections in parallel.")
+                await self.wait_on_tasks()
+        except Exception as e:
+            logger.exception("Error in process runner.")
+            raise e
+
+    async def wait_on_tasks(self):
+        await asyncio.gather(*self.tasks.values())
+        self.notify_completion()
+
+    def notify_completion(self):
+        app_logger.info(
+            f"All sections have been completed. {self.token_counter.current_token_count} live tokens and "
+            f"{self.token_counter.cached_token_count} cached tokens.",
+            extra={"color": "cyan"},
+        )
+        if self.callback:
+            self.callback.on_all_sections_complete()
+
+    async def add_human_input_on_section(self, section_id: str, input: str):
+        new_task = [
+            _ for _ in self.section_processors if _.current_section == section_id
+        ][0].add_human_input(input)
+        if new_task:
+            self.tasks[section_id] = asyncio.create_task(new_task)
+        await self.wait_on_tasks()
+
+
+
+================================================================================
+FILE: celi/celi_framework/core/section_processor.py
+================================================================================
+
+import inspect
+import json
+import logging
+from dataclasses import dataclass
+from json import JSONDecodeError
+from typing import List, Dict, Tuple, Optional
+
+from celi_framework.core.celi_update_callback import CELIUpdateCallback
+from celi_framework.core.job_description import ToolImplementations
+from celi_framework.utils.llm_response import LLMResponse
+from celi_framework.utils.llms import ToolDescription, ask_split
+from celi_framework.utils.log import app_logger
+from celi_framework.utils.token_counters import TokenCounter
+
+logger = logging.getLogger(__name__)
+
+ChatMessageable = Tuple[str, str] | Dict[str, str]
+
+MAX_RETRIES = 2
+
+
+@dataclass
+class SectionProcessor:
+    """This is the core processor that uses iterative calls to LLMs to manage the drafting process.  Each
+    SectionProcessor runs independently, working through a task list described in the JobDescription and using
+    the tools it provides.
+    """
+
+    current_section: str
+    system_message: str
+    initial_user_message: str
+    tool_descriptions: List[ToolDescription]
+    tool_implementations: ToolImplementations
+    primary_model_name: str
+    llm_cache: bool
+    monitor_instructions: str
+    max_tokens: int
+    force_tool_every_n: int
+    seed: int = 777
+    callback: Optional[CELIUpdateCallback] = None
+    model_url: Optional[str] = None
+    token_counter: Optional[TokenCounter] = None
+
+    def __post_init__(self):
+        self.ongoing_chat: List[Dict[str, str] | Tuple[str, str]] = []
+        self.pending_human_input = None
+        self._update_ongoing_chat(("user", self.initial_user_message))
+        self._update_ongoing_chat(
+            (
+                "user",
+                f"You are working on section {self.current_section}.  Begin with Task #1.",
+            )
+        )
+        self.section_complete_flag = False
+        self.retry_number = 0
+        self.tool_names = [_.name for _ in self.tool_descriptions]
+        self.is_running = False
+
+    def _update_ongoing_chat(self, msg: Dict[str, str] | Tuple[str, str]):
+        self.ongoing_chat.append(msg)
+        if self.callback:
+            self.callback.on_message(self.current_section, msg)
+        if self.pending_human_input:
+            user_msg = ("user", self.pending_human_input)
+            self.ongoing_chat.append(user_msg)
+            self.callback.on_message(self.current_section, user_msg)
+            self.pending_human_input = None
+
+    async def add_human_input(self, input: str):
+        if self.is_running:
+            self.pending_human_input = input
+        else:
+            self._update_ongoing_chat(("user", input))
+            # If we've finished, start again.
+            await self.run()
+
+    async def run(self):
+        self.is_running = True
+        while self.is_running:
+            self.is_running = await self.process_iteration()
+        if self.callback:
+            self.callback.on_section_complete(self.current_section)
+
+    async def process_iteration(self):
+        """
+        Run one iteration of the main execution loop for drafting documents.
+
+        Within each iteration of the loop, the method performs the following operations:
+            - Prepares a prompt for the language model based on the current conversation history.
+            - Processes the language model's response, including handling any specified function calls, updating
+                the draft content, and managing the ongoing conversation context.
+            - Checks if the iteration is in a loop.
+            - If the section is complete, call builtin_review to check the resul and decide whether a redo is required.
+
+        Returns:
+            True if the drafting is still in progress and another iteration should be run.  False if the process
+            should stop.
+        """
+        app_logger.info(
+            f"Started a new iteration for section {self.current_section}.  Retry count is {self.retry_number}",
+        )
+        self.section_complete_flag = False
+        chat_len = len(self.ongoing_chat)
+
+        n_since_tool_use = self.responses_since_last_tool_call(self.ongoing_chat)
+        force_tool_use = n_since_tool_use >= self.force_tool_every_n
+        if force_tool_use:
+            logger.debug(
+                f"Forcing tool use because there have been no tool calls in the last {n_since_tool_use} iterations."
+            )
+
+        llm_response = await ask_split(
+            user_prompt=self.ongoing_chat,  # type: ignore
+            model_name=self.primary_model_name,
+            system_message=self.system_message,
+            verbose=True,
+            timeout=None,
+            tool_descriptions=self.tool_descriptions,
+            model_url=self.model_url,
+            max_tokens=self.max_tokens,
+            token_counter=self.token_counter,
+            seed=self.seed,
+            force_tool_use=force_tool_use,
+        )
+        self._update_ongoing_chat(("assistant", str(llm_response.content or "")))
+
+        if llm_response.finish_reason == "tool_calls":
+            tool_result = await self.make_tool_calls(llm_response)
+            [self._update_ongoing_chat(_) for _ in tool_result]
+        elif not llm_response.content or llm_response.content.strip() == "":
+            logger.warning(f"LLM returned empty content and did not make a tool call.  Prompting it not to do that.  force_tool_use was {force_tool_use}")
+            if force_tool_use:
+                self._update_ongoing_chat(("user", "Your last response was empty and did not have a tool call.  Please refer back to your original instructions and select a tool call with the next response."))
+            else:
+                self._update_ongoing_chat(("user", "Your last response was empty and did not have a tool call.  Please refer back to your original instructions and provide either a text response for the current task or make a tool call."))
+
+        app_logger.info(
+            f"LLM response for section {self.current_section} - (finish reason {llm_response.finish_reason}):\n"
+            + self.format_chat_messages(self.ongoing_chat[chat_len:]),
+            extra={"color": "green"},
+        )
+
+        if self.check_for_duplicates(self.ongoing_chat):
+            logger.warning(
+                f"Identified a loop of repeating message in section {self.current_section}.  Terminating this attempt."
+            )
+            self.section_complete_flag = True
+
+        if not self.section_complete_flag:
+            return True
+
+        redo = await self.builtin_review()
+        if not redo:
+            return False
+        else:
+            if self.retry_number >= MAX_RETRIES:
+                logger.warning(
+                    f"Exhausted the maximum number of retries for {self.current_section}"
+                )
+                return False
+            self.retry_number += 1
+            self.seed += 1
+            logger.warning(f"Retrying section {self.current_section} with seed {self.seed}")
+            self.ongoing_chat = [
+                ("user", redo["new_initial_user_message"]),
+                (
+                    "user",
+                    f"You are working on section {self.current_section}.  Begin with Task #1.",
+                ),
+            ]
+            if "new_system_message" in redo:
+                self.system_message = redo["new_system_message"]
+            return True
+
+    @staticmethod
+    def responses_since_last_tool_call(
+        ongoing_chat: List[Dict[str, str] | Tuple[str, str]]
+    ):
+        ix = 0
+        for m in reversed(ongoing_chat):
+            role = m[0] if isinstance(m, tuple) else m["role"]
+            if role == "function":
+                break
+            if role == "assistant":
+                ix += 1
+        return ix
+
+    @staticmethod
+    def check_for_duplicates(ongoing_chat: List[Dict[str, str] | Tuple[str, str]]):
+        if len(ongoing_chat) == 0:
+            return False
+        last_message = ongoing_chat[-1]
+        duplicates = 0
+        for message in ongoing_chat[-6:-1]:
+            if message == last_message:
+                duplicates += 1
+        if duplicates >= 5:
+            return True
+        # Check for cycles of 2 repeating messages
+        if len(ongoing_chat) > 2:
+            previous_message = ongoing_chat[-2]
+            alternating_duplicates = 0
+            if previous_message != last_message:
+                for message in ongoing_chat[-7:-2]:
+                    if message == previous_message:
+                        alternating_duplicates += 1
+                    if duplicates >= 2 and alternating_duplicates >= 2:
+                        return True
+        return False
+
+    async def builtin_review(self, edit_system_message: bool = True):
+        task_specific = (
+            f"Specifically, you should check for:\n{self.monitor_instructions}\n"
+            if self.monitor_instructions
+            else ""
+        )
+        new_prompts = "initial user prompt and possibly a new system prompt" if edit_system_message else "initial user prompt"
+        system_message = f"""Your job is to review the chat history of an LLM trying to accomplish a goal.  This first 
+         thing you should do is find all the tool calls made by the LLM.  After you have done that, review those to 
+         decide if the overall goal was achieved or if the LLM should try again.  Think step by step and explain your
+         reasoning.  
+         
+         You can identify tool calls in the chat history because they will look like this: 
+         
+         Function:
+         Call to function run_tests with arguments....
+         
+         {task_specific}
+
+         If the LLM should try again, please propose a modified {new_prompts} that should be used.  Your output should 
+         be JSON that always contains tags for "tool_calls_made", "rationale", and "success".  
+         If you do propose new system and/or user messages, make sure to include all the information in the original 
+         message.  If the system prompt is too long for you to include everything, just update the user prompt.  For 
+         any prompt you modify, the original will not be passed to the LLM on retry, only your updated version will be 
+         passed.
+         
+         Example of a successful review:
+            {{
+                "tool_calls_made": ['get_prompt', 'ask_question', 'save_draft_output', 'complete_section'],
+                "rationale": "All requirements specified in the user_prompt were resolved.",
+                "success": true,
+            }}
+        Example of a unsuccessful review:
+        Given this input
+        <SystemMessage>You are an AI writing agent.  write a creative story and save it.</SystemMessage>
+        <UserMessage>Write a story about cats</UserMessage>
+        Here is the response:
+            {{
+                "tool_calls_made": ['get_prompt', 'complete_section'],
+                "rationale": "save_draft_output was not called before calling complete_section.",
+                "success": false,
+                {'"new_system_message": "You are an AI writing agent.  write a creative story and save it using the save_draft_output tool.",' if edit_system_message else ''}
+                "new_initial_user_message": "Write a story about cats.  Make sure to call save_draft_output when you are done."
+            }}
+        """
+        user_message = f"""The initial system message was\n<SystemMessage>{self.system_message}</SystemMessage>.  The
+        initial user message was:\n<UserMessage>{self.initial_user_message}</UserMessage>\n\nHere is the chat history:
+        {self.format_chat_messages(self.ongoing_chat)}"""
+        # logger.debug(f"Built-in review input:\n{user_message}")
+        llm_response = await ask_split(
+            user_prompt=user_message,  # type: ignore
+            system_message=system_message,
+            model_name=self.primary_model_name,
+            verbose=True,
+            timeout=None,
+            json_mode=True,
+            model_url=self.model_url,
+            max_tokens=self.max_tokens,
+            token_counter=self.token_counter,
+        )
+        text_response = llm_response.content.strip()
+
+        logger.info(
+            f"Output of final review for section {self.current_section}:\n{text_response}"
+        )
+        if not text_response:
+            logger.warning(
+                f"Built-in review for section {self.current_section} returned an empty response.  Assuming success."
+            )
+            return None
+
+        try:
+            ret = json.loads(text_response)
+        except JSONDecodeError as e:
+            if llm_response.finish_reason == 'length' and edit_system_message:
+                logger.warning(
+                    f"Built-in review for section {self.current_section} didn't return valid JSON because the length limit was hit. Retrying without editing the system message. {e}\n"
+                    f"Response was: {text_response}\n"
+                )
+                ret = await self.builtin_review(edit_system_message=False)
+            else:
+                logger.warning(
+                    f"Built-in review for section {self.current_section} didn't return valid JSON.  Finish reason was {llm_response.finish_reason} Edit system message: {edit_system_message} {e}\n"
+                    f"Response was: {text_response}"
+                )
+                ret = {}
+
+        if "success" not in ret:
+            logger.warning(
+                f"Built-in review for section {self.current_section} didn't return a success key.  Assuming success."
+            )
+            return None
+
+        if ret["success"]:
+            return None
+
+        if "new_initial_user_message" not in ret:
+            logger.warning(
+                f"Built-in review for section {self.current_section} didn't return a "
+                f"new_initial_user_message.  Skipping retry."
+            )
+            return None
+
+        system_message_unchanged = "new_system_message" not in ret or ret["new_system_message"] == self.system_message
+        user_message_unchanged = ret["new_initial_user_message"] == self.initial_user_message
+        if system_message_unchanged and user_message_unchanged:
+            logger.warning(
+                f"Built-in review for section {self.current_section} didn't change any messages.  Skipping retry."
+            )
+            return None
+
+        return ret
+
+    @staticmethod
+    def format_message_content(m: ChatMessageable):
+        if isinstance(m, dict):
+            non_role = {k: v for k, v in m.items() if k != "role"}
+            return f"{m['role'].capitalize()}:\n{non_role}"
+        return f"{m[0].capitalize()}:\n{m[1]}"
+
+    @staticmethod
+    def format_chat_messages(msgs: List[ChatMessageable]):
+        return "\n\n".join(SectionProcessor.format_message_content(m) for m in msgs)
+
+    async def make_tool_calls(self, response: LLMResponse):
+        async def make_tool_call(tool_call):
+            name = tool_call.function.name
+            function_return = None
+            try:
+                arguments = json.loads(tool_call.function.arguments)
+            except JSONDecodeError as e:
+                arguments = "<Unable to parse>"
+                function_return = f"Error: Unable to parse arguments {e}"
+            if not function_return:
+                if name == "complete_section":
+                    # conplete_section is a built-in function and not in the tool_implementations.
+                    self.section_complete_flag = True
+                    function_return = arguments["current_section_number"]
+                else:
+                    if hasattr(self.tool_implementations, name):
+                        method_to_call = getattr(self.tool_implementations, name)
+                        try:
+                            function_return = method_to_call(**arguments)
+                            if inspect.iscoroutine(function_return):
+                                function_return = await function_return
+                        except Exception as e:
+                            function_return = f"Error: {e}"
+                    else:
+                        app_logger.warning(f"Unknown function name: {name}")
+                        return (
+                            "user",
+                            f"Error: Called unknown function name: {name} with arguments {arguments}",
+                        )
+            return {
+                "role": "function",
+                "name": name,
+                "id": tool_call.id,
+                "arguments": tool_call.function.arguments,
+                "return_value": str(function_return),
+                "is_error": isinstance(function_return, str)
+                and function_return.startswith("Error"),
+            }
+
+        return [await make_tool_call(_) for _ in response.tool_calls]
+
+
+
+================================================================================
+FILE: celi/celi_framework/core/runner.py
+================================================================================
+
+from __future__ import annotations
+
+import asyncio
+from dataclasses import dataclass
+from typing import Optional
+
+from celi_framework.core.job_description import JobDescription, ToolImplementations
+from celi_framework.core.mt_factory import MasterTemplateFactory
+from celi_framework.core.processor import ProcessRunner
+from celi_framework.utils.llm_cache import enable_llm_caching, get_celi_llm_cache
+from celi_framework.utils.log import app_logger
+from celi_framework.utils.token_counters import TokenCounter
+
+
+@dataclass
+class CELIConfig:
+    job_description: JobDescription
+    tool_implementations: Optional[ToolImplementations]
+    llm_cache: bool
+    primary_model_name: str
+    max_tokens: int
+    model_url: Optional[str]
+    simulate_live: bool = False
+    token_budget: int = 0
+    sequential: bool = False
+    force_tool_every_n: int = 5
+
+
+def run_celi(celi_config: CELIConfig):
+    try:
+        loop = asyncio.get_event_loop()
+        if loop.is_closed():
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+        asyncio.set_event_loop(loop)
+
+    try:
+        loop.run_until_complete(run_process_runner(celi_config))
+    finally:
+        pending_tasks = asyncio.all_tasks(loop)
+        if pending_tasks:
+            app_logger.debug(
+                f"Pending tasks: {pending_tasks}",
+            )
+        for task in pending_tasks:
+            task.cancel()
+        loop.run_until_complete(asyncio.gather(*pending_tasks, return_exceptions=True))
+        loop.close()
+    # Used to debug threading issues.
+    # for thread in threading.enumerate():
+    #     app_logger.debug(f"Thread {thread.name}: Daemon={thread.daemon}")
+    #     stack = "".join(traceback.format_stack(sys._current_frames()[thread.ident]))
+    #     app_logger.debug(f"Stack trace for thread {thread.name}:\n{stack}")
+
+
+async def run_process_runner(celi_config):
+    app_logger.debug("Beginning CELI")
+    try:
+        mt = MasterTemplateFactory(
+            job_desc=celi_config.job_description,
+            schema=celi_config.tool_implementations.get_schema(),
+        )
+
+        process_runner = ProcessRunner(
+            master_template=mt,
+            tool_implementations=celi_config.tool_implementations,
+            llm_cache=celi_config.llm_cache,
+            primary_model_name=celi_config.primary_model_name,
+            model_url=celi_config.model_url,
+            max_tokens=celi_config.max_tokens,
+            token_counter=TokenCounter(celi_config.token_budget),
+            sequential=celi_config.sequential,
+            force_tool_every_n=celi_config.force_tool_every_n,
+        )
+
+        if celi_config.llm_cache:
+            enable_llm_caching(celi_config.simulate_live)
+
+        await process_runner.run()
+    finally:
+        if get_celi_llm_cache():
+            await get_celi_llm_cache().close()
+
+
+
+================================================================================
+FILE: celi/celi_framework/core/job_description.py
+================================================================================
+
+from __future__ import annotations
+
+import datetime
+import inspect
+import json
+import logging
+import os
+import re
+from abc import ABC, abstractmethod
+from typing import Any, Callable, Dict, List, Optional, Type
+
+import Levenshtein
+from pydantic import BaseModel, field_serializer
+
+from celi_framework.core.celi_update_callback import CELIUpdateCallback
+from celi_framework.utils.llms import ToolDescription
+from celi_framework.utils.utils import (
+    encode_class_type,
+    read_json_from_file,
+    write_string_to_file,
+)
+
+logger = logging.getLogger(__name__)
+
+
+class Task(BaseModel):
+    task_name: str
+    details: Dict[str, str | List[str] | Dict[str, Any]]
+
+    def with_references_resolved(self, task_numbering: Dict[str, str]) -> Task:
+        """Update references in each field and generates a new Task with references replaced."""
+
+        updated_fields = {
+            field: self._update_references(getattr(self, field), task_numbering)
+            for field in self.model_fields
+        }
+        return type(self)(**updated_fields)  # type: ignore
+
+    def _update_references(self, item: Any, task_numbering: Dict[str, str]):
+        """
+        Recursively updates references within an item (which could be a string, list, or dictionary)
+        to reflect the dynamically assigned task numbers. This method ensures all references in task
+        details, including nested structures, are correctly updated.
+
+        Args:
+            item: The content item (str, list, dict) potentially containing task references.
+            task_numbering (dict): A mapping from original task names to their dynamically assigned numbers.
+
+        Returns:
+            The item with all references updated to reflect their corresponding task numbers.
+        """
+        if isinstance(item, str):
+            # Direct replacement in strings
+            for original, new_number in task_numbering.items():
+                placeholder = f"{{{{TaskRef:{original}}}}}"
+                item = item.replace(placeholder, new_number)
+            return item
+        elif isinstance(item, list):
+            # Process each element in the list
+            return [
+                self._update_references(sub_item, task_numbering) for sub_item in item
+            ]
+        elif isinstance(item, dict):
+            # Process each value in the dictionary
+            return {
+                key: self._update_references(value, task_numbering)
+                for key, value in item.items()
+            }
+        else:
+            # Non-string, non-list, non-dict items are returned unchanged
+            return item
+
+
+class ToolImplementations(ABC):
+    """Each public function in the class becomes a tool that the LLM can use.
+
+    There is one required function, `def get_schema(self) -> Dict[str, str]`.  This function returns a dictionary
+    describing the document sections.  The processor will work through the sections, completing the defined tasks for
+    each section.  Each dictionary can have any string values, but it is intended to be a section number followed by
+    a section name.
+
+    In addition to the `get_schema` function, the ToolImplementations class can have whatever other functions it needs
+    to enable celi_framework.  Each function should be documented with type hints and a doc string.  The top section of
+    the docstring will be included as the description of the overall function.  If the function takes arguments, there
+    should be a section called "Args:" that contains a list of the arguments to the function and descriptions of each.
+    An example docstring is given below:
+
+        '''
+        Extracts text from specified sections of documents.
+        It handles different document types and logs any errors or warnings encountered.
+        Returns concatenated text from the specified sections of the documents.
+        If there is no content for the section, <empty section> will be returned.
+
+        If the response contains "Error:", then there was a problem with the function call.
+
+        Args:
+            sections_dict_str (str): A JSON string mapping document names to their respective section numbers.  The json string will have the documents and sections in a dictionary.  The sections values should correspond to an entry in the table of contents for the specified document.
+
+        '''
+    """
+
+    @abstractmethod
+    def get_schema(self) -> Dict[str, str]:
+        """This function returns a dictionary describing the document sections.  The processor will work through the
+        sections, completing the defined tasks for each section.  Each dictionary can have any string values,
+        but it is intended to be a section number followed by a section name."""
+        pass
+
+
+class BaseDocToolImplementations(ToolImplementations, ABC):
+    """A base class for ToolImplementations that draft documents.  Adds a standard `update_draft_doc` tool."""
+
+    def __init__(
+        self,
+        drafts_dir: str = "target/celi_output/drafts",
+        callback: Optional[CELIUpdateCallback] = None,
+    ):
+        assert callback is None or isinstance(callback, CELIUpdateCallback), f"Invalid callback: {callback}"
+        os.makedirs(drafts_dir, exist_ok=True)
+        self.callback = callback
+        self.draft_doc = (
+            f"{drafts_dir}/{datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}.json"
+        )
+        logger.info(f"Writing output to {self.draft_doc}")
+
+    def save_draft_section(self, doc_section: str, draft: str):
+        """Saves a draft of the current section.
+
+        This must be called with the final output before calling complete_section and moving on to the next section.
+
+        Args:
+            doc_section: The section name to save
+            draft: The draft text
+        """
+        matched_section = self._match_doc_section(doc_section)
+        logger.info(
+            f"Completed section {doc_section} ({matched_section}).  Draft output is:\n{draft}",
+            extra={"color": "orange"},
+        )
+        if self.callback:
+            self.callback.on_output(matched_section, draft)
+
+        logger.info(f"Adding section {doc_section} to {self.draft_doc}")
+        try:
+            current = read_json_from_file(self.draft_doc)
+        except FileNotFoundError:
+            current = {}
+        current[doc_section] = draft
+        write_string_to_file(json.dumps(current, indent=2), self.draft_doc)
+
+    def _match_doc_section(self, doc_section):
+        # Try to extract a number first
+        number = BaseDocToolImplementations._extract_number(doc_section)
+        if number is not None:
+            return str(number)
+
+        # If no number found, get the closest match from the dictionary
+        return BaseDocToolImplementations._find_closest_match(
+            doc_section, self.get_schema()
+        )
+
+    @staticmethod
+    def _extract_number(doc_section):
+        # Find all numbers in the string
+        numbers = re.findall(r"\d+", doc_section)
+        if numbers:
+            return int(numbers[0])  # Return the first number found as an integer
+        return None
+
+    @staticmethod
+    def _find_closest_match(section, schema_dict):
+        closest_key = None
+        closest_distance = float("inf")
+
+        for key, value in schema_dict.items():
+            distance = Levenshtein.distance(section, value)
+            if distance < closest_distance:
+                closest_distance = distance
+                closest_key = key
+
+        return closest_key
+
+
+class JobDescription(BaseModel):
+    """
+    Specifies a configuration for MasterTemplateFactory
+
+    This configuration file is a critical component of the automated document drafting framework, designed to work in tandem with the `MasterTemplateFactory` class. It outlines a series of structured tasks and instructions that guide the drafting process for various types of documents, emphasizing step-by-step clarity and comprehensive coverage of necessary content.
+
+    Key Components:
+    - `role`: Specifies the user's role in an interactive context, emphasizing active participation in defining the drafting objectives.
+    - `context`: Establishes the theme of "Interactive Data Collection," indicating a focus on user engagement and data-driven task generation for document drafting.
+    - `task_list`: A comprehensive collection of tasks, each defined with a unique task name, a brief description, specific instructions, and examples. These tasks form the backbone of the document drafting process, guiding users or AI agents through each step required to compile a thorough and accurate document.
+    - `general_comments` and `user_message`: Provide overarching guidance and specific instructions to users or AI agents undertaking the drafting tasks. These sections ensure that the drafting process is approached systematically, with clear expectations for each task's completion.
+    - `pre_algo_instruct` and `post_algo_instruct`: Introductory and concluding instructions that frame the drafting tasks within a broader context, helping to orient the user or AI agent to the document's overall structure and objectives.
+    - `config`: A dictionary consolidating all elements of the configuration, including the role of the user or AI agent, the context for the drafting tasks, and the structure of the task list. Additional parameters like `include_prerequisites` and `final_output_task` further customize the drafting guidance provided by the `MasterTemplateFactory`.
+    - 'include_schema_in_system_message': A bool (defaults to True) indicating whether the system message should include the schema.  This is useful if the different items in the schema relate to each other (like sections in a document), but not if they are independent (like different test cases in a benchmark)
+    - 'monitor_instructions': Explicit items for the monitor to pay attention to.
+
+    Usage:
+    This configuration file is intended for use with the `MasterTemplateFactory` class to generate dynamic, structured instructions for drafting or analyzing documents. By defining tasks, prerequisites, and contextual guidance, it enables the automated creation of detailed documents across a variety of fields, including but not limited to technical documentation, and research reporting.
+
+    Example Usage:
+    The configuration is dynamically loaded by the `MasterTemplateFactory` to create a tailored set of instructions and tasks based on the specific requirements of the document being drafted. The factory class utilizes the `task_list` to generate a step-by-step guide for users or AI agents, incorporating `general_comments` and `user_message` to provide additional context and clarity.
+
+    By structuring the document drafting process around this configuration, the `MasterTemplateFactory` ensures that each section of the document is developed with precision, adhering to the required standards and content specifications outlined in the `task_library`.
+    """
+
+    role: str
+    context: str
+    task_list: List[Task]
+    tool_implementations_class: Type
+    pre_context_instruct: Optional[str] = None
+    post_context_instruct: Optional[str] = None
+    general_comments: str = ""
+    initial_user_message: str
+    include_schema_in_system_message: bool = True
+    monitor_instructions: str = ""
+
+    @field_serializer("tool_implementations_class")
+    def serialize_type(self, t: Type, _info):
+        return encode_class_type(t)
+
+
+def generate_tool_description(method: Callable) -> ToolDescription:
+    """Generates a tool description from a member function object.
+
+    Expects a docstring formatted like this one.  It uses that for method and parameter descriptions.
+    Uses type hints for determine parameter types
+
+    Args:
+        method (Callable): A member function object to createc a ToolDescription for."""
+
+    # Extracting the method's docstring and name
+    method_name = method.__name__
+    docstring = inspect.getdoc(method) or ""
+    parts = docstring.split("Args:")
+    description = parts[0].strip()
+    args = "" if len(parts) == 1 else parts[1].strip()
+
+    # Extracting parameters and their annotations, skipping 'self'
+    sig = inspect.signature(method)
+    parameters = {}
+    required_params = []
+    # logger.debug(f"Inspecting {method}: {sig}")
+    for param_name, param in sig.parameters.items():
+        if param_name == "self":  # Skip 'self' parameter
+            continue
+        # logger.debug(f"Param {param}")
+        
+        # Check if parameter has no default value (is required)
+        if param.default == param.empty:
+            required_params.append(param_name)
+
+        if param.annotation == param.empty:
+            param_type_dict = {"type": "string"}
+        elif param.annotation == "str" or param.annotation.__name__ == "str":
+            param_type_dict = {"type": "string"}
+        elif param.annotation.__name__ == "List":
+            param_type_dict = {"type": "array", "items": {"type": "string"}}
+        elif param.annotation.__name__ == "list":
+            param_type_dict = {"type": "array", "items": {"type": "object"}}
+        elif param.annotation.__name__ == "bool":
+            param_type_dict = {"type": "boolean"}
+        elif param.annotation.__name__ == "int":
+            param_type_dict = {"type": "integer"}
+        elif param.annotation.__name__ == "float":
+            param_type_dict = {"type": "number"}
+        elif param.annotation.__name__ == "dict":
+            param_type_dict = {"type": "object"}
+        elif param.annotation.__name__ == "Dict":
+            param_type_dict = {"type": "object"}
+        else:
+            param_type_dict = {"type": param.annotation.__name__}
+
+        param_description = "No description provided."  # Default description
+        # Extracting parameter description from docstring (if available)
+        if param_name in args:
+            # Looks for the parameter name and then takes from the next colon to the end of the line as the parameter description.
+            param_description = (
+                docstring.split(param_name)[1].split(":")[1].split("\n")[0].strip()
+            )
+        parameters[param_name] = {
+            **param_type_dict,
+            "description": param_description,
+        }
+
+    # Creating an instance of ToolDescription
+    tool_description = ToolDescription(
+        name=method_name,
+        description=description,
+        parameters={
+            "type": "object",
+            "properties": parameters,
+            "required": required_params,
+        },
+    )
+    return tool_description
+
+
+def generate_tool_descriptions(cls: Type) -> List[ToolDescription]:
+    descriptions = []
+    for attr_name in dir(cls):
+        attr = getattr(cls, attr_name)
+        if callable(attr) and not attr_name.startswith("_"):
+            descriptions.append(generate_tool_description(attr))
+    return descriptions
+
+
+
+================================================================================
+FILE: celi/celi_framework/main.py
+================================================================================
+
+"""
+This Python script establishes a multithreaded environment for document processing and monitoring within a given system. It is designed to efficiently manage and monitor the processing of documents by utilizing a combination of custom classes, threading, and resource management techniques. The script integrates several components, including:
+
+- `ProcessRunner`: A class responsible for managing the processing pipeline of documents. It uses MongoDB for storage and retrieval of documents and employs a queue for managing updates.
+- `MonitoringAgent`: A class tasked with monitoring the progress and status of document processing, ensuring that system performance is maintained and any issues are promptly addressed.
+- `MongoDBUtilitySingleton`: A singleton class that provides a centralized connection to MongoDB, ensuring efficient data handling and retrieval.
+- `Queue`: A thread-safe queue used for communication between the process runner and monitoring agent, facilitating efficient data exchange and task management.
+
+Key features include:
+- Threading: Utilizes Python's `threading` module to run document processing and monitoring tasks concurrently, improving system throughput and responsiveness.
+- Memory Profiling: Employs the `memory_profiler` module to monitor and optimize memory usage, ensuring the application runs efficiently even under heavy load.
+- Environment Configuration: Leverages `dotenv` for managing environment variables, allowing for flexible configuration of critical paths and parameters without hardcoding.
+
+The script is structured to initiate and manage parallel threads dedicated to document processing and system monitoring, demonstrating an effective pattern for building scalable and responsive Python applications. By separating concerns into distinct threads and utilizing a shared queue for communication, it achieves a high degree of concurrency and efficiency in processing tasks.
+"""
+
+import argparse
+import json
+import logging.config
+import os
+
+from dotenv import load_dotenv
+
+from celi_framework.core.runner import CELIConfig, run_celi
+from celi_framework.logging_setup import setup_logging
+from celi_framework.utils.cli import bool_opt
+from celi_framework.utils.utils import get_obj_by_name, read_json_from_file
+
+logger = logging.getLogger(__name__)
+
+
+def get_celi_config():
+    load_dotenv("./.env")
+
+    parser = setup_standard_args()
+    parser.add_argument(
+        "--tool-config-json",
+        type=str,
+        default=os.getenv("TOOL_CONFIG_JSON"),
+        help="Path to a JSON file which will be used to configure the tools.  See --tool-config for more information."
+        "This option allows the JSON to be specified in a file instead of the command line.  If --tool-config is"
+        "also specified, this option will be ignored.",
+    )
+    parser.add_argument(
+        "--tool-config",
+        type=str,
+        default=os.getenv("TOOL_CONFIG"),
+        help="This should be a JSON string which will be used to configure the tools.  The JSON will be converted into "
+        "an object, which will be passed as keyword arguments to the tool implementation.  The specific values "
+        "required (if any) will depend on the tool implementations.  For the HumanEval tools, a single argument can be "
+        """passed that indicates only one example should be run.  --tool-config='{"single_example":"HumanEval/3"}' """
+        "This option overrides --tool-config-json if both are set.",
+    )
+    args = parser.parse_args()
+    celi_config = parse_standard_args(args)
+
+    # If the tool_config_json file doesn't exist, try to find it relative to the root of the installed package.
+    # This allows examples packaged with CELI to work correctly.
+    if args.tool_config_json:
+        if os.path.exists(args.tool_config_json):
+            tool_config_json = args.tool_config_json
+        else:
+            # Find the root of the installed package
+            root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            tool_config_json = os.path.join(root_dir, args.tool_config_json)
+            if not os.path.exists(tool_config_json):
+                raise FileNotFoundError(
+                    f"Could not find {args.tool_config_json} or {tool_config_json}"
+                )
+        tool_config = read_json_from_file(tool_config_json)
+    elif args.tool_config:
+        tool_config = json.loads(args.tool_config)
+    else:
+        tool_config = {}
+
+    if celi_config.job_description:
+        celi_config.tool_implementations = (
+            celi_config.job_description.tool_implementations_class(**tool_config)
+        )
+
+    return celi_config
+
+
+def parse_standard_args(args):
+    if args.openai_api_key:
+        os.environ["OPENAI_API_KEY"] = args.openai_api_key
+
+    if args.aws_profile:
+        os.environ["AWS_PROFILE"] = args.aws_profile
+
+    if args.anthropic_api_key:
+        os.environ["ANTHROPIC_API_KEY"] = args.anthropic_api_key
+
+    if args.no_cache:
+        logger.warning("LLM Caching is turned off.")
+
+    return CELIConfig(  # noqa: F821
+        job_description=(
+            get_obj_by_name(args.job_description) if args.job_description else None
+        ),
+        tool_implementations=None,
+        llm_cache=not args.no_cache,
+        simulate_live=args.simulate_live,
+        primary_model_name=args.primary_model_name,
+        model_url=args.model_api_url,
+        max_tokens=args.max_tokens,
+        token_budget=args.token_budget,
+        sequential=args.sequential,
+        force_tool_every_n=args.force_tool_every_n,
+    )
+
+
+def setup_standard_args():
+    parser = argparse.ArgumentParser(
+        description="All of the options below can also be set as environment variables"
+        "(using the capitalized names), or placed in a local .env file."
+    )
+
+    parser.add_argument(
+        "--openai-api-key",
+        type=str,
+        default=None,
+        help="Your OpenAI API key.  For security reasons, it is preferable to set this as an environment variable "
+        "OPENAI_API_KEY rather than passing it on the command line.  If you are serving your own models using "
+        "--model-api-url, this will be the API key passed in the calls to those models.  The specific value required "
+        "will depend on the server.",
+    )
+    parser.add_argument(
+        "--aws-profile",
+        type=str,
+        default=None,
+        help="The AWS profile to use to retrieve credentials, if you are using AWS BedRock APIs.",
+    )
+    parser.add_argument(
+        "--anthropic-api-key",
+        type=str,
+        default=None,
+        help="Your Anthropic API key.  For security reasons, it is preferable to set this as an environment variable "
+        "ANTHROPIC_API_KEY rather than passing it on the command line.  This is only required when using the 'claude'"
+        "family of models",
+    )
+    parser.add_argument(
+        "--primary-model-name",
+        type=str,
+        default=os.getenv("PRIMARY_LLM", "gpt-4-0125-preview"),
+        help="Name of the primary LLM to use.  This will be passed in the OpenAI LLM calls.  If you are using OpenAI, "
+        "you can use any of the OpenAI model names found at https://platform.openai.com/docs/models.  If you are"
+        "serving your own models (using --model-api-url), you can use any name that the server supports.  ",
+    )
+    parser.add_argument(
+        "--max-tokens",
+        type=int,
+        default=os.getenv("MAX_TOKENS", 0),
+        help="The maximum number of tokens to be generated by the LLM in any one call.  This limit is per call and is "
+        "only on the completion tokens.  It does not limit the size of the input tokens.  The default is no-limit, "
+        "which uses the maximum size for the model you are using.",
+    )
+    parser.add_argument(
+        "--force-tool-every-n",
+        type=int,
+        default=os.getenv("FORCE_TOOL_EVERY_N", 3),
+        help="The maximum number of LLM responses before the LLM is forced to use a tool.  This prevents long loops "
+        "from happening.",
+    )
+    parser.add_argument(
+        "--model-api-url",
+        type=str,
+        default=os.getenv("MODEL_API_URL", None),
+        help="Sets the URL to use when making OpenAI LLM calls.  Leave this blank to use the normal OpenAI models.  If"
+        "you are serving models locally using a server that implements the OpenAI API, you can set this to the "
+        "URL for that server.  Several serving platforms support the OpenAI interface, including vLLM, NIMs, Ollama.",
+    )
+    parser.add_argument(
+        "--job-description",
+        type=str,
+        default=os.getenv(
+            "JOB_DESCRIPTION",
+            None,
+        ),
+        help="CELI requires a job description to know what task to run.  This parameter specifies the Python class name"
+        " for the class containing the job description.  It must have JobDescription as a base class.  Several "
+        "example job descriptions are provided within the celi_framework.examples module.",
+    )
+    parser.add_argument(
+        "--token-budget",
+        type=int,
+        default=os.getenv(
+            "TOKEN_BUDGET",
+            10000000,
+        ),
+        help="Total budget in tokens for a singe CELI run, across all calls.  If set to 0, there is no budget.  This "
+        "only includes live calls, not cached calls.  If the budget is exceeded, the run will stop.",
+    )
+    bool_opt(
+        parser,
+        "--simulate-live",
+        "SIMULATE_LIVE",
+        "Set to true to add a delay to the LLM cache.  This simulates what a live run would look like even when "
+        "cached LLM results are used",
+    )
+    bool_opt(parser, "--no-cache", "NO_CACHE", "Set to True to turn off LLM caching")
+    bool_opt(
+        parser,
+        "--sequential",
+        "SEQUENTIAL",
+        "Set to True to run tasks sequentially instead of in parallel.  This will run slower but can be helpful "
+        "for debugging. This does not affect the output of the tasks, just how the are run.",
+    )
+    return parser
+
+
+if __name__ == "__main__":
+    setup_logging()
+    logger.debug("Starting CELI")
+    celi_config = get_celi_config()
+    run_celi(celi_config)
+
+
+
+================================================================================
+FILE: celi/celi_framework/examples/parser_challenge/requirements.txt
+================================================================================
+
+# Requirements for Parser Challenge Example
+
+# Core CELI framework (install from parent directory)
+-e ../../..
+
+# Required for Claude API access
+anthropic>=0.54.0
+
+# Additional dependencies that might be needed
+python-levenshtein>=0.25.1
+python-dotenv>=1.0.0
+
+# For async operations
+aiofiles>=23.0.0
+aioboto3>=13.0.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.22.0
+
+
+================================================================================
+FILE: celi/pyproject.toml
+================================================================================
+
+[tool.poetry]
+name = "celi-framework"
+version = "0.0.0"
+description = "Controller-Embedded Language Interactions - facilitates the entire lifecycle of document processing, from pre-processing and embedding to post-monitoring and quality assessment."
+authors = ["Jan-Samuel Wagner <jwab@genmab.com>","Dave DeCaprio <daved@alum.mit.edu>"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/x3n0cr4735/celi"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Typing :: Typed",
+]
+include = ["celi_framework/utils/seed_llm_cache.db", "celi_framework/examples/wikipedia/example_config.json"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-dotenv = ">=1.0.0"
+python-levenshtein = ">=0.25.1"
+aioboto3 = "^13.1.1"
+aiosqlite = ">=0.20.0"
+anthropic = {extras = ["bedrock"], version = "^0.34.2"}
+numpy = ">=1.22.4"
+openai = ">=1.46.0"
+pandas = ">=2.0.3"
+pydantic = ">=2.0.1"
+requests = ">=2.26.0"
+bert-score = { version = ">=0.3.13", optional = true }
+evaluate = { version = ">=0.4.1", optional = true }
+llama-index = { version = ">=0.10.23", optional = true }
+llama-index-vector-stores-chroma = { version = ">=0.1.6", optional = true }
+opentelemetry-proto = { version = ">=1.24.0", optional = true }
+py-llm-core = { version = ">=2.8.2", optional = true }
+pymongo = { version = ">=4.6.2", optional = true }
+pymupdf = { version = ">=1.24.1", optional = true }
+python-docx = { version = ">=1.1.0", optional = true }
+requests-cache = { version = ">=1.2.0", optional = true }
+scikit-learn = { version = ">=1.4.2", optional = true }
+
+[tool.poetry.extras]
+experimental = ["py-llm-core", "opentelemetry-proto", "pymongo", "bert-score", "evaluate", "requests-cache", "scikit-learn", "pymupdf", "python-docx"]
+wikipedia = ["llama-index", "llama-index-vector-stores-chroma"]
+GRE = ["python-docx"]
+
+[tool.poetry.group.test.dependencies]
+pytest = ">=7.4.4"
+pytest-asyncio = ">=0.23.3"
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = ">=6.29.3"
+jupyter = ">=1.0.0"
+
+[tool.poetry.group.docs.dependencies]
+sphinx = "^7.2.6"
+myst-parser = "^2.0.0"
+furo = "^2023.9.10"
+sphinxext-opengraph = "^0.9.1"
+sphinx-copybutton = "^0.5.2"
+sphinx-autobuild = "^2021.3.14"
+protobuf = ">=4.21.6" # Added to address build issues with readthedocs.
+cffi = ">=1.10.0" # Added to address build issues with readthedocs. pyo3_runtime.PanicException: Python API call failed
+sphinx-autodoc-typehints = "^2.0.0"
+
+[tool.pytest.ini_options]
+log_level="DEBUG"
+log_cli=true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+
+================================================================================
+KEY SECTIONS TO REVIEW
+================================================================================
+
+1. ASYNCIO FIX in tool_implementations.py (lines 605-655):
+   - The fix_parser_with_llm() method now detects if running in an event loop
+   - Uses ThreadPoolExecutor to run LLM calls in separate thread
+   - This allows Gemini to be called when tests fail
+
+2. CLAUDE ANALYSIS INTEGRATION (NEW):
+   - tool_implementations.py line 28: Added self.claude_analysis instance variable
+   - tool_implementations.py lines 36-45: Added set_claude_analysis() method
+   - tool_implementations.py line 922: Modified fix_parser_with_llm_comprehensive_iterative signature
+   - tool_implementations.py lines 958-965: Added Claude's analysis to Gemini's prompt
+   - tool_implementations.py lines 1203-1218: Modified run_comprehensive_tests_with_llm_fixes
+   - tool_implementations.py line 1313: Pass claude_analysis to fix method
+
+3. JOB DESCRIPTION CHANGES in job_description_hybrid_iterative.py:
+   - Task 4 now named "implementation_and_validation" 
+   - Contains intelligent escalation logic with if/else conditions
+   - Uses run_comprehensive_tests first, then run_comprehensive_tests_with_llm_fixes if needed
+
+4. TASK STRUCTURE:
+   - Task 1: analyze_formats
+   - Task 2: propose_code_changes
+   - Task 3: verify_plan_with_baseline (uses debug_parser_output)
+   - Task 4: implementation_and_validation (with escalation)
+   - Task 5: final_verification_and_summary
+
+5. HOW CLAUDE'S ANALYSIS IS PASSED:
+   - During Task 1, Claude analyzes format differences
+   - The job description should call tools.set_claude_analysis(analysis_text)
+   - When run_comprehensive_tests_with_llm_fixes is called, it includes this analysis
+   - Gemini receives the analysis in its prompt under "CLAUDE'S INITIAL ANALYSIS" section
+
+6. COMMAND TO RUN:
+   source /home/sam/Projects/celi/.venv/bin/activate
+   export ANTHROPIC_API_KEY=<key> && export GOOGLE_API_KEY=<key>
+   python run_hybrid_iterative_test.py
+

@@ -241,11 +241,16 @@ def generate_tool_description(method: Callable) -> ToolDescription:
     # Extracting parameters and their annotations, skipping 'self'
     sig = inspect.signature(method)
     parameters = {}
+    required_params = []
     # logger.debug(f"Inspecting {method}: {sig}")
     for param_name, param in sig.parameters.items():
         if param_name == "self":  # Skip 'self' parameter
             continue
         # logger.debug(f"Param {param}")
+        
+        # Check if parameter has no default value (is required)
+        if param.default == param.empty:
+            required_params.append(param_name)
 
         if param.annotation == param.empty:
             param_type_dict = {"type": "string"}
@@ -253,6 +258,18 @@ def generate_tool_description(method: Callable) -> ToolDescription:
             param_type_dict = {"type": "string"}
         elif param.annotation.__name__ == "List":
             param_type_dict = {"type": "array", "items": {"type": "string"}}
+        elif param.annotation.__name__ == "list":
+            param_type_dict = {"type": "array", "items": {"type": "object"}}
+        elif param.annotation.__name__ == "bool":
+            param_type_dict = {"type": "boolean"}
+        elif param.annotation.__name__ == "int":
+            param_type_dict = {"type": "integer"}
+        elif param.annotation.__name__ == "float":
+            param_type_dict = {"type": "number"}
+        elif param.annotation.__name__ == "dict":
+            param_type_dict = {"type": "object"}
+        elif param.annotation.__name__ == "Dict":
+            param_type_dict = {"type": "object"}
         else:
             param_type_dict = {"type": param.annotation.__name__}
 
@@ -275,7 +292,7 @@ def generate_tool_description(method: Callable) -> ToolDescription:
         parameters={
             "type": "object",
             "properties": parameters,
-            "required": list(parameters.keys()),
+            "required": required_params,
         },
     )
     return tool_description

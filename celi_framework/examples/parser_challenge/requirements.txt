@@ -1,0 +1,19 @@
+# Requirements for Parser Challenge Example
+
+# Core CELI framework (install from parent directory)
+-e ../../..
+
+# Required for Claude API access
+anthropic>=0.54.0
+
+# Additional dependencies that might be needed
+python-levenshtein>=0.25.1
+python-dotenv>=1.0.0
+
+# For async operations
+aiofiles>=23.0.0
+aioboto3>=13.0.0
+
+# Data processing
+pandas>=2.0.0
+numpy>=1.22.0

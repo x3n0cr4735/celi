@@ -1,0 +1,20 @@
+2025-06-24 07:31:26,716 __main__ DEBUG - Starting CELI
+Traceback (most recent call last):
+  File "/usr/lib/python3.10/runpy.py", line 196, in _run_module_as_main
+    return _run_code(code, main_globals, None,
+  File "/usr/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/sam/Projects/celi/celi_framework/main.py", line 215, in <module>
+    celi_config = get_celi_config()
+  File "/home/sam/Projects/celi/celi_framework/main.py", line 55, in get_celi_config
+    celi_config = parse_standard_args(args)
+  File "/home/sam/Projects/celi/celi_framework/main.py", line 99, in parse_standard_args
+    get_obj_by_name(args.job_description) if args.job_description else None
+  File "/home/sam/Projects/celi/celi_framework/utils/utils.py", line 55, in get_obj_by_name
+    module = importlib.import_module(module_path)
+  File "/usr/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1004, in _find_and_load_unlocked
+ModuleNotFoundError: No module named 'celi_framework.examples.parser_challenge.job_description_hybrid'
